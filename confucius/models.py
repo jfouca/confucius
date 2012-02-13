@@ -1,22 +1,35 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User as AuthUser
 from django.db import models
 
 
-class ConfuciusUser(User):
+class User(AuthUser):
     class Meta:
         proxy = True
 
     def clean(self):
-        from django.core import exceptions, validators
-        for field in [self.last_name, self.email]:
-            if(field in validators.EMPTY_VALUES):
-                raise exceptions.ValidationError(
-                    models.Field.default_error_messages['blank'])
-        super(ConfuciusUser, self).clean()
+        super(User, self).clean()
+
+        from django.core.exceptions import ValidationError
+        from django.core.validators import EMPTY_VALUES
+
+        errors = {}
+
+        if self.last_name in EMPTY_VALUES:
+            errors['last_name'] = [u'This field cannot be blank.']
+        if self.email in EMPTY_VALUES:
+            errors['email'] = [u'This field cannot be blank.']
+        try:
+            User.objects.get(email__iexact=self.email)
+            errors['email'] = [u'User with this Email already exists.']
+        except User.DoesNotExist:
+            pass
+
+        if len(errors):
+            raise ValidationError(errors)
 
     def save(self, *args, **kwargs):
         self.full_clean()
-        super(ConfuciusUser, self).save(*args, **kwargs)
+        super(User, self).save(*args, **kwargs)
 
 
 class Language(models.Model):
@@ -28,7 +41,7 @@ class Language(models.Model):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(ConfuciusUser)
+    user = models.OneToOneField(User)
     secondary_email = models.EmailField(blank=True)
     primary_postal_address = models.TextField()
     secondary_postal_address = models.TextField(blank=True)
