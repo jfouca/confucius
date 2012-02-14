@@ -1,9 +1,15 @@
-from django.contrib.admin import AdminSite
+from django.contrib.admin import AdminSite, ModelAdmin , StackedInline
 from confucius.models import User, Profile, Language
 
-site = AdminSite ()
 
-site.register(User)
-site.register(Profile)
+class ProfileInline(StackedInline) :
+    model = Profile
+    
+class UserAdmin (ModelAdmin) :
+    inlines = [ ProfileInline ]
+
+
+site = AdminSite ()
+site.register(User,UserAdmin)
 site.register(Language)
 
