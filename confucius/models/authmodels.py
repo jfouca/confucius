@@ -10,33 +10,35 @@ class User(AuthUser):
     def clean(self):
         super(User, self).clean()
 
-        from django.core.exceptions import ValidationError
-        from django.core.validators import EMPTY_VALUES
+        if self.pk is None:
+            from django.core.exceptions import ValidationError
+            from django.core.validators import EMPTY_VALUES
 
-        errors = {}
+            errors = {}
 
-        if self.last_name in EMPTY_VALUES:
-            errors['last_name'] = [u'This field cannot be blank.']
-        if self.email in EMPTY_VALUES:
-            errors['email'] = [u'This field cannot be blank.']
+            if self.last_name in EMPTY_VALUES:
+                errors['last_name'] = [u'This field cannot be blank.']
+            if self.email in EMPTY_VALUES:
+                errors['email'] = [u'This field cannot be blank.']
 
-        if len(errors):
-            raise ValidationError(errors)
+            if len(errors):
+                raise ValidationError(errors)
 
     def validate_unique(self, exclude=None):
         super(User, self).validate_unique(exclude)
-        from django.core.exceptions import ValidationError
+        
+        if self.pk is None:
+            from django.core.exceptions import ValidationError
 
-        try:
-            User.objects.get(email__iexact=self.email)
-            raise ValidationError(
-                    {'email': [u'User with this Email already exists.']})
-        except User.DoesNotExist:
-            pass
+            try:
+                User.objects.get(email__iexact=self.email)
+                raise ValidationError(
+                        {'email': [u'User with this Email already exists.']})
+            except User.DoesNotExist:
+                pass
 
     def save(self, *args, **kwargs):
-        if self.pk is None:
-            self.full_clean()
+        self.full_clean()
         super(User, self).save(*args, **kwargs)
 
 
@@ -55,7 +57,7 @@ class Profile(models.Model):
     class Meta:
         app_label = "confucius"
 
-    user = models.OneToOneField(User)
+    user = models.ForeignKey(User, unique=True)
     secondary_email = models.EmailField(blank=True)
     primary_postal_address = models.TextField()
     secondary_postal_address = models.TextField(blank=True)
