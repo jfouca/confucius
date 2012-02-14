@@ -4,6 +4,7 @@ from django.db import models
 
 class User(AuthUser):
     class Meta:
+        app_label = "confucius"
         proxy = True
 
     def clean(self):
@@ -33,6 +34,9 @@ class User(AuthUser):
 
 
 class Language(models.Model):
+    class Meta:
+        app_label = "confucius"
+
     code = models.CharField(max_length=2)
     name = models.CharField(max_length=40)
 
@@ -41,6 +45,9 @@ class Language(models.Model):
 
 
 class Profile(models.Model):
+    class Meta:
+        app_label = "confucius"
+
     user = models.OneToOneField(User)
     secondary_email = models.EmailField(blank=True)
     primary_postal_address = models.TextField()

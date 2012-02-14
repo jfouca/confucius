@@ -1,1 +1,1 @@
-from authmodels import *
+from confucius.models.authmodels import (User, Profile, Language)
