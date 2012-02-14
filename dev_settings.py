@@ -48,3 +48,4 @@ INSTALLED_APPS = (
 )
 
 LOGIN_URL = '/login/'
+AUTH_PROFILE_MODULE = 'confucius.Profile'
