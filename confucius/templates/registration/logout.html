@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block title %}Confucius logout{% endblock %}
+
+{% block base_content %}
+
+<div class="modal">
+    <div class="modal-header">
+        <h3>Logout</h3>
+    </div>
+    <div class="modal-body">
+        <p>You are now disconnected from Confucius.</p>
+        <p>Go <a href="/login">here</a> to log again.</p>
+    </div>
+</div>
+
+{% endblock %}
+
