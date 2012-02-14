@@ -59,7 +59,7 @@ class UserTestCase(unittest.TestCase):
         lang3 = Language.objects.create(code="CI", name="Chinese")
         blu = [lang1, lang2, lang3]
         for lang in blu:        
-            self.user.profile.languages.add(lang)
+            self.user.get_profile().languages.add(lang)
     
 
     def test_identical_email(self):
@@ -91,7 +91,7 @@ class UserTestCase(unittest.TestCase):
         self.assertNotEquals(self.user.password, u.password)
         
     def test_profile_change_field(self):
-        u = User.objects.get(username="jpduran").profile
+        u = User.objects.get(username="jpduran").get_profile()
         self.user.profile.secondary_email="lucskywalkerzero@gmail.com"
         self.user.profile.primary_postal_address="10 rue dans tes fesses du NEUF DEUX"
         self.user.profile.secondary_postal_address="Ou pas"
