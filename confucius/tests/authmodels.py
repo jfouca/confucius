@@ -59,7 +59,7 @@ class UserTestCase(unittest.TestCase):
         lang3 = Language.objects.create(code="CI", name="Chinese")
         blu = [lang1, lang2, lang3]
         for lang in blu:        
-            self.user.profile.languages.add(lang)
+            self.user.get_profile().languages.add(lang)
     
 
     def test_identical_email(self):
@@ -91,17 +91,17 @@ class UserTestCase(unittest.TestCase):
         self.assertNotEquals(self.user.password, u.password)
         
     def test_profile_change_field(self):
-        u = User.objects.get(username="jpduran").profile
-        self.user.profile.secondary_email="lucskywalkerzero@gmail.com"
-        self.user.profile.primary_postal_address="10 rue dans tes fesses du NEUF DEUX"
-        self.user.profile.secondary_postal_address="Ou pas"
-        self.user.profile.languages.clear()
-        self.user.profile.languages.add(Language.objects.create(code="DE", name="German"))
-        self.user.profile.save()
-        self.assertNotEquals(self.user.profile.secondary_email, u.secondary_email)
-        self.assertNotEquals(self.user.profile.primary_postal_address, u.primary_postal_address)
-        self.assertNotEquals(self.user.profile.secondary_postal_address, u.secondary_postal_address)
-        self.assertNotEquals(self.user.profile.languages, u.languages)
+        u = User.objects.get(username="jpduran").get_profile()
+        self.user.get_profile().secondary_email="lucskywalkerzero@gmail.com"
+        self.user.get_profile().primary_postal_address="10 rue dans tes fesses du NEUF DEUX"
+        self.user.get_profile().secondary_postal_address="Ou pas"
+        self.user.get_profile().languages.clear()
+        self.user.get_profile().languages.add(Language.objects.create(code="DE", name="German"))
+        self.user.get_profile().save()
+        self.assertNotEquals(self.user.get_profile().secondary_email, u.secondary_email)
+        self.assertNotEquals(self.user.get_profile().primary_postal_address, u.primary_postal_address)
+        self.assertNotEquals(self.user.get_profile().secondary_postal_address, u.secondary_postal_address)
+        self.assertNotEquals(self.user.get_profile().languages, u.languages)
 
     
 

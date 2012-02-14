@@ -61,5 +61,5 @@ class Profile(models.Model):
     secondary_email = models.EmailField(blank=True)
     primary_postal_address = models.TextField()
     secondary_postal_address = models.TextField(blank=True)
-    languages = models.ManyToManyField(Language)
+    languages = models.ManyToManyField(Language, blank = True)
 
