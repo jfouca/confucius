@@ -19,17 +19,24 @@ class User(AuthUser):
             errors['last_name'] = [u'This field cannot be blank.']
         if self.email in EMPTY_VALUES:
             errors['email'] = [u'This field cannot be blank.']
-        try:
-            User.objects.get(email__iexact=self.email)
-            errors['email'] = [u'User with this Email already exists.']
-        except User.DoesNotExist:
-            pass
 
         if len(errors):
             raise ValidationError(errors)
 
+    def validate_unique(self, exclude=None):
+        super(User, self).validate_unique(exclude)
+        from django.core.exceptions import ValidationError
+
+        try:
+            User.objects.get(email__iexact=self.email)
+            raise ValidationError(
+                    {'email': [u'User with this Email already exists.']})
+        except User.DoesNotExist:
+            pass
+
     def save(self, *args, **kwargs):
-        self.full_clean()
+        if self.pk is None:
+            self.full_clean()
         super(User, self).save(*args, **kwargs)
 
 
