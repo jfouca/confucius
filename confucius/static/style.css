@@ -1,0 +1,44 @@
+/*
+CSS Style for Confucius Project
+*/
+
+body {
+	padding-top: 60px;
+}
+
+.navbar-text {
+	margin: 0 5px;
+}
+
+.sidebar-nav {
+	margin: 0;
+	
+}
+
+.content-span {
+	margin-left: 0;
+}
+
+.content {
+	margin: 0;
+}
+
+.content-header {
+	padding: 5px 15px;
+	background-color: lightgrey;
+	border-bottom: 1px solid grey;
+}
+
+.content-header h1 {
+
+}
+
+.content-main {
+	padding: 15px;
+}
+
+.content-footer {
+	padding: 5px 15px;
+	background-color: lightgrey;
+	border-top: 1px solid grey;
+}
