@@ -1,2 +1,2 @@
 from confucius.tests.authmodels import (UserTestCase)
-from confucius.tests.authviews import (LoginTestCase, PasswordTestCase, LogoutTestCase)
+from confucius.tests.authviews import (LoginTestCase)

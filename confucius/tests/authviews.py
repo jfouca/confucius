@@ -1,13 +1,12 @@
 from django.utils import unittest
 from django.test.client import Client
+
 from confucius.models import User
 
 
 class LoginTestCase(unittest.TestCase):
     def setUp(self):
-        #Creating a mock webClient
         self.client = Client()
-        #Deleting all user in database before creating our test_user blu
         User.objects.all().delete()
         u = User.objects.create(
                 username="blu", password="blu", last_name="blu",
@@ -39,43 +38,3 @@ class LoginTestCase(unittest.TestCase):
         response = self.client.get('/login/')
         self.assertEquals(200, response.status_code)
         self.assertFalse(self.client.login(username="blu", password="bla"))
-
-class PasswordTestCase(unittest.TestCase):
-    def setUp(self):
-        #Creating a mock webClient
-	self.client = Client()
-        #Deleting all user in database before creating our test_user blu
-        User.objects.all().delete()
-        u = User.objects.create(username="blu", password="blu", last_name="blu",email="blu@blu.fr")
-    	u.set_password("blu")
-     	u.save()
-
-    def test_change_password(self):
-	response = self.client.get('/login/')
-	self.assertEquals(200, response.status_code)
-	self.client.login(username="blu", password="blu")
-	self.client.post('/password-change/',{'old_password':'blu','new_password1':'bla','new_password2':'bla'})
-	u = User.objects.get(username__exact='blu')
-     	self.assertTrue(u.check_password('bla'))
-
-class LogoutTestCase(unittest.TestCase):
-    def setUp(self):
-	#Creating a mock webClient
-	self.client = Client()
-        #Deleting all user in database before creating our test_user blu
-        User.objects.all().delete()
-        u = User.objects.create(username="blu", password="blu", last_name="blu",email="blu@blu.fr")
-    	u.set_password("blu")
-     	u.save()
-    
-    def test_succesfull_logout(self):
-	response = self.client.get('/login/')
-	self.assertEquals(200, response.status_code)
-	self.client.login(username="blu", password="blu")
-	self.client.logout()
-	u = User.objects.get(username__exact='blu')
-	#Test if we can access to the profile page without be logged, me be return 302 response due to
-	# the redirection in the loggin page
-	response = self.client.get('/profile/')
-	self.assertEquals(302, response.status_code)
-	
