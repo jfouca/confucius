@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load url from future %}
+
+{% block base_content %}
+<form action="{% url 'profile' %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Save changes" />
+</form>
+<p><a href="{% url 'password_change' %}">Change my password</a>
+<p><a href="{% url 'logout' %}">Logout</a>
+{% endblock %}

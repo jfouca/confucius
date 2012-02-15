@@ -1,1 +1,1 @@
-from confucius.views.authviews import (login, logout)
+from confucius.views.authviews import (edit_profile)
