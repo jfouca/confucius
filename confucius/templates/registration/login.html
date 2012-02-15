@@ -32,7 +32,7 @@
                     </div>
                     <div class="control-group">
                         <div class="controls">
-                            {{ form.password }}
+                            {{ form.password }}<span class="help-inline"><a href="{% url 'forgot_password1' %}">Forgot your password?</a></span>
                             <!--<input type="password" class="span3" placeholder="{{ form.password.label_tag }}"> <p><span class="help-inline"><a href="#">Forgot your password?</a></span>-->
                             <p class="help-block">At least a number and a special character.</p>
                         </div>
