@@ -44,12 +44,8 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.staticfiles',
-    'django.contrib.admin',
+    #'django.contrib.admin',
 )
-
-AUTHENTICATION_BACKENDS = ('confucius.backends.EmailBackend',)
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/profile/'
-
-AUTH_PROFILE_MODULE = 'confucius.Profile'
