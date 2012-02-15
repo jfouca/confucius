@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block base_topbar %}
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="brand" href="#">Conference : The marines castors</a>
+            <div class="nav-collapse">
+                <div class="navbar-text pull-right"><i class="icon-info-sign icon-white"></i> Submissions end at 21/21/21 | <i class="icon-exclamation-sign icon-white"></i> Evaluations end at 21/21/21 | <i class="icon-user icon-white"></i> Logged in as <a href="#">{{ user.first_name }} {{ user.last_name }}</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block base_content %}
+<div class="container">
+    <div class="row">
+        {% block subtopbar %}{% endblock %}
+        {% block sidebar %}
+        <div class="span2">
+            <div class="well sidebar-nav">
+                <ul class="nav nav-list">
+                    <li class="nav-header"><a href="#">Dashboard</a></li>
+                    <li class="nav-header"><a href="#">Users</a></li>
+                    <li class="active"><a href="#">Invite</a></li>
+                    <li class="#"><a href="#">My account</a></li>
+                    <li class="nav-header"><a href="#">Papers</a></li>
+                    <li class="nav-header"><a href="#">Evaluations</a></li>
+                </ul>
+            </div><!--/.well -->
+        </div><!--/span-->
+        {% endblock %}
+        {% block content %}
+         <div class="span10 content" role="main">
+            <header class="content-header">
+                {% block content_header %}{% endblock %}
+            </header>
+            <div class="content-main">
+                {% block content_main %}{% endblock %}
+            </div>
+            <footer class="content-footer">
+                <div class="powered">Proudly powered by <a href="http://confuciusproject.com" target="_blank">confuciusproject.com</a></div>
+            </footer>
+        </div>
+        {% endblock %}
+    </div>
+</div>
+{% endblock %}
+
+{% block base_script %}
+<script src="jquery.js"></script>
+<script src="bootstrap/js/bootstrap.js"></script>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block base_content %}
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+{% endblock %}
+
+{% block base_script %}
+<script src="bootstrap/js/bootstrap.js"></script>
+{% endblock %}
