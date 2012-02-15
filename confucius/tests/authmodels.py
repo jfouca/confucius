@@ -1,10 +1,20 @@
 from django.utils import unittest
-from django.core.exceptions import ValidationError
-from django.db import IntegrityError
-from confucius.models import User, Profile, Language
-import copy
+from django.contrib.auth.models import User
+from confucius.models import Profile, Language, EmailAddress, PostalAddress
 
+class ProfileTestCase(unittest.TestCase):
+    def test_profile_creation(self):
+        p = Profile.objects.create(last_name="b")
+        e = EmailAddress.objects.create(name="blu",
+                value="asasaasaasaeza@e.fr", profile=p)
+        p.first_name ="lol"
+        p.save()
+        print Profile.objects.get(last_name="b").first_name
 
+        for e in p.email_addresses.all():
+            print e
+
+"""
 class UserTestCase(unittest.TestCase):
 
     def setUp(self):
@@ -104,4 +114,4 @@ class UserTestCase(unittest.TestCase):
         self.assertNotEquals(self.user.get_profile().languages, u.languages)
 
     
-
+"""

@@ -5,7 +5,7 @@
 
 {% block content %}
 
-<form class="form-horizontal" method="post" action="{% url 'confucius.views.login' %}">
+<form class="form-horizontal" method="post" action="{% url 'login' %}">
 {% csrf_token %}
     <fieldset>
         <div class="modal">
