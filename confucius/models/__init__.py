@@ -1,1 +1,1 @@
-from confucius.models.authmodels import (EmailAddress, PostalAddress, Profile, Language)
+from confucius.models.authmodels import (Account, EmailAddress, PostalAddress, Language)

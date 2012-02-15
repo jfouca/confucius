@@ -1,61 +1,42 @@
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 
 
-class PostalAddress(models.Model):
-    profile = models.ForeignKey('Profile', related_name='postal_addresses')
-    name = models.CharField(max_length=32, verbose_name="label")
-    value = models.TextField(verbose_name="address")
+class Account(models.Model):
+    user = models.OneToOneField(User)
+    languages = models.ManyToManyField('Language', blank=True)
 
     class Meta:
-        app_label = "confucius"
+        app_label = 'confucius'
+
+
+class Address(models.Model):
+    account = models.ForeignKey(Account)
+    main = models.BooleanField()
+    name = models.CharField(max_length=31)
+
+    class Meta:
+        abstract = True
+        app_label = 'confucius'
 
     def __unicode__(self):
         return self.value
 
 
-class EmailAddress(models.Model):
-    profile = models.ForeignKey('Profile', related_name='email_addresses')
-    name = models.CharField(max_length=32, verbose_name="label")
-    value = models.EmailField(unique=True, verbose_name="Email")
+class EmailAddress(Address):
+    value = models.EmailField(unique=True)
 
-    class Meta:
-        app_label = "confucius"
 
-    def __unicode__(self):
-        return self.value
+class PostalAddress(Address):
+    value = models.TextField()
 
 
 class Language(models.Model):
-    code = models.CharField(max_length=2)
-    name = models.CharField(max_length=40)
+    code = models.CharField(max_length=5, choices=settings.LANGUAGES)
 
     class Meta:
         app_label = "confucius"
 
     def __unicode__(self):
-        return self.name
-
-
-class Profile(models.Model):
-    user = models.ForeignKey(User, unique=True)
-    first_name = models.CharField(max_length=255, blank=True)
-    last_name = models.CharField(max_length=255)
-    languages = models.ManyToManyField(Language, blank=True)
-
-    class Meta:
-        app_label = "confucius"
-                
-    def __unicode__(self):
-        return self.first_name +" "+ self.last_name+" <"+self.email_addresses.all()[0].value+">"
-
-
-
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        p = Profile.objects.create(user=instance)
-        EmailAddress.objects.create(name="main address",
-                value=instance.email, profile=p)
-
-models.signals.post_save.connect(create_user_profile, sender=User)
-
+        return self.code
