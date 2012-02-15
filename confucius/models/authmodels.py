@@ -1,65 +1,59 @@
-from django.contrib.auth.models import User as AuthUser
+from django.contrib.auth.models import User
 from django.db import models
 
 
-class User(AuthUser):
+class PostalAddress(models.Model):
+    profile = models.ForeignKey('Profile', related_name='postal_addresses')
+    name = models.CharField(max_length=32)
+    value = models.TextField()
+
     class Meta:
         app_label = "confucius"
-        proxy = True
 
-    def clean(self):
-        super(User, self).clean()
+    def __unicode__(self):
+        return self.value
 
-        if self.pk is None:
-            from django.core.exceptions import ValidationError
-            from django.core.validators import EMPTY_VALUES
 
-            errors = {}
+class EmailAddress(models.Model):
+    profile = models.ForeignKey('Profile', related_name='email_addresses')
+    name = models.CharField(max_length=32)
+    value = models.EmailField(unique=True)
 
-            if self.last_name in EMPTY_VALUES:
-                errors['last_name'] = [u'This field cannot be blank.']
-            if self.email in EMPTY_VALUES:
-                errors['email'] = [u'This field cannot be blank.']
+    class Meta:
+        app_label = "confucius"
 
-            if len(errors):
-                raise ValidationError(errors)
-
-    def validate_unique(self, exclude=None):
-        super(User, self).validate_unique(exclude)
-        
-        if self.pk is None:
-            from django.core.exceptions import ValidationError
-
-            try:
-                User.objects.get(email__iexact=self.email)
-                raise ValidationError(
-                        {'email': [u'User with this Email already exists.']})
-            except User.DoesNotExist:
-                pass
-
-    def save(self, *args, **kwargs):
-        self.full_clean()
-        super(User, self).save(*args, **kwargs)
+    def __unicode__(self):
+        return self.value
 
 
 class Language(models.Model):
-    class Meta:
-        app_label = "confucius"
-
     code = models.CharField(max_length=2)
     name = models.CharField(max_length=40)
+
+    class Meta:
+        app_label = "confucius"
 
     def __unicode__(self):
         return self.name
 
 
 class Profile(models.Model):
+    user = models.ForeignKey(User, unique=True)
+    first_name = models.CharField(max_length=255, blank=True)
+    last_name = models.CharField(max_length=255)
+    languages = models.ManyToManyField(Language, blank=True)
+
     class Meta:
         app_label = "confucius"
 
-    user = models.ForeignKey(User, unique=True)
-    secondary_email = models.EmailField(blank=True)
-    primary_postal_address = models.TextField()
-    secondary_postal_address = models.TextField(blank=True)
-    languages = models.ManyToManyField(Language, blank = True)
+    def save(self, *args, **kwargs):
+        try:
+            self.user
+        except User.DoesNotExist:
+            import base64
+            u = User(username=base64.b64encode(self.last_name))
+            u.set_password("blu")
+            u.save()
+            self.user = u
 
+        super(Profile, self).save(*args, **kwargs)
