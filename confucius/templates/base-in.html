@@ -7,7 +7,7 @@
         <div class="container">
             <a class="brand" href="#">Conference : The marines castors</a>
             <div class="nav-collapse">
-                <div class="navbar-text pull-right"><i class="icon-info-sign icon-white"></i> Submissions end at 21/21/21 | <i class="icon-exclamation-sign icon-white"></i> Evaluations end at 21/21/21 | <i class="icon-user icon-white"></i> Logged in as <a href="#">{{ user.first_name }} {{ user.last_name }}</a></div>
+                <div class="navbar-text pull-right"><i class="icon-info-sign icon-white"></i> Submissions end at 21/21/21 | <i class="icon-exclamation-sign icon-white"></i> Evaluations end at 21/21/21 | <i class="icon-user icon-white"></i> Logged in as <a href="#">{{ user.username }}</a></div>
             </div>
         </div>
     </div>
@@ -50,6 +50,6 @@
 {% endblock %}
 
 {% block base_script %}
-<script src="jquery.js"></script>
-<script src="bootstrap/js/bootstrap.js"></script>
+<script src="{{ STATIC_URL }}jquery.js"></script>
+<script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
 {% endblock %}

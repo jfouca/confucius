@@ -4,18 +4,17 @@
 {% block title %}Confucius login{% endblock %}
 
 {% block content %}
-
 <form class="form-horizontal" method="post" action="{% url 'login' %}">
 {% csrf_token %}
     <fieldset>
         <div class="modal">
             <div class="modal-header">
-                <h3>Confucius login</h3>
+                <h3>Log in</h3>
             </div>
             <div class="modal-body">
                 {% if user.is_authenticated %}
                      <div class="alert alert-info">
-                         User {{ user.username }} is currently logged. <a href="/logout">Logout</a> to switch account.
+                         User {{ user.username }} is currently logged. <a href="{% url 'logout' %}">Logout</a> to switch account.
                      </div>
                 {% else %}
                     {% if form.errors %}
@@ -25,26 +24,21 @@
                     {% endif %}
                     <div class="control-group">
                         <div class="controls">
-                            {{ form.username }}
-                            <!--<input type="text" class="span3" placeholder="{{ form.username.label_tag }}">-->
+                            <input type="text" class="input-medium" placeholder="{{ form.username.label }}" name="{{ form.username.html_name }}">
                         </div>
                     </div>
                     <div class="control-group">
                         <div class="controls">
-                            {{ form.password }}<span class="help-inline"><a href="#">Forgot your password?</a></span>
-                            <!--<input type="password" class="span3" placeholder="{{ form.password.label_tag }}"> <p><span class="help-inline"><a href="#">Forgot your password?</a></span>-->
-                            <p class="help-block">At least a number and a special character.</p>
+                            <input type="password" class="input-medium" placeholder="{{ form.password.label }}" name="{{ form.password.html_name }}"> <p><span class="help-inline"><a href="#">Forgot your password?</a></span>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Log In</button>
-                    <input type="hidden" name="next" value="{{ next }}" />
+                    <button type="submit" class="btn btn-primary">Log in</button>
                 </div>
             {% endif %}
-        </div>    
+        </div>
     </fieldset>
 </form>
-
 {% endblock %}
 
