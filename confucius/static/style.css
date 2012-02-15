@@ -3,30 +3,35 @@ CSS Style for Confucius Project
 */
 
 body {
-	padding-top: 60px;
+    padding-top: 40px;
 }
+
+/* Navbar */
 
 .navbar-text {
-	margin: 0 5px;
+    margin: 0 5px;
 }
+
+/* Sidebar */
 
 .sidebar-nav {
-	margin: 0;
-	
+    margin: 0;
+    background-color: #fff;
+
 }
 
+/* Content */
+
 .content-span {
-	margin-left: 0;
+    margin-left: 0;
 }
 
 .content {
-	margin: 0;
+    margin: 0;
 }
 
 .content-header {
-	padding: 5px 15px;
-	background-color: lightgrey;
-	border-bottom: 1px solid grey;
+    padding: 5px 15px;
 }
 
 .content-header h1 {
@@ -34,11 +39,27 @@ body {
 }
 
 .content-main {
-	padding: 15px;
+    margin: 15px 0 0 0;
 }
 
 .content-footer {
-	padding: 5px 15px;
-	background-color: lightgrey;
-	border-top: 1px solid grey;
+    padding: 5px 15px;
+    border-top: 1px solid lightgrey;
+}
+
+/* Dashboard */
+
+.db-top {
+    display:block;
+    margin-bottom: 5px;
+    color: #f2f2f2;
+    background-color: #222;
+    border-bottom: 1px solid black;
+    border-radius: 0px 0px 4px 4px;
+    -moz-border-radius: 0px 0px 4px 4px;
+    -webkit-border-radius: 0px 0px 4px 4px;
+}
+
+.db-top-inner {
+    margin: 10px 15px 15px 15px;
 }

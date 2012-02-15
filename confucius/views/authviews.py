@@ -7,6 +7,11 @@ from confucius.forms import ProfileForm
 
 
 @login_required
+def main_page(request):
+    return render_to_response('index.html',  context_instance=RequestContext(request))
+    
+
+@login_required
 def edit_profile(request):
     p = Profile.objects.get(user=request.user)
     form = ProfileForm(instance=p)
