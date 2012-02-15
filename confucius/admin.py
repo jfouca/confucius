@@ -1,4 +1,4 @@
-from django.contrib.admin import AdminSite, ModelAdmin , StackedInline, TabularInline
+from django.contrib.admin import AdminSite, ModelAdmin , StackedInline
 from confucius.models import User, Profile, Language
 
 
@@ -11,7 +11,6 @@ class LanguageInline(StackedInline) :
     
 class UserAdmin (ModelAdmin) :
     inlines = [ProfileInline]
-    #fields = ('last_name','first_name','username','password', 'is_active','last_login','date_joined','email', 'ProfileInline')
     exclude = ('is_staff', 'is_superuser','groups','user_permissions')
     readonly_fields = ('last_login','date_joined')
 
