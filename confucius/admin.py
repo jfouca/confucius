@@ -1,19 +1,23 @@
 from django.contrib.admin import AdminSite, ModelAdmin , StackedInline
-from confucius.models import Profile, Language, PostalAddress, EmailAddress
+from confucius.models import User, Profile, Language
 
-class EmailInline(StackedInline):
 
-#TO DO -> Should not be able to delete all email addresses ( must remain at least one ). idea : Verify Profile Model
-    model = EmailAddress
-    extra = 0
-
-class PostalInline(StackedInline):
-    model = PostalAddress
-    extra = 0
+class ProfileInline(StackedInline) :
+    model = Profile
+    can_delete = False
     
+class LanguageInline(StackedInline) :
+    model = Language
+    
+class UserAdmin (ModelAdmin) :
+    inlines = [ProfileInline]
+    exclude = ('is_staff', 'is_superuser','groups','user_permissions')
+    readonly_fields = ('last_login','date_joined')
+
+
 class ProfileAdmin(ModelAdmin):
-    exclude = ('user',)
-    inlines = [EmailInline, PostalInline]
+    inlines = [LanguageInline]
+
 
 site = AdminSite ()
-site.register(Profile, ProfileAdmin)
+site.register(User,UserAdmin)

@@ -4,8 +4,8 @@ from django.db import models
 
 class PostalAddress(models.Model):
     profile = models.ForeignKey('Profile', related_name='postal_addresses')
-    name = models.CharField(max_length=32, verbose_name="label")
-    value = models.TextField(verbose_name="address")
+    name = models.CharField(max_length=32)
+    value = models.TextField()
 
     class Meta:
         app_label = "confucius"
@@ -16,8 +16,8 @@ class PostalAddress(models.Model):
 
 class EmailAddress(models.Model):
     profile = models.ForeignKey('Profile', related_name='email_addresses')
-    name = models.CharField(max_length=32, verbose_name="label")
-    value = models.EmailField(unique=True, verbose_name="Email")
+    name = models.CharField(max_length=32)
+    value = models.EmailField(unique=True)
 
     class Meta:
         app_label = "confucius"
@@ -51,12 +51,9 @@ class Profile(models.Model):
             self.user
         except User.DoesNotExist:
             import base64
-            u = User(username=base64.b64encode(self.email_addresses.all()[0].value))
+            u = User(username=base64.b64encode(self.last_name))
+            u.set_password("blu")
             u.save()
             self.user = u
 
         super(Profile, self).save(*args, **kwargs)
-        
-    def __unicode__(self):
-        return self.first_name +" "+ self.last_name+" <"+self.email_addresses.all()[0].value+">"
-  
