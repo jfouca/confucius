@@ -3,9 +3,12 @@ from django.contrib.auth.views import (login, logout,
         password_reset, password_reset_done, password_reset_confirm,
         password_reset_complete, password_change, password_change_done)
 
-from confucius.views import edit_profile
+from confucius.views import edit_profile , main_page
+
 
 urlpatterns = patterns('',
+    url(r'^$', main_page),
+       
     url(r'^login/$', login, name='login'),
     url(r'^logged-out/$', logout, name='logout'),
     url(r'^password-reset/$', password_reset, name='password_reset'),
