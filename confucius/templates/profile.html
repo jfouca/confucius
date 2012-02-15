@@ -12,21 +12,13 @@
 Here you can edit your profile. Please note that fields with * <strong>must</strong> be filled.
 </div>
 
-<form class="form-horizontal" method="post" action="{% url 'profile' %}">
+<form class="form-horizontal" method="post" action="{% url %}">
 {% csrf_token %}
-{{ form }}
-
     <fieldset>
-        <div class="control-group">
-            <label class="control-label" for="userName" >Username</label>
-            <div class="controls">
-                <input type="text" id="userName" class="input-large uneditable-input" placeholder="Username" value="{{ user.username }}" name="{{ form.user.html_name }}">
-            </div>
-        </div>
         <div class="control-group">
             <label class="control-label" for="firstName">First Name</label>
             <div class="controls">
-                <input type="text" id="firstName" class="input-large" placeholder="First name" value="{{ user.first_name }}" name="{{ form.first_name.html_name }}">
+                <input type="text" id="firstName" class="input-large" placeholder="First name" value="{{ user.first_name }}">
             </div>
         </div>
         <div class="control-group">

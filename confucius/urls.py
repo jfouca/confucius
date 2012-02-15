@@ -1,11 +1,13 @@
-from django.conf.urls.defaults import patterns, url
+from django.conf.urls.defaults import patterns, url, include
 from django.contrib.auth.views import (login, logout,
         password_reset, password_reset_done, password_reset_confirm,
         password_reset_complete, password_change, password_change_done)
 
-from confucius.views import edit_profile, language_autocomplete
+from confucius.admin import site as admin
+from confucius.views import edit_profile, language_autocomplete, main_page
 
 urlpatterns = patterns('',
+    url(r'^$', main_page),
     url(r'^login/$', login, name='login'),
     url(r'^logged-out/$', logout, name='logout'),
     url(r'^password-reset/$', password_reset, name='password_reset'),
@@ -20,4 +22,5 @@ urlpatterns = patterns('',
         password_change_done, name='password_change_done'),
     url(r'^profile/$', edit_profile, name='profile'),
     url(r'^language/$', language_autocomplete, name='language_autocomplete'),
+    url(r'^admin/', include(admin.urls)),
 )

@@ -1,1 +1,1 @@
-from confucius.views.authviews import (edit_profile, language_autocomplete)
+from confucius.views.authviews import (edit_profile, language_autocomplete, main_page)
