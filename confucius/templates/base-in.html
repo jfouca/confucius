@@ -7,7 +7,7 @@
         <div class="container">
             <a class="brand" href="#">Conference : The marines castors</a>
             <div class="nav-collapse">
-                <div class="navbar-text pull-right"><i class="icon-info-sign icon-white"></i> Submissions end at 21/21/21 | <i class="icon-exclamation-sign icon-white"></i> Evaluations end at 21/21/21 | <i class="icon-user icon-white"></i> Logged in as <a href="#">{{ user.username }}</a></div>
+                <div class="navbar-text pull-right"><i class="icon-user icon-white"></i> Logged in as <a href="#">{{ account.first_name }} {{ account.last_name }}</a> | <a href="{% url 'logout' %}">Logout</a></div>
             </div>
         </div>
     </div>
@@ -17,7 +17,14 @@
 {% block base_content %}
 <div class="container">
     <div class="row">
-        {% block subtopbar %}{% endblock %}
+        {% block subtopbar %}
+        <div class="span12 db-top">
+            <div class="db-top-inner-min">
+                <i class="icon-calendar icon-white"></i> Conference is the 21/21/21 | <i class="icon-info-sign icon-white"></i> Submissions end at 21/21/21 | <i class="icon-exclamation-sign icon-white"></i> Evaluations end at 21/21/21
+            </div>
+        </div>
+        {% endblock %}
+
         {% block sidebar %}
         <div class="span2">
             <div class="well sidebar-nav">
@@ -32,6 +39,7 @@
             </div><!--/.well -->
         </div><!--/span-->
         {% endblock %}
+
         {% block content %}
          <div class="span10 content" role="main">
             <header class="content-header">
