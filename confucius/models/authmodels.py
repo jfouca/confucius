@@ -38,36 +38,38 @@ class Account(models.Model):
         app_label = 'confucius'
 
     def __getattr__(self, name):
-        return getattr(self.user, name)
+        if name in ('username', 'first_name', 'last_name', 'is_active',
+                'check_password', 'set_password'):
+            return getattr(self.user, name)
+        return super(Account, self).__getattr__(name)
+
+    def __unicode__(self):
+        return unicode(self.emailaddress_set.all()[0])
 
     def add_email(self, email):
         email_address = EmailAddress(account=self, value=email)
         email_address.save()
 
 
-class EmailAddress(models.Model):
+class Address(models.Model):
     account = models.ForeignKey(Account)
     main = models.BooleanField(default=False)
+
+    class Meta:
+        abstract = True
+        app_label = 'confucius'
+
+    def __unicode__(self):
+        return self.value
+
+
+class EmailAddress(Address):
     value = models.EmailField(unique=True)
 
-    class Meta:
-        app_label = 'confucius'
 
-    def __unicode__(self):
-        return self.value
-
-
-class PostalAddress(models.Model):
-    account = models.ForeignKey(Account)
-    main = models.BooleanField(default=False)
+class PostalAddress(Address):
     name = models.CharField(max_length=31)
     value = models.TextField()
-
-    class Meta:
-        app_label = 'confucius'
-
-    def __unicode__(self):
-        return self.value
 
 
 class Language(models.Model):
