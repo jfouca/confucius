@@ -8,64 +8,12 @@
 {% endblock %}
 
 {% block content_main %}
-<div class="well">
-Here you can edit your profile.
-</div>
-
-{% if form.errors %}
-<div class="alert alert-error">
-    {{ form.errors }}
-</div>
-{% endif %}
-
 <form class="form-horizontal" method="post" action="{% url 'account' %}">
 {% csrf_token %}
-    <fieldset>
-        <div class="control-group">
-            <label class="control-label" for="firstName">First Name</label>
-            <div class="controls">
-                <input type="text" id="firstName" class="input-large" placeholder="First name" value="{{ account.first_name }}" name="{{ form.first_name.html_name }}">
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="lastName">Last Name</label>
-            <div class="controls">
-                <input type="text" id="lastName" class="input-large" placeholder="Last name" value="{{ account.last_name }}"> <span class="help-inline">Necessary</span>
-            </div>
-        </div>
-       <div class="control-group">
-            <label class="control-label">Language(s)</label>
-            <div class="controls">
-                {% for lang in account.languages.all %}
-                    <input type="text" class="input-small" placeholder="Code" value="{{ lang.code }}"> <textarea type="text" class="input-medium" placeholder="Lang" value="{{ lang.name }}"></textarea>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">E-mail @ddress(es)</label>
-            <div class="controls">
-                <!-- main -->
-                {% for email in account.emailaddress_set.all %}
-                    {% ifequal email email.main %}
-                        <input type="text" class="input-medium" placeholder="Description" value="{{ email.name }}"> <input type="text" class="input-large" placeholder="E-mail" value="{{ email.value }}"> <span class="help-inline">Necessary</span>
-                    {% else %}
-                        <input type="text" class="input-medium" placeholder="Description" value="{{ email.name }}"> <input type="text" class="input-large" placeholder="E-mail" value="{{ email.value }}">
-                    {% endifequal %}
-                {% endfor %}
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">Physical address(es)</label>
-            <div class="controls">
-                {% for postal in account.postaladdress_set.all %}
-                    <input type="text" class="input-medium" placeholder="Description" value="{{ postal.name }}"> <textarea type="text" class="input-large" placeholder="Address" value="{{ postal.value }}"></textarea>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Update</button>
-            <button type="reset" class="btn">Cancel</button>
-        </div>
-    </fieldset>
+{{ form }}
+{{ account }}
+{{ emailaddress }}
+{{ postaladdress }}
+<input type="submit" />
 </form>
 {% endblock %}
