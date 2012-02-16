@@ -45,25 +45,29 @@ class Account(models.Model):
         email_address.save()
 
 
-class Address(models.Model):
+class EmailAddress(models.Model):
     account = models.ForeignKey(Account)
     main = models.BooleanField(default=False)
+    value = models.EmailField(unique=True)
 
     class Meta:
-        abstract = True
         app_label = 'confucius'
 
     def __unicode__(self):
         return self.value
 
 
-class EmailAddress(Address):
-    value = models.EmailField(unique=True)
-
-
-class PostalAddress(Address):
+class PostalAddress(models.Model):
+    account = models.ForeignKey(Account)
+    main = models.BooleanField(default=False)
     name = models.CharField(max_length=31)
     value = models.TextField()
+
+    class Meta:
+        app_label = 'confucius'
+
+    def __unicode__(self):
+        return self.value
 
 
 class Language(models.Model):
