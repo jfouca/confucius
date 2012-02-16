@@ -14,8 +14,9 @@ class AccountManager(models.Manager):
         username = email_to_username(email)
         now = datetime.now()
 
-        user = User(username=username, is_staff=False, is_active=is_active,
-            is_superuser=False, last_login=now, date_joined=now)
+        user = User(username=username, last_name=last_name, is_staff=False,
+            is_active=is_active, is_superuser=False, last_login=now,
+            date_joined=now)
         user.set_password(password)
         user.save(using=self._db)
 
@@ -26,6 +27,9 @@ class AccountManager(models.Manager):
         email_address.save(using=self._db)
 
         return account
+
+    def get_by_email(self, email):
+        return self.get(emailaddress__value__exact=email)
 
 
 class Account(models.Model):
@@ -49,6 +53,13 @@ class Account(models.Model):
     def add_email(self, email):
         email_address = EmailAddress(account=self, value=email)
         email_address.save()
+
+    def has_email(self, email):
+        try:
+            self.emailaddress_set.get(value=email)
+            return True
+        except EmailAddress.DoesNotExist:
+            return False
 
 
 class Address(models.Model):
