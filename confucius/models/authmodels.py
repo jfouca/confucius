@@ -1,6 +1,3 @@
-from datetime import datetime
-
-from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -15,6 +12,8 @@ class AccountQuerySet(models.query.QuerySet):
 
 class AccountManager(models.Manager):
     def create(self, email, password, last_name, is_active=False):
+        from datetime import datetime
+
         email = email.lower()
         username = email_to_username(email)
         now = datetime.now()
@@ -54,12 +53,17 @@ class Account(models.Model):
                 'check_password', 'set_password'):
             return getattr(self.user, name)
         return super(Account, self).__getattr__(name)
-        
+
     def __setattr__(self, name, value):
         if name in ('username', 'first_name', 'last_name', 'is_active',
                 'check_password', 'set_password'):
             return setattr(self.user, name, value)
         return super(Account, self).__setattr__(name, value)
+
+    def __getitem__(self, index):
+        if index in ('username', 'first_name', 'last_name', 'is_active',
+                'check_password', 'set_password'):
+            return self.user[index]
 
     def __unicode__(self):
         return unicode(self.user.first_name+" "+self.user.last_name+" <"+unicode(self.get_main_emailaddress())+">")
@@ -67,20 +71,20 @@ class Account(models.Model):
     def add_email(self, email):
         email_address = EmailAddress(account=self, value=email)
         email_address.save()
-        
+
     def get_main_emailaddress(self):
         return self.emailaddress_set.get(main=True)
-        
+
     def has_email(self, email):
         try:
             self.emailaddress_set.get(value=email)
             return True
         except EmailAddress.DoesNotExist:
             return False
-            
+
     def save(self, *args, **kwargs):
         self.user.save()
-        super(Account,self).save(*args, **kwargs)
+        super(Account, self).save(*args, **kwargs)
 
     def delete(self):
         Account.objects.filter(pk=self.pk).delete()
@@ -110,7 +114,7 @@ class PostalAddress(Address):
 class Language(models.Model):
     code = models.CharField(max_length=5)
     value = models.CharField(max_length=25)
-    
+
     class Meta:
         app_label = "confucius"
 
