@@ -17,9 +17,7 @@ class AdminAccountForm(forms.ModelForm):
     
     class Meta:
         model = Account
-        widgets = {
-            'languages': CheckboxSelectMultiple(),
-        }
+
     
     def __init__(self, *args, **kwargs):
         super(AdminAccountForm,self).__init__(*args, **kwargs)
@@ -31,3 +29,5 @@ class AdminAccountForm(forms.ModelForm):
         self.instance.user.last_name = self.cleaned_data['last_name']
         self.instance.user.save()
         return super(AdminAccountForm,self).save(*args, **kwargs)
+        
+
