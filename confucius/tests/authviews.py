@@ -49,7 +49,7 @@ class LoginTestCase(unittest.TestCase):
 """
 
 
-class ChangePasswordTestCase(unittest.TestCase):
+class PasswordChangeTestCase(unittest.TestCase):
     sample_info = {
         'email': 'alice@bob.com',
         'last_name': 'Blu',
