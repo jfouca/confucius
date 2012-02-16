@@ -108,10 +108,11 @@ class PostalAddress(Address):
 
 
 class Language(models.Model):
-    code = models.CharField(max_length=5, choices=settings.LANGUAGES)
-
+    code = models.CharField(max_length=5)
+    value = models.CharField(max_length=25)
+    
     class Meta:
         app_label = "confucius"
 
     def __unicode__(self):
-        return self.code
+        return self.value
