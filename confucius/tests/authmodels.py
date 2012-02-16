@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.utils import unittest
 
-from confucius.models import Account
+from confucius.models import Account, EmailAddress
 from confucius.utils import email_to_username
 
 
@@ -33,6 +33,23 @@ class AccountTestCase(unittest.TestCase):
 
         self.assertRaises(IntegrityError,
             lambda: Account.objects.create(**self.sample_info))
+
+        self.account.delete()
+        self.assertEquals(Account.objects.count(), 0)
+        self.assertEquals(EmailAddress.objects.count(), 0)
+        self.assertEquals(User.objects.count(), 0)
+
+    def test_multiple_create(self):
+        for i in range(127):
+            Account.objects.create(email='test' + str(i) + '@test.com',
+                password='test', last_name='test')
+        self.assertEquals(Account.objects.count(), 128)
+        self.assertEquals(EmailAddress.objects.count(), 128)
+        self.assertEquals(User.objects.count(), 128)
+        Account.objects.all().delete()
+        self.assertEquals(Account.objects.count(), 0)
+        self.assertEquals(EmailAddress.objects.count(), 0)
+        self.assertEquals(User.objects.count(), 0)
 
     def test_get_by_email(self):
         account = Account.objects.get_by_email(self.sample_info['email'])
