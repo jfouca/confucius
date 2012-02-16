@@ -130,9 +130,10 @@ class Language(models.Model):
 
     def __unicode__(self):
         return self.value
-        
+"""     
 def delete_emailaddress(sender, instance, **kwargs):
     if instance.main == True :
+        print str(instance.account.pk) + " - "+ str(EmailAddress.objects.get(account=instance.account.pk).id)
         raise Exception, "This email address is tagged as Main, you should not delete it"
 
 pre_delete.connect(delete_emailaddress, sender=EmailAddress)
@@ -142,3 +143,4 @@ def delete_postaladdress(sender, instance, **kwargs):
         raise Exception, "This postal address is tagged as Main, you should not delete it"
 
 pre_delete.connect(delete_postaladdress, sender=PostalAddress)
+"""
