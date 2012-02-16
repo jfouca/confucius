@@ -1,1 +1,1 @@
-from confucius.forms.authforms import (ProfileForm)
+from confucius.forms.authforms import (AccountForm)

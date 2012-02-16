@@ -50,4 +50,4 @@ INSTALLED_APPS = (
 AUTHENTICATION_BACKENDS = ('confucius.backends.AccountBackend',)
 
 LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/profile/'
+LOGIN_REDIRECT_URL = '/account/'
