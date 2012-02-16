@@ -1,1 +1,1 @@
-from confucius.tests.authmodels import (ProfileTestCase)
+from confucius.tests.authmodels import (AccountTestCase)
