@@ -17,7 +17,7 @@ def main_page(request):
 def edit_account(request):
     account = Account.objects.get(user=request.user)
     form = AccountForm(instance=account)
-    return render_to_response('account/edit_account.html', {'form': form},
+    return render_to_response('account/edit_account.html', {'form': form, 'account': account},
             context_instance=RequestContext(request))
 
 
