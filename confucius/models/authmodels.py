@@ -69,6 +69,10 @@ class Account(models.Model):
             return True
         except EmailAddress.DoesNotExist:
             return False
+            
+    def save(self, *args, **kwargs):
+        self.user.save()
+        super(Account,self).save(*args, **kwargs)
 
 
 class Address(models.Model):
