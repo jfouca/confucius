@@ -539,7 +539,7 @@
         "pk": 1, 
         "model": "confucius.account", 
         "fields": {
-            "languages": [], 
+            "languages": [1, 2, 3], 
             "user": 1
         }
     }, 

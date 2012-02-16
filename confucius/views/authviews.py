@@ -19,27 +19,24 @@ def edit_account(request):
     account = Account.objects.get(user=request.user)
     UserForm = modelform_factory(User, fields=('first_name', 'last_name',))
     AccountForm = modelform_factory(Account, exclude=('user',))
-    EmailAddressFormSet = inlineformset_factory(Account, EmailAddress)
-    PostalAddressFormSet = inlineformset_factory(Account, PostalAddress)
+    EmailAddressFormSet = inlineformset_factory(Account, EmailAddress, extra=0)
 
     if request.POST:
         user_form = UserForm(request.POST, instance=account.user)
         account_form = AccountForm(request.POST, instance=account)
         emailaddress_set = EmailAddressFormSet(request.POST, instance=account)
-        postaladdress_set = PostalAddressFormSet(request.POST, instance=account)
 
-        for f in (user_form, account_form, emailaddress_set, postaladdress_set):
+        for f in (user_form, account_form, emailaddress_set):
             if f.is_valid():
                 f.save()
     else:
         user_form = UserForm(instance=account.user)
         account_form = AccountForm(instance=account)
         emailaddress_set = EmailAddressFormSet(instance=account)
-        postaladdress_set = PostalAddressFormSet(instance=account)
 
     return render_to_response('account/edit_account.html', {
-        'account': user_form, 'emailaddress': emailaddress_set, 'postaladdress': postaladdress_set,
-        'form': account_form},
+        'user': user_form, 'emailaddress_set': emailaddress_set,
+        'account': account_form},
         context_instance=RequestContext(request))
 
 

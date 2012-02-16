@@ -15,31 +15,28 @@
             <label class="control-label" for="firstName">Me</label>
             <div class="controls">
                 <div class="controls-inputs">
-                    <input type="text" id="firstName" class="input-medium" placeholder="First name" value="{{ account.first_name }}" name="{{ form.first_name.html_name }}"> <input type="text" id="lastName" class="input-medium" placeholder="Last name" value="{{ account.last_name }}">
+                    <input type="text" id="firstName" class="input-medium" placeholder="{{ user.first_name.label }}" value="{{ user.first_name.value }}" name="{{ user.first_name.html_name }}">
+                    <input type="text" id="lastName" class="input-medium" placeholder="{{ user.last_name.label }}" value="{{ user.last_name.value }}" name="{{ user.last_name.html_name }}">
                 </div>
             </div>
         </div>
        <div class="control-group">
             <label class="control-label">Language(s)</label>
             <div class="controls">
-                {% for lang in account.languages.all %}
-                    <input type="text" class="input-small" placeholder="Code" value="{{ lang.code }}"> <textarea type="text" class="input-medium" placeholder="Lang" value="{{ lang.name }}"></textarea>
-                {% endfor %}
+                {{ account.languages }}
             </div>
         </div>
         <div class="control-group">
             <label class="control-label">E-mail @ddress(es)</label>
                 <div class="controls" id="emails">
-                    {% for email in account.emailaddress_set.all %}
-                        {% if email.main %}
-                             <div class="controls-inputs" id="email-main">
-                                <input type="text" class="input-medium"placeholder="Description" value="{{ email.name }}"> <input type="text" class="input-large" placeholder="E-mail" value="{{ email.value }}"> <span class="help-inline"><a href="#" id="rm-email-main"><i class="icon-remove"></i></a> <a href="#" id="add-email"><i class="icon-plus"></i></a></span>
-                             </div>
-                        {% else %}
-                            <div class="controls-inputs" id="email-{{ email.value }}">
-                                <input type="text" class="input-medium" placeholder="Description" value="{{ email.name }}"> <input type="text" class="input-large" placeholder="E-mail" value="{{ email.value }}"> <span class="help-inline"><a href="#" id="rm-email-{{ email.value }}"><i class="icon-remove"></i></a></span>
-                            </div>
-                        {% endif %}
+                    {{ emailaddress_set.management_form }}
+                    {% for email in emailaddress_set %}
+                        <div class="controls-inputs" id="email-{{ email.value.html_name }}">
+                            {{ email.id }}
+                            <input checked="checked" type="checkbox" name="{{ email.main.html_name }}" id="id_{{ email.main.html_name }}" />
+                            <input type="text" class="input-large" placeholder="E-mail" value="{{ email.value.value }}" name="{{ email.value.html_name }}" id="id_{{ email.value.html_name }}">
+                            <span class="help-inline"><a href="#" id="rm-email-{{ email.value.html_name }}" name="{{ email.value.html_name }}"><i class="icon-remove"></i></a> <a href="#" id="add-email"><i class="icon-plus"></i></a></span>
+                        </div>
                     {% endfor %}
                 </div>
             </div>
@@ -47,14 +44,10 @@
         <div class="control-group">
             <label class="control-label">Physical address(es)</label>
             <div class="controls">
-                {% for postal in account.postaladdress_set.all %}
-                    <input type="text" class="input-medium" placeholder="Description" value="{{ postal.name }}"> <textarea type="text" class="input-large" placeholder="Address" value="{{ postal.value }}"></textarea>
-                {% endfor %}
             </div>
         </div>
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">Update</button>
-            <button type="reset" class="btn">Cancel</button>
         </div>
     </fieldset>
 </form>
@@ -64,24 +57,11 @@
 <script>
 $(document).ready(function() {
     $('#add-email').live('click', function() {
-        var r = Math.floor(Math.random()*10000);
-        $('#emails').append('<div class="controls-inputs" id="email-'+r+'"><input type="text" class="input-medium" placeholder="Description"> <input type="text" class="input-large" placeholder="E-mail"> <span class="help-inline"><a href="#" id="rm-email-'+r+'"><i class="icon-remove"></i></a></span></div>');
-        $('#email-'+r).hide()
+        var r = parseInt($('#id_emailaddress_set-TOTAL_FORMS').val());
+        $('#id_emailaddress_set-TOTAL_FORMS').val(r + 1);
+        $('#emails').append('<div class="controls-inputs" id="email-'+r+'"><input type="hidden" name="emailaddress_set-'+r+'-id" id="id_emailaddress_set-'+r+'-id"><input checked="checked" type="checkbox" name="emailaddress_set-'+r+'-main" id="id_emailaddress_set-'+r+'-main"> <input type="text" class="input-large" placeholder="E-mail" name="emailaddress_set-'+r+'-value"> <span class="help-inline"><a href="#" id="rm-email-'+r+'"><i class="icon-remove"></i></a> <a href="#" id="add-email"><i class="icon-plus"></i></a></span></div>');
+        $('#email-'+r).hide();
         $('#email-'+r).fadeIn('normal');
-    });
-    $("a[id^='rm-email-']").live('click', function() {
-        var email = "#"+$(this).attr('id').substring(3);
-        
-        if (email == '#email-main') {
-            $(email).remove();
-            $('#emails').prepend('<div class="controls-inputs" id="email-main" ><input type="text" class="input-medium"placeholder="Description" value="{{ email.name }}"> <input type="text" class="input-large" placeholder="E-mail"> <span class="help-inline"><a href="#" id="rm-email-main"><i class="icon-remove"></i></a> <a href="#" id="add-email"><i class="icon-plus"></i></a></span></div>');
-        }
-        
-        else {
-            $(email).fadeOut('normal', function() {
-                $(email).remove();
-            });
-        }
     });
 });
 </script>
