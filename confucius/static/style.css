@@ -6,6 +6,19 @@ body {
     padding-top: 40px;
 }
 
+.controls > input {
+    margin-top: 3px;
+}
+
+.controls-inputs {
+    display: block;
+    margin-top: 3px;
+}
+
+[id^="email-"] {
+    opacity: 1;
+}
+
 /* Navbar */
 
 .navbar-text {
@@ -62,4 +75,8 @@ body {
 
 .db-top-inner {
     margin: 10px 15px 15px 15px;
+}
+
+.db-top-inner-min {
+    margin: 2px 15px 2px 15px;
 }

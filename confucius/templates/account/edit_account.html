@@ -22,15 +22,11 @@ Here you can edit your profile.
 {% csrf_token %}
     <fieldset>
         <div class="control-group">
-            <label class="control-label" for="firstName">First Name</label>
+            <label class="control-label" for="firstName">Me</label>
             <div class="controls">
-                <input type="text" id="firstName" class="input-large" placeholder="First name" value="{{ account.first_name }}" name="{{ form.first_name.html_name }}">
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label" for="lastName">Last Name</label>
-            <div class="controls">
-                <input type="text" id="lastName" class="input-large" placeholder="Last name" value="{{ account.last_name }}"> <span class="help-inline">Necessary</span>
+                <div class="controls-inputs">
+                    <input type="text" id="firstName" class="input-medium" placeholder="First name" value="{{ account.first_name }}" name="{{ form.first_name.html_name }}"> <input type="text" id="lastName" class="input-medium" placeholder="Last name" value="{{ account.last_name }}">
+                </div>
             </div>
         </div>
        <div class="control-group">
@@ -43,15 +39,19 @@ Here you can edit your profile.
         </div>
         <div class="control-group">
             <label class="control-label">E-mail @ddress(es)</label>
-            <div class="controls">
-                <!-- main -->
-                {% for email in account.emailaddress_set.all %}
-                    {% ifequal email email.main %}
-                        <input type="text" class="input-medium" placeholder="Description" value="{{ email.name }}"> <input type="text" class="input-large" placeholder="E-mail" value="{{ email.value }}"> <span class="help-inline">Necessary</span>
-                    {% else %}
-                        <input type="text" class="input-medium" placeholder="Description" value="{{ email.name }}"> <input type="text" class="input-large" placeholder="E-mail" value="{{ email.value }}">
-                    {% endifequal %}
-                {% endfor %}
+                <div class="controls" id="emails">
+                    {% for email in account.emailaddress_set.all %}
+                        {% if email.main %}
+                             <div class="controls-inputs" id="email-main">
+                                <input type="text" class="input-medium"placeholder="Description" value="{{ email.name }}"> <input type="text" class="input-large" placeholder="E-mail" value="{{ email.value }}"> <span class="help-inline"><a href="#" id="rm-email-main"><i class="icon-remove"></i></a> <a href="#" id="add-email"><i class="icon-plus"></i></a></span>
+                             </div>
+                        {% else %}
+                            <div class="controls-inputs" id="email-{{ email.value }}">
+                                <input type="text" class="input-medium" placeholder="Description" value="{{ email.name }}"> <input type="text" class="input-large" placeholder="E-mail" value="{{ email.value }}"> <span class="help-inline"><a href="#" id="rm-email-{{ email.value }}"><i class="icon-remove"></i></a></span>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             </div>
         </div>
         <div class="control-group">
@@ -68,4 +68,31 @@ Here you can edit your profile.
         </div>
     </fieldset>
 </form>
+{% endblock %}
+
+{% block script %}
+<script>
+$(document).ready(function() {
+    $('#add-email').live('click', function() {
+        var r = Math.floor(Math.random()*10000);
+        $('#emails').append('<div class="controls-inputs" id="email-'+r+'"><input type="text" class="input-medium" placeholder="Description"> <input type="text" class="input-large" placeholder="E-mail"> <span class="help-inline"><a href="#" id="rm-email-'+r+'"><i class="icon-remove"></i></a></span></div>');
+        $('#email-'+r).hide()
+        $('#email-'+r).fadeIn('normal');
+    });
+    $("a[id^='rm-email-']").live('click', function() {
+        var email = "#"+$(this).attr('id').substring(3);
+        
+        if (email == '#email-main') {
+            $(email).remove();
+            $('#emails').prepend('<div class="controls-inputs" id="email-main" ><input type="text" class="input-medium"placeholder="Description" value="{{ email.name }}"> <input type="text" class="input-large" placeholder="E-mail"> <span class="help-inline"><a href="#" id="rm-email-main"><i class="icon-remove"></i></a> <a href="#" id="add-email"><i class="icon-plus"></i></a></span></div>');
+        }
+        
+        else {
+            $(email).fadeOut('normal', function() {
+                $(email).remove();
+            });
+        }
+    });
+});
+</script>
 {% endblock %}
