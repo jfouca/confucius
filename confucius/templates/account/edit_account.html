@@ -12,7 +12,7 @@
 Here you can edit your profile. Please note that fields with * <strong>must</strong> be filled.
 </div>
 
-<form class="form-horizontal" method="post" action="{% url 'profile' %}">
+<form class="form-horizontal" method="post" action="{% url 'account' %}">
 {% csrf_token %}
 {{ form }}
 

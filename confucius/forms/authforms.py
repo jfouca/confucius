@@ -1,12 +1,12 @@
 from django import forms
 
-from confucius.models import Profile
+from confucius.models import Account
 from confucius.widgets import ForeignKeySearchInput
 
 
-class ProfileForm(forms.ModelForm):
+class AccountForm(forms.ModelForm):
     class Meta:
-        model = Profile
+        model = Account
         widgets = {
             'languages': ForeignKeySearchInput(),
         }
