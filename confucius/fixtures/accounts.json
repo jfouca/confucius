@@ -1,0 +1,37 @@
+[
+    {
+        "pk": 1,
+        "model": "confucius.account",
+        "fields": {
+            "languages": [],
+            "user": 1
+        }
+    },
+    {
+        "pk": 1,
+        "model": "confucius.emailaddress",
+        "fields": {
+            "account": 1,
+            "main": true,
+            "value": "blu@blu.com"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "auth.user",
+        "fields": {
+            "username": "ImwWgX1aPDcyH53WzyR1YaycVNI=",
+            "first_name": "",
+            "last_name": "",
+            "is_active": true,
+            "is_superuser": true,
+            "is_staff": true,
+            "last_login": "2012-02-16 01:42:36",
+            "groups": [],
+            "user_permissions": [],
+            "password": "sha1$1da8f$e77bd350be2356d14c9b06e88e6da923baa7b190",
+            "email": "",
+            "date_joined": "2012-02-16 01:42:36"
+        }
+    }
+]
