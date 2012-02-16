@@ -12,7 +12,7 @@ class AccountForm(forms.ModelForm):
         }
         
 class AdminAccountForm(forms.ModelForm):
-    first_name = forms.CharField(max_length=30)
+    first_name = forms.CharField(max_length=30, required=False)
     last_name = forms.CharField(max_length=30)
     
     class Meta:

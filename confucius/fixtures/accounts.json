@@ -1,36 +1,572 @@
 [
     {
-        "pk": 1,
-        "model": "confucius.account",
+        "pk": 1, 
+        "model": "confucius.language", 
         "fields": {
-            "languages": [],
+            "code": "ar", 
+            "value": "Arabic"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "az", 
+            "value": "Azerbaijani"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "bg", 
+            "value": "Bulgarian"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "bn", 
+            "value": "Bengali"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "bs", 
+            "value": "Bosnian"
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "ca", 
+            "value": "Catalan"
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "cs", 
+            "value": "Czech"
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "cy", 
+            "value": "Welsh"
+        }
+    }, 
+    {
+        "pk": 9, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "da", 
+            "value": "Danish"
+        }
+    }, 
+    {
+        "pk": 10, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "de", 
+            "value": "German"
+        }
+    }, 
+    {
+        "pk": 11, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "el", 
+            "value": "Greek"
+        }
+    }, 
+    {
+        "pk": 12, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "en", 
+            "value": "English"
+        }
+    }, 
+    {
+        "pk": 13, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "en-gb", 
+            "value": "British English"
+        }
+    }, 
+    {
+        "pk": 14, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "es", 
+            "value": "Spanish"
+        }
+    }, 
+    {
+        "pk": 15, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "es-ar", 
+            "value": "Argentinian Spanish"
+        }
+    }, 
+    {
+        "pk": 16, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "es-mx", 
+            "value": "Mexican Spanish"
+        }
+    }, 
+    {
+        "pk": 17, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "es-ni", 
+            "value": "Nicaraguan Spanish"
+        }
+    }, 
+    {
+        "pk": 18, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "et", 
+            "value": "Estonian"
+        }
+    }, 
+    {
+        "pk": 19, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "eu", 
+            "value": "Basque"
+        }
+    }, 
+    {
+        "pk": 20, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "fa", 
+            "value": "Persian"
+        }
+    }, 
+    {
+        "pk": 21, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "fi", 
+            "value": "Finnish"
+        }
+    }, 
+    {
+        "pk": 22, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "fr", 
+            "value": "French"
+        }
+    }, 
+    {
+        "pk": 23, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "fy-nl", 
+            "value": "Frisian"
+        }
+    }, 
+    {
+        "pk": 24, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "ga", 
+            "value": "Irish"
+        }
+    }, 
+    {
+        "pk": 25, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "gl", 
+            "value": "Galician"
+        }
+    }, 
+    {
+        "pk": 26, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "he", 
+            "value": "Hebrew"
+        }
+    }, 
+    {
+        "pk": 27, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "hi", 
+            "value": "Hindi"
+        }
+    }, 
+    {
+        "pk": 28, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "hr", 
+            "value": "Croatian"
+        }
+    }, 
+    {
+        "pk": 29, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "hu", 
+            "value": "Hungarian"
+        }
+    }, 
+    {
+        "pk": 30, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "id", 
+            "value": "Indonesian"
+        }
+    }, 
+    {
+        "pk": 31, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "is", 
+            "value": "Icelandic"
+        }
+    }, 
+    {
+        "pk": 32, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "it", 
+            "value": "Italian"
+        }
+    }, 
+    {
+        "pk": 33, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "ja", 
+            "value": "Japanese"
+        }
+    }, 
+    {
+        "pk": 34, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "ka", 
+            "value": "Georgian"
+        }
+    }, 
+    {
+        "pk": 35, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "km", 
+            "value": "Khmer"
+        }
+    }, 
+    {
+        "pk": 36, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "kn", 
+            "value": "Kannada"
+        }
+    }, 
+    {
+        "pk": 37, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "ko", 
+            "value": "Korean"
+        }
+    }, 
+    {
+        "pk": 38, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "lt", 
+            "value": "Lithuanian"
+        }
+    }, 
+    {
+        "pk": 39, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "lv", 
+            "value": "Latvian"
+        }
+    }, 
+    {
+        "pk": 40, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "mk", 
+            "value": "Macedonian"
+        }
+    }, 
+    {
+        "pk": 41, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "ml", 
+            "value": "Malayalam"
+        }
+    }, 
+    {
+        "pk": 42, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "mn", 
+            "value": "Mongolian"
+        }
+    }, 
+    {
+        "pk": 43, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "nb", 
+            "value": "Norwegian Bokmal"
+        }
+    }, 
+    {
+        "pk": 44, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "nl", 
+            "value": "Dutch"
+        }
+    }, 
+    {
+        "pk": 45, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "nn", 
+            "value": "Norwegian Nynorsk"
+        }
+    }, 
+    {
+        "pk": 46, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "no", 
+            "value": "Norwegian"
+        }
+    }, 
+    {
+        "pk": 47, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "pa", 
+            "value": "Punjabi"
+        }
+    }, 
+    {
+        "pk": 48, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "pl", 
+            "value": "Polish"
+        }
+    }, 
+    {
+        "pk": 49, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "pt", 
+            "value": "Portuguese"
+        }
+    }, 
+    {
+        "pk": 50, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "pt-br", 
+            "value": "Brazilian Portuguese"
+        }
+    }, 
+    {
+        "pk": 51, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "ro", 
+            "value": "Romanian"
+        }
+    }, 
+    {
+        "pk": 52, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "ru", 
+            "value": "Russian"
+        }
+    }, 
+    {
+        "pk": 53, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "sk", 
+            "value": "Slovak"
+        }
+    }, 
+    {
+        "pk": 54, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "sl", 
+            "value": "Slovenian"
+        }
+    }, 
+    {
+        "pk": 55, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "sq", 
+            "value": "Albanian"
+        }
+    }, 
+    {
+        "pk": 56, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "sr", 
+            "value": "Serbian"
+        }
+    }, 
+    {
+        "pk": 57, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "sr-latn", 
+            "value": "Serbian Latin"
+        }
+    }, 
+    {
+        "pk": 58, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "sv", 
+            "value": "Swedish"
+        }
+    }, 
+    {
+        "pk": 59, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "ta", 
+            "value": "Tamil"
+        }
+    }, 
+    {
+        "pk": 60, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "te", 
+            "value": "Telugu"
+        }
+    }, 
+    {
+        "pk": 61, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "th", 
+            "value": "Thai"
+        }
+    }, 
+    {
+        "pk": 62, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "tr", 
+            "value": "Turkish"
+        }
+    }, 
+    {
+        "pk": 63, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "uk", 
+            "value": "Ukrainian"
+        }
+    }, 
+    {
+        "pk": 64, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "ur", 
+            "value": "Urdu"
+        }
+    }, 
+    {
+        "pk": 65, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "vi", 
+            "value": "Vietnamese"
+        }
+    }, 
+    {
+        "pk": 66, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "zh-cn", 
+            "value": "Simplified Chinese"
+        }
+    }, 
+    {
+        "pk": 67, 
+        "model": "confucius.language", 
+        "fields": {
+            "code": "zh-tw", 
+            "value": "Traditional Chinese"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "confucius.account", 
+        "fields": {
+            "languages": [], 
             "user": 1
         }
-    },
+    }, 
     {
-        "pk": 1,
-        "model": "confucius.emailaddress",
+        "pk": 1, 
+        "model": "confucius.emailaddress", 
         "fields": {
-            "account": 1,
-            "main": true,
+            "account": 1, 
+            "main": true, 
             "value": "blu@blu.com"
         }
-    },
+    }, 
     {
-        "pk": 1,
-        "model": "auth.user",
+        "pk": 1, 
+        "model": "auth.user", 
         "fields": {
-            "username": "ImwWgX1aPDcyH53WzyR1YaycVNI=",
-            "first_name": "",
-            "last_name": "",
-            "is_active": true,
-            "is_superuser": true,
-            "is_staff": true,
-            "last_login": "2012-02-16 01:42:36",
-            "groups": [],
-            "user_permissions": [],
-            "password": "sha1$1da8f$e77bd350be2356d14c9b06e88e6da923baa7b190",
-            "email": "",
+            "username": "ImwWgX1aPDcyH53WzyR1YaycVNI=", 
+            "first_name": "", 
+            "last_name": "", 
+            "is_active": true, 
+            "is_superuser": true, 
+            "is_staff": true, 
+            "last_login": "2012-02-16 01:42:36", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$1da8f$e77bd350be2356d14c9b06e88e6da923baa7b190", 
+            "email": "", 
             "date_joined": "2012-02-16 01:42:36"
         }
     }
