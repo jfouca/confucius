@@ -3,9 +3,14 @@ from datetime import datetime
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models.signals import post_delete
 
 from confucius.utils import email_to_username
+
+
+class AccountQuerySet(models.query.QuerySet):
+    def delete(self):
+        for instance in self:
+            User.objects.get(pk=instance.user_id).delete()
 
 
 class AccountManager(models.Manager):
@@ -27,6 +32,9 @@ class AccountManager(models.Manager):
         email_address.save(using=self._db)
 
         return account
+
+    def get_query_set(self):
+        return AccountQuerySet(model=self.model, using=self._db)
 
     def get_by_email(self, email):
         return self.get(emailaddress__value__exact=email)
@@ -61,6 +69,9 @@ class Account(models.Model):
         except EmailAddress.DoesNotExist:
             return False
 
+    def delete(self):
+        Account.objects.filter(pk=self.pk).delete()
+
 
 class Address(models.Model):
     account = models.ForeignKey(Account)
@@ -91,9 +102,3 @@ class Language(models.Model):
 
     def __unicode__(self):
         return self.code
-
-
-def delete_user(sender, instance, **kwargs):
-    User.objects.get(pk=instance.user_id).delete()
-
-post_delete.connect(delete_user, sender=Account)
