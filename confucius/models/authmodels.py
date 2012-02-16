@@ -46,14 +46,23 @@ class Account(models.Model):
                 'check_password', 'set_password'):
             return getattr(self.user, name)
         return super(Account, self).__getattr__(name)
+        
+    def __setattr__(self, name, value):
+        if name in ('username', 'first_name', 'last_name', 'is_active',
+                'check_password', 'set_password'):
+            return setattr(self.user, name, value)
+        return super(Account, self).__setattr__(name, value)
 
     def __unicode__(self):
-        return unicode(self.emailaddress_set.all()[0])
+        return unicode(self.user.first_name+" "+self.user.last_name+" <"+unicode(self.get_main_emailaddress())+">")
 
     def add_email(self, email):
         email_address = EmailAddress(account=self, value=email)
         email_address.save()
-
+        
+    def get_main_emailaddress(self):
+        return self.emailaddress_set.get(main=True)
+        
     def has_email(self, email):
         try:
             self.emailaddress_set.get(value=email)
