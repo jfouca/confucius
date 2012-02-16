@@ -14,7 +14,7 @@
             <div class="modal-body">
                 {% if user.is_authenticated %}
                      <div class="alert alert-info">
-                         User {{ user.username }} is currently logged. <a href="{% url 'logout' %}">Logout</a> to switch account.
+                         User {{ user.firstname }} {{ user.lastname }} is currently logged. <a href="{% url 'logout' %}">Logout</a> to switch account.
                      </div>
                 {% else %}
                     {% if form.errors %}
@@ -24,12 +24,12 @@
                     {% endif %}
                     <div class="control-group">
                         <div class="controls">
-                            <input type="text" class="input-medium" placeholder="{{ form.username.label }}" name="{{ form.username.html_name }}">
+                            <input type="text" class="input-medium" placeholder="{{ form.username.label }}" name="{{ form.username.html_name }}" value="{{ form.username.value|default:'' }}">
                         </div>
                     </div>
                     <div class="control-group">
                         <div class="controls">
-                            <input type="password" class="input-medium" placeholder="{{ form.password.label }}" name="{{ form.password.html_name }}"> <p><span class="help-inline"><a href="#">Forgot your password?</a></span>
+                            <input type="password" class="input-medium" placeholder="{{ form.password.label }}" name="{{ form.password.html_name }}"> <span class="help-inline"><a href="{{ password_reset }}">Forgot your password?</a></span>
                         </div>
                     </div>
                 </div>
