@@ -1,5 +1,6 @@
 from django.contrib.admin import AdminSite, ModelAdmin, StackedInline
-from confucius.models import Account, PostalAddress, EmailAddress
+from confucius.models import Account, PostalAddress, EmailAddress, Language
+from confucius.forms.authforms import AdminAccountForm
 
 
 class EmailInline(StackedInline):
@@ -14,6 +15,8 @@ class PostalInline(StackedInline):
 
 
 class AccountAdmin(ModelAdmin):
+    fields = ('first_name','last_name','languages')
+    form = AdminAccountForm
     inlines = [EmailInline, PostalInline]
 
 
