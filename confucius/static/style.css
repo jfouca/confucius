@@ -80,3 +80,23 @@ body {
 .db-top-inner-min {
     margin: 2px 15px 2px 15px;
 }
+
+
+/* TextPander */
+
+.contentTextPander {
+    color:#0088CC;
+}
+
+.headline {
+    border: 1px solid #DDDDDD;
+    cursor: pointer;
+    font-family: georgia;
+    margin-top: -14px;
+    padding: 10px;
+}
+
+
+.headline:before {
+    color: #ffffff;
+}
