@@ -1,5 +1,5 @@
 from django.contrib.admin import AdminSite, ModelAdmin, StackedInline
-from confucius.models import Account, PostalAddress, EmailAddress
+from confucius.models import Account, PostalAddress, EmailAddress, Conference, Role, ConferenceAccountRole, Alert
 
 
 class EmailInline(StackedInline):
@@ -19,3 +19,7 @@ class AccountAdmin(ModelAdmin):
 
 site = AdminSite()
 site.register(Account, AccountAdmin)
+site.register(Conference)
+site.register(Role)
+site.register(ConferenceAccountRole)
+site.register(Alert)

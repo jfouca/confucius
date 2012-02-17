@@ -1,31 +1,15 @@
-from confucius.models import Conference, Role, ConferenceAccountRole
+from confucius.models import Conference, Role, ConferenceAccountRole, Account, Alert
 
+from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
+from datetime import datetime
+
+from confucius.forms import CreateAdminForm
 
 
 @login_required
-def create_conference(request, owner_id, conference_title):
-    owner_user = get_object_or_404(Account, pk=president_id)
-    
-    #Conference creation
-    new_conference = Conference.objects.(title=conference_title, president=owner_user, startConfDate=datetime.now(), endConfDate=datetime.now(), startSubmitDate=datetime.now(), endSubmitDate=datetime.now(), startEvaluationDate=datetime.now(), endEvaluationDate=datetime.now())
-    
-    #ConferenceAccountRole "President" creation for the owner of the conference
-    president_role = Role.objects.get(code="PRESIDENT")
-    account_role = ConferenceAccountRole.objects.create(account=owner_user, role=president_role)
-    
-    #Alerte Creation
-    #No alert creation at this time
-    
-    new_conference.save()
-    account_role.save()
-    
-    return render_to_response('conf_creation_confirm.html')
-
-
-@login_required
-def duplicate_conference(request, conference_id, new_title):
+def duplicate_conference(request, conference_id, new_owner_pk, new_title):
     pass
     
 
@@ -34,5 +18,51 @@ def detail_conference(request, conference_id):
     conference = get_object_or_404(Conference, pk=conference_id)
     return render_to_response('conf_detail.html', {'conference': conference})
 
+@login_required
+def create_conference(request):
+    
+    if request.POST:
+        form = CreateAdminForm(request.POST)
+        if form.is_valid():
+            conference_title = form.cleaned_data['title']
+            owner_account_id = form.cleaned_data['account'].pk
+            owner_account = get_object_or_404(Account, pk=owner_account_id)
+            
+            #Conference creation
+            new_conference = Conference.objects.create(
+                title=conference_title, 
+                president=owner_account, 
+                startConfDate=datetime.now(), 
+                endConfDate=datetime.now(), 
+                startSubmitDate=datetime.now(), 
+                endSubmitDate=datetime.now(), 
+                startEvaluationDate=datetime.now(), 
+                endEvaluationDate=datetime.now())
+            
+            #ConferenceAccountRole "President" creation for the owner of the conference
+            president_role = get_object_or_404(Role, code="PRES")
+            new_account_role = ConferenceAccountRole.objects.create(
+                account= owner_account, 
+                role= president_role, 
+                conference= new_conference)
+            
+            #Alerte Creation
+            new_alert = Alert.objects.create(
+                title= "Fisrt alert", 
+                conference= new_conference, 
+                content= "The fisrt alert of the conference", 
+                date= datetime.now())
+    
+            new_alert.save()
+            new_conference.save()
+            new_account_role.save()
+    
+            return render_to_response('conference/conf_creation_confirm.html')
+        #print account.pk
+    
+    else:
+        form = CreateAdminForm()
+    
+    return render_to_response("conference/create_conference.html", {"form":form}, context_instance=RequestContext(request))
     
     
