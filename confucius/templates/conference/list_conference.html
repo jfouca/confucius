@@ -1,0 +1,24 @@
+{% extends "base-out.html" %}
+{% load url from future %}
+
+{% block title %}Confucius login{% endblock %}
+
+{% block content %}
+
+    {% if conferences_president %}
+    <p> Liste dont l'utilisateur est president </p>
+    {% for conf in conferences_president %}
+    <h1>  {{ conf.title }}  </h1>
+    
+    {% endfor %}
+    {% endif %}
+    {% if conferences_with_role %}
+    <p> Liste dont l'utilisateur a un role standard </p>
+    {% for confaccountrole in conferences_with_role %}
+    <h1>  {{ confaccountrole.conference.title }}  </h1>
+        {% for myrole in confaccountrole.role.all %}
+        <h2>{{ myrole.name }}</h2>
+        {% endfor %}
+    {% endfor %}
+    {% endif %}
+{% endblock %}
