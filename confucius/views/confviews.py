@@ -19,22 +19,35 @@ def list_conference(request) :
         
 @login_required
 def edit_conference(request, conf_id) :
+	
 	ConferenceForm = modelform_factory(Conference, exclude=('accounts','title','president'))
 	conference =  Conference.objects.get(pk=conf_id)
-        if request.POST:
+	if conference.president.user == request.user:
+	  print "is president"
+	  if request.POST:
 
-	  form = ConferenceForm(request.POST, instance=conference)
-	  if form.is_valid():
-	   #conference.title = form.cleaned_data['title']
-	   #pass
-	   form.save()
-	      # do something.
+	    form = ConferenceForm(request.POST, instance=conference)
+	    if form.is_valid():
+	    #conference.title = form.cleaned_data['title']
+	    #pass
+	      form.save()
+		# do something.
+	  else:
+	    
+	    form = ConferenceForm(instance=conference)
+	    auth = "true"
+	    return render_to_response("conference/edit_conference.html", {
+         "auth": auth, "conf_id" : conf_id , "form" : form, "conference" : conference
+	},context_instance=RequestContext(request))
+	
 	else:
-	  form = ConferenceForm(instance=conference)
+	  
+	  auth = "false" 
+          return render_to_response("conference/edit_conference.html", {
+          "conf_id" : conf_id , "auth" : auth, "conference" : conference
+	},context_instance=RequestContext(request)) 
 
 	
-        return render_to_response("conference/edit_conference.html", {
-         "form": form, "conf_id" : conf_id , "conference" : conference
-	},context_instance=RequestContext(request))
+     
       
       

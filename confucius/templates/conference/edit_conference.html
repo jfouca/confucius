@@ -4,15 +4,20 @@
 {% block title %}Edit conference{% endblock %}
 
 {% block content %}
+
+{% if auth == "true" %}
     <h1>  {{ conference.title }}  </h1>
 <br>
 
 <form method="post" action="">
 {% csrf_token %}
-
     {{ form }}
 <br>
 <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+{% else %}
+<h1> You are not authorized to edit this conference </h1>
+
+{% endif %}
 
 {% endblock %}
