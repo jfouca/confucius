@@ -1,12 +1,19 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models.signals import pre_delete
 from confucius.utils import email_to_username
-from django.db import IntegrityError
 
 
 class AccountQuerySet(models.query.QuerySet):
     def delete(self):
+        """
+        We want to delete the User because it will apply the CASCADE strategy
+        to all entities linked to it : basically every model in this file.
+
+        It is necessary to override the delete() method of the default QuerySet
+        as it never calls the delete() method of the model when deleting a
+        set of entities (returned by filter() or all() for instance).
+        """
         for instance in self:
             User.objects.get(pk=instance.user_id).delete()
 
@@ -55,28 +62,6 @@ class Account(models.Model):
             return getattr(self.user, name)
         return super(Account, self).__getattr__(name)
 
-#
-#
-#
-#
-#   ATTENTION !!!!  il semble que la methode setattr cause un soucis dans la page d'admin django, quand on clique sur : "save and add an other"
-#
-#
-#
-#
-#
-
-    def __setattr__(self, name, value):
-        if name in ('username', 'first_name', 'last_name', 'is_active',
-                'check_password', 'set_password'):
-            return setattr(self.user, name, value)
-        return super(Account, self).__setattr__(name, value)
-
-    def __getitem__(self, index):
-        if index in ('username', 'first_name', 'last_name', 'is_active',
-                'check_password', 'set_password'):
-            return self.user[index]
-
     def __unicode__(self):
         return unicode(self.user.first_name+" "+self.user.last_name+" <"+unicode(self.get_main_emailaddress())+">")
 
@@ -84,7 +69,7 @@ class Account(models.Model):
         email_address = EmailAddress(account=self, value=email)
         email_address.save()
 
-    def get_main_emailaddress(self):
+    def get_main_email(self):
         return self.emailaddress_set.get(main=True)
 
     def has_email(self, email):
@@ -99,7 +84,11 @@ class Account(models.Model):
         super(Account, self).save(*args, **kwargs)
 
     def delete(self):
-        Account.objects.filter(pk=self.pk).delete()
+        """
+        We want to delete the User because it will apply the CASCADE strategy
+        to all entities linked to it : basically every model in this file.
+        """
+        User.objects.get(pk=self.user_id).delete()
 
 
 class Address(models.Model):
@@ -133,17 +122,3 @@ class Language(models.Model):
 
     def __unicode__(self):
         return self.value
-""" 
-def delete_emailaddress(sender, instance, **kwargs):
-    if instance.main == True :
-        print str(instance.account.pk) + " - "+ str(EmailAddress.objects.get(account=instance.account.pk).id)
-        raise Exception, "This email address is tagged as Main, you should not delete it"
-
-pre_delete.connect(delete_emailaddress, sender=EmailAddress)
-
-def delete_postaladdress(sender, instance, **kwargs):
-    if instance.main == True :
-        raise Exception, "This postal address is tagged as Main, you should not delete it"
-
-pre_delete.connect(delete_postaladdress, sender=PostalAddress)
-"""

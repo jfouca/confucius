@@ -16,8 +16,11 @@ class AdminAccountForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(AdminAccountForm, self).__init__(*args, **kwargs)
-        self.fields['first_name'].initial = self.instance.first_name
-        self.fields['last_name'].initial = self.instance.last_name
+        try:
+            self.fields['first_name'].initial = self.instance.first_name
+            self.fields['last_name'].initial = self.instance.last_name
+        except Exception:
+            pass
 
     def save(self, *args, **kwargs):
         self.instance.user.first_name = self.cleaned_data['first_name']
