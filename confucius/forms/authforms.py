@@ -23,6 +23,9 @@ class AdminAccountForm(forms.ModelForm):
             pass
 
     def save(self, *args, **kwargs):
+        if self.instance.pk == None :
+            self.instance = Account.objects.create(self.cleaned_data[''],"kikou",self.cleaned_data['last_name']) 
+            
         self.instance.user.first_name = self.cleaned_data['first_name']
         self.instance.user.last_name = self.cleaned_data['last_name']
         self.instance.user.save()
