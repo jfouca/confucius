@@ -1,10 +1,10 @@
 from django.contrib.admin import AdminSite, ModelAdmin, StackedInline
-from confucius.models import Account, PostalAddress, EmailAddress, Language, Conference
+
+from confucius.models import Account, PostalAddress, EmailAddress, Conference
 from confucius.forms.authforms import AdminAccountForm
 
 
 class EmailInline(StackedInline):
-    #TO DO -> Should not be able to delete all email addresses ( must remain at least one ). idea : Verify Profile Model
     model = EmailAddress
     extra = 0
 
@@ -15,10 +15,9 @@ class PostalInline(StackedInline):
 
 
 class AccountAdmin(ModelAdmin):
-    fields = ('first_name','last_name','languages')
+    exclude = ('user',)
     form = AdminAccountForm
     inlines = [EmailInline, PostalInline]
-
 
 
 site = AdminSite()
