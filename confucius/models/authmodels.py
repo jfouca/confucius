@@ -1,5 +1,4 @@
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
 from django.db import models
 from confucius.utils import email_to_username
 
@@ -63,7 +62,7 @@ class Account(models.Model):
         return super(Account, self).__getattr__(name)
 
     def __unicode__(self):
-        return unicode(self.user.first_name+" "+self.user.last_name+" <"+unicode(self.get_main_emailaddress())+">")
+        return unicode(self.user.first_name+" "+self.user.last_name+" <"+unicode(self.get_main_email())+">")
 
     def add_email(self, email):
         email_address = EmailAddress(account=self, value=email)
@@ -102,15 +101,25 @@ class Address(models.Model):
     def __unicode__(self):
         return self.value
 
-# TO DO  --> Check if there is one Main Address and one only !
+    def validate_unique(self, exclude=None):
+        from django.core.exceptions import ValidationError
+
+        # Check that each Account has only one main Address
+        main_address = Account.objects.get(pk=self.account_id)
+        """
+        raise Exception(dict(self))
+        if self is not main_address and self.main:
+            raise ValidationError({'value': [u'There can only be one main '
+                + self._meta.get_field('value').verbose_name]})
+        """
 
 
 class EmailAddress(Address):
-    value = models.EmailField(unique=True, verbose_name="Email")
+    value = models.EmailField(unique=True, verbose_name="email")
 
 
 class PostalAddress(Address):
-    value = models.TextField(verbose_name="Address")
+    value = models.TextField(verbose_name="address")
 
 
 class Language(models.Model):
