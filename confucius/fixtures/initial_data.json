@@ -1,6 +1,239 @@
 [
     {
         "pk": 1, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "ImwWgX1aPDcyH53WzyR1YaycVNI=", 
+            "first_name": "Blu", 
+            "last_name": "Blou", 
+            "is_active": true, 
+            "is_superuser": true, 
+            "is_staff": true, 
+            "last_login": "2012-02-17 10:21:53", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$1da8f$e77bd350be2356d14c9b06e88e6da923baa7b190", 
+            "email": "", 
+            "date_joined": "2012-02-16 01:42:36"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "ImvWgX1aPDcyH53WzyR1YaycVNI=", 
+            "first_name": "Red", 
+            "last_name": "Rey", 
+            "is_active": true, 
+            "is_superuser": true, 
+            "is_staff": true, 
+            "last_login": "2012-02-16 01:42:36", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$1da8f$e77bd350be2356d14c9b06e88e6da923baa7b190", 
+            "email": "", 
+            "date_joined": "2012-02-16 01:42:36"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "ImvWgX1aPDcyH52WzyR1YaycVNI=", 
+            "first_name": "Green", 
+            "last_name": "Gri", 
+            "is_active": true, 
+            "is_superuser": true, 
+            "is_staff": true, 
+            "last_login": "2012-02-16 01:42:36", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$1da8f$e77bd350be2356d14c9b06e88e6da923baa7b190", 
+            "email": "", 
+            "date_joined": "2012-02-16 01:42:36"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "confucius.account", 
+        "fields": {
+            "languages": [
+                53
+            ], 
+            "user": 1
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "confucius.account", 
+        "fields": {
+            "languages": [
+                51
+            ], 
+            "user": 2
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "confucius.account", 
+        "fields": {
+            "languages": [
+                50
+            ], 
+            "user": 3
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "confucius.account_languages", 
+        "fields": {
+            "account": 1, 
+            "language": 53
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "confucius.account_languages", 
+        "fields": {
+            "account": 2, 
+            "language": 51
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "confucius.account_languages", 
+        "fields": {
+            "account": 3, 
+            "language": 50
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "confucius.conference", 
+        "fields": {
+            "startEvaluationDate": "2012-02-17", 
+            "isOpen": false, 
+            "title": "Les castors mutants", 
+            "endEvaluationDate": "2012-02-17", 
+            "startConfDate": "2012-02-17", 
+            "endSubmitDate": "2012-02-17", 
+            "url": "", 
+            "startSubmitDate": "2012-02-17", 
+            "president": 1, 
+            "endConfDate": "2012-02-17"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "confucius.conference", 
+        "fields": {
+            "startEvaluationDate": "2012-02-17", 
+            "isOpen": false, 
+            "title": "je baise ta reum", 
+            "endEvaluationDate": "2012-02-17", 
+            "startConfDate": "2012-02-17", 
+            "endSubmitDate": "2012-02-17", 
+            "url": "", 
+            "startSubmitDate": "2012-02-17", 
+            "president": 3, 
+            "endConfDate": "2012-02-17"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "confucius.conferenceaccountrole", 
+        "fields": {
+            "conference": 1, 
+            "account": 2, 
+            "role": [
+                1
+            ]
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "confucius.conferenceaccountrole", 
+        "fields": {
+            "conference": 1, 
+            "account": 3, 
+            "role": [
+                2
+            ]
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "confucius.conferenceaccountrole", 
+        "fields": {
+            "conference": 2, 
+            "account": 2, 
+            "role": [
+                1, 
+                2
+            ]
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "confucius.conferenceaccountrole_role", 
+        "fields": {
+            "conferenceaccountrole": 1, 
+            "role": 1
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "confucius.conferenceaccountrole_role", 
+        "fields": {
+            "conferenceaccountrole": 2, 
+            "role": 2
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "confucius.conferenceaccountrole_role", 
+        "fields": {
+            "conferenceaccountrole": 3, 
+            "role": 1
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "confucius.conferenceaccountrole_role", 
+        "fields": {
+            "conferenceaccountrole": 3, 
+            "role": 2
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "confucius.emailaddress", 
+        "fields": {
+            "account": 1, 
+            "main": true, 
+            "value": "blu@blu.com"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "confucius.emailaddress", 
+        "fields": {
+            "account": 2, 
+            "main": true, 
+            "value": "red@red.com"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "confucius.emailaddress", 
+        "fields": {
+            "account": 3, 
+            "main": true, 
+            "value": "green@green.com"
+        }
+    }, 
+    {
+        "pk": 1, 
         "model": "confucius.language", 
         "fields": {
             "code": "ar", 
@@ -537,37 +770,18 @@
     }, 
     {
         "pk": 1, 
-        "model": "confucius.account", 
+        "model": "confucius.role", 
         "fields": {
-            "languages": [], 
-            "user": 1
+            "code": "REVI", 
+            "name": "Reviewer"
         }
     }, 
     {
-        "pk": 1, 
-        "model": "confucius.emailaddress", 
+        "pk": 2, 
+        "model": "confucius.role", 
         "fields": {
-            "account": 1, 
-            "main": true, 
-            "value": "blu@blu.com"
-        }
-    }, 
-    {
-        "pk": 1, 
-        "model": "auth.user", 
-        "fields": {
-            "username": "ImwWgX1aPDcyH53WzyR1YaycVNI=", 
-            "first_name": "", 
-            "last_name": "", 
-            "is_active": true, 
-            "is_superuser": true, 
-            "is_staff": true, 
-            "last_login": "2012-02-16 01:42:36", 
-            "groups": [], 
-            "user_permissions": [], 
-            "password": "sha1$1da8f$e77bd350be2356d14c9b06e88e6da923baa7b190", 
-            "email": "", 
-            "date_joined": "2012-02-16 01:42:36"
+            "code": "AUTH", 
+            "name": "Author"
         }
     }
 ]

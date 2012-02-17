@@ -18,7 +18,7 @@ class Conference(models.Model):
     url = models.URLField(blank=True)
     president = models.ForeignKey(Account, related_name="president")
     
-    accounts = models.ManyToManyField(Account, through="ConferenceAccountRole")
+    accounts = models.ManyToManyField(Account, through="ConferenceAccountRole", related_name="conf_to_account")
         
     def __unicode__(self):
         return self.title
@@ -53,11 +53,11 @@ class Role(models.Model):
 class ConferenceAccountRole(models.Model):
     class Meta:
         app_label = "confucius"
-        unique_together = ('account', 'conference', 'role')
+        unique_together = ('account', 'conference',)
 
     account = models.ForeignKey(Account)
     conference = models.ForeignKey(Conference)
-    role = models.ForeignKey(Role)
+    role = models.ManyToManyField(Role)
 
     
 class MessageTemplate(models.Model):

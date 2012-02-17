@@ -21,10 +21,18 @@ class AdminAccountForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         super(AdminAccountForm,self).__init__(*args, **kwargs)
-        self.fields['first_name'].initial = self.instance.first_name
-        self.fields['last_name'].initial = self.instance.last_name
+        if self.instance.pk != None :
+            self.fields['first_name'].initial = self.instance.first_name
+            self.fields['last_name'].initial = self.instance.last_name
+        else :
+            self.fields['first_name'].initial = ""
+            self.fields['last_name'].initial = ""
             
+    # Dont work for a new account
     def save(self, *args, **kwargs):
+        if self.instance.pk == None :
+            self.instance = Account.objects.create(self.cleaned_data[''],"kikou",self.cleaned_data['last_name']) 
+            
         self.instance.user.first_name = self.cleaned_data['first_name']
         self.instance.user.last_name = self.cleaned_data['last_name']
         self.instance.user.save()
