@@ -4,7 +4,7 @@ from django.contrib.auth.views import (login, logout,
         password_reset_complete, password_change, password_change_done)
 
 from confucius.admin import site as admin
-from confucius.views import edit_account, language_autocomplete, main_page, list_conference, edit_conference
+from confucius.views import edit_account, language_autocomplete, main_page, list_conference, edit_conference, create_conference
 
 urlpatterns = patterns('',
     url(r'^$', main_page),
@@ -25,6 +25,5 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.urls)),
     url(r'^conferences/$', list_conference, name='conferences'),
     url(r'^conferences/(?P<conf_id>\d+)/$', edit_conference),
-    
-    
+    url(r'^conf-create/$', create_conference),
 )

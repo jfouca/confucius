@@ -53,11 +53,11 @@ class Role(models.Model):
 class ConferenceAccountRole(models.Model):
     class Meta:
         app_label = "confucius"
-        unique_together = ('account', 'conference',)
+        unique_together = ('account', 'conference', 'role')
 
     account = models.ForeignKey(Account)
     conference = models.ForeignKey(Conference)
-    role = models.ManyToManyField(Role)
+    role = models.ForeignKey(Role)
 
     
 class MessageTemplate(models.Model):
