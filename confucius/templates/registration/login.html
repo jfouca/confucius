@@ -29,7 +29,7 @@
                     </div>
                     <div class="control-group">
                         <div class="controls">
-                            <input type="password" class="input-medium" placeholder="{{ form.password.label }}" name="{{ form.password.html_name }}"> <span class="help-inline"><a href="{{ password_reset }}">Forgot your password?</a></span>
+                            <input type="password" class="input-medium" placeholder="{{ form.password.label }}" name="{{ form.password.html_name }}"> <span class="help-inline"><a href="{% url 'password_reset' %}">Forgot your password?</a></span>
                         </div>
                     </div>
                 </div>
