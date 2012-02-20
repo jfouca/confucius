@@ -1,10 +1,10 @@
 {% extends "base-in.html" %}
 {% load url from future %}
 
-{% block title %}User profile{% endblock %}
+{% block title %}Account{% endblock %}
 
 {% block content_header %}
-<h1>User profile</h1>
+<h1>Account</h1>
 {% endblock %}
 
 {% block content_main %}
@@ -27,42 +27,42 @@
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label">E-mail @ddress(es)</label>
-                <div class="controls" id="emails">
-                    {{ emailaddress_set.management_form }}
-                    {% for email in emailaddress_set %}
-                        <div class="controls-inputs" id="email-{{ email.value.html_name }}">
-                            {{ email.id }}
-                            <input checked="checked" type="checkbox" name="{{ email.main.html_name }}" id="id_{{ email.main.html_name }}" />
-                            <input type="text" class="input-large" placeholder="E-mail" value="{{ email.value.value }}" name="{{ email.value.html_name }}" id="id_{{ email.value.html_name }}">
-                            <span class="help-inline"><a href="#" id="rm-email-{{ email.value.html_name }}" name="{{ email.value.html_name }}"><i class="icon-remove"></i></a> <a href="#" id="add-email"><i class="icon-plus"></i></a></span>
-                        </div>
-                    {% endfor %}
+            <label class="control-label">E-mail address(es)</label>
+            <div class="controls">
+                {{ emailaddress_set.management_form }}
+                {% for email in emailaddress_set %}
+                <div class="controls-inputs">
+                    <p>{{ email.errors.value|striptags }}</p>
+                    M<input type="checkbox" name="{{ email.main.html_name }}" {% if email.main.value %}checked="checked"{% endif %}>
+                    <input type="text" placeholder="E-mail" name="{{ email.value.html_name }}" value="{{ email.value.value|default:'' }}">
+                    D<input type="checkbox" name="{{ email.DELETE.html_name }}">
+                    {{ email.account }}
+                    {{ email.id }}
                 </div>
+                {% endfor %}
             </div>
         </div>
         <div class="control-group">
             <label class="control-label">Physical address(es)</label>
             <div class="controls">
+                {{ postaladdress_set.management_form }}
+                {% for postal in postaladdress_set %}
+                <div class="controls-inputs">
+                    <p>{{ email.errors.value|striptags }}</p>
+                    M<input type="checkbox" name="{{ postal.main.html_name }}" {% if postal.main.value %}checked="checked"{% endif %}>
+                    <textarea placeholder="Address" name="{{ postal.value.html_name }}">{{ postal.value.value|default:'' }}</textarea>
+                    D<input type="checkbox" name="{{ postal.DELETE.html_name }}">
+                    {{ postal.account }}
+                    {{ postal.id }}
+                </div>
+                {% endfor %}
             </div>
         </div>
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Update</button>
+            <input type="submit" class="btn btn-primary" value="Update">
+            <a href="{% url 'password_change' %}" class="btn btn-info">Change my password</a>
+            <a href="{% url 'close_account' %}" class="btn btn-danger">Close my account</a>
         </div>
     </fieldset>
 </form>
-{% endblock %}
-
-{% block script %}
-<script>
-$(document).ready(function() {
-    $('#add-email').live('click', function() {
-        var r = parseInt($('#id_emailaddress_set-TOTAL_FORMS').val());
-        $('#id_emailaddress_set-TOTAL_FORMS').val(r + 1);
-        $('#emails').append('<div class="controls-inputs" id="email-'+r+'"><input type="hidden" name="emailaddress_set-'+r+'-id" id="id_emailaddress_set-'+r+'-id"><input checked="checked" type="checkbox" name="emailaddress_set-'+r+'-main" id="id_emailaddress_set-'+r+'-main"> <input type="text" class="input-large" placeholder="E-mail" name="emailaddress_set-'+r+'-value"> <span class="help-inline"><a href="#" id="rm-email-'+r+'"><i class="icon-remove"></i></a> <a href="#" id="add-email"><i class="icon-plus"></i></a></span></div>');
-        $('#email-'+r).hide();
-        $('#email-'+r).fadeIn('normal');
-    });
-});
-</script>
 {% endblock %}
