@@ -55,15 +55,15 @@ class Account(models.Model):
     class Meta:
         app_label = 'confucius'
 
+    def __unicode__(self):
+        return '%s %s <%s>' % (self.first_name, self.last_name,
+            self.get_main_email())
+
     def __getattr__(self, name):
         if name in ('username', 'first_name', 'last_name', 'is_active',
                 'check_password', 'set_password'):
             return getattr(self.user, name)
         return super(Account, self).__getattr__(name)
-
-    def __unicode__(self):
-        return '%s %s <%s>' % (self.first_name, self.last_name,
-            self.get_main_email())
 
     def add_email(self, email):
         email_address = EmailAddress(account=self, value=email)

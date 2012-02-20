@@ -1,7 +1,7 @@
 from django import forms
 from django.forms.widgets import CheckboxSelectMultiple
 
-from confucius.models import Account,ConferenceAccountRole 
+from confucius.models import Account, ConferenceAccountRole
 
 
 class AdminAccountForm(forms.ModelForm):
@@ -10,7 +10,6 @@ class AdminAccountForm(forms.ModelForm):
 
     class Meta:
         model = Account
-        
 
     def __init__(self, *args, **kwargs):
         super(AdminAccountForm, self).__init__(*args, **kwargs)
@@ -21,14 +20,14 @@ class AdminAccountForm(forms.ModelForm):
             pass
 
     def save(self, *args, **kwargs):
-        if self.instance.pk == None :
-            self.instance = Account.objects.create(self.cleaned_data[''],"kikou",self.cleaned_data['last_name']) 
-            
+        if self.instance.pk == None:
+            self.instance = Account.objects.create(self.cleaned_data[''], "kikou", self.cleaned_data['last_name'])
+
         self.instance.user.first_name = self.cleaned_data['first_name']
         self.instance.user.last_name = self.cleaned_data['last_name']
         self.instance.user.save()
         return super(AdminAccountForm, self).save(*args, **kwargs)
-        
+
 
 class ConferenceAccountRoleForm(forms.ModelForm):
     class Meta:

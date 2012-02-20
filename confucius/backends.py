@@ -11,7 +11,7 @@ class AccountBackend(object):
     def authenticate(self, username=None, password=None):
         try:
             account = Account.objects.get_by_email(username)
-            if account.check_password(password):
+            if account.user.is_active and account.check_password(password):
                 return account.user
         except Account.DoesNotExist:
             pass
