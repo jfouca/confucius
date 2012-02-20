@@ -9,7 +9,7 @@
             "is_active": true, 
             "is_superuser": true, 
             "is_staff": true, 
-            "last_login": "2012-02-17 10:21:53", 
+            "last_login": "2012-02-17 17:17:37", 
             "groups": [], 
             "user_permissions": [], 
             "password": "sha1$1da8f$e77bd350be2356d14c9b06e88e6da923baa7b190", 
@@ -81,128 +81,6 @@
                 50
             ], 
             "user": 3
-        }
-    }, 
-    {
-        "pk": 1, 
-        "model": "confucius.account_languages", 
-        "fields": {
-            "account": 1, 
-            "language": 53
-        }
-    }, 
-    {
-        "pk": 2, 
-        "model": "confucius.account_languages", 
-        "fields": {
-            "account": 2, 
-            "language": 51
-        }
-    }, 
-    {
-        "pk": 3, 
-        "model": "confucius.account_languages", 
-        "fields": {
-            "account": 3, 
-            "language": 50
-        }
-    }, 
-    {
-        "pk": 1, 
-        "model": "confucius.conference", 
-        "fields": {
-            "startEvaluationDate": "2012-02-17", 
-            "isOpen": false, 
-            "title": "Les castors mutants", 
-            "endEvaluationDate": "2012-02-17", 
-            "startConfDate": "2012-02-17", 
-            "endSubmitDate": "2012-02-17", 
-            "url": "", 
-            "startSubmitDate": "2012-02-17", 
-            "president": 1, 
-            "endConfDate": "2012-02-17"
-        }
-    }, 
-    {
-        "pk": 2, 
-        "model": "confucius.conference", 
-        "fields": {
-            "startEvaluationDate": "2012-02-17", 
-            "isOpen": false, 
-            "title": "je baise ta reum", 
-            "endEvaluationDate": "2012-02-17", 
-            "startConfDate": "2012-02-17", 
-            "endSubmitDate": "2012-02-17", 
-            "url": "", 
-            "startSubmitDate": "2012-02-17", 
-            "president": 3, 
-            "endConfDate": "2012-02-17"
-        }
-    }, 
-    {
-        "pk": 1, 
-        "model": "confucius.conferenceaccountrole", 
-        "fields": {
-            "conference": 1, 
-            "account": 2, 
-            "role": [
-                1
-            ]
-        }
-    }, 
-    {
-        "pk": 2, 
-        "model": "confucius.conferenceaccountrole", 
-        "fields": {
-            "conference": 1, 
-            "account": 3, 
-            "role": [
-                2
-            ]
-        }
-    }, 
-    {
-        "pk": 3, 
-        "model": "confucius.conferenceaccountrole", 
-        "fields": {
-            "conference": 2, 
-            "account": 2, 
-            "role": [
-                1, 
-                2
-            ]
-        }
-    }, 
-    {
-        "pk": 1, 
-        "model": "confucius.conferenceaccountrole_role", 
-        "fields": {
-            "conferenceaccountrole": 1, 
-            "role": 1
-        }
-    }, 
-    {
-        "pk": 2, 
-        "model": "confucius.conferenceaccountrole_role", 
-        "fields": {
-            "conferenceaccountrole": 2, 
-            "role": 2
-        }
-    }, 
-    {
-        "pk": 3, 
-        "model": "confucius.conferenceaccountrole_role", 
-        "fields": {
-            "conferenceaccountrole": 3, 
-            "role": 1
-        }
-    }, 
-    {
-        "pk": 4, 
-        "model": "confucius.conferenceaccountrole_role", 
-        "fields": {
-            "conferenceaccountrole": 3, 
-            "role": 2
         }
     }, 
     {
@@ -770,6 +648,101 @@
     }, 
     {
         "pk": 1, 
+        "model": "confucius.conference", 
+        "fields": {
+            "startEvaluationDate": "2012-02-17", 
+            "isOpen": true, 
+            "title": "Les castors mutants", 
+            "endEvaluationDate": "2012-02-17", 
+            "startConfDate": "2012-02-17", 
+            "endSubmitDate": "2012-02-17", 
+            "url": "", 
+            "startSubmitDate": "2012-02-17", 
+            "domains": [
+                1
+            ], 
+            "president": 1, 
+            "endConfDate": "2012-02-17"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "confucius.conference", 
+        "fields": {
+            "startEvaluationDate": "2012-02-17", 
+            "isOpen": true, 
+            "title": "je baise ta reum", 
+            "endEvaluationDate": "2012-02-17", 
+            "startConfDate": "2012-02-17", 
+            "endSubmitDate": "2012-02-17", 
+            "url": "", 
+            "startSubmitDate": "2012-02-17", 
+            "domains": [
+                1
+            ], 
+            "president": 3, 
+            "endConfDate": "2012-02-17"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "confucius.conference", 
+        "fields": {
+            "startEvaluationDate": "2012-02-17", 
+            "isOpen": false, 
+            "title": "les loutres anorexiques", 
+            "endEvaluationDate": "2012-02-17", 
+            "startConfDate": "2012-02-17", 
+            "endSubmitDate": "2012-02-17", 
+            "url": "", 
+            "startSubmitDate": "2012-02-17", 
+            "domains": [
+                1
+            ], 
+            "president": 2, 
+            "endConfDate": "2012-02-29"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "confucius.conference", 
+        "fields": {
+            "startEvaluationDate": "2012-02-17", 
+            "isOpen": false, 
+            "title": "Mauvaise conference", 
+            "endEvaluationDate": "2012-02-17", 
+            "startConfDate": "2011-12-23", 
+            "endSubmitDate": "2012-02-17", 
+            "url": "", 
+            "startSubmitDate": "2012-02-17", 
+            "domains": [
+                1
+            ], 
+            "president": 3, 
+            "endConfDate": "2012-01-01"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "confucius.conference", 
+        "fields": {
+            "startEvaluationDate": "2012-02-17", 
+            "isOpen": true, 
+            "title": "Encore plus tot", 
+            "endEvaluationDate": "2012-02-17", 
+            "startConfDate": "2011-04-13", 
+            "endSubmitDate": "2012-02-17", 
+            "url": "", 
+            "startSubmitDate": "2012-02-17", 
+            "domains": [
+                1
+            ], 
+            "president": 2, 
+            "endConfDate": "2011-10-01"
+        }
+    }, 
+    {
+        "pk": 1, 
         "model": "confucius.role", 
         "fields": {
             "code": "REVI", 
@@ -782,6 +755,108 @@
         "fields": {
             "code": "AUTH", 
             "name": "Author"
+        }
+    },
+    {
+        "pk": 3, 
+        "model": "confucius.role", 
+        "fields": {
+            "code": "PRES", 
+            "name": "President"
+        }
+    },  
+    {
+        "pk": 1, 
+        "model": "confucius.conferenceaccountrole", 
+        "fields": {
+            "conference": 1, 
+            "domains": [
+                1
+            ], 
+            "account": 2, 
+            "role": [
+                1
+            ]
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "confucius.conferenceaccountrole", 
+        "fields": {
+            "conference": 1, 
+            "domains": [
+                1
+            ], 
+            "account": 3, 
+            "role": [
+                2
+            ]
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "confucius.conferenceaccountrole", 
+        "fields": {
+            "conference": 2, 
+            "domains": [
+                1
+            ], 
+            "account": 1, 
+            "role": [
+                1, 
+                2
+            ]
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "confucius.conferenceaccountrole", 
+        "fields": {
+            "conference": 3, 
+            "domains": [
+                1
+            ], 
+            "account": 1, 
+            "role": [
+                2
+            ]
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "confucius.conferenceaccountrole", 
+        "fields": {
+            "conference": 4, 
+            "domains": [
+                1
+            ], 
+            "account": 1, 
+            "role": [
+                2
+            ]
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "confucius.conferenceaccountrole", 
+        "fields": {
+            "conference": 5, 
+            "domains": [
+                1
+            ], 
+            "account": 1, 
+            "role": [
+                1, 
+                2
+            ]
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "confucius.domain", 
+        "fields": {
+            "code": "dqs", 
+            "name": "qsdqsdqsdqsd"
         }
     }
 ]

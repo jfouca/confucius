@@ -1,24 +1,108 @@
-{% extends "base-out.html" %}
+{% extends "base-in.html" %}
 {% load url from future %}
 
-{% block title %}Confucius login{% endblock %}
+{% block title %}Conference {% endblock %}
 
-{% block content %}
+{% block content_header %}
+<h1>Conference List</h1>
+{% endblock %}
 
-    {% if conferences_president %}
-    <p> Liste dont l'utilisateur est president </p>
-    {% for conf in conferences_president %}
-    <h1>  {{ conf.title }}  </h1>
+{% block content_main %}
+
+
+{% if conferences_president %}
+
+    <fieldset>
+	    <h3><div style="background-color: #0088CC; color: #FFFFFF;">
+		    Conferences I am President for...
+	    </div></h3>
+	    <div>
+	        <table class="table">
+			    <tr>
+				    <th>Title</th>
+				    <th>Start Conference Date</th>
+				    <th>End Conference Date</th>
+			    </tr>
+		        {% for conf in conferences_president %}
+				    <tr class="headline">
+				        <td><b>{{ conf.title }}</b></td>
+				        <td>{{ conf.startConfDate }}</td>
+				        <td>{{ conf.endConfDate }}</td>
+			        </tr>
+                {% endfor %}
+		    </table>
+	        </div>
+    {% endif %}
+    <br/><br/><br/>
     
-    {% endfor %}
-    {% endif %}
+    
     {% if conferences_with_role %}
-    <p> Liste dont l'utilisateur a un role standard </p>
-    {% for confaccountrole in conferences_with_role %}
-    <h1>  {{ confaccountrole.conference.title }}  </h1>
-        {% for myrole in confaccountrole.role.all %}
-        <h2>{{ myrole.name }}</h2>
-        {% endfor %}
-    {% endfor %}
+	    <h3><div style="background-color: #0088CC; color: #FFFFFF;">
+		    Conferences I have a Role for...
+	    </div></h3>
+	    <div>
+		    <table class="table">
+			    <tr>
+				    <th>Title</th>
+				    <th>President</th>
+				    <th>Start Conference Date</th>
+				    <th>End Conference Date</th>
+			    </tr>
+		        {% for confaccountrole in conferences_with_role %}
+				    <tr class="headline">
+				        <td><b>{{ confaccountrole.conference.title }}</b></td>
+				        <td>{{ confaccountrole.conference.president }}</td>
+				        <td>{{ confaccountrole.conference.startConfDate }}</td>
+				        <td>{{ confaccountrole.conference.endConfDate }}</td>
+				        <td>0</td>
+				        <td><i class="icon-chevron-down"></i></td>
+			        </tr>
+                        
+					           
+        				<tr>
+				            <td colspan="4">
+					            <div class="contentTextPander">
+        				            {% for myrole in confaccountrole.role.all %} 
+						                <div style="padding: 5px 0px"><a href='#'>{{ myrole.name }}</a></div>
+					                {% endfor %}
+					            </div>
+				            </td>
+			            </tr>
+                    
+                {% endfor %}
+                
+		    </table>
+	        </div>
     {% endif %}
+    </fieldset>
+
+{% endblock %}
+
+
+{% block script %}
+<script>
+$(document).ready(function() {
+    var $textpanderContent = $(".contentTextPander");
+	$(".contentTextPander").hide();
+	$(".headline").click(function(){
+		$(this).next().find(".contentTextPander").slideToggle();
+		
+		var down = "icon-chevron-down";
+		var up = "icon-chevron-up";
+		if ($(this).find("." + up).length){
+			down = "icon-chevron-down";
+			up = "icon-chevron-up";
+		}
+		else{
+			up = "icon-chevron-down";
+			down = "icon-chevron-up";
+		}
+		$(this).find("." + up).toggleClass(down);
+		$(this).find("." + up).removeClass(up);
+	})
+
+    
+});
+
+</script>
 {% endblock %}

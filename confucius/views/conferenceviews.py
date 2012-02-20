@@ -42,9 +42,9 @@ def create_conference(request):
             #ConferenceAccountRole "President" creation for the owner of the conference
             president_role = get_object_or_404(Role, code="PRES")
             new_account_role = ConferenceAccountRole.objects.create(
-                account= owner_account, 
-                role= president_role, 
+                account= owner_account,  
                 conference= new_conference)
+            new_account_role.role.add(president_role)
             
             #Alerte Creation
             new_alert = Alert.objects.create(
