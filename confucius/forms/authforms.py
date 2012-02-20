@@ -7,6 +7,7 @@ from confucius.models import Account, ConferenceAccountRole
 class AdminAccountForm(forms.ModelForm):
     first_name = forms.CharField(max_length=30, required=False)
     last_name = forms.CharField(max_length=30)
+    is_active = forms.BooleanField(required=False)
 
     class Meta:
         model = Account
@@ -16,6 +17,7 @@ class AdminAccountForm(forms.ModelForm):
         try:
             self.fields['first_name'].initial = self.instance.first_name
             self.fields['last_name'].initial = self.instance.last_name
+            self.fields['is_active'].initial = self.instance.is_active
         except Exception:
             pass
 
@@ -25,6 +27,7 @@ class AdminAccountForm(forms.ModelForm):
 
         self.instance.user.first_name = self.cleaned_data['first_name']
         self.instance.user.last_name = self.cleaned_data['last_name']
+        self.instance.user.is_active = self.cleaned_data['is_active']
         self.instance.user.save()
         return super(AdminAccountForm, self).save(*args, **kwargs)
 
