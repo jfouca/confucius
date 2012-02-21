@@ -18,7 +18,7 @@ def main_page(request):
 def edit_account(request):
     account = Account.objects.get(user=request.user)
     UserForm = modelform_factory(User, fields=('first_name', 'last_name',))
-    AccountForm = modelform_factory(Account, exclude=('user',))
+    AccountForm = modelform_factory(Account, exclude=('user','actual_conference'))
     EmailAddressFormSet = inlineformset_factory(Account, EmailAddress, extra=1)
     PostalAddressFormSet = inlineformset_factory(Account, PostalAddress, extra=1)
 

@@ -49,7 +49,7 @@ class AccountManager(models.Manager):
 class Account(models.Model):
     user = models.OneToOneField(User)
     languages = models.ManyToManyField('Language', blank=True)
-    actual_conference = models.ForeignKey('Conference', blank=True)
+    actual_conference = models.ForeignKey('Conference', blank=True, null=True)
 
     objects = AccountManager()
 

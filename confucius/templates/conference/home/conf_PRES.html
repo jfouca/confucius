@@ -1,0 +1,22 @@
+{% extends "base-in.html" %}
+{% load url from future %}
+
+{% block title %}President home conference{% endblock %}
+
+{% block content_header %}
+{% endblock %}
+
+{% block content_main %}
+
+<h1>Tableau de bord</h1>
+<br/>
+
+<h3> Soumissions </h3>
+
+<h3> Evaluations </h3>
+
+<h3> Alertes </h3>
+
+<a href="{% url 'edit_conference' conference.pk %}">Editer la conférence</a>
+
+{% endblock %}
