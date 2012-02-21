@@ -5,7 +5,11 @@
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
-            <a class="brand" href="#">Confucius Project</a>
+            {% if user.account.actual_conference %}
+                <a class="brand" href="{% url 'home_conference' user.account.actual_conference.pk %}">Conference: {{ user.account.actual_conference.title }}</a>
+            {% else %}
+                <a class="brand" href="{% url 'conferences' %}">Confucius Project</a>
+            {% endif %}
             <div class="nav-collapse">
                 <div class="navbar-text pull-right"><i class="icon-user icon-white"></i> Logged in as <a href="/account">{{ user.first_name }} {{ user.last_name }}</a> | <a href="{% url 'logout' %}">Logout</a></div>
             </div>
