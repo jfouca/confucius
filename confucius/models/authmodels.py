@@ -55,14 +55,15 @@ class Account(models.Model):
     class Meta:
         app_label = 'confucius'
 
+    def __unicode__(self):
+        return '%s %s <%s>' % (self.first_name, self.last_name,
+            self.get_main_email())
+
     def __getattr__(self, name):
         if name in ('username', 'first_name', 'last_name', 'is_active',
                 'check_password', 'set_password'):
             return getattr(self.user, name)
         return super(Account, self).__getattr__(name)
-
-    def __unicode__(self):
-        return unicode(self.user.first_name+" "+self.user.last_name+" <"+unicode(self.get_main_email())+">")
 
     def add_email(self, email):
         email_address = EmailAddress(account=self, value=email)
@@ -101,17 +102,12 @@ class Address(models.Model):
     def __unicode__(self):
         return self.value
 
-    def validate_unique(self, exclude=None):
-        from django.core.exceptions import ValidationError
+    def save(self, *args, **kwargs):
+        if self.main:
+            self.__class__.objects.filter(account=self.account,
+                main=True).update(main=False)
 
-        # Check that each Account has only one main Address
-        main_address = Account.objects.get(pk=self.account_id)
-        """
-        raise Exception(dict(self))
-        if self is not main_address and self.main:
-            raise ValidationError({'value': [u'There can only be one main '
-                + self._meta.get_field('value').verbose_name]})
-        """
+        super(Address, self).save(*args, **kwargs)
 
 
 class EmailAddress(Address):
