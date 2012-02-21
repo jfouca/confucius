@@ -25,7 +25,7 @@
 			    </tr>
 		        {% for conf in conferences_president %}
 				    <tr class="headline">
-				        <td><b><a href="{%url 'home_conference' conf.pk %}">{{ conf.title }}</a></b></td>
+				        <td><b><a href="{%url 'change_conference' conf.pk %}">{{ conf.title }}</a></b></td>
 				        <td>{{ conf.startConfDate }}</td>
 				        <td>{{ conf.endConfDate }}</td>
 			        </tr>
@@ -63,7 +63,7 @@
 				            <td colspan="4">
 					            <div class="contentTextPander">
         				            {% for myrole in confaccountrole.role.all %} 
-						                <div style="padding: 5px 0px"><a href="{% url 'home_conference' confaccountrole.conference.pk %}">{{ myrole.name }}</a></div>
+						                <div style="padding: 5px 0px"><a href="{% url 'change_conference' confaccountrole.conference.pk %}">{{ myrole.name }}</a></div>
 					                {% endfor %}
 					            </div>
 				            </td>

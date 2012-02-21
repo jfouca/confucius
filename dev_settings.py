@@ -56,4 +56,4 @@ INSTALLED_APPS = (
 AUTHENTICATION_BACKENDS = ('confucius.backends.AccountBackend',)
 
 LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/conferences/'
+LOGIN_REDIRECT_URL = '/conference/home'

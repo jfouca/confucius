@@ -6,7 +6,7 @@
     <div class="navbar-inner">
         <div class="container">
             {% if user.account.actual_conference %}
-                <a class="brand" href="{% url 'home_conference' user.account.actual_conference.pk %}">Conference: {{ user.account.actual_conference.title }}</a>
+                <a class="brand" href="{% url 'home_conference' %}">Conference: {{ user.account.actual_conference.title }}</a>
             {% else %}
                 <a class="brand" href="{% url 'conferences' %}">Confucius Project</a>
             {% endif %}
@@ -37,11 +37,15 @@
         <div class="span2">
             <div class="well sidebar-nav">
                 <ul class="nav nav-list">
+                    {% if user.account.actual_conference %}
+                        <li class="nav-header"><a href="{% url 'home_conference' %}">Dashboard</a></li>
+                        <li class="nav-header"><a href="#">Papers</a></li>
+                        <li class="nav-header"><a href="#">Reviews</a></li>
+                        <li class="nav-header">&nbsp;</li>
+                        <li class="nav-header">&nbsp;</li>
+                    {% endif %}
                     <li class="nav-header active"><a href="{% url 'account' %}">Account</a></li>
-                    <li class="nav-header"><a href="#">Dashboard</a></li>
                     <li class="nav-header"><a href="{% url 'conferences' %}">Conferences</a></li>
-                    <li class="nav-header"><a href="#">Papers</a></li>
-                    <li class="nav-header"><a href="#">Reviews</a></li>
                 </ul>
             </div><!--/.well -->
         </div><!--/span-->
