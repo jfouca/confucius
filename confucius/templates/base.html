@@ -7,6 +7,20 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css" />
     <script src="{{ STATIC_URL }}jquery.js"></script>
     <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
+    <script src="/my_admin/jsi18n/"></script>
+    <script src="{{ STATIC_URL }}/admin/js/core.js"></script>
+	{% load adminmedia %} 
+    <script >
+	window.__admin_media_prefix__ = "{% filter escapejs %}{% admin_media_prefix %}{% endfilter %}";
+    </script>
+
+
+
+
+
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/admin/css/widgets.css"/>
+    {{ form.media }} 
+
 </head>
 
 <body>
