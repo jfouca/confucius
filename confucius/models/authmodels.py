@@ -3,6 +3,7 @@ from django.db import models
 from confucius.utils import email_to_username
 
 
+
 class AccountQuerySet(models.query.QuerySet):
     def delete(self):
         """
@@ -127,3 +128,12 @@ class Language(models.Model):
 
     def __unicode__(self):
         return self.value
+        
+class ActivationKey(models.Model):
+    hash_code = models.CharField(max_length=64)
+    linked_account = models.ForeignKey(Account)
+    expiration_date = models.DateField()
+    
+    class Meta:
+        app_label = "confucius"
+

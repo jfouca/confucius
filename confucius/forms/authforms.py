@@ -1,7 +1,8 @@
 from django import forms
 from django.forms.widgets import CheckboxSelectMultiple
+from django.utils.translation import ugettext, ugettext_lazy as _
 
-from confucius.models import Account, ConferenceAccountRole
+from confucius.models import Account, Language, ConferenceAccountRole
 
 
 class AdminAccountForm(forms.ModelForm):
@@ -38,3 +39,15 @@ class ConferenceAccountRoleForm(forms.ModelForm):
         widgets = {
             'role': CheckboxSelectMultiple(),
         }
+        
+class CreateAccountForm(forms.Form):
+    first_name = forms.CharField(max_length=30, required=False)
+    last_name = forms.CharField(max_length=30)
+    email = forms.EmailField()
+    password_1 = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
+    password_2 = forms.CharField(label=_("Password confirmation	"), widget=forms.PasswordInput, help_text = _("Enter the same password as above, for verification."))
+    language = forms.ModelChoiceField(label=_("Native Language"), queryset = Language.objects.all())
+    error_messages = {
+        'duplicate_username': _("A user with that email already exists."),
+        'password_mismatch': _("The two password fields didn't match."),
+    }
