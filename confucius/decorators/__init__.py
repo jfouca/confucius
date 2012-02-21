@@ -1,0 +1,1 @@
+from confucius.decorators.confdecorators import (user_in_conference)
