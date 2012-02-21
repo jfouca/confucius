@@ -22,7 +22,7 @@ class AccountRoleConfInLine(StackedInline):
 
 
 class AccountAdmin(ModelAdmin):
-    exclude = ('user',)
+    exclude = ('user','actual_conference')
     form = AdminAccountForm
     inlines = [EmailInline, PostalInline]
 

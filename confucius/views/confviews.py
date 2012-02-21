@@ -3,17 +3,35 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
-from confucius.models import Conference, ConferenceAccountRole
+from confucius.models import Conference, ConferenceAccountRole, Account, Role
 from django.forms.models import modelform_factory
 
-from confucius.decorators import user_in_conference
+from confucius.decorators import user_gotRole_in_conference
  
 
  
 @login_required
-@user_in_conference
+@user_gotRole_in_conference()
 def home_conference(request, conf_id): 
-    return HttpResponse("<html><body>Ca marche.</body></html>")
+    conference = Conference.objects.get(pk=conf_id)
+    
+    # Change conference
+    account = Account.objects.get(user=request.user)
+    account.actual_conference = conference
+    account.save()
+    
+    directory = "conference/home/"
+    if conference.president == account:
+        roles = ()
+        template = "conf_PRES.html"
+        #Pour le livrable 3, voir 4, il faudra creer des listes d'evaluation, de soumissions et d'alertes 
+    else:
+        roles = ConferenceAccountRole.objects.get(conference=conference, account=account).role.all()
+        template = "conf_AUTHREVI.html"
+    
+    
+    return render_to_response(directory+template, {'conference' : conference, 'roles': roles, 'rolesCode': [role.code for role in roles]}, context_instance=RequestContext(request))
+
  
  
 @login_required

@@ -6,16 +6,16 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 	
 	
-def user_in_conference():
+def user_gotRole_in_conference():
     def decorator(func):
         def inner_decorator(request, *args, **kwargs):
 	    account = Account.objects.get(user=request.user)
 	    conference = Conference.objects.get(pk=kwargs['conf_id'])
 	    
 	    if len(ConferenceAccountRole.objects.filter(account=account, conference=conference)) == 1 or conference.president == account:
-		return func(request, *args, **kwargs)
+		    return func(request, *args, **kwargs)
 	    else:
-		return render_to_response("conference/no_access_conference.html",{},context_instance=RequestContext(request)) 
+		    return render_to_response("conference/no_access_conference.html",{},context_instance=RequestContext(request)) 
 
         return wraps(func)(inner_decorator)
 
