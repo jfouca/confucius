@@ -33,7 +33,7 @@ def edit_account(request):
                 f.save()
             else:
                 return render_to_response('account/edit_account.html', {
-        'user': user_form, 'emailaddress_set': emailaddress_set,
+        'userform': user_form, 'emailaddress_set': emailaddress_set,
         'postaladdress_set': postaladdress_set, 'account': account_form
         }, context_instance=RequestContext(request))
 
@@ -45,7 +45,7 @@ def edit_account(request):
         postaladdress_set = PostalAddressFormSet(instance=account)
 
     return render_to_response('account/edit_account.html', {
-        'user': user_form, 'emailaddress_set': emailaddress_set,
+        'userform': user_form, 'emailaddress_set': emailaddress_set,
         'postaladdress_set': postaladdress_set, 'account': account_form
         }, context_instance=RequestContext(request))
 

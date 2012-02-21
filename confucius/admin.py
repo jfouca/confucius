@@ -33,7 +33,4 @@ class ConferenceAdmin(ModelAdmin):
 site = AdminSite()
 site.register(Account, AccountAdmin)
 site.register(Conference, ConferenceAdmin)
-site.register(Role)
-site.register(ConferenceAccountRole)
-site.register(Alert)
 site.register(Domain)

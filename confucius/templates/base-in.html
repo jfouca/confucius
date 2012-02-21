@@ -5,9 +5,9 @@
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
-            <!--<a class="brand" href="#">Conference : The marines castors</a>-->
+            <a class="brand" href="#">Confucius Project</a>
             <div class="nav-collapse">
-                <div class="navbar-text pull-right"><i class="icon-user icon-white"></i> Logged in as <a href="#">{{ user.first_name.value }} {{ user.last_name.value }}</a> | <a href="{% url 'logout' %}">Logout</a></div>
+                <div class="navbar-text pull-right"><i class="icon-user icon-white"></i> Logged in as <a href="#">{{ user.first_name }} {{ user.last_name }}</a> | <a href="{% url 'logout' %}">Logout</a></div>
             </div>
         </div>
     </div>
