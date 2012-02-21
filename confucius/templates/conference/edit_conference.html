@@ -1,12 +1,17 @@
-{% extends "base-out.html" %}
+{% extends "base-in.html" %}
 {% load url from future %}
 
-{% block title %}Edit conference{% endblock %}
+{% block title %}Edit Conference {% endblock %}
 
-{% block content %}
+{% block content_header %}
+<h1>Edit</h1>
+{% endblock %}
+
+{% block content_main %}
+
 
 {% if auth == "true" %}
-    <h1>  {{ conference.title }}  </h1>
+    <h2>  {{ conference.title }}  </h2>
 <br>
 
 <form method="post" action="">
