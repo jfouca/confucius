@@ -26,7 +26,10 @@ def create_conference(request):
         if form.is_valid():
             conference_title = form.cleaned_data['title']
             owner_account_id = form.cleaned_data['account'].pk
+            
+            #testing account and role presence
             owner_account = get_object_or_404(Account, pk=owner_account_id)
+            president_role = get_object_or_404(Role, code="PRES")
             
             #Conference creation
             new_conference = Conference.objects.create(
@@ -40,7 +43,6 @@ def create_conference(request):
                 endEvaluationDate=datetime.now())
             
             #ConferenceAccountRole "President" creation for the owner of the conference
-            president_role = get_object_or_404(Role, code="PRES")
             new_account_role = ConferenceAccountRole.objects.create(
                 account= owner_account,  
                 conference= new_conference)
