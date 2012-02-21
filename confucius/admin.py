@@ -1,9 +1,8 @@
 from django.contrib.admin import AdminSite, ModelAdmin, StackedInline
 
-from confucius.models import (Account, PostalAddress, EmailAddress, Conference,
-        ConferenceAccountRole, Domain)
-from confucius.forms.authforms import (AdminAccountForm,
-        ConferenceAccountRoleForm)
+from confucius.models import Account, PostalAddress, EmailAddress, Language, Conference, Role, ConferenceAccountRole, Alert, Domain
+from confucius.forms.authforms import AdminAccountForm, ConferenceAccountRoleForm
+from django.forms.widgets import CheckboxSelectMultiple
 
 
 class EmailInline(StackedInline):
@@ -34,4 +33,7 @@ class ConferenceAdmin(ModelAdmin):
 site = AdminSite()
 site.register(Account, AccountAdmin)
 site.register(Conference, ConferenceAdmin)
+site.register(Role)
+site.register(ConferenceAccountRole)
+site.register(Alert)
 site.register(Domain)

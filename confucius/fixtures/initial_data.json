@@ -756,7 +756,15 @@
             "code": "AUTH", 
             "name": "Author"
         }
-    }, 
+    },
+    {
+        "pk": 3, 
+        "model": "confucius.role", 
+        "fields": {
+            "code": "PRES", 
+            "name": "President"
+        }
+    },  
     {
         "pk": 1, 
         "model": "confucius.conferenceaccountrole", 
