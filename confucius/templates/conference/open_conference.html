@@ -1,0 +1,21 @@
+{% extends "base-out.html" %}
+{% load url from future %}
+
+{% block title %}Are you sure you want to open your conference ?{% endblock %}
+
+{% block content %}
+<div class="modal">
+    <div class="modal-header">
+        <h3>Are you sure you want to open the conference: {{ conference.title }} ?</h3>
+        <p></p>
+    </div>
+    <div class="modal-body">
+        <form action="{% url 'open_conference' %}" method="post">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-primary" value="YES I AM SURE, open the conference">
+            <a href="{% url 'home_conference' %}" class="btn btn-danger">NO I DON'T WANT, return</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
