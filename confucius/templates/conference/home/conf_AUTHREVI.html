@@ -1,0 +1,25 @@
+{% extends "base-in.html" %}
+{% load url from future %}
+
+{% block title %}Home conference{% endblock %}
+
+{% block content_header %}
+{% endblock %}
+
+{% block content_main %}
+
+<h1>Tableau de bord</h1>
+<br/>
+
+{% if "AUTH" in rolesCode %}
+    <h3>Derniers papiers postés</h3>
+    <br/>
+{% endif %}
+
+
+{% if "REVI" in rolesCode %}
+    <h3>Dernières évaluations</h3>
+    <br/>
+{% endif %}
+
+{% endblock %}

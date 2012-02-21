@@ -11,7 +11,8 @@
     <div class="modal-body">
         <form action="{% url 'close_account' %}" method="post">
             {% csrf_token %}
-            <input type="submit" class="btn btn-danger" value="I am sure, close my account">
+            <input type="submit" class="btn btn-primary" value="YES I AM SURE, close my account">
+            <a href="{% url 'account' %}" class="btn btn-danger">NO I DONT WANT, return</a>
         </form>
     </div>
 </div>

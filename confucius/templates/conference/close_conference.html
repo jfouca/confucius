@@ -1,0 +1,21 @@
+{% extends "base-out.html" %}
+{% load url from future %}
+
+{% block title %}Are you sure you want to close this conference ?{% endblock %}
+
+{% block content %}
+<div class="modal">
+    <div class="modal-header">
+        <h3>Are you sure you want to close this conference ?</h3>
+        <p></p>
+    </div>
+    <div class="modal-body">
+        <form action="{% url 'close_account' %}" method="post">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-primary" value="YES I AM SURE, close my account">
+            <a href="{% url 'account' %}" class="btn btn-danger">NO I DONT WANT, return</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
+

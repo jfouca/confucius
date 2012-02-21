@@ -60,7 +60,8 @@
             "languages": [
                 53
             ], 
-            "user": 1
+            "user": 1,
+            "actual_conference": 1
         }
     }, 
     {
@@ -70,7 +71,8 @@
             "languages": [
                 51
             ], 
-            "user": 2
+            "user": 2,
+            "actual_conference": 1
         }
     }, 
     {
@@ -80,7 +82,8 @@
             "languages": [
                 50
             ], 
-            "user": 3
+            "user": 3,
+            "actual_conference": 1
         }
     }, 
     {
@@ -671,7 +674,7 @@
         "fields": {
             "startEvaluationDate": "2012-02-17", 
             "isOpen": true, 
-            "title": "je baise ta reum", 
+            "title": "Dimmu Borgir", 
             "endEvaluationDate": "2012-02-17", 
             "startConfDate": "2012-02-17", 
             "endSubmitDate": "2012-02-17", 

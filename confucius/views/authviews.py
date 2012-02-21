@@ -18,7 +18,7 @@ def main_page(request):
 def edit_account(request):
     account = Account.objects.get(user=request.user)
     UserForm = modelform_factory(User, fields=('first_name', 'last_name',))
-    AccountForm = modelform_factory(Account, exclude=('user',))
+    AccountForm = modelform_factory(Account, exclude=('user','actual_conference'))
     EmailAddressFormSet = inlineformset_factory(Account, EmailAddress, extra=1)
     PostalAddressFormSet = inlineformset_factory(Account, PostalAddress, extra=1)
 
@@ -33,7 +33,7 @@ def edit_account(request):
                 f.save()
             else:
                 return render_to_response('account/edit_account.html', {
-        'user': user_form, 'emailaddress_set': emailaddress_set,
+        'userform': user_form, 'emailaddress_set': emailaddress_set,
         'postaladdress_set': postaladdress_set, 'account': account_form
         }, context_instance=RequestContext(request))
 
@@ -45,7 +45,7 @@ def edit_account(request):
         postaladdress_set = PostalAddressFormSet(instance=account)
 
     return render_to_response('account/edit_account.html', {
-        'user': user_form, 'emailaddress_set': emailaddress_set,
+        'userform': user_form, 'emailaddress_set': emailaddress_set,
         'postaladdress_set': postaladdress_set, 'account': account_form
         }, context_instance=RequestContext(request))
 
