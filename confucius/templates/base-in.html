@@ -18,11 +18,15 @@
 <div class="container">
     <div class="row">
         {% block subtopbar %}
-        <!--<div class="span12 db-top">
+        {% if user.account.actual_conference %}
+        <div class="span12 db-top">
             <div class="db-top-inner-min">
-                <i class="icon-calendar icon-white"></i> Conference is the 21/21/21 | <i class="icon-info-sign icon-white"></i> Submissions end at 21/21/21 | <i class="icon-exclamation-sign icon-white"></i> Evaluations end at 21/21/21
+                <i class="icon-calendar icon-white"></i> Conference starts on the {{ user.account.actual_conference.startConfDate|date:"m/d/y" }} | 
+                <i class="icon-info-sign icon-white"></i> Submissions ends at {{ user.account.actual_conference.endSubmitDate|date:"m/d/y" }} | 
+                <i class="icon-exclamation-sign icon-white"></i> Evaluations ends at {{ user.account.actual_conference.endEvaluationDate|date:"m/d/y" }}
             </div>
-        </div>-->
+        </div>
+        {% endif %}
         {% endblock %}
 
         {% block sidebar %}
