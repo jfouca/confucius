@@ -8,7 +8,12 @@
 
 {% block content_main %}
 
-<h1>Dashboard</h1>
+<h1>Dashboard ( 
+{% for role in roles %}
+    {{role}} 
+{% endfor %}
+)
+</h1>
 <br/>
 
 {% if "AUTH" in rolesCode %}
