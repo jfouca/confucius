@@ -1,10 +1,10 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-from confucius.models import BaseConfucius
+from confucius.models import ConfuciusModel
 
 
-class Conference(BaseConfucius):
+class Conference(ConfuciusModel):
     title = models.CharField(max_length=100, unique=True, default=None)
     isOpen = models.BooleanField(default='False')
     startConfDate = models.DateField()
@@ -22,20 +22,20 @@ class Conference(BaseConfucius):
         return self.title
 
 
-class Alert(BaseConfucius):
+class Alert(ConfuciusModel):
     title = models.CharField(max_length=100, default=None)
     date = models.DateField()
     content = models.TextField(default=None)
     conference = models.ForeignKey(Conference)
 
-    class Meta(BaseConfucius.meta):
+    class Meta(ConfuciusModel.Meta):
         unique_together = ('title', 'conference',)
 
     def __unicode__(self):
         return self.title
 
 
-class Role(BaseConfucius):
+class Role(ConfuciusModel):
     code = models.CharField(max_length=4, default=None)
     name = models.CharField(max_length=50, default=None)
 
@@ -43,33 +43,33 @@ class Role(BaseConfucius):
         return self.name
 
 
-class ConferenceAccountRole(BaseConfucius):
+class ConferenceAccountRole(ConfuciusModel):
     account = models.ForeignKey(User)
     conference = models.ForeignKey(Conference)
     role = models.ManyToManyField('Role')
     domains = models.ManyToManyField('Domain')
 
-    class Meta(BaseConfucius.Meta):
+    class Meta(ConfuciusModel.Meta):
         unique_together = ('account', 'conference')
 
 
-class MessageTemplate(BaseConfucius):
+class MessageTemplate(ConfuciusModel):
     title = models.CharField(max_length=100, default=None)
     content = models.TextField(default=None)
     conference = models.ForeignKey(Conference)
 
-    class Meta(BaseConfucius.Meta):
+    class Meta(ConfuciusModel.Meta):
         unique_together = ('title', 'conference')
 
     def __unicode__(self):
         return self.title
 
 
-class Domain(BaseConfucius):
+class Domain(ConfuciusModel):
     code = models.CharField(max_length=4, default=None)
     name = models.CharField(max_length=50, default=None, verbose_name="Domain")
 
-    class Meta(BaseConfucius.Meta):
+    class Meta(ConfuciusModel.Meta):
         unique_together = ('code',)
 
     def __unicode__(self):

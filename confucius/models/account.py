@@ -1,19 +1,10 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-
-class BaseConfucius(models.Model):
-    """
-    Base class for models which belong to confucius.
-    Used mainly to avoid adding a Meta class with the
-    right app_label for each model.
-    """
-    class Meta:
-        abstract = True
-        app_label = 'confucius'
+from confucius.models import ConfuciusModel
 
 
-class Email(BaseConfucius):
+class Email(ConfuciusModel):
     user = models.ForeignKey(User, related_name='emails')
     main = models.BooleanField(default=False)
     value = models.EmailField(unique=True)
@@ -36,7 +27,7 @@ class Email(BaseConfucius):
         return self.value
 
 
-class Address(BaseConfucius):
+class Address(ConfuciusModel):
     user = models.ForeignKey(User, related_name='addresses')
     value = models.TextField()
 
@@ -44,7 +35,7 @@ class Address(BaseConfucius):
         return self.value
 
 
-class Language(BaseConfucius):
+class Language(ConfuciusModel):
     users = models.ManyToManyField(User, related_name='languages')
     code = models.CharField(max_length=5)
     value = models.CharField(max_length=25)
