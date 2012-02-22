@@ -561,5 +561,145 @@
             "code": "zh-tw", 
             "value": "Traditional Chinese"
         }
+    },
+    {
+        "pk": 1,
+        "model": "confucius.role",
+        "fields": {
+            "code": "C",
+            "name": "Chair"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "confucius.role",
+        "fields": {
+            "code": "R",
+            "name": "Reviewer"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "confucius.role",
+        "fields": {
+            "code": "S",
+            "name": "Submitter"
+        }
+    },
+    {
+        "pk": 1, 
+        "model": "confucius.conference", 
+        "fields": {
+            "reviews_start_date": "2012-02-17", 
+            "is_open": true, 
+            "title": "Les castors mutants", 
+            "reviews_end_date": "2012-02-17", 
+            "start_date": "2012-02-17", 
+            "submissions_end_date": "2012-02-17", 
+            "url": "", 
+            "submissions_start_date": "2012-02-17", 
+            "domains": [
+                1
+            ], 
+            "president": 1, 
+            "end_date": "2012-02-17"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "confucius.conference", 
+        "fields": {
+            "reviews_start_date": "2012-02-17", 
+            "is_open": true, 
+            "title": "Dimmu Borgir", 
+            "reviews_end_date": "2012-02-17", 
+            "start_date": "2012-02-17", 
+            "submissions_end_date": "2012-02-17", 
+            "url": "", 
+            "submissions_start_date": "2012-02-17", 
+            "domains": [
+                1
+            ], 
+            "president": 3, 
+            "end_date": "2012-02-17"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "confucius.conference", 
+        "fields": {
+            "reviews_start_date": "2012-02-17", 
+            "is_open": false, 
+            "title": "les loutres anorexiques", 
+            "reviews_end_date": "2012-02-17", 
+            "start_date": "2012-02-17", 
+            "submissions_end_date": "2012-02-17", 
+            "url": "", 
+            "submissions_start_date": "2012-02-17", 
+            "domains": [
+                1
+            ], 
+            "president": 2, 
+            "end_date": "2012-02-29"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "confucius.conference", 
+        "fields": {
+            "reviews_start_date": "2012-02-17", 
+            "is_open": false, 
+            "title": "Mauvaise conference", 
+            "reviews_end_date": "2012-02-17", 
+            "start_date": "2011-12-23", 
+            "submissions_end_date": "2012-02-17", 
+            "url": "", 
+            "submissions_start_date": "2012-02-17", 
+            "domains": [
+                1
+            ], 
+            "president": 3, 
+            "end_date": "2012-01-01"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "confucius.conference", 
+        "fields": {
+            "reviews_start_date": "2012-02-17", 
+            "is_open": true, 
+            "title": "Encore plus tot", 
+            "reviews_end_date": "2012-02-17", 
+            "start_date": "2011-04-13", 
+            "submissions_end_date": "2012-02-17", 
+            "url": "", 
+            "submissions_start_date": "2012-02-17", 
+            "domains": [
+                1
+            ], 
+            "president": 2, 
+            "end_date": "2011-10-01"
+        }
+    },
+    {
+        "pk": 1, 
+        "model": "confucius.domain", 
+        "fields": {
+            "name": "Red domain"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "confucius.domain", 
+        "fields": {
+            "name": "Blu domain"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "confucius.domain", 
+        "fields": {
+            "name": "Green domain"
+        }
     }
 ]

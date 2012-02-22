@@ -28,7 +28,7 @@ class Conference(ConfuciusModel):
     reviews_end_date = models.DateField()
     url = models.URLField(blank=True)
     president = models.ForeignKey(User, related_name='chaired_conferences')
-    users = models.ManyToManyField(User, through='Role')
+    users = models.ManyToManyField(User, through='Membership')
     domains = models.ManyToManyField('Domain')
 
     def __unicode__(self):
@@ -40,6 +40,16 @@ class Domain(ConfuciusModel):
 
     def __unicode__(self):
         return self.name
+
+
+class Membership(ConfuciusModel):
+    user = models.ForeignKey(User)
+    conference = models.ForeignKey(Conference)
+    roles = models.ManyToManyField('Role')
+    domains = models.ManyToManyField(Domain)
+
+    class Meta(ConfuciusModel.Meta):
+        unique_together = ('user', 'conference')
 
 
 class MessageTemplate(ConfuciusModel):
@@ -55,15 +65,8 @@ class MessageTemplate(ConfuciusModel):
 
 
 class Role(ConfuciusModel):
-    user = models.ForeignKey(User)
-    conference = models.ForeignKey(Conference)
-    role = models.CharField(max_length=1,
-        choices=(
-            ('C', 'Chair'),
-            ('R', 'Reviewer'),
-            ('S', 'Submitter'),
-    ))
-    domains = models.ManyToManyField(Domain)
+    code = models.CharField(max_length=1)
+    name = models.CharField(max_length=9)
 
-    class Meta(ConfuciusModel.Meta):
-        unique_together = ('user', 'conference')
+    def __unicode__(self):
+        return self.name

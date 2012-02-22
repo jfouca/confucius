@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
 from django.contrib.auth.models import User
 
 from confucius.forms import AddressFormSet, EmailFormSet, UserCreationForm, UserForm
-from confucius.models import Address, Conference, Domain, Email, Role
+from confucius.models import Address, Conference, Domain, Email, Membership
 
 
 class AdminUserForm(UserForm):
@@ -85,12 +85,19 @@ class UserAdmin(AuthUserAdmin):
             yield inline.get_formset(request, obj)
 
 
-class RoleInline(admin.StackedInline):
-    model = Role
+class MembershipInline(admin.StackedInline):
+    from django import forms
+    from django.db import models
+
+    extra = 0
+    formfield_overrides = {
+        models.ManyToManyField: {'widget': forms.CheckboxSelectMultiple},
+    }
+    model = Membership
 
 
 class ConferenceAdmin(admin.ModelAdmin):
-    inlines = (RoleInline,)
+    inlines = (MembershipInline,)
 
 
 site = admin.AdminSite()
