@@ -4,11 +4,7 @@ from django.contrib.auth.views import (login, logout,
         password_reset_complete, password_change, password_change_done)
 from django.contrib import admin 
 from confucius.admin import site as admin
-<<<<<<< HEAD
-from confucius.views import close_account, confirm_close_account, edit_account, main_page, list_conference, edit_conference, create_conference, create_account, activate_account, home_conference
-=======
-from confucius.views import close_account, edit_account, main_page, list_conference, edit_conference, create_conference, home_conference, change_conference, close_conference, open_conference
->>>>>>> 42cd03629803d192089d4a91640a1a02ff03db5a
+from confucius.views import close_account, edit_account, main_page, list_conference, edit_conference, create_conference, home_conference, change_conference, close_conference, open_conference, create_account, activate_account
 
 urlpatterns = patterns('',
     url(r'^$', main_page),
