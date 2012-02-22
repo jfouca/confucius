@@ -1,16 +1,18 @@
 {% extends "base-out.html" %}
 {% load url from future %}
 
-{% block title %}Are you sure you want to open the conference "{{ conference.title }}"?{% endblock %}
+{% block title %}Open ?{% endblock %}
 
 {% block content %}
 <div class="modal">
     <div class="modal-header">
-        <h3>Your conference {{ conference.title }} is now open.</h3>
+        <h3>Open</h3>
     </div>
     <div class="modal-body">
-        <a href="{% url 'home_conference' %}" class="btn btn-primary">Back to the Dashboard</a>
+        Your conference <b>{{ conference.title }}</b> is now open.
+    </div>
+    <div class="modal-footer">
+        <a href="{% url 'edit_conference' %}" class="btn btn-primary">Edit the conference</a>
     </div>
 </div>
 {% endblock %}
-
