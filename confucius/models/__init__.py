@@ -1,4 +1,1 @@
-from confucius.models.account import (Email, Address, Language)
-
-
-__all__ = ['Email', 'Address', 'Language']
+from confucius.models.account import (Address, BaseConfucius, Email, Language)
