@@ -19,7 +19,6 @@ class EditConfForm(forms.ModelForm):
 
     class Meta:
         model = Conference
-        exclude = ('title', 'users', 'president', 'help_text')
         widgets = {
             'startConfDate': AdminDateWidget(),
             'endConfDate': AdminDateWidget(),
@@ -29,3 +28,4 @@ class EditConfForm(forms.ModelForm):
             'endEvaluationDate': AdminDateWidget(),
             'domains': forms.CheckboxSelectMultiple()
         }
+        exclude = ('title', 'accounts', 'president', 'help_text', 'isOpen', 'domains')

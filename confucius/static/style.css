@@ -19,6 +19,11 @@ body {
     opacity: 1;
 }
 
+.ui-datepicker {
+    border: 1px solid #aaa;
+    background: #fff;
+}
+
 /* Navbar */
 
 .navbar-text {
