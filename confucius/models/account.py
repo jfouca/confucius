@@ -3,6 +3,11 @@ from django.db import models
 
 
 class BaseConfucius(models.Model):
+    """
+    Base class for models which belong to confucius.
+    Used mainly to avoid adding a Meta class with the
+    right app_label for each model.
+    """
     class Meta:
         abstract = True
         app_label = 'confucius'
@@ -14,6 +19,10 @@ class Email(BaseConfucius):
     value = models.EmailField(unique=True)
 
     def save(self, *args, **kwargs):
+        """
+        When saved, if self is a main address it should update the User's email
+        with its value.
+        """
         from confucius.utils import email_to_username
 
         super(Email, self).save(*args, **kwargs)
