@@ -20,7 +20,6 @@ MEDIA_URL = '/media/'
 STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
 ADMIN_MEDIA_PREFIX = '/static/admin/'
-PROJECT_DIR = os.path.dirname(__file__) 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
@@ -38,10 +37,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
 
-
-TEMPLATE_DIRS = (
-   os.path.join(PROJECT_DIR, 'templates'),
-) 
 ROOT_URLCONF = 'confucius.urls'
 
 INSTALLED_APPS = (
