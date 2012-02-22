@@ -1,5 +1,5 @@
 from functools import wraps
-from confucius.models import Conference, ConferenceUserRole
+from confucius.models import Conference, Role
 from django.shortcuts import redirect
 
 

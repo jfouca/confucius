@@ -4,29 +4,11 @@ from django.db import models
 from confucius.models import ConfuciusModel
 
 
-class Conference(ConfuciusModel):
-    title = models.CharField(max_length=100, unique=True, default=None)
-    isOpen = models.BooleanField(default='False')
-    startConfDate = models.DateField()
-    endConfDate = models.DateField()
-    startSubmitDate = models.DateField()
-    endSubmitDate = models.DateField()
-    startEvaluationDate = models.DateField()
-    endEvaluationDate = models.DateField()
-    url = models.URLField(blank=True)
-    president = models.ForeignKey(User, related_name="president")
-    users = models.ManyToManyField(User, through="ConferenceUserRole")
-    domains = models.ManyToManyField('Domain')
-
-    def __unicode__(self):
-        return self.title
-
-
 class Alert(ConfuciusModel):
     title = models.CharField(max_length=100, default=None)
     date = models.DateField()
     content = models.TextField(default=None)
-    conference = models.ForeignKey(Conference)
+    conference = models.ForeignKey('Conference')
 
     class Meta(ConfuciusModel.Meta):
         unique_together = ('title', 'conference',)
@@ -35,22 +17,29 @@ class Alert(ConfuciusModel):
         return self.title
 
 
-class Role(ConfuciusModel):
-    code = models.CharField(max_length=4, default=None)
-    name = models.CharField(max_length=50, default=None)
+class Conference(ConfuciusModel):
+    title = models.CharField(max_length=100, unique=True)
+    is_open = models.BooleanField(default=False)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    submissions_start_date = models.DateField()
+    submissions_end_date = models.DateField()
+    reviews_start_date = models.DateField()
+    reviews_end_date = models.DateField()
+    url = models.URLField(blank=True)
+    president = models.ForeignKey(User, related_name='chaired_conferences')
+    users = models.ManyToManyField(User, through='Role')
+    domains = models.ManyToManyField('Domain')
+
+    def __unicode__(self):
+        return self.title
+
+
+class Domain(ConfuciusModel):
+    name = models.CharField(max_length=50, unique=True)
 
     def __unicode__(self):
         return self.name
-
-
-class ConferenceUserRole(ConfuciusModel):
-    user = models.ForeignKey(User)
-    conference = models.ForeignKey(Conference)
-    role = models.ManyToManyField('Role')
-    domains = models.ManyToManyField('Domain')
-
-    class Meta(ConfuciusModel.Meta):
-        unique_together = ('user', 'conference')
 
 
 class MessageTemplate(ConfuciusModel):
@@ -65,12 +54,16 @@ class MessageTemplate(ConfuciusModel):
         return self.title
 
 
-class Domain(ConfuciusModel):
-    code = models.CharField(max_length=4, default=None)
-    name = models.CharField(max_length=50, default=None, verbose_name="Domain")
+class Role(ConfuciusModel):
+    user = models.ForeignKey(User)
+    conference = models.ForeignKey(Conference)
+    role = models.CharField(max_length=1,
+        choices=(
+            ('C', 'Chair'),
+            ('R', 'Reviewer'),
+            ('S', 'Submitter'),
+    ))
+    domains = models.ManyToManyField(Domain)
 
     class Meta(ConfuciusModel.Meta):
-        unique_together = ('code',)
-
-    def __unicode__(self):
-        return self.name
+        unique_together = ('user', 'conference')

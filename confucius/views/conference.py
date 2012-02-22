@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 
-from confucius.models import Conference, ConferenceUserRole
+from confucius.models import Conference, Role
 from confucius.forms import EditConfForm
 
 from confucius.decorators import user_access_conference

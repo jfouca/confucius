@@ -1,0 +1,30 @@
+{% extends "base-in.html" %}
+{% load url from future %}
+
+{% block title %}Conference {% endblock %}
+
+{% block content_header %}
+<h1>Conference List</h1>
+{% endblock %}
+
+{% block content_main %}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Starting date</th>
+            <th>Ending date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for conference in conference_list %}
+        <tr>
+            <td>{{ conference.title }}</td>
+            <td>{{ conference.startConfDate }}</td>
+            <td>{{ conference.endConfDate }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

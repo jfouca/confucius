@@ -1,9 +1,9 @@
-from django.contrib.admin import AdminSite, ModelAdmin, StackedInline
+from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
 from django.contrib.auth.models import User
 
-from confucius.forms import AddressFormSet, EmailFormSet, UserCreationForm, UserForm, ConferenceUserRoleForm
-from confucius.models import Address, Email, Conference, ConferenceUserRole, Domain
+from confucius.forms import AddressFormSet, EmailFormSet, UserCreationForm, UserForm
+from confucius.models import Address, Conference, Domain, Email, Role
 
 
 class AdminUserForm(UserForm):
@@ -11,13 +11,13 @@ class AdminUserForm(UserForm):
         fields = ('email', 'first_name', 'is_active', 'is_superuser', 'last_name')
 
 
-class AddressInline(StackedInline):
+class AddressInline(admin.StackedInline):
     extra = 0
     formset = AddressFormSet
     model = Address
 
 
-class EmailInline(StackedInline):
+class EmailInline(admin.StackedInline):
     extra = 0
     formset = EmailFormSet
     model = Email
@@ -85,16 +85,15 @@ class UserAdmin(AuthUserAdmin):
             yield inline.get_formset(request, obj)
 
 
-class UserRoleConfInLine(StackedInline):
-    model = ConferenceUserRole
-    extra = 0
-    form = ConferenceUserRoleForm
+class RoleInline(admin.StackedInline):
+    model = Role
 
 
-class ConferenceAdmin(ModelAdmin):
-    inlines = [UserRoleConfInLine]
+class ConferenceAdmin(admin.ModelAdmin):
+    inlines = (RoleInline,)
 
-site = AdminSite()
+
+site = admin.AdminSite()
 site.register(User, UserAdmin)
 site.register(Conference, ConferenceAdmin)
 site.register(Domain)
