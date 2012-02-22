@@ -28,7 +28,7 @@ class Conference(ConfuciusModel):
     reviews_end_date = models.DateField()
     url = models.URLField(blank=True)
     president = models.ForeignKey(User, related_name='chaired_conferences')
-    users = models.ManyToManyField(User, through='Membership')
+    members = models.ManyToManyField(User, through='Membership')
     domains = models.ManyToManyField('Domain')
 
     def __unicode__(self):

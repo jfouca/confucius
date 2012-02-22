@@ -1,35 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <title>{% block title %}Confucius{% endblock %}</title>
-    <link rel="stylesheet" href="{{ STATIC_URL }}style.css" />
-    <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css" />
-    <script src="{{ STATIC_URL }}jquery.js"></script>
-    <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
-    <script src="/my_admin/jsi18n/"></script>
-    <script src="{{ STATIC_URL }}/admin/js/core.js"></script>
-	{% load adminmedia %} 
-    <script >
-	window.__admin_media_prefix__ = "{% filter escapejs %}{% admin_media_prefix %}{% endfilter %}";
-    </script>
-
-
-
-
-
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}/admin/css/widgets.css"/>
-    {{ form.media }} 
-
-</head>
-
-<body>
-
-{% block base_topbar %}{% endblock %}
-
-{% block base_content %}{% endblock %}
-
-{% block base_script %}{% endblock %}
-
-</body>
+    <head>
+       <meta charset="utf-8" />
+       <title>{% block title %}Confucius{% endblock %}</title>
+       <link rel="stylesheet" href="{{ STATIC_URL }}jqueryui/css/jquery-ui-1.8.17.custom.css" />
+       <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css" />
+       <link rel="stylesheet" href="{{ STATIC_URL }}style.css" />
+       {% block extra_style %}{% endblock %}
+    </head>
+    <body>
+       {% block base_topbar %}{% endblock %}
+       {% block base_content %}{% endblock %}
+       <script src="{{ STATIC_URL }}jquery.js"></script>
+       <script src="{{ STATIC_URL }}jqueryui/js/jquery-ui-1.8.17.custom.min.js"></script>
+       <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
+       {% block base_script %}{% endblock %}
+    </body>
 </html>

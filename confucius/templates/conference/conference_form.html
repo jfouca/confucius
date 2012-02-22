@@ -1,0 +1,27 @@
+{% extends "base-in.html" %}
+{% load url from future %}
+
+
+{% block title %}{{ conference.title }} : configuration{% endblock %}
+
+{% block content_header %}
+{% endblock %}
+
+{% block content_main %}
+<h2>{{ conference.title }}</h2>
+
+<form method="post">
+{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" class="btn btn-primary" value="Submit"/>
+</form>
+{% endblock %}
+{% block script %}
+<script>
+    $(function() {
+        $('input[name$="date"]').datepicker({
+            dateFormat: 'yy-mm-dd'
+        });
+    });
+</script>
+{% endblock %}

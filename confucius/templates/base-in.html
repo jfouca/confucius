@@ -5,11 +5,7 @@
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
-            {% if user.account.actual_conference %}
-                <a class="brand" href="{% url 'home_conference' %}">Conference: {{ user.account.actual_conference.title }}</a>
-            {% else %}
-                <a class="brand" href="{% url 'conferences' %}">Confucius Project</a>
-            {% endif %}
+            <a class="brand">Confucius Project</a>
             <div class="nav-collapse">
                 <div class="navbar-text pull-right"><i class="icon-user icon-white"></i> Logged in as <a href="/account">{{ user.first_name }} {{ user.last_name }}</a> | <a href="{% url 'logout' %}">Logout</a></div>
             </div>
@@ -22,30 +18,16 @@
 <div class="container">
     <div class="row">
         {% block subtopbar %}
-        {% if user.account.actual_conference %}
-        <div class="span12 db-top">
-            <div class="db-top-inner-min">
-                <i class="icon-calendar icon-white"></i> Conference starts on the {{ user.account.actual_conference.startConfDate|date:"m/d/y" }} | 
-                <i class="icon-info-sign icon-white"></i> Submissions ends at {{ user.account.actual_conference.endSubmitDate|date:"m/d/y" }} | 
-                <i class="icon-exclamation-sign icon-white"></i> Evaluations ends at {{ user.account.actual_conference.endEvaluationDate|date:"m/d/y" }}
-            </div>
-        </div>
-        {% endif %}
         {% endblock %}
 
         {% block sidebar %}
         <div class="span2">
             <div class="well sidebar-nav">
                 <ul class="nav nav-list">
-                    {% if user.account.actual_conference %}
-                        <li class="nav-header"><a href="{% url 'home_conference' %}">Dashboard</a></li>
-                        <li class="nav-header"><a href="#">Papers</a></li>
-                        <li class="nav-header"><a href="#">Reviews</a></li>
-                        <li class="nav-header">&nbsp;</li>
-                        <li class="nav-header">&nbsp;</li>
-                    {% endif %}
+                    <li class="nav-header"><a href="#">Papers</a></li>
+                    <li class="nav-header"><a href="#">Reviews</a></li>
                     <li class="nav-header active"><a href="{% url 'account' %}">Account</a></li>
-                    <li class="nav-header"><a href="{% url 'conferences' %}">Conferences</a></li>
+                    <li class="nav-header"><a href="{% url 'membership_list' %}">Conferences</a></li>
                 </ul>
             </div><!--/.well -->
         </div><!--/span-->
@@ -69,8 +51,5 @@
 {% endblock %}
 
 {% block base_script %}
-<script src="{{ STATIC_URL }}jquery.js"></script>
-<script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
-
 {% block script %}{% endblock %}
 {% endblock %}
