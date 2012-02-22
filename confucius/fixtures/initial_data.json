@@ -675,13 +675,13 @@
     },
     {
         "pk": 1, 
-        "model": "confucius.conferenceaccountrole", 
+        "model": "confucius.conferenceuserrole", 
         "fields": {
             "conference": 1, 
             "domains": [
                 1
             ], 
-            "account": 2, 
+            "user": 1, 
             "role": [
                 1
             ]
@@ -689,13 +689,13 @@
     }, 
     {
         "pk": 2, 
-        "model": "confucius.conferenceaccountrole", 
+        "model": "confucius.conferenceuserrole", 
         "fields": {
             "conference": 1, 
             "domains": [
                 1
             ], 
-            "account": 3, 
+            "user": 1, 
             "role": [
                 2
             ]
@@ -703,13 +703,13 @@
     }, 
     {
         "pk": 3, 
-        "model": "confucius.conferenceaccountrole", 
+        "model": "confucius.conferenceuserrole", 
         "fields": {
             "conference": 2, 
             "domains": [
                 1
             ], 
-            "account": 1, 
+            "user": 1, 
             "role": [
                 1, 
                 2
@@ -718,13 +718,13 @@
     }, 
     {
         "pk": 4, 
-        "model": "confucius.conferenceaccountrole", 
+        "model": "confucius.conferenceuserrole", 
         "fields": {
             "conference": 3, 
             "domains": [
                 1
             ], 
-            "account": 1, 
+            "user": 1, 
             "role": [
                 2
             ]
@@ -732,13 +732,13 @@
     }, 
     {
         "pk": 5, 
-        "model": "confucius.conferenceaccountrole", 
+        "model": "confucius.conferenceuserrole", 
         "fields": {
             "conference": 4, 
             "domains": [
                 1
             ], 
-            "account": 1, 
+            "user": 1, 
             "role": [
                 2
             ]
@@ -746,13 +746,13 @@
     }, 
     {
         "pk": 6, 
-        "model": "confucius.conferenceaccountrole", 
+        "model": "confucius.conferenceuserrole", 
         "fields": {
             "conference": 5, 
             "domains": [
                 1
             ], 
-            "account": 1, 
+            "user": 1, 
             "role": [
                 1, 
                 2

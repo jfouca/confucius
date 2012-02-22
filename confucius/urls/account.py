@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import patterns, url
 
-# confucius views
+# confucius views
 urlpatterns = patterns('confucius.views',
     url(r'^$', 'edit_account', name='account'),
     url(r'^close/$', 'close_account', name='close_account'),
