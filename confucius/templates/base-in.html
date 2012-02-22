@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load url from future %}
+{% load extra %}
 
 {% block base_topbar %}
 <div class="navbar navbar-fixed-top">
@@ -26,8 +27,8 @@
                 <ul class="nav nav-list">
                     <li class="nav-header"><a href="#">Papers</a></li>
                     <li class="nav-header"><a href="#">Reviews</a></li>
-                    <li class="nav-header active"><a href="{% url 'account' %}">Account</a></li>
-                    <li class="nav-header"><a href="{% url 'membership_list' %}">Conferences</a></li>
+                    <li class="nav-header {{ 'account'|active:request }}"><a href="{% url 'account' %}">Account</a></li>
+                    <li class="nav-header {{ 'membership_list'|active:request }}"><a href="{% url 'membership_list' %}">Conferences</a></li>
                 </ul>
             </div><!--/.well -->
         </div><!--/span-->
