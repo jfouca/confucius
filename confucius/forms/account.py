@@ -3,7 +3,15 @@ from django.contrib.auth.forms import UserCreationForm as AuthUserCreationForm
 from django.contrib.auth.models import User
 from django.forms.models import inlineformset_factory
 
-from confucius.models import Address, Email, Language
+from confucius.models import Address, Email, Language, ConferenceAccountRole
+
+
+class ConferenceAccountRoleForm(forms.ModelForm):
+    class Meta:
+        model = ConferenceAccountRole
+        widgets = {
+            'role': forms.CheckboxSelectMultiple(),
+        }
 
 
 class UserCreationForm(AuthUserCreationForm):
