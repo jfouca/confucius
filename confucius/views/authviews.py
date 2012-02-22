@@ -53,14 +53,12 @@ def edit_account(request):
 @login_required
 def close_account(request):
     from django.contrib.auth import logout
+    account = Account.objects.get(user=request.user)
 
     if request.method == 'POST':
         request.user.is_active = False
         request.user.save()
         logout(request)
-        return HttpResponseRedirect(reverse('confirm_close_account'))
-    return render_to_response('account/close_account.html', context_instance=RequestContext(request))
+        return render_to_response('account/confirm_close_account.html', {'account':account}, context_instance=RequestContext(request))
+    return render_to_response('account/close_account.html', {'account':account}, context_instance=RequestContext(request))
 
-
-def confirm_close_account(request):
-    return render_to_response('account/confirm_close_account.html', context_instance=RequestContext(request))
