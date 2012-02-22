@@ -1,10 +1,8 @@
-from django.contrib.auth.models import User
 from django.db import models
+from confucius.models import Account
+from django.core import validators
 
-from confucius.models import BaseConfucius
-
-
-class Conference(BaseConfucius):
+class Conference(models.Model):
     class Meta:
         app_label = "confucius"
 
@@ -14,18 +12,20 @@ class Conference(BaseConfucius):
     endConfDate = models.DateField()
     startSubmitDate = models.DateField()
     endSubmitDate = models.DateField()
-    startEvaluationDate = models.DateField()
+    startEvaluationDate  = models.DateField()
     endEvaluationDate = models.DateField()
+    
     url = models.URLField(blank=True)
-    president = models.ForeignKey(User, related_name="president")
-    users = models.ManyToManyField(User, through="ConferenceAccountRole")
+    president = models.ForeignKey(Account, related_name="president")
+    
+    accounts = models.ManyToManyField(Account, through="ConferenceAccountRole")
     domains = models.ManyToManyField('Domain')
-
+        
     def __unicode__(self):
         return self.title
+    
 
-
-class Alert(BaseConfucius):
+class Alert(models.Model):
     class Meta:
         app_label = "confucius"
         unique_together = ('title', 'conference',)
@@ -34,35 +34,34 @@ class Alert(BaseConfucius):
     date = models.DateField()
     content = models.TextField(default=None)
     conference = models.ForeignKey(Conference)
-
+    
     def __unicode__(self):
         return self.title
 
 
-class Role(BaseConfucius):
+class Role(models.Model):
     class Meta:
         app_label = "confucius"
         unique_together = ('code',)
 
     code = models.CharField(max_length=4, default=None)
     name = models.CharField(max_length=50, default=None)
-
+    
     def __unicode__(self):
         return self.name
 
 
-class ConferenceAccountRole(BaseConfucius):
+class ConferenceAccountRole(models.Model):
     class Meta:
         app_label = "confucius"
-        unique_together = ('user', 'conference')
+        unique_together = ('account', 'conference')
 
-    user = models.ForeignKey(User)
+    account = models.ForeignKey(Account)
     conference = models.ForeignKey(Conference)
     role = models.ManyToManyField('Role')
     domains = models.ManyToManyField('Domain')
-
-
-class MessageTemplate(BaseConfucius):
+    
+class MessageTemplate(models.Model):
     class Meta:
         app_label = "confucius"
         unique_together = ('title', 'conference')
@@ -70,18 +69,20 @@ class MessageTemplate(BaseConfucius):
     title = models.CharField(max_length=100, default=None)
     content = models.TextField(default=None)
     conference = models.ForeignKey(Conference)
-
+    
     def __unicode__(self):
         return self.title
-
-
-class Domain(BaseConfucius):
+        
+class Domain(models.Model):
     class Meta:
         app_label = "confucius"
         unique_together = ('code',)
 
     code = models.CharField(max_length=4, default=None)
     name = models.CharField(max_length=50, default=None, verbose_name="Domain")
-
+    
     def __unicode__(self):
         return self.name
+
+    
+
