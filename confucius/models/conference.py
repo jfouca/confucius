@@ -21,13 +21,11 @@ class Conference(ConfuciusModel):
     title = models.CharField(max_length=100, unique=True)
     is_open = models.BooleanField(default=False)
     start_date = models.DateField()
-    end_date = models.DateField()
     submissions_start_date = models.DateField()
     submissions_end_date = models.DateField()
     reviews_start_date = models.DateField()
     reviews_end_date = models.DateField()
     url = models.URLField(blank=True)
-    president = models.ForeignKey(User, related_name='chaired_conferences')
     members = models.ManyToManyField(User, through='Membership')
     domains = models.ManyToManyField('Domain')
 

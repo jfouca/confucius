@@ -600,9 +600,7 @@
             "submissions_start_date": "2012-02-17", 
             "domains": [
                 1
-            ], 
-            "president": 1, 
-            "end_date": "2012-02-17"
+            ]
         }
     }, 
     {
@@ -619,9 +617,7 @@
             "submissions_start_date": "2012-02-17", 
             "domains": [
                 3
-            ], 
-            "president": 3, 
-            "end_date": "2012-02-17"
+            ]
         }
     }, 
     {
@@ -638,9 +634,7 @@
             "submissions_start_date": "2012-02-17", 
             "domains": [
                 1, 2
-            ], 
-            "president": 2, 
-            "end_date": "2012-02-29"
+            ]
         }
     }, 
     {
@@ -657,9 +651,7 @@
             "submissions_start_date": "2012-02-17", 
             "domains": [
                 2
-            ], 
-            "president": 3, 
-            "end_date": "2012-01-01"
+            ]
         }
     }, 
     {
@@ -676,9 +668,7 @@
             "submissions_start_date": "2012-02-17", 
             "domains": [
                 1, 3
-            ], 
-            "president": 2, 
-            "end_date": "2011-10-01"
+            ] 
         }
     },
     {

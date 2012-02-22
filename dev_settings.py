@@ -1,5 +1,3 @@
-import os.path 
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -35,6 +33,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'confucius.middleware.LoginRequiredMiddleware',
 )
 
 ROOT_URLCONF = 'confucius.urls'
