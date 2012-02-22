@@ -59,6 +59,6 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/conferences/'
 
 EMAIL_HOST = "smtp.orange.fr"
-EMAIL_HOST_USER = "y.lemaulf"
-EMAIL_HOST_PASSWORD = "lemaulfs"
+EMAIL_HOST_USER = "y.lemaulf@orange.fr"
+EMAIL_HOST_PASSWORD = "lemaulf"
 EMAIL_PORT = 25
