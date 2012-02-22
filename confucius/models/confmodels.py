@@ -15,7 +15,7 @@ class Conference(ConfuciusModel):
     endEvaluationDate = models.DateField()
     url = models.URLField(blank=True)
     president = models.ForeignKey(User, related_name="president")
-    accounts = models.ManyToManyField(User, through="ConferenceAccountRole")
+    users = models.ManyToManyField(User, through="ConferenceAccountRole")
     domains = models.ManyToManyField('Domain')
 
     def __unicode__(self):
@@ -44,7 +44,7 @@ class Role(ConfuciusModel):
 
 
 class ConferenceAccountRole(ConfuciusModel):
-    account = models.ForeignKey(User)
+    user = models.ForeignKey(User)
     conference = models.ForeignKey(Conference)
     role = models.ManyToManyField('Role')
     domains = models.ManyToManyField('Domain')
