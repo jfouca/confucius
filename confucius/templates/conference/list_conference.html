@@ -22,12 +22,14 @@
 				    <th>Title</th>
 				    <th>Start Conference Date</th>
 				    <th>End Conference Date</th>
+				    <th></th>
 			    </tr>
 		        {% for conf in conferences_president %}
 				    <tr class="headline">
 				        <td><b><a href="{%url 'change_conference' conf.pk %}">{{ conf.title }}</a></b></td>
 				        <td>{{ conf.startConfDate }}</td>
 				        <td>{{ conf.endConfDate }}</td>
+				        <td>{% if conf.isOpen %}Open{% else %}Close{% endif %}</td>
 			        </tr>
                 {% endfor %}
 		    </table>

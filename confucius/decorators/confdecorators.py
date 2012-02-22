@@ -19,7 +19,8 @@ def user_access_conference(onlyPresident=False, nameKwargConfId=None):
                 
             results = ConferenceAccountRole.objects.filter(account=account, conference=conference)
 
-            if (onlyPresident == False and len(results) == 1 and conference.isOpen) or conference.president == account:
+            if conference and \
+                    ((onlyPresident == False and len(results) == 1 and conference.isOpen) or conference.president == account):
         	    return func(request, *args, **kwargs)
             else:
                 account.actual_conference = None
