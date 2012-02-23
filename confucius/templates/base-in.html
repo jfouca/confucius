@@ -29,6 +29,12 @@
                 <i class="icon-info-sign icon-white"></i> Submissions ends at {{ user.account.actual_conference.endSubmitDate|date:"m/d/y" }} | 
                 <i class="icon-exclamation-sign icon-white"></i> Evaluations ends at {{ user.account.actual_conference.endEvaluationDate|date:"m/d/y" }}
             </div>
+            {% if user.account.is_in_mock_mode %}
+            <div class="db-top-inner-min">
+                <b><a href="{% url 'exit_mockuser_conference' %}">Leave the MockMode</a></b>
+            </div>
+            {% endif %}
+            
         </div>
         {% endif %}
         {% endblock %}
