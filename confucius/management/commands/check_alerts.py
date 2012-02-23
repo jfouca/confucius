@@ -31,18 +31,15 @@ class Command(BaseCommand):
             self.do_task(alert,conference,new_date,current_date)    
     
     def do_task(self, alert, conference, new_date, current_date):
-        #Config properly SMTP server
-        host = 'y.lemaulf@orange.fr'
-        passwd = 'lemaulf'
         if alert.forPresident == True:
             president_email = EmailAddress.objects.get(account=conference.president,main=True)
-            send_mail(alert.title+" to president", alert.content+"-- to president", 'no-reply-alerts@confucius.com',[str(president_email)], fail_silently=False, auth_user=host, auth_password=passwd)
+            send_mail(alert.title+" to president", alert.content+"-- to president", 'no-reply-alerts@confucius.com',[str(president_email)], fail_silently=False)
         for role in alert.roles.all() :
             if str(new_date)[0:10] == str(current_date)[0:10]:
                 confaccountrole = ConferenceAccountRole.objects.filter(conference=conference,role=role)
                 for entry in confaccountrole:
                     account = entry.account
                     email = EmailAddress.objects.get(account=account,main=True)
-                    send_mail(alert.title, alert.content, 'no-reply-alerts@confucius.com',[str(email)], fail_silently=False, auth_user=host, auth_password=passwd)
+                    send_mail(alert.title, alert.content, 'no-reply-alerts@confucius.com',[str(email)], fail_silently=False)
                         
                         
