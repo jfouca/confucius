@@ -1,0 +1,24 @@
+{% extends "base-in.html" %}
+{% load url from future %}
+
+{% block title %}Reviewer Invitation{% endblock %}
+
+{% block content %}
+    <h1> Reviewer Invitation </h1>
+<br>
+
+<form method="post" action="">
+{% csrf_token %}
+    {% if form.error_messages %}
+    <div class="alert alert-error">
+    {{form.error_messages}}
+    </div>
+    {% endif %}
+    <div> Please enter the email address to send the reviewer invitation request</div>
+    <br>
+    {{ form }}
+<br>
+<button type="submit" class="btn btn-primary">Create Account</button>
+</form>
+
+{% endblock %}

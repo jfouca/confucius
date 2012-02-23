@@ -1,0 +1,41 @@
+{% extends "base-out.html" %}
+{% load url from future %}
+
+{% block title %}Confucius login{% endblock %}
+
+{% block content %}
+<h1> Welcome to confucius </h1>
+<br>
+<form class="form-horizontal" method="post" action="{% url 'login' %}">
+{% csrf_token %}
+    <fieldset>
+        <div class="modal">
+            <div class="modal-header">
+                <h3>You need to be logged to perform this action</h3>
+            </div>
+            <div class="modal-body">
+                    <div class="control-group">
+                        <div class="controls">
+                            <input type="text" class="input-medium" placeholder="{{ form.username.label }}" name="{{ form.username.html_name }}" value="{{ form.username.value|default:'' }}">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <input type="password" class="input-medium" placeholder="{{ form.password.label }}" name="{{ form.password.html_name }}">
+                        </div>
+                    </div>
+           </div>
+           <div class="modal-footer">
+               <input type="hidden" name="next" value="{{ next }}" />
+               <button type="submit" class="btn btn-primary">Log in</button>
+               </form>
+               <form class="form-horizontal" method="post" action="{% url 'account-create' %}">
+                {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ next }}" />
+                    <button type="submit" class="btn btn-primary">Create Account</button>
+               </form>
+           </div>
+        </div>
+    </fieldset>
+{% endblock %}
+

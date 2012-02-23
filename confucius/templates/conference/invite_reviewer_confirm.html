@@ -1,0 +1,17 @@
+{% extends "base-in.html" %}
+{% load url from future %}
+
+{% block title %}Create Conference{% endblock %}
+
+{% block content %}
+    <h1> Account Creation </h1>
+<br>
+
+<form method="post" action="">
+{% csrf_token %}
+    <div>The invitation has been succesfully created.<br>
+    An email has been sent to the address {{email}} with an answer link.</div>
+<br>
+</form>
+
+{% endblock %}
