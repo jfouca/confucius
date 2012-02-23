@@ -91,6 +91,16 @@ class Account(models.Model):
         """
         User.objects.get(pk=self.user_id).delete()
 
+    
+    def is_in_mock_mode(self):
+        from confucius.models import MockUser
+
+        results = len(MockUser.objects.filter(original_president=self, mock_conference=self.actual_conference))
+        if results==0:
+            return False
+        else:
+            return True
+            
 
 class Address(models.Model):
     account = models.ForeignKey(Account)

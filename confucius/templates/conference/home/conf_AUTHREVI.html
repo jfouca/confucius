@@ -9,22 +9,24 @@
 {% block content_main %}
 
 <h1>Dashboard ( 
-{% for role in roles %}
+{% for role in myroles %}
     {{role}} 
 {% endfor %}
 )
 </h1>
 <br/>
 
-{% if "AUTH" in rolesCode %}
-    <h3>Last submissions</h3>
-    <br/>
-{% endif %}
 
+{% for role in myroles %}
+    {% if "AUTH" in role.code %}
+        <h3>Last submissions</h3>
+        <br/>
+    {% endif %}
 
-{% if "REVI" in rolesCode %}
-    <h3>Last evaluations</h3>
-    <br/>
-{% endif %}
+    {% if "REVI" in role.code %}
+        <h3>Last evaluations</h3>
+        <br/>
+    {% endif %}
+{% endfor %}
 
 {% endblock %}
