@@ -132,6 +132,7 @@ class Language(models.Model):
         
 class ActivationKey(models.Model):
     hash_code = models.CharField(max_length=64)
+    next_page = models.CharField(max_length=255)
     linked_account = models.ForeignKey(Account)
     expiration_date = models.DateField()
     

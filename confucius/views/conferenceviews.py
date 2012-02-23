@@ -18,6 +18,10 @@ def detail_conference(request, conference_id):
     conference = get_object_or_404(Conference, pk=conference_id)
     return render_to_response('conf_detail.html', {'conference': conference})
 
+
+"""
+Create a conference with default alerts
+"""
 @login_required
 def create_conference(request):
     
@@ -29,7 +33,6 @@ def create_conference(request):
             
             #testing account and role presence
             owner_account = get_object_or_404(Account, pk=owner_account_id)
-            president_role = get_object_or_404(Role, code="PRES")
             
             #Conference creation
             new_conference = Conference.objects.create(
@@ -42,11 +45,6 @@ def create_conference(request):
                 startEvaluationDate=datetime.now(), 
                 endEvaluationDate=datetime.now())
             
-            #ConferenceAccountRole "President" creation for the owner of the conference
-            new_account_role = ConferenceAccountRole.objects.create(
-                account= owner_account,  
-                conference= new_conference)
-            new_account_role.role.add(president_role)
             
             #Alerte Creation
             new_alert = Alert.objects.create(

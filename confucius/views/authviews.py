@@ -12,6 +12,7 @@ from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.core.mail import send_mail
 from confucius.models import Account, EmailAddress, PostalAddress, AccountManager, ActivationKey
+from django.views.decorators.csrf import csrf_protect
 
 
 @login_required
@@ -68,11 +69,12 @@ def close_account(request):
     return render_to_response('account/close_account.html', {'account':account}, context_instance=RequestContext(request))
 
 
-
-def create_account(request):
-        
+@csrf_protect
+def create_account(request, redirect_field_name='next'):
+    
+    next = request.REQUEST.get(redirect_field_name, '')
     if request.POST:
-        form = CreateAccountForm(request.POST)        
+        form = CreateAccountForm(request.POST)           
         if form.is_valid():
             last_name = form.cleaned_data['last_name']
             first_name = form.cleaned_data['first_name']
@@ -80,40 +82,37 @@ def create_account(request):
             password_1 = form.cleaned_data.get("password_1", "")
             password_2 = form.cleaned_data["password_2"]
             if password_1 != password_2 :
-                form.error_messages = form.error_messages['password_mismatch']
-                return render_to_response('account/create_account.html',{"form":form}, context_instance=RequestContext(request))
+                form.error_messages = "The two password fields didn't match."
+                return render_to_response('account/create_account.html',{"form":form,"next":next}, context_instance=RequestContext(request))
             
             #basic account creation
             account_mngr = AccountManager()
             try:
                 account = account_mngr.create(email=email, password=password_1, last_name=last_name, is_active=False)
             except IntegrityError:
-                form.error_messages = form.error_messages['duplicate_username']
-                return render_to_response('account/create_account.html',{"form":form}, context_instance=RequestContext(request))
+                form.error_messages = "A user with that email already exists."
+                return render_to_response('account/create_account.html',{"form":form,"next":next}, context_instance=RequestContext(request))
             
-            print account.user.username
+            ##print account.user.username
             
             #Adding first_name
             account.user.first_name = first_name
             account.user.save()
             
             expr_date = datetime.date.today() + datetime.timedelta(7)
-            ActivationKey.objects.create(hash_code=account.user.username, linked_account=account, expiration_date=expr_date)
+            ActivationKey.objects.create(hash_code=account.user.username, linked_account=account, expiration_date=expr_date, next_page=next)
             
             send_mail('Confucius Account Creation', 'Please find enclose the activation link for your account : http://localhost:8000/account-create/'+account.user.username, 'no-reply@confucius.com',[email], fail_silently=False)
             
-            return render_to_response('account/create_account_confirm.html', context_instance=RequestContext(request))            
-            
-            #Authenticate and login user after creation
-            #user = authenticate(username=email, password=password_1)
-            #login(request, user)
-            #return redirect('/account/')
-                              
+            return render_to_response('account/create_account_confirm.html', context_instance=RequestContext(request))
+        else:
+            form = CreateAccountForm()
+            form.next = next
+            return render_to_response('account/create_account.html',{"form":form,"next":next}, context_instance=RequestContext(request))
+    #If no POST data, display an error (direct call)
     else:
-        form = CreateAccountForm()
-        form.error_messages = None
-    
-    return render_to_response('account/create_account.html',{"form":form}, context_instance=RequestContext(request))    
+        error_messages = "Account creation Unauthorized"
+        return render_to_response('account/create_account.html',{"error_messages":error_messages}, context_instance=RequestContext(request))    
 
 
 def activate_account(request, hashCode):
@@ -124,11 +123,7 @@ def activate_account(request, hashCode):
     except ActivationKey.DoesNotExist:
         return render_to_response('account/activate_account_confirm.html',
             {"error_message":"The provided Activation code is unknown"}, 
-            context_instance=RequestContext(request))
-    
-    #Check if the hashcode exist
-    #if activationKey == None :
-         
+            context_instance=RequestContext(request))    
     
     #Check if the hashcode is still valid
     if datetime.date.today() > activationKey.expiration_date:
@@ -139,11 +134,10 @@ def activate_account(request, hashCode):
     account = activationKey.linked_account
     account.user.is_active=True
     account.user.save()
-    
     activationKey.delete()
     
     #login user after activation
     account.user.backend='django.contrib.auth.backends.ModelBackend' 
     login(request, account.user)
     
-    return render_to_response('account/activate_account_confirm.html', context_instance=RequestContext(request))
+    return redirect(activationKey.next_page)
