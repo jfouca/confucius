@@ -1,133 +1,56 @@
-{% extends "base-in.html" %}
+{% extends 'base-in.html' %}
 {% load url from future %}
 
-{% block title %}Create Alert{% endblock %}
+{% block title %}{{ conference.title}} : Alert creation{% endblock %}
 
 {% block content_header %}
 <h1>Create Alert for conference: {{ conference.title}}</h1>
 {% endblock %}
 
 {% block content_main %}
-<form class="form-horizontal" method="post" action="{% url 'create_alert' %}">
-{% csrf_token %}
-    <fieldset>
-        <div class="control-group headline">
-                <div class="controls">
-                    <div class="controls-inputs">
-                        <input type="radio" name="type"  value="isReminder" id="isReminder" class="input-medium"/><span class="help-text" >Reminder</span>
-                    </div>
-                </div>
-                <div class="controls">
-                    <div class="controls-inputs">
-                        <input type="radio" name="type"  value="isTrigger" id="isTrigger" class="input-medium" /><span class="help-text">Trigger Date</span>
-                    </div>
-                </div>
-                <div class="controls">
-                    <div class="controls-inputs">
-                        <input type="radio" name="type"  value="isAction" id="isAction" class="input-medium" /><span class="help-text">Action</span>
-                    </div>
-                </div>
+<form class="form-horizontal" method="post">{% csrf_token %}
+    <div class="control-group">
+        <label class="control-label">Alert type</label>
+        <div class="controls">
+            <label class="radio">
+                <input type="radio" name="type" id="reminder" value="reminder">
+                Reminder
+            </label>
+            <label class="radio">
+                <input type="radio" name="type" id="trigger" value="trigger">
+                Trigger Date
+            </label>
+            <label class="radio">
+                <input type="radio" name="type" id="action" value="action">
+                Action
+            </label>
         </div>
-
-        <div class="control-group">
-            <div class="controls">
-                <div class="controls-inputs contentTextPander reminder" >
-                    {{ alert_form.reminder.errors }}
-                    <span class="help-text">Reminder:</span>
-                    <p>{{ alert_form.reminder }}</p>
-                </div>
-            </div>
-
-            <div class="controls">
-                <div class="controls-inputs contentTextPander reminder" >
-                    {{ alert_form.event.errors }}
-                    <span class="help-text">Event:</span>
-                    <p>{{ alert_form.event }}</p>
-                </div>
-            </div>
-        </div>        
-        
-        <div class="control-group">
-            <div class="controls">
-                <div class="controls-inputs contentTextPander action" >
-                    {{ alert_form.action.errors }}
-                    <span class="help-text">Action:</span>
-                    <p>{{ alert_form.action }}</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="control-group">
-            <div class="controls">
-                <div class="controls-inputs contentTextPander trigger" >
-                    {{ alert_form.trigger_date.errors }}
-                    <span class="help-text">Trigger Date:</span>
-                    <p>{{ alert_form.trigger_date }}</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="control-group">
-            <div class="controls">
-                <div class="controls-inputs">
-                    {{ alert_form.title.errors }}
-                    <span class="help-text">Title:</span>
-                    <p>{{ alert_form.title }}</p>
-                    
-                    {{ alert_form.content.errors }}
-                    <span class="help-text">Content:</span>
-                    <p>{{ alert_form.content }}</p>
-                    
-                    {{ alert_form.for_president.errors }}
-                    <span class="help-text">For president:</span>
-                    <p>{{ alert_form.for_president }}</p>
-                    
-                    {{ alert_form.roles.errors }}
-                    <span class="help-text">Roles:</span>
-                    <p>{{ alert_form.roles }}</p>
-                </div>
-            </div>
-        </div>        
-        <div class="form-actions">
-            <input type="submit" class="btn btn-primary" value="Create">
-            <a href="{% url 'home_conference' %}" class="btn btn-danger">Return</a>
-        </div>
+    </div>
+    {% include 'includes/form.html' %}
+    <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="Create">
+        <a href="{% url 'dashboard' %}" class="btn btn-danger">Return</a>
+    </div>
     </fieldset>
 </form>
 {% endblock %}
 
 {% block script %}
 <script>
-$(document).ready(function() {
-    var $textpanderContent = $(".contentTextPander");
-	$(".contentTextPander").hide();
-	$("input[@name='type']:checked").live('click', function(){
-	   if ($("input[@name='type']:checked").val() == 'isReminder'){
-	     	$(".reminder").slideDown();
-	     	$(".trigger").slideUp();
-	     	$(".action").slideUp();
-	     	$("#trigger_date").val("");
-	     	$("#action").val("");
-	    }
-        else if ($("input[@name='type']:checked").val() == 'isAction'){
-	     	$(".reminder").slideUp();
-	     	$(".trigger").slideUp();
-	     	$(".action").slideDown();
-	     	$("#trigger_date").val("");
-	     	$("#reminder").val(0);
-	     	$("#event").val(0);
-	    }
-	    else{
-	     	$(".trigger").slideDown();  
-	     	$(".reminder").slideUp();
-	        $(".action").slideUp();
-	        $("#reminder").val(0);
-	        $("#event").val(0);
-	     	$("#action").val("");
-	    }
-	})
-});
-
+    $(function() {
+        $('#id_trigger_date, #id_action, #id_event, #id_reminder').val('').closest('div.control-group').hide();
+        $('#reminder').on('click', function() {
+            $('#id_trigger_date, #id_action').val('').closest('div.control-group').hide();
+            $('#id_reminder, #id_event').closest('div.control-group').show('slow');
+        });
+        $('#trigger').on('click', function() {
+            $('#id_reminder, #id_action, #id_event').val('').closest('div.control-group').hide();
+            $('#id_trigger_date').closest('div.control-group').show('slow');
+        });
+        $('#action').on('click', function() {
+            $('#id_trigger_date, #id_reminder, #id_event').val('').closest('div.control-group').hide();
+            $('#id_action').closest('div.control-group').show('slow');
+        });
+    });
 </script>
 {% endblock %}
-

@@ -73,7 +73,7 @@ class Membership(ConfuciusModel):
         unique_together = ('user', 'conference')
 
     def set_last_accessed(self):
-        Membership.objects.filter(user=self.user, conference=self.conference).update(last_accessed=False)
+        Membership.objects.filter(user=self.user).update(last_accessed=False)
         self.last_accessed = True
         self.save()
 

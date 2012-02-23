@@ -1,4 +1,4 @@
-{% extends "base-in.html" %}
+{% extends 'base-in.html' %}
 {% load url from future %}
 
 {% block title %}Conference {% endblock %}
@@ -8,64 +8,28 @@
 {% endblock %}
 
 {% block content_main %}
-
 <table class="table table-bordered">
     <thead>
         <tr>
             <th>Title</th>
             <th>My roles</th>
             <th>Starting date</th>
-            <th>Ending date</th>
             <th>Status</th>
         </tr>
     </thead>
     <tbody>
         {% for membership in membership_list %}
         <tr class="infos">
-            <td><strong>{{ membership.conference.title }}</strong></td>
+            <td><a href="{% url 'dashboard' membership.conference.pk %}"><strong>{{ membership.conference.title }}</strong></a></td>
             <td>
                 {% for role in membership.roles.all %}
                     {{ role }}
                 {% endfor %}
             </td>
             <td>{{ membership.conference.start_date }}</td>
-            <td>{{ membership.conference.end_date }}</td>
             <td>{% if membership.conference.is_open %}Open{% else %}Closed{% endif %}</td>
-        </tr>
-        <tr class="actions">
-            <td></td>
-            <td colspan="4">
-                {% for role in membership.roles.all %}
-                    {% ifequal role.name 'Chair' %}
-                    <a class="btn btn-primary" href="{% url 'conference_update' membership.conference.pk %}">Edit configuration</a>
-                    {% endifequal %}
-                    {% ifequal role.name 'Reviewer' %}
-                    <a class="btn btn-info" href="#">Submit review</a>
-                    {% endifequal %}
-                {% endfor %}
-                <a class="btn" href="#">Submit paper</a>
-            </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
-{% endblock %}
-
-{% block extra_style %}
-<style>
-    tr.infos:hover {
-        cursor:pointer;
-    }
-</style>
-{% endblock %}
-
-{% block script %}
-<script>
-    $(function() {
-        $('tr.infos').click(function() {
-            $(this).next().toggle('fast');
-            return false;
-        }).next().hide();
-    });
-</script>
 {% endblock %}

@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.forms.models import modelform_factory
-from django.shortcuts import redirect, render_to_response
+from django.shortcuts import get_object_or_404, redirect, render_to_response
 from django.template import RequestContext
 from django.views.generic import UpdateView, ListView
 from django.views.generic.detail import BaseDetailView, SingleObjectTemplateResponseMixin
@@ -31,16 +31,36 @@ class ConferenceToggleView(SingleObjectTemplateResponseMixin, BaseDetailView):
         return redirect('/conference/')
 
 
-def update_dashboard(request, conference_pk):
-    Membership.objects.get(user=request.user.pk, conference=conference_pk).set_last_accessed()
-    return redirect('dashboard')
+@login_required
+def dashboard(request, conference_pk=None, template_name='conference/dashboard.html'):
+    if conference_pk:
+        conference = get_object_or_404(Conference, pk=conference_pk)
+        Membership.objects.get(conference=conference, user=request.user).set_last_accessed()
+    else:
+        try:
+            conference = Membership.objects.get(user=request.user, last_accessed=True).conference
+        except Membership.DoesNotExist:
+            return redirect('membership_list')
+
+    alerts_trigger = Alert.objects.filter(conference=conference.pk, reminder__isnull=True, action__isnull=True)
+    alerts_reminder = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, action__isnull=True)
+    alerts_action = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, reminder__isnull=True)
+
+    context = {
+        'alerts_trigger': alerts_trigger,
+        'alerts_reminder': alerts_reminder,
+        'alerts_action': alerts_action,
+        'conference': conference,
+    }
+
+    return render_to_response(template_name, context, context_instance=RequestContext(request))
 
 
 class ConferenceUpdateView(UpdateView):
     context_object_name = 'conference'
     form_class = modelform_factory(Conference, exclude=('members', 'is_open'))
     model = Conference
-    success_url = '/conference/'
+    success_url = '/conference/dashboard/'
     template_name = 'conference/conference_form.html'
 
 
@@ -88,10 +108,9 @@ def home_conference(request):
 
 
 @login_required
-@user_access_conference(onlyPresident=True)
-def create_alert(request):
-    conference = Membership.objects.get(user__exact=request.user, last_accessed=True).conference
-    form = AlertForm(auto_id=True)
+def create_alert(request, template_name='conference/alert/create_alert.html'):
+    conference = Membership.objects.get(user=request.user, last_accessed=True).conference
+    form = AlertForm()
     reminders = Reminder.objects.all()
     events = Event.objects.all()
     actions = Action.objects.all()
@@ -99,7 +118,15 @@ def create_alert(request):
     if request.method == 'POST':
         form = AlertForm(request.POST, instance=Alert(conference=conference))
         if form.is_valid():
-            new_alert = form.save()
-            return render_to_response('conference/alert/confirm_create_alert.html', {'alert': new_alert}, context_instance=RequestContext(request))
+            form.save()
+            return redirect('dashboard')
 
-    return render_to_response('conference/alert/create_alert.html', {'conference': conference, 'alert_form': form, 'reminders': reminders, 'events': events, 'actions': actions}, context_instance=RequestContext(request))
+    context = {
+        'conference': conference,
+        'form': form,
+        'reminders': reminders,
+        'events': events,
+        'actions': actions
+    }
+
+    return render_to_response(template_name, context, context_instance=RequestContext(request))

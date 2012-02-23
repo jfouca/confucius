@@ -1,4 +1,4 @@
-{% extends "base-in.html" %}
+{% extends 'base-in.html' %}
 {% load url from future %}
 
 {% block title %}Edit conference{% endblock %}
@@ -13,7 +13,7 @@
         {{ form.errors }}
     </div>
 {% endif %}
-<form class="form-horizontal" method="post" action="">
+<form class="form-horizontal" method="post">
 {% csrf_token %}
     <div class="row">
         <div class="span10">
