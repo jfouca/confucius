@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from django.db import models
 
 
@@ -14,8 +13,4 @@ class ConfuciusModel(models.Model):
 
 
 from confucius.models.account import Address, Email, Language
-from confucius.models.conference import (Alert, Conference, Domain, Membership, MessageTemplate, Role)
-=======
-from confucius.models.authmodels import (Account, EmailAddress, PostalAddress, Language, AccountManager)
-from confucius.models.confmodels import (Conference, Alert, Role, ConferenceAccountRole, MessageTemplate, Domain, MockUser)
->>>>>>> merge-lucas
+from confucius.models.conference import (Alert, Conference, Domain, Membership, MessageTemplate, MockUser, Role)
