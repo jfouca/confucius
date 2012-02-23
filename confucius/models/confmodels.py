@@ -31,9 +31,13 @@ class Alert(models.Model):
         unique_together = ('title', 'conference',)
 
     title = models.CharField(max_length=100, default=None)
-    date = models.DateField()
+    trigger_date = models.DateField(verbose_name="trigger date", blank=True, null=True)
     content = models.TextField(default=None)
     conference = models.ForeignKey(Conference)
+    reminder = models.ForeignKey('Reminder', blank=True, null=True)
+    event = models.ForeignKey('Event', blank=True, null=True)
+    roles = models.ManyToManyField('Role', blank=True)
+    forPresident = models.BooleanField(default='False', verbose_name="includes president")
     
     def __unicode__(self):
         return self.title
@@ -83,6 +87,30 @@ class Domain(models.Model):
     
     def __unicode__(self):
         return self.name
+        
+class Reminder(models.Model):
+    
+    class Meta:
+        app_label = "confucius"
+        unique_together = ('value','name')
+
+    value = models.PositiveIntegerField()
+    name = models.CharField(max_length=155, verbose_name="reminder")
+    
+    def __unicode__(self):
+        return self.name
+    
+class Event(models.Model):
+    class Meta:
+        app_label = "confucius"
+        
+    name = models.CharField(max_length=155, verbose_name="linked to")
+    
+    def __unicode__(self):
+        return self.name    
+    
+    
+    
 
     
 

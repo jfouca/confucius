@@ -1,857 +1,971 @@
 [
     {
-        "pk": 1, 
-        "model": "auth.user", 
-        "fields": {
-            "username": "ImwWgX1aPDcyH53WzyR1YaycVNI=", 
-            "first_name": "Blu", 
-            "last_name": "Blou", 
-            "is_active": true, 
-            "is_superuser": true, 
-            "is_staff": true, 
-            "last_login": "2012-02-17 17:17:37", 
-            "groups": [], 
-            "user_permissions": [], 
-            "password": "sha1$1da8f$e77bd350be2356d14c9b06e88e6da923baa7b190", 
-            "email": "", 
-            "date_joined": "2012-02-16 01:42:36"
-        }
-    }, 
-    {
-        "pk": 2, 
-        "model": "auth.user", 
-        "fields": {
-            "username": "ImvWgX1aPDcyH53WzyR1YaycVNI=", 
-            "first_name": "Red", 
-            "last_name": "Rey", 
-            "is_active": true, 
-            "is_superuser": true, 
-            "is_staff": true, 
-            "last_login": "2012-02-16 01:42:36", 
-            "groups": [], 
-            "user_permissions": [], 
-            "password": "sha1$1da8f$e77bd350be2356d14c9b06e88e6da923baa7b190", 
-            "email": "", 
-            "date_joined": "2012-02-16 01:42:36"
-        }
-    }, 
-    {
-        "pk": 3, 
-        "model": "auth.user", 
-        "fields": {
-            "username": "ImvWgX1aPDcyH52WzyR1YaycVNI=", 
-            "first_name": "Green", 
-            "last_name": "Gri", 
-            "is_active": true, 
-            "is_superuser": true, 
-            "is_staff": true, 
-            "last_login": "2012-02-16 01:42:36", 
-            "groups": [], 
-            "user_permissions": [], 
-            "password": "sha1$1da8f$e77bd350be2356d14c9b06e88e6da923baa7b190", 
-            "email": "", 
-            "date_joined": "2012-02-16 01:42:36"
-        }
-    }, 
-    {
-        "pk": 1, 
-        "model": "confucius.account", 
+        "pk": 1,
+        "model": "confucius.account",
         "fields": {
             "languages": [
                 53
-            ], 
+            ],
             "user": 1,
             "actual_conference": 1
         }
-    }, 
+    },
     {
-        "pk": 2, 
-        "model": "confucius.account", 
+        "pk": 2,
+        "model": "confucius.account",
         "fields": {
             "languages": [
                 51
-            ], 
+            ],
             "user": 2,
             "actual_conference": 1
         }
-    }, 
+    },
     {
-        "pk": 3, 
-        "model": "confucius.account", 
+        "pk": 3,
+        "model": "confucius.account",
         "fields": {
             "languages": [
                 50
-            ], 
+            ],
             "user": 3,
             "actual_conference": 1
         }
-    }, 
+    },
     {
-        "pk": 1, 
-        "model": "confucius.emailaddress", 
+        "pk": 1,
+        "model": "confucius.emailaddress",
         "fields": {
-            "account": 1, 
-            "main": true, 
+            "account": 1,
+            "main": true,
             "value": "blu@blu.com"
         }
-    }, 
+    },
     {
-        "pk": 2, 
-        "model": "confucius.emailaddress", 
+        "pk": 2,
+        "model": "confucius.emailaddress",
         "fields": {
-            "account": 2, 
-            "main": true, 
+            "account": 2,
+            "main": true,
             "value": "red@red.com"
         }
-    }, 
+    },
     {
-        "pk": 3, 
-        "model": "confucius.emailaddress", 
+        "pk": 3,
+        "model": "confucius.emailaddress",
         "fields": {
-            "account": 3, 
-            "main": true, 
+            "account": 3,
+            "main": true,
             "value": "green@green.com"
         }
-    }, 
+    },
     {
-        "pk": 1, 
-        "model": "confucius.language", 
+        "pk": 1,
+        "model": "confucius.language",
         "fields": {
-            "code": "ar", 
+            "code": "ar",
             "value": "Arabic"
         }
-    }, 
+    },
     {
-        "pk": 2, 
-        "model": "confucius.language", 
+        "pk": 2,
+        "model": "confucius.language",
         "fields": {
-            "code": "az", 
+            "code": "az",
             "value": "Azerbaijani"
         }
-    }, 
+    },
     {
-        "pk": 3, 
-        "model": "confucius.language", 
+        "pk": 3,
+        "model": "confucius.language",
         "fields": {
-            "code": "bg", 
+            "code": "bg",
             "value": "Bulgarian"
         }
-    }, 
+    },
     {
-        "pk": 4, 
-        "model": "confucius.language", 
+        "pk": 4,
+        "model": "confucius.language",
         "fields": {
-            "code": "bn", 
+            "code": "bn",
             "value": "Bengali"
         }
-    }, 
+    },
     {
-        "pk": 5, 
-        "model": "confucius.language", 
+        "pk": 5,
+        "model": "confucius.language",
         "fields": {
-            "code": "bs", 
+            "code": "bs",
             "value": "Bosnian"
         }
-    }, 
+    },
     {
-        "pk": 6, 
-        "model": "confucius.language", 
+        "pk": 6,
+        "model": "confucius.language",
         "fields": {
-            "code": "ca", 
+            "code": "ca",
             "value": "Catalan"
         }
-    }, 
+    },
     {
-        "pk": 7, 
-        "model": "confucius.language", 
+        "pk": 7,
+        "model": "confucius.language",
         "fields": {
-            "code": "cs", 
+            "code": "cs",
             "value": "Czech"
         }
-    }, 
+    },
     {
-        "pk": 8, 
-        "model": "confucius.language", 
+        "pk": 8,
+        "model": "confucius.language",
         "fields": {
-            "code": "cy", 
+            "code": "cy",
             "value": "Welsh"
         }
-    }, 
+    },
     {
-        "pk": 9, 
-        "model": "confucius.language", 
+        "pk": 9,
+        "model": "confucius.language",
         "fields": {
-            "code": "da", 
+            "code": "da",
             "value": "Danish"
         }
-    }, 
+    },
     {
-        "pk": 10, 
-        "model": "confucius.language", 
+        "pk": 10,
+        "model": "confucius.language",
         "fields": {
-            "code": "de", 
+            "code": "de",
             "value": "German"
         }
-    }, 
+    },
     {
-        "pk": 11, 
-        "model": "confucius.language", 
+        "pk": 11,
+        "model": "confucius.language",
         "fields": {
-            "code": "el", 
+            "code": "el",
             "value": "Greek"
         }
-    }, 
+    },
     {
-        "pk": 12, 
-        "model": "confucius.language", 
+        "pk": 12,
+        "model": "confucius.language",
         "fields": {
-            "code": "en", 
+            "code": "en",
             "value": "English"
         }
-    }, 
+    },
     {
-        "pk": 13, 
-        "model": "confucius.language", 
+        "pk": 13,
+        "model": "confucius.language",
         "fields": {
-            "code": "en-gb", 
+            "code": "en-gb",
             "value": "British English"
         }
-    }, 
+    },
     {
-        "pk": 14, 
-        "model": "confucius.language", 
+        "pk": 14,
+        "model": "confucius.language",
         "fields": {
-            "code": "es", 
+            "code": "es",
             "value": "Spanish"
         }
-    }, 
+    },
     {
-        "pk": 15, 
-        "model": "confucius.language", 
+        "pk": 15,
+        "model": "confucius.language",
         "fields": {
-            "code": "es-ar", 
+            "code": "es-ar",
             "value": "Argentinian Spanish"
         }
-    }, 
+    },
     {
-        "pk": 16, 
-        "model": "confucius.language", 
+        "pk": 16,
+        "model": "confucius.language",
         "fields": {
-            "code": "es-mx", 
+            "code": "es-mx",
             "value": "Mexican Spanish"
         }
-    }, 
+    },
     {
-        "pk": 17, 
-        "model": "confucius.language", 
+        "pk": 17,
+        "model": "confucius.language",
         "fields": {
-            "code": "es-ni", 
+            "code": "es-ni",
             "value": "Nicaraguan Spanish"
         }
-    }, 
+    },
     {
-        "pk": 18, 
-        "model": "confucius.language", 
+        "pk": 18,
+        "model": "confucius.language",
         "fields": {
-            "code": "et", 
+            "code": "et",
             "value": "Estonian"
         }
-    }, 
+    },
     {
-        "pk": 19, 
-        "model": "confucius.language", 
+        "pk": 19,
+        "model": "confucius.language",
         "fields": {
-            "code": "eu", 
+            "code": "eu",
             "value": "Basque"
         }
-    }, 
+    },
     {
-        "pk": 20, 
-        "model": "confucius.language", 
+        "pk": 20,
+        "model": "confucius.language",
         "fields": {
-            "code": "fa", 
+            "code": "fa",
             "value": "Persian"
         }
-    }, 
+    },
     {
-        "pk": 21, 
-        "model": "confucius.language", 
+        "pk": 21,
+        "model": "confucius.language",
         "fields": {
-            "code": "fi", 
+            "code": "fi",
             "value": "Finnish"
         }
-    }, 
+    },
     {
-        "pk": 22, 
-        "model": "confucius.language", 
+        "pk": 22,
+        "model": "confucius.language",
         "fields": {
-            "code": "fr", 
+            "code": "fr",
             "value": "French"
         }
-    }, 
+    },
     {
-        "pk": 23, 
-        "model": "confucius.language", 
+        "pk": 23,
+        "model": "confucius.language",
         "fields": {
-            "code": "fy-nl", 
+            "code": "fy-nl",
             "value": "Frisian"
         }
-    }, 
+    },
     {
-        "pk": 24, 
-        "model": "confucius.language", 
+        "pk": 24,
+        "model": "confucius.language",
         "fields": {
-            "code": "ga", 
+            "code": "ga",
             "value": "Irish"
         }
-    }, 
+    },
     {
-        "pk": 25, 
-        "model": "confucius.language", 
+        "pk": 25,
+        "model": "confucius.language",
         "fields": {
-            "code": "gl", 
+            "code": "gl",
             "value": "Galician"
         }
-    }, 
+    },
     {
-        "pk": 26, 
-        "model": "confucius.language", 
+        "pk": 26,
+        "model": "confucius.language",
         "fields": {
-            "code": "he", 
+            "code": "he",
             "value": "Hebrew"
         }
-    }, 
+    },
     {
-        "pk": 27, 
-        "model": "confucius.language", 
+        "pk": 27,
+        "model": "confucius.language",
         "fields": {
-            "code": "hi", 
+            "code": "hi",
             "value": "Hindi"
         }
-    }, 
+    },
     {
-        "pk": 28, 
-        "model": "confucius.language", 
+        "pk": 28,
+        "model": "confucius.language",
         "fields": {
-            "code": "hr", 
+            "code": "hr",
             "value": "Croatian"
         }
-    }, 
+    },
     {
-        "pk": 29, 
-        "model": "confucius.language", 
+        "pk": 29,
+        "model": "confucius.language",
         "fields": {
-            "code": "hu", 
+            "code": "hu",
             "value": "Hungarian"
         }
-    }, 
+    },
     {
-        "pk": 30, 
-        "model": "confucius.language", 
+        "pk": 30,
+        "model": "confucius.language",
         "fields": {
-            "code": "id", 
+            "code": "id",
             "value": "Indonesian"
         }
-    }, 
+    },
     {
-        "pk": 31, 
-        "model": "confucius.language", 
+        "pk": 31,
+        "model": "confucius.language",
         "fields": {
-            "code": "is", 
+            "code": "is",
             "value": "Icelandic"
         }
-    }, 
+    },
     {
-        "pk": 32, 
-        "model": "confucius.language", 
+        "pk": 32,
+        "model": "confucius.language",
         "fields": {
-            "code": "it", 
+            "code": "it",
             "value": "Italian"
         }
-    }, 
+    },
     {
-        "pk": 33, 
-        "model": "confucius.language", 
+        "pk": 33,
+        "model": "confucius.language",
         "fields": {
-            "code": "ja", 
+            "code": "ja",
             "value": "Japanese"
         }
-    }, 
+    },
     {
-        "pk": 34, 
-        "model": "confucius.language", 
+        "pk": 34,
+        "model": "confucius.language",
         "fields": {
-            "code": "ka", 
+            "code": "ka",
             "value": "Georgian"
         }
-    }, 
+    },
     {
-        "pk": 35, 
-        "model": "confucius.language", 
+        "pk": 35,
+        "model": "confucius.language",
         "fields": {
-            "code": "km", 
+            "code": "km",
             "value": "Khmer"
         }
-    }, 
+    },
     {
-        "pk": 36, 
-        "model": "confucius.language", 
+        "pk": 36,
+        "model": "confucius.language",
         "fields": {
-            "code": "kn", 
+            "code": "kn",
             "value": "Kannada"
         }
-    }, 
+    },
     {
-        "pk": 37, 
-        "model": "confucius.language", 
+        "pk": 37,
+        "model": "confucius.language",
         "fields": {
-            "code": "ko", 
+            "code": "ko",
             "value": "Korean"
         }
-    }, 
+    },
     {
-        "pk": 38, 
-        "model": "confucius.language", 
+        "pk": 38,
+        "model": "confucius.language",
         "fields": {
-            "code": "lt", 
+            "code": "lt",
             "value": "Lithuanian"
         }
-    }, 
+    },
     {
-        "pk": 39, 
-        "model": "confucius.language", 
+        "pk": 39,
+        "model": "confucius.language",
         "fields": {
-            "code": "lv", 
+            "code": "lv",
             "value": "Latvian"
         }
-    }, 
+    },
     {
-        "pk": 40, 
-        "model": "confucius.language", 
+        "pk": 40,
+        "model": "confucius.language",
         "fields": {
-            "code": "mk", 
+            "code": "mk",
             "value": "Macedonian"
         }
-    }, 
+    },
     {
-        "pk": 41, 
-        "model": "confucius.language", 
+        "pk": 41,
+        "model": "confucius.language",
         "fields": {
-            "code": "ml", 
+            "code": "ml",
             "value": "Malayalam"
         }
-    }, 
+    },
     {
-        "pk": 42, 
-        "model": "confucius.language", 
+        "pk": 42,
+        "model": "confucius.language",
         "fields": {
-            "code": "mn", 
+            "code": "mn",
             "value": "Mongolian"
         }
-    }, 
+    },
     {
-        "pk": 43, 
-        "model": "confucius.language", 
+        "pk": 43,
+        "model": "confucius.language",
         "fields": {
-            "code": "nb", 
+            "code": "nb",
             "value": "Norwegian Bokmal"
         }
-    }, 
+    },
     {
-        "pk": 44, 
-        "model": "confucius.language", 
+        "pk": 44,
+        "model": "confucius.language",
         "fields": {
-            "code": "nl", 
+            "code": "nl",
             "value": "Dutch"
         }
-    }, 
+    },
     {
-        "pk": 45, 
-        "model": "confucius.language", 
+        "pk": 45,
+        "model": "confucius.language",
         "fields": {
-            "code": "nn", 
+            "code": "nn",
             "value": "Norwegian Nynorsk"
         }
-    }, 
+    },
     {
-        "pk": 46, 
-        "model": "confucius.language", 
+        "pk": 46,
+        "model": "confucius.language",
         "fields": {
-            "code": "no", 
+            "code": "no",
             "value": "Norwegian"
         }
-    }, 
+    },
     {
-        "pk": 47, 
-        "model": "confucius.language", 
+        "pk": 47,
+        "model": "confucius.language",
         "fields": {
-            "code": "pa", 
+            "code": "pa",
             "value": "Punjabi"
         }
-    }, 
+    },
     {
-        "pk": 48, 
-        "model": "confucius.language", 
+        "pk": 48,
+        "model": "confucius.language",
         "fields": {
-            "code": "pl", 
+            "code": "pl",
             "value": "Polish"
         }
-    }, 
+    },
     {
-        "pk": 49, 
-        "model": "confucius.language", 
+        "pk": 49,
+        "model": "confucius.language",
         "fields": {
-            "code": "pt", 
+            "code": "pt",
             "value": "Portuguese"
         }
-    }, 
+    },
     {
-        "pk": 50, 
-        "model": "confucius.language", 
+        "pk": 50,
+        "model": "confucius.language",
         "fields": {
-            "code": "pt-br", 
+            "code": "pt-br",
             "value": "Brazilian Portuguese"
         }
-    }, 
+    },
     {
-        "pk": 51, 
-        "model": "confucius.language", 
+        "pk": 51,
+        "model": "confucius.language",
         "fields": {
-            "code": "ro", 
+            "code": "ro",
             "value": "Romanian"
         }
-    }, 
+    },
     {
-        "pk": 52, 
-        "model": "confucius.language", 
+        "pk": 52,
+        "model": "confucius.language",
         "fields": {
-            "code": "ru", 
+            "code": "ru",
             "value": "Russian"
         }
-    }, 
+    },
     {
-        "pk": 53, 
-        "model": "confucius.language", 
+        "pk": 53,
+        "model": "confucius.language",
         "fields": {
-            "code": "sk", 
+            "code": "sk",
             "value": "Slovak"
         }
-    }, 
+    },
     {
-        "pk": 54, 
-        "model": "confucius.language", 
+        "pk": 54,
+        "model": "confucius.language",
         "fields": {
-            "code": "sl", 
+            "code": "sl",
             "value": "Slovenian"
         }
-    }, 
+    },
     {
-        "pk": 55, 
-        "model": "confucius.language", 
+        "pk": 55,
+        "model": "confucius.language",
         "fields": {
-            "code": "sq", 
+            "code": "sq",
             "value": "Albanian"
         }
-    }, 
+    },
     {
-        "pk": 56, 
-        "model": "confucius.language", 
+        "pk": 56,
+        "model": "confucius.language",
         "fields": {
-            "code": "sr", 
+            "code": "sr",
             "value": "Serbian"
         }
-    }, 
+    },
     {
-        "pk": 57, 
-        "model": "confucius.language", 
+        "pk": 57,
+        "model": "confucius.language",
         "fields": {
-            "code": "sr-latn", 
+            "code": "sr-latn",
             "value": "Serbian Latin"
         }
-    }, 
+    },
     {
-        "pk": 58, 
-        "model": "confucius.language", 
+        "pk": 58,
+        "model": "confucius.language",
         "fields": {
-            "code": "sv", 
+            "code": "sv",
             "value": "Swedish"
         }
-    }, 
+    },
     {
-        "pk": 59, 
-        "model": "confucius.language", 
+        "pk": 59,
+        "model": "confucius.language",
         "fields": {
-            "code": "ta", 
+            "code": "ta",
             "value": "Tamil"
         }
-    }, 
+    },
     {
-        "pk": 60, 
-        "model": "confucius.language", 
+        "pk": 60,
+        "model": "confucius.language",
         "fields": {
-            "code": "te", 
+            "code": "te",
             "value": "Telugu"
         }
-    }, 
+    },
     {
-        "pk": 61, 
-        "model": "confucius.language", 
+        "pk": 61,
+        "model": "confucius.language",
         "fields": {
-            "code": "th", 
+            "code": "th",
             "value": "Thai"
         }
-    }, 
+    },
     {
-        "pk": 62, 
-        "model": "confucius.language", 
+        "pk": 62,
+        "model": "confucius.language",
         "fields": {
-            "code": "tr", 
+            "code": "tr",
             "value": "Turkish"
         }
-    }, 
+    },
     {
-        "pk": 63, 
-        "model": "confucius.language", 
+        "pk": 63,
+        "model": "confucius.language",
         "fields": {
-            "code": "uk", 
+            "code": "uk",
             "value": "Ukrainian"
         }
-    }, 
+    },
     {
-        "pk": 64, 
-        "model": "confucius.language", 
+        "pk": 64,
+        "model": "confucius.language",
         "fields": {
-            "code": "ur", 
+            "code": "ur",
             "value": "Urdu"
         }
-    }, 
+    },
     {
-        "pk": 65, 
-        "model": "confucius.language", 
+        "pk": 65,
+        "model": "confucius.language",
         "fields": {
-            "code": "vi", 
+            "code": "vi",
             "value": "Vietnamese"
         }
-    }, 
+    },
     {
-        "pk": 66, 
-        "model": "confucius.language", 
+        "pk": 66,
+        "model": "confucius.language",
         "fields": {
-            "code": "zh-cn", 
+            "code": "zh-cn",
             "value": "Simplified Chinese"
         }
-    }, 
+    },
     {
-        "pk": 67, 
-        "model": "confucius.language", 
+        "pk": 67,
+        "model": "confucius.language",
         "fields": {
-            "code": "zh-tw", 
+            "code": "zh-tw",
             "value": "Traditional Chinese"
         }
-    }, 
+    },
     {
-        "pk": 1, 
-        "model": "confucius.conference", 
+        "pk": 1,
+        "model": "confucius.conference",
         "fields": {
-            "startEvaluationDate": "2012-02-17", 
-            "isOpen": true, 
-            "title": "Les castors mutants", 
-            "endEvaluationDate": "2012-02-17", 
-            "startConfDate": "2012-02-17", 
-            "endSubmitDate": "2012-02-17", 
-            "url": "", 
-            "startSubmitDate": "2012-02-17", 
+            "startEvaluationDate": "2012-02-17",
+            "isOpen": true,
+            "title": "Les castors mutants",
+            "endEvaluationDate": "2012-02-17",
+            "startConfDate": "2012-02-17",
+            "endSubmitDate": "2012-02-17",
+            "url": "",
+            "startSubmitDate": "2012-02-17",
             "domains": [
                 1
-            ], 
-            "president": 1, 
+            ],
+            "president": 1,
             "endConfDate": "2012-02-17"
         }
-    }, 
+    },
     {
-        "pk": 2, 
-        "model": "confucius.conference", 
+        "pk": 2,
+        "model": "confucius.conference",
         "fields": {
-            "startEvaluationDate": "2012-02-17", 
-            "isOpen": true, 
-            "title": "Dimmu Borgir", 
-            "endEvaluationDate": "2012-02-17", 
-            "startConfDate": "2012-02-17", 
-            "endSubmitDate": "2012-02-17", 
-            "url": "", 
-            "startSubmitDate": "2012-02-17", 
+            "startEvaluationDate": "2012-02-17",
+            "isOpen": true,
+            "title": "Dimmu Borgir",
+            "endEvaluationDate": "2012-02-17",
+            "startConfDate": "2012-02-17",
+            "endSubmitDate": "2012-02-17",
+            "url": "",
+            "startSubmitDate": "2012-02-17",
             "domains": [
                 1
-            ], 
-            "president": 3, 
+            ],
+            "president": 3,
             "endConfDate": "2012-02-17"
         }
-    }, 
+    },
     {
-        "pk": 3, 
-        "model": "confucius.conference", 
+        "pk": 3,
+        "model": "confucius.conference",
         "fields": {
-            "startEvaluationDate": "2012-02-17", 
-            "isOpen": false, 
-            "title": "les loutres anorexiques", 
-            "endEvaluationDate": "2012-02-17", 
-            "startConfDate": "2012-02-17", 
-            "endSubmitDate": "2012-02-17", 
-            "url": "", 
-            "startSubmitDate": "2012-02-17", 
+            "startEvaluationDate": "2012-02-17",
+            "isOpen": false,
+            "title": "les loutres anorexiques",
+            "endEvaluationDate": "2012-02-17",
+            "startConfDate": "2012-02-17",
+            "endSubmitDate": "2012-02-17",
+            "url": "",
+            "startSubmitDate": "2012-02-17",
             "domains": [
                 1
-            ], 
-            "president": 2, 
+            ],
+            "president": 2,
             "endConfDate": "2012-02-29"
         }
-    }, 
+    },
     {
-        "pk": 4, 
-        "model": "confucius.conference", 
+        "pk": 4,
+        "model": "confucius.conference",
         "fields": {
-            "startEvaluationDate": "2012-02-17", 
-            "isOpen": false, 
-            "title": "Mauvaise conference", 
-            "endEvaluationDate": "2012-02-17", 
-            "startConfDate": "2011-12-23", 
-            "endSubmitDate": "2012-02-17", 
-            "url": "", 
-            "startSubmitDate": "2012-02-17", 
+            "startEvaluationDate": "2012-02-17",
+            "isOpen": false,
+            "title": "Mauvaise conference",
+            "endEvaluationDate": "2012-02-17",
+            "startConfDate": "2011-12-23",
+            "endSubmitDate": "2012-02-17",
+            "url": "",
+            "startSubmitDate": "2012-02-17",
             "domains": [
                 1
-            ], 
-            "president": 3, 
+            ],
+            "president": 3,
             "endConfDate": "2012-01-01"
         }
-    }, 
+    },
     {
-        "pk": 5, 
-        "model": "confucius.conference", 
+        "pk": 5,
+        "model": "confucius.conference",
         "fields": {
-            "startEvaluationDate": "2012-02-17", 
-            "isOpen": true, 
-            "title": "Encore plus tot", 
-            "endEvaluationDate": "2012-02-17", 
-            "startConfDate": "2011-04-13", 
-            "endSubmitDate": "2012-02-17", 
-            "url": "", 
-            "startSubmitDate": "2012-02-17", 
+            "startEvaluationDate": "2012-02-17",
+            "isOpen": true,
+            "title": "Encore plus tot",
+            "endEvaluationDate": "2012-02-17",
+            "startConfDate": "2011-04-13",
+            "endSubmitDate": "2012-02-17",
+            "url": "",
+            "startSubmitDate": "2012-02-17",
             "domains": [
                 1
-            ], 
-            "president": 2, 
+            ],
+            "president": 2,
             "endConfDate": "2011-10-01"
         }
-    }, 
+    },
     {
-        "pk": 1, 
-        "model": "confucius.role", 
+        "pk": 1,
+        "model": "confucius.alert",
         "fields": {
-            "code": "REVI", 
+            "conference": 1,
+            "roles": [
+                1,
+                2
+            ],
+            "title": "Premiere Alerte",
+            "forPresident": false,
+            "content": "un",
+            "reminder": null,
+            "trigger_date": "2012-01-01",
+            "event": null
+        }
+    },
+    {
+        "pk": 2,
+        "model": "confucius.alert",
+        "fields": {
+            "conference": 1,
+            "roles": [],
+            "title": "Heeeey",
+            "forPresident": false,
+            "content": "vvvvvvvvv",
+            "reminder": 2,
+            "trigger_date": null,
+            "event": 5
+        }
+    },
+    {
+        "pk": 1,
+        "model": "confucius.role",
+        "fields": {
+            "code": "REVI",
             "name": "Reviewer"
         }
-    }, 
+    },
     {
-        "pk": 2, 
-        "model": "confucius.role", 
+        "pk": 2,
+        "model": "confucius.role",
         "fields": {
-            "code": "AUTH", 
+            "code": "AUTH",
             "name": "Author"
         }
     },
     {
-        "pk": 1, 
-        "model": "confucius.conferenceaccountrole", 
+        "pk": 1,
+        "model": "confucius.conferenceaccountrole",
         "fields": {
-            "conference": 1, 
+            "conference": 1,
             "domains": [
                 1
-            ], 
-            "account": 2, 
+            ],
+            "account": 2,
             "role": [
                 1
             ]
         }
-    }, 
+    },
     {
-        "pk": 2, 
-        "model": "confucius.conferenceaccountrole", 
+        "pk": 2,
+        "model": "confucius.conferenceaccountrole",
         "fields": {
-            "conference": 1, 
+            "conference": 1,
             "domains": [
                 1
-            ], 
-            "account": 3, 
-            "role": [
-                2
-            ]
-        }
-    }, 
-    {
-        "pk": 3, 
-        "model": "confucius.conferenceaccountrole", 
-        "fields": {
-            "conference": 2, 
-            "domains": [
-                1
-            ], 
-            "account": 1, 
-            "role": [
-                1, 
-                2
-            ]
-        }
-    }, 
-    {
-        "pk": 4, 
-        "model": "confucius.conferenceaccountrole", 
-        "fields": {
-            "conference": 3, 
-            "domains": [
-                1
-            ], 
-            "account": 1, 
+            ],
+            "account": 3,
             "role": [
                 2
             ]
         }
-    }, 
+    },
     {
-        "pk": 5, 
-        "model": "confucius.conferenceaccountrole", 
+        "pk": 3,
+        "model": "confucius.conferenceaccountrole",
         "fields": {
-            "conference": 4, 
+            "conference": 2,
             "domains": [
                 1
-            ], 
-            "account": 1, 
+            ],
+            "account": 1,
+            "role": [
+                1,
+                2
+            ]
+        }
+    },
+    {
+        "pk": 4,
+        "model": "confucius.conferenceaccountrole",
+        "fields": {
+            "conference": 3,
+            "domains": [
+                1
+            ],
+            "account": 1,
             "role": [
                 2
             ]
         }
-    }, 
+    },
     {
-        "pk": 6, 
-        "model": "confucius.conferenceaccountrole", 
+        "pk": 5,
+        "model": "confucius.conferenceaccountrole",
         "fields": {
-            "conference": 5, 
+            "conference": 4,
             "domains": [
                 1
-            ], 
-            "account": 1, 
+            ],
+            "account": 1,
             "role": [
-                1, 
                 2
             ]
         }
-    }, 
+    },
     {
-        "pk": 1, 
-        "model": "confucius.domain", 
+        "pk": 6,
+        "model": "confucius.conferenceaccountrole",
         "fields": {
-            "code": "dqs", 
-            "name": "qsdqsdqsdqsd"
+            "conference": 5,
+            "domains": [
+                1
+            ],
+            "account": 1,
+            "role": [
+                1,
+                2
+            ]
+        }
+    },
+    {
+        "pk": 1,
+        "model": "confucius.domain",
+        "fields": {
+            "code": "ma",
+            "name": "mathematics"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "confucius.reminder",
+        "fields": {
+            "name": "1 Month before",
+            "value": 30
+        }
+    },
+    {
+        "pk": 2,
+        "model": "confucius.reminder",
+        "fields": {
+            "name": "2 weeks before",
+            "value": 15
+        }
+    },
+    {
+        "pk": 3,
+        "model": "confucius.reminder",
+        "fields": {
+            "name": "One week before",
+            "value": 7
+        }
+    },
+    {
+        "pk": 4,
+        "model": "confucius.reminder",
+        "fields": {
+            "name": "One day before",
+            "value": 1
+        }
+    },
+    {
+        "pk": 5,
+        "model": "confucius.reminder",
+        "fields": {
+            "name": "2 Months before",
+            "value": 60
+        }
+    },
+    {
+        "pk": 1,
+        "model": "confucius.event",
+        "fields": {
+            "name": "startConfDate"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "confucius.event",
+        "fields": {
+            "name": "endConfDate"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "confucius.event",
+        "fields": {
+            "name": "startSubmitDate"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "confucius.event",
+        "fields": {
+            "name": "endSubmitDate"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "confucius.event",
+        "fields": {
+            "name": "startEvaluationDate"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "confucius.event",
+        "fields": {
+            "name": "endEvaluationDate"
+        }
+    },
+
+        {
+        "pk": 1,
+        "model": "auth.user",
+        "fields": {
+            "username": "ImwWgX1aPDcyH53WzyR1YaycVNI=",
+            "first_name": "Blu",
+            "last_name": "Blou",
+            "is_active": true,
+            "is_superuser": true,
+            "is_staff": true,
+            "last_login": "2012-02-22 22:02:28",
+            "groups": [],
+            "user_permissions": [],
+            "password": "sha1$1da8f$e77bd350be2356d14c9b06e88e6da923baa7b190",
+            "email": "",
+            "date_joined": "2012-02-16 01:42:36"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "auth.user",
+        "fields": {
+            "username": "ImvWgX1aPDcyH53WzyR1YaycVNI=",
+            "first_name": "Red",
+            "last_name": "Rey",
+            "is_active": true,
+            "is_superuser": true,
+            "is_staff": true,
+            "last_login": "2012-02-16 01:42:36",
+            "groups": [],
+            "user_permissions": [],
+            "password": "sha1$1da8f$e77bd350be2356d14c9b06e88e6da923baa7b190",
+            "email": "",
+            "date_joined": "2012-02-16 01:42:36"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "auth.user",
+        "fields": {
+            "username": "ImvWgX1aPDcyH52WzyR1YaycVNI=",
+            "first_name": "Green",
+            "last_name": "Gri",
+            "is_active": true,
+            "is_superuser": true,
+            "is_staff": true,
+            "last_login": "2012-02-16 01:42:36",
+            "groups": [],
+            "user_permissions": [],
+            "password": "sha1$1da8f$e77bd350be2356d14c9b06e88e6da923baa7b190",
+            "email": "",
+            "date_joined": "2012-02-16 01:42:36"
         }
     }
 ]
