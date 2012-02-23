@@ -1,8 +1,9 @@
-{% extends "base-out.html" %}
+{% extends 'base.html' %}
 {% load url from future %}
 
-{% block title %}Confucius login{% endblock %}
+{% block title %}Log in to Confucius{% endblock %}
 
+<<<<<<< HEAD
 {% block content %}
 <form class="form-horizontal" method="post" action="{% url 'login' %}">
 {% csrf_token %}
@@ -39,8 +40,21 @@
                     <button type="submit" class="btn btn-primary">Log in</button>
                 </div>
             {% endif %}
+=======
+{% block base_content %}
+<div class="modal">
+    <div class="modal-header">
+        <h3>Log in to Confucius</h3>
+    </div>
+    <form class="form-horizontal" method="post">{% csrf_token %}
+        <div class="modal-body">
+            {% include 'includes/form.html' %}
+>>>>>>> e0d3239ba6faa716125af99f0376c67cef0e3223
         </div>
-    </fieldset>
-</form>
+        <div class="modal-footer">
+            <input type="submit" class="btn btn-large btn-primary" value="Log in">
+            <span><a href="{% url 'password_reset' %}" class="btn btn-large">I forgot my password</a></span>
+        </div>
+    </form>
+</div>
 {% endblock %}
-

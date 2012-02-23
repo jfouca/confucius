@@ -1,0 +1,45 @@
+{% load extra %}
+
+{% if form.non_field_errors %}
+<div class="alert alert-error">
+    {% for error in form.non_field_errors %}
+    <p>{{ error }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% for field in form %}
+<div class="control-group {% if field.errors %}error{% endif %}">
+    <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}</label>
+    <div class="controls">
+        {% if field|type == 'password' %}
+        <div class="input-prepend">
+            <span class="add-on">
+                <i class="icon-lock"></i>
+            </span>
+        {% endif %}
+        {% if field|type == 'email' %}
+            <div class="input-prepend">
+                <span class="add-on">
+                    <i class="icon-envelope"></i>
+                </span>
+        {% endif %}
+        {% if field|type == 'text' %}
+            <div class="input-prepend">
+                <span class="add-on">
+                    <i class="icon-pencil"></i>
+                </span>
+        {% endif %}
+        {% if field|type == 'textarea' or field|type == 'select' or field|type == 'selectm' %}
+            <div>
+        {% endif %}
+        {% if field|type == 'checkbox' %}
+            <div class="checkbox">
+        {% endif %}
+            {{ field }}
+            <span class="help-inline">{{ field.errors|first }}</span>
+        </div>
+        <p class="help-block">{{ field.help_text }}</p>
+    </div>
+</div>
+{% endfor %}

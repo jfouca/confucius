@@ -1,7 +1,5 @@
 from django.contrib.auth.models import User
 
-from confucius.models import Account
-
 
 class AccountBackend(object):
     supports_object_permissions = False
@@ -10,10 +8,10 @@ class AccountBackend(object):
 
     def authenticate(self, username=None, password=None):
         try:
-            account = Account.objects.get_by_email(username)
-            if account.user.is_active and account.check_password(password):
-                return account.user
-        except Account.DoesNotExist:
+            user = User.objects.get(email=username)
+            if user.is_active and user.check_password(password):
+                return user
+        except User.DoesNotExist:
             pass
         return None
 

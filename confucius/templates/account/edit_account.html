@@ -4,65 +4,32 @@
 {% block title %}Account{% endblock %}
 
 {% block content_header %}
-<h1>Account</h1>
+<h1>Account
+        <a href="{% url 'password_change' %}" class="btn btn-info">Change my password</a>
+        <a href="{% url 'close_account' %}" class="btn btn-danger">Close my account</a>
+</h1>
 {% endblock %}
 
 {% block content_main %}
-<form class="form-horizontal" method="post" action="{% url 'account' %}">
-{% csrf_token %}
-    <fieldset>
-        <div class="control-group">
-            <label class="control-label" for="firstName">Me</label>
-            <div class="controls">
-                <div class="controls-inputs">
-                    <input type="text" id="firstName" class="input-medium" placeholder="{{ userform.first_name.label }}" value="{{ userform.first_name.value }}" name="{{ userform.first_name.html_name }}">
-                    <input type="text" id="lastName" class="input-medium" placeholder="{{ userform.last_name.label }}" value="{{ userform.last_name.value }}" name="{{ userform.last_name.html_name }}">
-                </div>
-            </div>
-        </div>
-       <div class="control-group">
-            <label class="control-label">Language(s)</label>
-            <div class="controls">
-                {{ account.languages }}
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">E-mail address(es)</label>
-            <div class="controls">
-                {{ emailaddress_set.management_form }}
-                {% for email in emailaddress_set %}
-                <div class="controls-inputs">
-                    <p>{{ email.errors.value|striptags }}</p>
-                    M<input type="checkbox" name="{{ email.main.html_name }}" {% if email.main.value %}checked="checked"{% endif %}>
-                    <input type="text" placeholder="E-mail" name="{{ email.value.html_name }}" value="{{ email.value.value|default:'' }}">
-                    D<input type="checkbox" name="{{ email.DELETE.html_name }}">
-                    {{ email.account }}
-                    {{ email.id }}
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">Physical address(es)</label>
-            <div class="controls">
-                {{ postaladdress_set.management_form }}
-                {% for postal in postaladdress_set %}
-                <div class="controls-inputs">
-                    <p>{{ email.errors.value|striptags }}</p>
-                    M<input type="checkbox" name="{{ postal.main.html_name }}" {% if postal.main.value %}checked="checked"{% endif %}>
-                    <textarea placeholder="Address" name="{{ postal.value.html_name }}">{{ postal.value.value|default:'' }}</textarea>
-                    D<input type="checkbox" name="{{ postal.DELETE.html_name }}">
-                    {{ postal.account }}
-                    {{ postal.id }}
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="form-actions">
-            <input type="submit" class="btn btn-primary" value="Update">
-            <a href="{% url 'password_change' %}" class="btn btn-info">Change my password</a>
-            <a href="{% url 'close_account' %}" class="btn btn-danger">Close my account</a>
-        </div>
-    </fieldset>
+<form id="form" class="form-horizontal" method="post">{% csrf_token %}
+    {% include 'includes/form.html' %}
+    {% include 'includes/formset.html' with formset=email_formset %}
+    {% include 'includes/formset.html' with formset=address_formset %}
 </form>
+{% endblock %}
+{% block script %}
+<script>
+    $(function() {
+        $('#form').on('submit', function() { return false; });
+        $('#form').on('change', function(e) {
+            $(e.target).next().html($('<i class="icon icon-refresh">'));
+            $.post('{% url 'account' %}', $(this).serialize(), function(data) {
+                console.log(e.target);
+                console.log(data);
+                $(e.target).parent().parent().parent().addClass('success');
+                $(e.target).next().text('saved!');
+            });
+        });
+    });
+</script>
 {% endblock %}

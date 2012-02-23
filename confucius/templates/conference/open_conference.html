@@ -6,16 +6,17 @@
 {% block content %}
 <div class="modal">
     <div class="modal-header">
-        <h3>Are you sure you want to open the conference: {{ conference.title }} ?</h3>
-        <p></p>
+        <h3>Open ?</h3>
     </div>
     <div class="modal-body">
+        Are you sure you want to <b>open</b> the conference <b>{{ conference.title }}</b> ?
+    </div>
+    <div class="modal-footer">
         <form action="{% url 'open_conference' %}" method="post">
             {% csrf_token %}
             <input type="submit" class="btn btn-primary" value="YES I AM SURE, open the conference">
-            <a href="{% url 'home_conference' %}" class="btn btn-danger">NO I DON'T WANT, return</a>
+            <a href="{% url 'edit_conference' %}" class="btn btn-danger">NO I DON'T WANT, return</a>
         </form>
     </div>
 </div>
 {% endblock %}
-
