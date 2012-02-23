@@ -54,7 +54,7 @@ INSTALLED_APPS = (
 )
 
 AUTHENTICATION_BACKENDS = ('confucius.backends.AccountBackend',)
-EMAIL_HOST = 'smtp.numericable.fr'
+EMAIL_HOST = 'smtp.orange.fr'
 EMAIL_PORT = 25
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/conference/home'

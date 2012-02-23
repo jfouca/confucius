@@ -22,12 +22,14 @@
         <tr>
             <th>Title</th>
             <th>Date</th>
+            <th>For President</th>
             <th>Roles</th>
         </tr>
         {% for alert in alerts_trigger %}
         <tr>
             <td>{{alert.title}}</td>
             <td>{{alert.trigger_date|date:"m/d/y"}}</td>
+            <td>{{alert.forPresident}}</td>
             <td>
                 {% for role in alert.roles.all %}
                     {{role}}
@@ -46,13 +48,41 @@
             <th>Title</th>
             <th>Reminder</th>
             <th>Event</th>
+            <th>For President</th>
             <th>Roles</th>
+            
         </tr>
         {% for alert in alerts_reminder %}
         <tr>
             <td>{{alert.title}}</td>
             <td>{{alert.reminder.name}}</td>
             <td>{{alert.event.name}}</td>
+            <td>{{alert.forPresident}}</td>
+            <td>
+                {% for role in alert.roles.all %}
+                    {{role}}
+                {% empty %}
+                    None
+                {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+{% if alerts_action %}
+<h3>Alerts with action</h3>
+    <table class="table table-striped">
+        <tr>
+            <th>Title</th>
+            <th>Action</th>
+            <th>For President</th>
+            <th>Roles</th>
+        </tr>
+        {% for alert in alerts_action %}
+        <tr>
+            <td>{{alert.title}}</td>
+            <td>{{alert.action.name}}</td>
+            <td>{{alert.forPresident}}</td>
             <td>
                 {% for role in alert.roles.all %}
                     {{role}}

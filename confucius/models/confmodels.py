@@ -36,8 +36,9 @@ class Alert(models.Model):
     conference = models.ForeignKey(Conference)
     reminder = models.ForeignKey('Reminder', blank=True, null=True)
     event = models.ForeignKey('Event', blank=True, null=True)
+    action = models.ForeignKey('Action', blank=True, null=True)
     roles = models.ManyToManyField('Role', blank=True)
-    forPresident = models.BooleanField(default='False', verbose_name="includes president")
+    forPresident = models.BooleanField()
     
     def __unicode__(self):
         return self.title
@@ -107,7 +108,16 @@ class Event(models.Model):
     name = models.CharField(max_length=155, verbose_name="linked to")
     
     def __unicode__(self):
-        return self.name    
+        return self.name
+        
+class Action(models.Model):
+    class Meta:
+        app_label = "confucius"
+        
+    name = models.CharField(max_length=155, verbose_name="Action")
+    
+    def __unicode__(self):
+        return self.name      
     
     
     

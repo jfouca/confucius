@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
-from confucius.models import Conference, ConferenceAccountRole, Account, Role, Alert, Reminder, Event
+from confucius.models import Conference, ConferenceAccountRole, Account, Role, Alert, Reminder, Event, Action
 from confucius.forms import EditConfForm, AlertForm
 from confucius.decorators import user_access_conference
  
@@ -15,11 +15,11 @@ def home_conference(request):
     if conference.president == account:
         roles = ()
         template = "conf_PRES.html"
-        print conference.pk
-        alerts_trigger = Alert.objects.filter(conference=conference.pk, reminder__isnull=True)
-        alerts_reminder = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True)
+        alerts_trigger = Alert.objects.filter(conference=conference.pk, reminder__isnull=True, action__isnull=True)
+        alerts_reminder = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, action__isnull=True)
+        alerts_action = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, reminder__isnull=True)
         
-        return render_to_response(directory+template, {'conference' : conference, 'roles': roles, 'rolesCode': [role.code for role in roles], 'alerts_trigger':alerts_trigger, 'alerts_reminder':alerts_reminder}, context_instance=RequestContext(request))
+        return render_to_response(directory+template, {'conference' : conference, 'roles': roles, 'rolesCode': [role.code for role in roles], 'alerts_trigger':alerts_trigger, 'alerts_reminder':alerts_reminder, 'alerts_action':alerts_action}, context_instance=RequestContext(request))
         #Pour le livrable 3, voir 4, il faudra creer des listes d'evaluation, de soumissions et d'alertes 
     else:
         roles = ConferenceAccountRole.objects.get(conference=conference, account=account).role.all()
@@ -113,10 +113,10 @@ def edit_conference(request) :
 def create_alert(request):
     account = Account.objects.get(user=request.user)
     conference = account.actual_conference
-    form = AlertForm(auto_id='id_%s')
+    form = AlertForm(auto_id=True)
     reminders = Reminder.objects.all() 
     events = Event.objects.all()
-    
+    actions = Action.objects.all()
     
     if request.method == 'POST':
         form = AlertForm(request.POST, instance=Alert(conference=conference))
@@ -124,5 +124,5 @@ def create_alert(request):
             new_alert = form.save()
             return render_to_response('conference/alert/confirm_create_alert.html', {'alert':new_alert}, context_instance=RequestContext(request))
             
-    return render_to_response('conference/alert/create_alert.html', {'conference':conference, 'alert_form':form, 'reminders':reminders, 'events':events}, context_instance=RequestContext(request))
+    return render_to_response('conference/alert/create_alert.html', {'conference':conference, 'alert_form':form, 'reminders':reminders, 'events':events, 'actions':actions}, context_instance=RequestContext(request))
 

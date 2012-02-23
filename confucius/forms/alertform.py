@@ -9,7 +9,7 @@ class AlertForm(ModelForm):
 
     class Meta:
         model = Alert
-        fields=('reminder','event','trigger_date','title','content','forPresident','roles')
+        fields=('reminder','event','trigger_date','action','title','content','forPresident','roles')
 
     def __init__(self, *args, **kwargs):
         super(AlertForm, self).__init__(*args, **kwargs)

@@ -22,6 +22,11 @@
                         <input type="radio" name="type"  value="isTrigger" id="isTrigger" class="input-medium" /><span class="help-text">Trigger Date</span>
                     </div>
                 </div>
+                <div class="controls">
+                    <div class="controls-inputs">
+                        <input type="radio" name="type"  value="isAction" id="isAction" class="input-medium" /><span class="help-text">Action</span>
+                    </div>
+                </div>
         </div>
 
         <div class="control-group">
@@ -34,7 +39,7 @@
             </div>
 
             <div class="controls">
-                <div class="controls-inputs contentTextPander event" >
+                <div class="controls-inputs contentTextPander reminder" >
                     {{ alert_form.event.errors }}
                     <span class="help-text">Event:</span>
                     <p>{{ alert_form.event }}</p>
@@ -42,6 +47,15 @@
             </div>
         </div>        
         
+        <div class="control-group">
+            <div class="controls">
+                <div class="controls-inputs contentTextPander action" >
+                    {{ alert_form.action.errors }}
+                    <span class="help-text">Action:</span>
+                    <p>{{ alert_form.action }}</p>
+                </div>
+            </div>
+        </div>
 
         <div class="control-group">
             <div class="controls">
@@ -90,16 +104,26 @@ $(document).ready(function() {
 	$("input[@name='type']:checked").live('click', function(){
 	   if ($("input[@name='type']:checked").val() == 'isReminder'){
 	     	$(".reminder").slideDown();
-	     	$(".event").slideDown(); 
 	     	$(".trigger").slideUp();
-	     	$("#id_trigger_date").val("");
+	     	$(".action").slideUp();
+	     	$("#trigger_date").val("");
+	     	$("#action").val("");
+	    }
+        else if ($("input[@name='type']:checked").val() == 'isAction'){
+	     	$(".reminder").slideUp();
+	     	$(".trigger").slideUp();
+	     	$(".action").slideDown();
+	     	$("#trigger_date").val("");
+	     	$("#reminder").val(0);
+	     	$("#event").val(0);
 	    }
 	    else{
 	     	$(".trigger").slideDown();  
 	     	$(".reminder").slideUp();
-	     	$(".event").slideUp(); 
-	        $("#id_reminder").val(0);
-	        $("#id_event").val(0);
+	        $(".action").slideUp();
+	        $("#reminder").val(0);
+	        $("#event").val(0);
+	     	$("#action").val("");
 	    }
 	})
 });
