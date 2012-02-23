@@ -31,7 +31,7 @@ class Command(BaseCommand):
             self.do_task(alert,conference,new_date,current_date)    
     
     def do_task(self, alert, conference, new_date, current_date):
-        if alert.forPresident == True:
+        if alert.for_president == True:
             president_email = EmailAddress.objects.get(account=conference.president,main=True)
             send_mail(alert.title+" to president", alert.content+"-- to president", 'no-reply-alerts@confucius.com',[str(president_email)], fail_silently=False)
         for role in alert.roles.all() :
