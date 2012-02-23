@@ -1,9 +1,11 @@
+from django.contrib.auth.decorators import login_required
 from django.forms.models import modelform_factory
-from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
 from django.views.generic import UpdateView, ListView
 from django.views.generic.detail import BaseDetailView, SingleObjectTemplateResponseMixin
 
-from confucius.models import Conference, Membership
+from confucius.models import Conference, Membership, MockUser, Role
+from confucius.decorators.confdecorators import user_access_conference
 
 
 class MembershipListView(ListView):
@@ -24,7 +26,7 @@ class ConferenceToggleView(SingleObjectTemplateResponseMixin, BaseDetailView):
         object = self.get_object()
         object.is_open = not object.is_open
         object.save()
-        return HttpResponseRedirect('/conference/')
+        return redirect('/conference/')
 
 
 class ConferenceUpdateView(UpdateView):
@@ -33,3 +35,26 @@ class ConferenceUpdateView(UpdateView):
     model = Conference
     success_url = '/conference/'
     template_name = 'conference/conference_form.html'
+
+
+@login_required
+@user_access_conference(onlyPresident=True)
+def use_mockuser(request, role_id):
+    president = request.user
+    conference = president.actual_conference
+
+    mock_user = MockUser().build_mock_user(president, conference, Role.objects.get(pk=role_id))
+
+    return redirect('change_conference', mock_user.mock_conference.pk)
+
+
+@login_required
+@user_access_conference()
+def exit_mockuser(request):
+    president = request.user
+    mock_conference = president.actual_conference
+
+    mock_user = MockUser.objects.get(original_president=president, mock_conference=mock_conference)
+    original_conference = mock_user.original_conference
+
+    return redirect('change_conference', original_conference.pk)
