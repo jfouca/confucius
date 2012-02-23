@@ -8,37 +8,28 @@
 </div>
 {% endif %}
 
-{% for field in form %}
+{% for field in form.visible_fields %}
 <div class="control-group {% if field.errors %}error{% endif %}">
     <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}</label>
     <div class="controls">
-        {% if field|type == 'password' %}
-        <div class="input-prepend">
-            <span class="add-on">
-                <i class="icon-lock"></i>
-            </span>
+        {% ifequal field|type 'date' %}
+            {% include 'includes/fields/input_prepend.html' with icon='calendar' field=field|small %}
+        {% endifequal %}
+        {% ifequal field|type 'password' %}
+            {% include 'includes/fields/input_prepend.html' with icon='lock' field=field|medium %}
+        {% endifequal %}
+        {% if field|type == 'text' %}
+            {% include 'includes/fields/input_prepend.html' with icon='pencil' field=field|medium %}
         {% endif %}
         {% if field|type == 'email' %}
-            <div class="input-prepend">
-                <span class="add-on">
-                    <i class="icon-envelope"></i>
-                </span>
-        {% endif %}
-        {% if field|type == 'text' %}
-            <div class="input-prepend">
-                <span class="add-on">
-                    <i class="icon-pencil"></i>
-                </span>
+            {% include 'includes/fields/input_prepend.html' with icon='envelope' field=field|medium %}
         {% endif %}
         {% if field|type == 'textarea' or field|type == 'select' or field|type == 'selectm' %}
-            <div>
+            {{ field }}
         {% endif %}
         {% if field|type == 'checkbox' %}
-            <div class="checkbox">
+            {% include 'includes/fields/checkbox.html' with field=field %}
         {% endif %}
-            {{ field }}
-            <span class="help-inline">{{ field.errors|first }}</span>
-        </div>
         <p class="help-block">{{ field.help_text }}</p>
     </div>
 </div>
