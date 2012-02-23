@@ -13,4 +13,8 @@ def active(name, request):
 
 @register.filter
 def type(field):
-    return field.field.__class__.__name__
+    if field.field.widget.__class__.__name__ is 'PasswordInput':
+        return 'password'
+    if field.field.__class__.__name__ is 'EmailField':
+        return 'email'
+    return 'text'

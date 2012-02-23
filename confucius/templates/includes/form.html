@@ -1,13 +1,22 @@
 {% load extra %}
 
+{% if form.non_field_errors %}
+<div class="alert alert-error">
+    {% for error in form.non_field_errors %}
+    <p>{{ error }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+
 {% for field in form %}
 <div class="control-group {% if field.errors %}error{% endif %}">
     <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}</label>
     <div class="controls">
         <div class="input-prepend">
             <span class="add-on">
-                {% if field|type == 'EmailField' %}<i class="icon-envelope"></i>{% endif %}
-                {% if field|type == 'CharField' %}<i class="icon-pencil"></i>{% endif %}
+                {% if field|type == 'password' %}<i class="icon-lock"></i>{% endif %}
+                {% if field|type == 'email' %}<i class="icon-envelope"></i>{% endif %}
+                {% if field|type == 'text' %}<i class="icon-pencil"></i>{% endif %}
             </span>
             {{ field }}
             <span class="help-inline">{{ field.errors|first }}</span>
