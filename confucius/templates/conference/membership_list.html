@@ -1,0 +1,35 @@
+{% extends 'base-in.html' %}
+{% load url from future %}
+
+{% block title %}Conference {% endblock %}
+
+{% block content_header %}
+<h1>My Conferences</h1>
+{% endblock %}
+
+{% block content_main %}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>My roles</th>
+            <th>Starting date</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for membership in membership_list %}
+        <tr class="infos">
+            <td><a href="{% url 'dashboard' membership.conference.pk %}"><strong>{{ membership.conference.title }}</strong></a></td>
+            <td>
+                {% for role in membership.roles.all %}
+                    {{ role }}
+                {% endfor %}
+            </td>
+            <td>{{ membership.conference.start_date }}</td>
+            <td>{% if membership.conference.is_open %}Open{% else %}Closed{% endif %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

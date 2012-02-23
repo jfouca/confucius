@@ -1,0 +1,104 @@
+{% extends 'base-in.html' %}
+{% load url from future %}
+
+{% block title %}Conference "{{ conference.title }}"{% endblock %}
+{% block brand %}Conference "{{ conference.title }}"{% endblock %}
+
+{% block content_header %}
+<h2>Dashboard</h2>
+{% endblock %}
+
+{% block subtopbar %}
+<div class="span12 db-top">
+    <div class="db-top-inner-min">
+        <i class="icon-calendar icon-white"></i> Start date {{ conference.start_date|date:'SHORT_DATE_FORMAT' }} | 
+        <i class="icon-info-sign icon-white"></i> Submissions end date {{ conference.submissions_end_date|date:'SHORT_DATE_FORMAT' }} | 
+        <i class="icon-exclamation-sign icon-white"></i> Reviews end date {{ conference.reviews_end_date|date:'SHORT_DATE_FORMAT' }}
+    </div>
+</div>
+{% endblock %}
+
+{% block content_main %}
+<p>
+    <a href="{% url 'conference_edit' conference.pk %}" class="btn btn-primary">Edit the conference</a>
+    <a href="{% url 'create_alert' %}" class="btn btn-info">Create Alert</a>
+</p>
+{% if alerts_trigger %}
+<h3>Alerts with trigger</h3>
+    <table class="table table-striped">
+        <tr>
+            <th>Title</th>
+            <th>Date</th>
+            <th>For President</th>
+            <th>Roles</th>
+        </tr>
+        {% for alert in alerts_trigger %}
+        <tr>
+            <td>{{alert.title}}</td>
+            <td>{{alert.trigger_date|date:"m/d/y"}}</td>
+            <td>{{alert.for_president}}</td>
+            <td>
+                {% for role in alert.roles.all %}
+                    {{role}}
+                {% empty %}
+                    None
+                {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+{% if alerts_reminder %}
+<h3>Alerts with reminder</h3>
+    <table class="table table-striped">
+        <tr>
+            <th>Title</th>
+            <th>Reminder</th>
+            <th>Event</th>
+            <th>For President</th>
+            <th>Roles</th>
+            
+        </tr>
+        {% for alert in alerts_reminder %}
+        <tr>
+            <td>{{alert.title}}</td>
+            <td>{{alert.reminder.name}}</td>
+            <td>{{alert.event.name}}</td>
+            <td>{{alert.for_president}}</td>
+            <td>
+                {% for role in alert.roles.all %}
+                    {{role}}
+                {% empty %}
+                    None
+                {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+{% if alerts_action %}
+<h3>Alerts with action</h3>
+    <table class="table table-striped">
+        <tr>
+            <th>Title</th>
+            <th>Action</th>
+            <th>For President</th>
+            <th>Roles</th>
+        </tr>
+        {% for alert in alerts_action %}
+        <tr>
+            <td>{{alert.title}}</td>
+            <td>{{alert.action.name}}</td>
+            <td>{{alert.for_president}}</td>
+            <td>
+                {% for role in alert.roles.all %}
+                    {{role}}
+                {% empty %}
+                    None
+                {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+{% endblock %}

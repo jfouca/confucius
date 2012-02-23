@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <title>{% block title %}Confucius{% endblock %}</title>
-    <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="{{ STATIC_URL }}style.css" />
-</head>
-
-<body>
-
-{% block base_topbar %}{% endblock %}
-
-{% block base_content %}{% endblock %}
-
-{% block base_script %}{% endblock %}
-
-</body>
+    <head>
+       <meta charset="utf-8">
+       <title>{% block title %}Confucius{% endblock %}</title>
+       <link rel="stylesheet" href="{{ STATIC_URL }}jqueryui/css/jquery-ui-1.8.17.custom.css" />
+       <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css" />
+       <link rel="stylesheet" href="{{ STATIC_URL }}style.css" />
+       {% block style %}{% endblock %}
+    </head>
+    <body>
+       {% block topbar %}{% endblock %}
+       {% block base_content %}{% endblock %}
+       <script src="{{ STATIC_URL }}jquery.js"></script>
+       <script src="{{ STATIC_URL }}jqueryui/js/jquery-ui-1.8.17.custom.min.js"></script>
+       <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
+       {% block script %}{% endblock %}
+    </body>
 </html>
