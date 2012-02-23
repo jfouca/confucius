@@ -9,6 +9,24 @@
         }
     }, 
     {
+        "pk": 2, 
+        "model": "confucius.email", 
+        "fields": {
+            "user": 2, 
+            "main": true, 
+            "value": "red@red.com"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "confucius.email", 
+        "fields": {
+            "user": 3, 
+            "main": true, 
+            "value": "green@green.com"
+        }
+    }, 
+    {
         "pk": 1,
         "model": "auth.user",
         "fields": {
@@ -23,6 +41,42 @@
             "user_permissions": [],
             "password": "sha1$99e22$c79827cf9b5e915d100e5b8755b6a551657889e8",
             "email": "blu@blu.com",
+            "date_joined": "2012-02-20 21:05:11"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "auth.user",
+        "fields": {
+            "username": "red",
+            "first_name": "Red",
+            "last_name": "Der",
+            "is_active": true,
+            "is_superuser": true,
+            "is_staff": true,
+            "last_login": "2012-02-20 21:05:11",
+            "groups": [],
+            "user_permissions": [],
+            "password": "sha1$99e22$c79827cf9b5e915d100e5b8755b6a551657889e8",
+            "email": "red@red.com",
+            "date_joined": "2012-02-20 21:05:11"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "auth.user",
+        "fields": {
+            "username": "green",
+            "first_name": "Green",
+            "last_name": "Neeg",
+            "is_active": true,
+            "is_superuser": true,
+            "is_staff": true,
+            "last_login": "2012-02-20 21:05:11",
+            "groups": [],
+            "user_permissions": [],
+            "password": "sha1$99e22$c79827cf9b5e915d100e5b8755b6a551657889e8",
+            "email": "green@green.com",
             "date_joined": "2012-02-20 21:05:11"
         }
     },
@@ -670,7 +724,58 @@
                 1, 3
             ] 
         }
-    },
+    }, 
+    {
+        "pk": 1, 
+        "model": "confucius.alert", 
+        "fields": {
+            "conference": 1, 
+            "roles": [
+                2
+            ], 
+            "title": "Premiere Alerte", 
+            "for_president": false, 
+            "content": "test trigger date", 
+            "action": null, 
+            "reminder": null, 
+            "trigger_date": "2012-02-23", 
+            "event": null
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "confucius.alert", 
+        "fields": {
+            "conference": 1, 
+            "roles": [
+                1
+            ], 
+            "title": "Heeeey", 
+            "for_president": false, 
+            "content": "test reminder", 
+            "action": null, 
+            "reminder": 4, 
+            "trigger_date": null, 
+            "event": 6
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "confucius.alert", 
+        "fields": {
+            "conference": 1, 
+            "roles": [
+                1
+            ], 
+            "title": "Troiseme Alert", 
+            "for_president": true, 
+            "content": "Avec une putain d'action", 
+            "action": 4, 
+            "reminder": null, 
+            "trigger_date": null, 
+            "event": null
+        }
+    }, 
     {
         "pk": 1, 
         "model": "confucius.domain", 
@@ -732,6 +837,109 @@
             "roles": [
                 3
             ]
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "confucius.reminder", 
+        "fields": {
+            "name": "1 Month before", 
+            "value": 30
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "confucius.reminder", 
+        "fields": {
+            "name": "2 weeks before", 
+            "value": 15
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "confucius.reminder", 
+        "fields": {
+            "name": "One week before", 
+            "value": 7
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "confucius.reminder", 
+        "fields": {
+            "name": "One day before", 
+            "value": 1
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "confucius.reminder", 
+        "fields": {
+            "name": "2 Months before", 
+            "value": 60
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "confucius.event", 
+        "fields": {
+            "name": "start_date"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "confucius.event", 
+        "fields": {
+            "name": "submissions_start_date"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "confucius.event", 
+        "fields": {
+            "name": "submissions_end_date"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "confucius.event", 
+        "fields": {
+            "name": "reviews_start_date"
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "confucius.event", 
+        "fields": {
+            "name": "reviews_end_date"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "confucius.action", 
+        "fields": {
+            "name": "New User joined the Conference"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "confucius.action", 
+        "fields": {
+            "name": "New User left the Conference"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "confucius.action", 
+        "fields": {
+            "name": "User has add a review"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "confucius.action", 
+        "fields": {
+            "name": "User has add a paper"
         }
     }
 ]

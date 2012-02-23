@@ -19,6 +19,23 @@
 <div class="container">
     <div class="row">
         {% block subtopbar %}
+        {% comment %}
+        {% if user.account.actual_conference %}
+        <div class="span12 db-top">
+            <div class="db-top-inner-min">
+                <i class="icon-calendar icon-white"></i> Conference starts on the {{ user.account.actual_conference.startConfDate|date:"m/d/y" }} | 
+                <i class="icon-info-sign icon-white"></i> Submissions ends at {{ user.account.actual_conference.endSubmitDate|date:"m/d/y" }} | 
+                <i class="icon-exclamation-sign icon-white"></i> Evaluations ends at {{ user.account.actual_conference.endEvaluationDate|date:"m/d/y" }}
+            </div>
+            {% if user.account.is_in_mock_mode %}
+            <div class="db-top-inner-min">
+                <b><a href="{% url 'exit_mockuser_conference' %}">Leave the MockMode</a></b>
+            </div>
+            {% endif %}
+            
+        </div>
+        {% endif %}
+        {% endcomment %}
         {% endblock %}
 
         {% block sidebar %}
@@ -44,7 +61,7 @@
             </div>
             <footer class="content-footer">
                 <div class="powered">Proudly powered by <a href="http://confuciusproject.com/">Confucius</a></div>
-            </footer>
+	    </footer>
         </div>
         {% endblock %}
     </div>

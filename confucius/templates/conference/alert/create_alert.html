@@ -1,0 +1,133 @@
+{% extends "base-in.html" %}
+{% load url from future %}
+
+{% block title %}Create Alert{% endblock %}
+
+{% block content_header %}
+<h1>Create Alert for conference: {{ conference.title}}</h1>
+{% endblock %}
+
+{% block content_main %}
+<form class="form-horizontal" method="post" action="{% url 'create_alert' %}">
+{% csrf_token %}
+    <fieldset>
+        <div class="control-group headline">
+                <div class="controls">
+                    <div class="controls-inputs">
+                        <input type="radio" name="type"  value="isReminder" id="isReminder" class="input-medium"/><span class="help-text" >Reminder</span>
+                    </div>
+                </div>
+                <div class="controls">
+                    <div class="controls-inputs">
+                        <input type="radio" name="type"  value="isTrigger" id="isTrigger" class="input-medium" /><span class="help-text">Trigger Date</span>
+                    </div>
+                </div>
+                <div class="controls">
+                    <div class="controls-inputs">
+                        <input type="radio" name="type"  value="isAction" id="isAction" class="input-medium" /><span class="help-text">Action</span>
+                    </div>
+                </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <div class="controls-inputs contentTextPander reminder" >
+                    {{ alert_form.reminder.errors }}
+                    <span class="help-text">Reminder:</span>
+                    <p>{{ alert_form.reminder }}</p>
+                </div>
+            </div>
+
+            <div class="controls">
+                <div class="controls-inputs contentTextPander reminder" >
+                    {{ alert_form.event.errors }}
+                    <span class="help-text">Event:</span>
+                    <p>{{ alert_form.event }}</p>
+                </div>
+            </div>
+        </div>        
+        
+        <div class="control-group">
+            <div class="controls">
+                <div class="controls-inputs contentTextPander action" >
+                    {{ alert_form.action.errors }}
+                    <span class="help-text">Action:</span>
+                    <p>{{ alert_form.action }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <div class="controls-inputs contentTextPander trigger" >
+                    {{ alert_form.trigger_date.errors }}
+                    <span class="help-text">Trigger Date:</span>
+                    <p>{{ alert_form.trigger_date }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <div class="controls">
+                <div class="controls-inputs">
+                    {{ alert_form.title.errors }}
+                    <span class="help-text">Title:</span>
+                    <p>{{ alert_form.title }}</p>
+                    
+                    {{ alert_form.content.errors }}
+                    <span class="help-text">Content:</span>
+                    <p>{{ alert_form.content }}</p>
+                    
+                    {{ alert_form.for_president.errors }}
+                    <span class="help-text">For president:</span>
+                    <p>{{ alert_form.for_president }}</p>
+                    
+                    {{ alert_form.roles.errors }}
+                    <span class="help-text">Roles:</span>
+                    <p>{{ alert_form.roles }}</p>
+                </div>
+            </div>
+        </div>        
+        <div class="form-actions">
+            <input type="submit" class="btn btn-primary" value="Create">
+            <a href="{% url 'home_conference' %}" class="btn btn-danger">Return</a>
+        </div>
+    </fieldset>
+</form>
+{% endblock %}
+
+{% block script %}
+<script>
+$(document).ready(function() {
+    var $textpanderContent = $(".contentTextPander");
+	$(".contentTextPander").hide();
+	$("input[@name='type']:checked").live('click', function(){
+	   if ($("input[@name='type']:checked").val() == 'isReminder'){
+	     	$(".reminder").slideDown();
+	     	$(".trigger").slideUp();
+	     	$(".action").slideUp();
+	     	$("#trigger_date").val("");
+	     	$("#action").val("");
+	    }
+        else if ($("input[@name='type']:checked").val() == 'isAction'){
+	     	$(".reminder").slideUp();
+	     	$(".trigger").slideUp();
+	     	$(".action").slideDown();
+	     	$("#trigger_date").val("");
+	     	$("#reminder").val(0);
+	     	$("#event").val(0);
+	    }
+	    else{
+	     	$(".trigger").slideDown();  
+	     	$(".reminder").slideUp();
+	        $(".action").slideUp();
+	        $("#reminder").val(0);
+	        $("#event").val(0);
+	     	$("#action").val("");
+	    }
+	})
+});
+
+</script>
+{% endblock %}
+
