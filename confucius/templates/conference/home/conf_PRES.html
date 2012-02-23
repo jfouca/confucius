@@ -19,10 +19,21 @@
 
 <a href="{% url 'edit_conference' %}">Edit the conference</a>
 <br/>
+
 {% if conference.isOpen %}
     <a href="{% url 'close_conference' %}">Close the conference</a>
 {% else %}
     <a href="{% url 'open_conference' %}">Open the conference</a>
+{% endif %}
+<br/>
+
+{% if not user.account.is_in_mock_mode %}
+    <br/>
+    <h3>MockUser</h3>
+    {% for role in allroles %}
+        <a href="{% url 'mockuser_conference' role.pk %}">Enter MockMode as a {{role.name}}</a><br/>
+    {% endfor %}
+    
 {% endif %}
 
 {% endblock %}
