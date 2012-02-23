@@ -63,7 +63,7 @@ class ConferenceUpdateView(UpdateView):
     success_url = '/conference/dashboard/'
     template_name = 'conference/conference_form.html'
 
-
+'''
 @login_required
 @user_access_conference(onlyPresident=True)
 def use_mockuser(request, role_id):
@@ -86,6 +86,7 @@ def exit_mockuser(request):
 
     return redirect('change_conference', original_conference.pk)
 
+'''
 
 @login_required
 @user_access_conference()
