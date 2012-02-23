@@ -42,8 +42,11 @@
                     {% ifequal role.name 'Reviewer' %}
                     <a class="btn btn-info" href="#">Submit review</a>
                     {% endifequal %}
+                    {% ifequal role.name 'Submitter' %}
+                    <a class="btn" href="{% url 'submit_paper' membership.conference.pk %}">Submit paper</a>
+                    {% endifequal %}
                 {% endfor %}
-                <a class="btn" href="#">Submit paper</a>
+                
             </td>
         </tr>
         {% endfor %}

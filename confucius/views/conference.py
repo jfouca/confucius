@@ -4,7 +4,7 @@ from django.shortcuts import redirect
 from django.views.generic import UpdateView, ListView
 from django.views.generic.detail import BaseDetailView, SingleObjectTemplateResponseMixin
 
-from confucius.models import Conference, Membership, MockUser, Role
+from confucius.models import Conference, Membership, Role
 from confucius.decorators.confdecorators import user_access_conference
 
 
@@ -29,10 +29,11 @@ class ConferenceToggleView(SingleObjectTemplateResponseMixin, BaseDetailView):
         return redirect('/conference/')
 
 
+'''
 def update_dashboard(request, conference_pk):
     Membership.objects.get(user=request.user.pk, conference=conference_pk).set_last_accessed()
     return redirect('dashboard')
-
+'''
 
 class ConferenceUpdateView(UpdateView):
     context_object_name = 'conference'
@@ -41,7 +42,7 @@ class ConferenceUpdateView(UpdateView):
     success_url = '/conference/'
     template_name = 'conference/conference_form.html'
 
-
+'''
 @login_required
 @user_access_conference(onlyPresident=True)
 def use_mockuser(request, role_id):
@@ -63,3 +64,4 @@ def exit_mockuser(request):
     original_conference = mock_user.original_conference
 
     return redirect('change_conference', original_conference.pk)
+'''
