@@ -6,10 +6,11 @@ register = template.Library()
 
 @register.filter
 def active(name, request):
-    try:
-        if request.path.startswith(reverse(name)):
-            return 'active'
-    except:
-        pass
-
+    if request.path.startswith(reverse(name)):
+        return 'active'
     return ''
+
+
+@register.filter
+def type(field):
+    return field.field.__class__.__name__
