@@ -65,13 +65,18 @@ class UserForm(forms.ModelForm):
     last_name = forms.CharField(max_length=30)
 
     class Meta:
-        model = User
         fields = ('first_name', 'languages', 'last_name')
+        model = User
+        ordering = ('first_name', 'last_name', 'languages')
 
 
 class EmailFormSet(inlineformset_factory(User, Email)):
     extra = 1
     has_main = False
+
+    class Meta:
+        model = Email
+        exclude = ('user',)
 
     def clean(self):
         """
@@ -97,3 +102,7 @@ class EmailFormSet(inlineformset_factory(User, Email)):
 
 class AddressFormSet(inlineformset_factory(User, Address)):
     extra = 1
+
+    class Meta:
+        model = Email
+        exclude = ('user',)

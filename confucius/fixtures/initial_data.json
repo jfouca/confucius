@@ -31,7 +31,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "ar", 
-            "value": "Arabic"
+            "name": "Arabic"
         }
     }, 
     {
@@ -39,7 +39,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "az", 
-            "value": "Azerbaijani"
+            "name": "Azerbaijani"
         }
     }, 
     {
@@ -47,7 +47,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "bg", 
-            "value": "Bulgarian"
+            "name": "Bulgarian"
         }
     }, 
     {
@@ -55,7 +55,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "bn", 
-            "value": "Bengali"
+            "name": "Bengali"
         }
     }, 
     {
@@ -63,7 +63,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "bs", 
-            "value": "Bosnian"
+            "name": "Bosnian"
         }
     }, 
     {
@@ -71,7 +71,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "ca", 
-            "value": "Catalan"
+            "name": "Catalan"
         }
     }, 
     {
@@ -79,7 +79,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "cs", 
-            "value": "Czech"
+            "name": "Czech"
         }
     }, 
     {
@@ -87,7 +87,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "cy", 
-            "value": "Welsh"
+            "name": "Welsh"
         }
     }, 
     {
@@ -95,7 +95,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "da", 
-            "value": "Danish"
+            "name": "Danish"
         }
     }, 
     {
@@ -103,7 +103,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "de", 
-            "value": "German"
+            "name": "German"
         }
     }, 
     {
@@ -111,7 +111,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "el", 
-            "value": "Greek"
+            "name": "Greek"
         }
     }, 
     {
@@ -119,7 +119,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "en", 
-            "value": "English"
+            "name": "English"
         }
     }, 
     {
@@ -127,7 +127,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "en-gb", 
-            "value": "British English"
+            "name": "British English"
         }
     }, 
     {
@@ -135,7 +135,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "es", 
-            "value": "Spanish"
+            "name": "Spanish"
         }
     }, 
     {
@@ -143,7 +143,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "es-ar", 
-            "value": "Argentinian Spanish"
+            "name": "Argentinian Spanish"
         }
     }, 
     {
@@ -151,7 +151,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "es-mx", 
-            "value": "Mexican Spanish"
+            "name": "Mexican Spanish"
         }
     }, 
     {
@@ -159,7 +159,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "es-ni", 
-            "value": "Nicaraguan Spanish"
+            "name": "Nicaraguan Spanish"
         }
     }, 
     {
@@ -167,7 +167,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "et", 
-            "value": "Estonian"
+            "name": "Estonian"
         }
     }, 
     {
@@ -175,7 +175,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "eu", 
-            "value": "Basque"
+            "name": "Basque"
         }
     }, 
     {
@@ -183,7 +183,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "fa", 
-            "value": "Persian"
+            "name": "Persian"
         }
     }, 
     {
@@ -191,7 +191,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "fi", 
-            "value": "Finnish"
+            "name": "Finnish"
         }
     }, 
     {
@@ -199,7 +199,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "fr", 
-            "value": "French"
+            "name": "French"
         }
     }, 
     {
@@ -207,7 +207,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "fy-nl", 
-            "value": "Frisian"
+            "name": "Frisian"
         }
     }, 
     {
@@ -215,7 +215,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "ga", 
-            "value": "Irish"
+            "name": "Irish"
         }
     }, 
     {
@@ -223,7 +223,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "gl", 
-            "value": "Galician"
+            "name": "Galician"
         }
     }, 
     {
@@ -231,7 +231,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "he", 
-            "value": "Hebrew"
+            "name": "Hebrew"
         }
     }, 
     {
@@ -239,7 +239,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "hi", 
-            "value": "Hindi"
+            "name": "Hindi"
         }
     }, 
     {
@@ -247,7 +247,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "hr", 
-            "value": "Croatian"
+            "name": "Croatian"
         }
     }, 
     {
@@ -255,7 +255,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "hu", 
-            "value": "Hungarian"
+            "name": "Hungarian"
         }
     }, 
     {
@@ -263,7 +263,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "id", 
-            "value": "Indonesian"
+            "name": "Indonesian"
         }
     }, 
     {
@@ -271,7 +271,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "is", 
-            "value": "Icelandic"
+            "name": "Icelandic"
         }
     }, 
     {
@@ -279,7 +279,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "it", 
-            "value": "Italian"
+            "name": "Italian"
         }
     }, 
     {
@@ -287,7 +287,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "ja", 
-            "value": "Japanese"
+            "name": "Japanese"
         }
     }, 
     {
@@ -295,7 +295,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "ka", 
-            "value": "Georgian"
+            "name": "Georgian"
         }
     }, 
     {
@@ -303,7 +303,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "km", 
-            "value": "Khmer"
+            "name": "Khmer"
         }
     }, 
     {
@@ -311,7 +311,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "kn", 
-            "value": "Kannada"
+            "name": "Kannada"
         }
     }, 
     {
@@ -319,7 +319,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "ko", 
-            "value": "Korean"
+            "name": "Korean"
         }
     }, 
     {
@@ -327,7 +327,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "lt", 
-            "value": "Lithuanian"
+            "name": "Lithuanian"
         }
     }, 
     {
@@ -335,7 +335,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "lv", 
-            "value": "Latvian"
+            "name": "Latvian"
         }
     }, 
     {
@@ -343,7 +343,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "mk", 
-            "value": "Macedonian"
+            "name": "Macedonian"
         }
     }, 
     {
@@ -351,7 +351,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "ml", 
-            "value": "Malayalam"
+            "name": "Malayalam"
         }
     }, 
     {
@@ -359,7 +359,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "mn", 
-            "value": "Mongolian"
+            "name": "Mongolian"
         }
     }, 
     {
@@ -367,7 +367,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "nb", 
-            "value": "Norwegian Bokmal"
+            "name": "Norwegian Bokmal"
         }
     }, 
     {
@@ -375,7 +375,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "nl", 
-            "value": "Dutch"
+            "name": "Dutch"
         }
     }, 
     {
@@ -383,7 +383,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "nn", 
-            "value": "Norwegian Nynorsk"
+            "name": "Norwegian Nynorsk"
         }
     }, 
     {
@@ -391,7 +391,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "no", 
-            "value": "Norwegian"
+            "name": "Norwegian"
         }
     }, 
     {
@@ -399,7 +399,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "pa", 
-            "value": "Punjabi"
+            "name": "Punjabi"
         }
     }, 
     {
@@ -407,7 +407,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "pl", 
-            "value": "Polish"
+            "name": "Polish"
         }
     }, 
     {
@@ -415,7 +415,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "pt", 
-            "value": "Portuguese"
+            "name": "Portuguese"
         }
     }, 
     {
@@ -423,7 +423,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "pt-br", 
-            "value": "Brazilian Portuguese"
+            "name": "Brazilian Portuguese"
         }
     }, 
     {
@@ -431,7 +431,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "ro", 
-            "value": "Romanian"
+            "name": "Romanian"
         }
     }, 
     {
@@ -439,7 +439,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "ru", 
-            "value": "Russian"
+            "name": "Russian"
         }
     }, 
     {
@@ -447,7 +447,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "sk", 
-            "value": "Slovak"
+            "name": "Slovak"
         }
     }, 
     {
@@ -455,7 +455,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "sl", 
-            "value": "Slovenian"
+            "name": "Slovenian"
         }
     }, 
     {
@@ -463,7 +463,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "sq", 
-            "value": "Albanian"
+            "name": "Albanian"
         }
     }, 
     {
@@ -471,7 +471,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "sr", 
-            "value": "Serbian"
+            "name": "Serbian"
         }
     }, 
     {
@@ -479,7 +479,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "sr-latn", 
-            "value": "Serbian Latin"
+            "name": "Serbian Latin"
         }
     }, 
     {
@@ -487,7 +487,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "sv", 
-            "value": "Swedish"
+            "name": "Swedish"
         }
     }, 
     {
@@ -495,7 +495,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "ta", 
-            "value": "Tamil"
+            "name": "Tamil"
         }
     }, 
     {
@@ -503,7 +503,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "te", 
-            "value": "Telugu"
+            "name": "Telugu"
         }
     }, 
     {
@@ -511,7 +511,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "th", 
-            "value": "Thai"
+            "name": "Thai"
         }
     }, 
     {
@@ -519,7 +519,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "tr", 
-            "value": "Turkish"
+            "name": "Turkish"
         }
     }, 
     {
@@ -527,7 +527,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "uk", 
-            "value": "Ukrainian"
+            "name": "Ukrainian"
         }
     }, 
     {
@@ -535,7 +535,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "ur", 
-            "value": "Urdu"
+            "name": "Urdu"
         }
     }, 
     {
@@ -543,7 +543,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "vi", 
-            "value": "Vietnamese"
+            "name": "Vietnamese"
         }
     }, 
     {
@@ -551,7 +551,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "zh-cn", 
-            "value": "Simplified Chinese"
+            "name": "Simplified Chinese"
         }
     }, 
     {
@@ -559,7 +559,7 @@
         "model": "confucius.language", 
         "fields": {
             "code": "zh-tw", 
-            "value": "Traditional Chinese"
+            "name": "Traditional Chinese"
         }
     },
     {

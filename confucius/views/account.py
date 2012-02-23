@@ -13,22 +13,23 @@ def edit_account(request):
     from django.http import HttpResponse
 
     if request.method == 'POST':
-        user_form = UserForm(request.POST, instance=request.user)
+        form = UserForm(request.POST, instance=request.user)
         address_formset = AddressFormSet(request.POST, instance=request.user)
         email_formset = EmailFormSet(request.POST, instance=request.user)
 
-        for f in (user_form, address_formset, email_formset):
+        for f in (form, address_formset, email_formset):
             if f.is_valid():
                 f.save()
             else:
                 return HttpResponse(json.dumps(f.errors), content_type='text/plain')
+        return HttpResponse('ok', content_type='text/plain')
     else:
-        user_form = UserForm(instance=request.user)
+        form = UserForm(instance=request.user)
         address_formset = AddressFormSet(instance=request.user)
         email_formset = EmailFormSet(instance=request.user)
 
     return render_to_response('account/edit_account.html',
-        {'address_formset': address_formset, 'email_formset': email_formset, 'user_form': user_form},
+        {'address_formset': address_formset, 'email_formset': email_formset, 'form': form},
         context_instance=RequestContext(request))
 
 

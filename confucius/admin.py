@@ -8,7 +8,7 @@ from confucius.models import Address, Conference, Domain, Email, Membership
 
 class AdminUserForm(UserForm):
     class Meta(UserForm.Meta):
-        fields = ('email', 'first_name', 'is_active', 'is_superuser', 'last_name')
+        fields = ('email', 'first_name', 'is_active', 'is_superuser', 'languages', 'last_name')
 
 
 class AddressInline(admin.StackedInline):
@@ -52,9 +52,6 @@ class UserAdmin(AuthUserAdmin):
     ordering = ()
     readonly_fields = ('password', )
     search_fields = ('email', 'first_name', 'last_name')
-
-    def queryset(self, request):
-        return User.objects.filter(pk=request.user.pk)
 
     def update_is_active(self, request, queryset, is_active):
         rows_updated = queryset.update(is_active=is_active)

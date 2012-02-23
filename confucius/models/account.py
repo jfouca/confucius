@@ -29,7 +29,7 @@ class Email(ConfuciusModel):
 
 class Address(ConfuciusModel):
     user = models.ForeignKey(User, related_name='addresses')
-    value = models.TextField()
+    value = models.TextField(verbose_name='address')
 
     def __unicode__(self):
         return self.value
@@ -38,7 +38,7 @@ class Address(ConfuciusModel):
 class Language(ConfuciusModel):
     users = models.ManyToManyField(User, related_name='languages')
     code = models.CharField(max_length=5)
-    value = models.CharField(max_length=25)
+    name = models.CharField(max_length=25)
 
     def __unicode__(self):
-        return self.value
+        return self.name

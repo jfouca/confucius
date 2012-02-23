@@ -4,76 +4,17 @@
 {% block title %}Account{% endblock %}
 
 {% block content_header %}
-<h1>Account</h1>
+<h1>Account
+        <a href="{% url 'password_change' %}" class="btn btn-info">Change my password</a>
+        <a href="{% url 'close_account' %}" class="btn btn-danger">Close my account</a>
+</h1>
 {% endblock %}
 
 {% block content_main %}
-<form id="form" class="form-horizontal" method="post" action="{% url 'account' %}">
-{% csrf_token %}
-    <fieldset>
-        <div class="control-group">
-            <div class="controls">
-                <div class="controls-inputs">
-                    <div class="input-append">
-                        <input type="text" id="firstName" class="input-medium" placeholder="{{ user_form.first_name.label }}" value="{{ user_form.first_name.value }}" name="{{ user_form.first_name.html_name }}">
-                        <span class="add-on"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="control-group">
-            <div class="controls">
-                <div class="controls-inputs">
-                    <div class="input-append">
-                        <input type="text" id="lastName" class="input-medium" placeholder="{{ user_form.last_name.label }}" value="{{ user_form.last_name.value }}" name="{{ user_form.last_name.html_name }}">
-                        <span class="add-on"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-       <div class="control-group">
-            <label class="control-label">Language(s)</label>
-            <div class="controls">
-                {{ user_form.languages }}
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">E-mail address(es)</label>
-            <div class="controls">
-                {{ email_formset.management_form }}
-                {% for email in email_formset %}
-                <div class="controls-inputs">
-                    <p>{{ email.errors.value|striptags }}</p>
-                    M<input type="checkbox" name="{{ email.main.html_name }}" {% if email.main.value %}checked="checked"{% endif %}>
-                    <input type="text" placeholder="E-mail" name="{{ email.value.html_name }}" value="{{ email.value.value|default:'' }}">
-                    D<input type="checkbox" name="{{ email.DELETE.html_name }}">
-                    {{ email.account }}
-                    {{ email.id }}
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">Physical address(es)</label>
-            <div class="controls">
-                {{ address_formset.management_form }}
-                {% for address in address_formset %}
-                <div class="controls-inputs">
-                    <p>{{ address.errors.value|striptags }}</p>
-                    <textarea placeholder="Address" name="{{ address.value.html_name }}">{{ address.value.value|default:'' }}</textarea>
-                    D<input type="checkbox" name="{{ address.DELETE.html_name }}">
-                    {{ address.account }}
-                    {{ address.id }}
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="form-actions">
-            <input type="submit" class="btn btn-primary" value="Update">
-            <a href="{% url 'password_change' %}" class="btn btn-info">Change my password</a>
-            <a href="{% url 'close_account' %}" class="btn btn-danger">Close my account</a>
-        </div>
-    </fieldset>
+<form id="form" class="form-horizontal" method="post">{% csrf_token %}
+    {% include 'includes/form.html' %}
+    {% include 'includes/formset.html' with formset=email_formset %}
+    {% include 'includes/formset.html' with formset=address_formset %}
 </form>
 {% endblock %}
 {% block script %}
@@ -83,8 +24,10 @@
         $('#form').on('change', function(e) {
             $(e.target).next().html($('<i class="icon icon-refresh">'));
             $.post('{% url 'account' %}', $(this).serialize(), function(data) {
-                $(e.target).parent().parent().parent().parent().addClass('success');
-                $(e.target).next().html($('<span>saved!</span>'))
+                console.log(e.target);
+                console.log(data);
+                $(e.target).parent().parent().parent().addClass('success');
+                $(e.target).next().text('saved!');
             });
         });
     });
