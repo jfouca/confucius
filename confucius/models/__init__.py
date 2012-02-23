@@ -13,4 +13,4 @@ class ConfuciusModel(models.Model):
 
 
 from confucius.models.account import Address, Email, Language
-from confucius.models.conference import (Alert, Conference, Domain, Membership, MessageTemplate, MockUser, Role)
+from confucius.models.conference import (Action, Alert, Conference, Domain, Event, Membership, MessageTemplate, MockUser, Reminder, Role)

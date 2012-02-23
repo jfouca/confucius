@@ -8,14 +8,19 @@
 
 {% block content_main %}
 
-<h1>Dashboard ( 
-{% for role in myroles %}
-    {{role}} 
+<h1>Dashboard (
+{% for role in roles %}
+    {% filter lower %}
+        {% if forloop.last%}
+            {{role}}
+        {% else %}
+            {{role}} and
+        {% endif %} 
+    {% endfilter %}
 {% endfor %}
 )
 </h1>
 <br/>
-
 
 {% for role in myroles %}
     {% if "AUTH" in role.code %}
