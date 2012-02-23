@@ -45,6 +45,7 @@ class Membership(ConfuciusModel):
     conference = models.ForeignKey(Conference)
     roles = models.ManyToManyField('Role')
     domains = models.ManyToManyField(Domain)
+    last_accessed = models.BooleanField(default=False)
 
     class Meta(ConfuciusModel.Meta):
         unique_together = ('user', 'conference')
