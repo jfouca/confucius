@@ -29,6 +29,11 @@ class ConferenceToggleView(SingleObjectTemplateResponseMixin, BaseDetailView):
         return redirect('/conference/')
 
 
+def update_dashboard(request, conference_pk):
+    Membership.objects.get(user=request.user.pk, conference=conference_pk).set_last_accessed()
+    return redirect('dashboard')
+
+
 class ConferenceUpdateView(UpdateView):
     context_object_name = 'conference'
     form_class = modelform_factory(Conference, exclude=('members', 'is_open'))

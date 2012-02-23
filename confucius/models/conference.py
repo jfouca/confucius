@@ -50,6 +50,11 @@ class Membership(ConfuciusModel):
     class Meta(ConfuciusModel.Meta):
         unique_together = ('user', 'conference')
 
+    def set_last_accessed(self):
+        Membership.objects.filter(user=self.user, conference=self.conference).update(last_accessed=False)
+        self.last_accessed = True
+        self.save()
+
 
 class MessageTemplate(ConfuciusModel):
     title = models.CharField(max_length=100, default=None)
