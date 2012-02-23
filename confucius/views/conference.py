@@ -6,7 +6,7 @@ from django.views.generic import UpdateView, ListView
 from django.views.generic.detail import BaseDetailView, SingleObjectTemplateResponseMixin
 
 from confucius.forms import AlertForm
-from confucius.models import Action, Alert, Conference, Event, Membership, MockUser, Reminder, Role
+from confucius.models import Action, Alert, Conference, Event, Membership, Reminder, Role
 from confucius.decorators.confdecorators import user_access_conference
 
 
