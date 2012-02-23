@@ -1,66 +1,12 @@
 [
     {
         "pk": 1, 
-        "model": "auth.user", 
-        "fields": {
-            "username": "ImwWgX1aPDcyH53WzyR1YaycVNI=", 
-            "first_name": "Blu", 
-            "last_name": "Blou", 
-            "is_active": true, 
-            "is_superuser": true, 
-            "is_staff": true, 
-            "last_login": "2012-02-17 17:17:37", 
-            "groups": [], 
-            "user_permissions": [], 
-            "password": "sha1$1da8f$e77bd350be2356d14c9b06e88e6da923baa7b190", 
-            "email": "", 
-            "date_joined": "2012-02-16 01:42:36"
-        }
-    }, 
-    {
-        "pk": 2, 
-        "model": "auth.user", 
-        "fields": {
-            "username": "ImvWgX1aPDcyH53WzyR1YaycVNI=", 
-            "first_name": "Red", 
-            "last_name": "Rey", 
-            "is_active": true, 
-            "is_superuser": true, 
-            "is_staff": true, 
-            "last_login": "2012-02-16 01:42:36", 
-            "groups": [], 
-            "user_permissions": [], 
-            "password": "sha1$1da8f$e77bd350be2356d14c9b06e88e6da923baa7b190", 
-            "email": "", 
-            "date_joined": "2012-02-16 01:42:36"
-        }
-    }, 
-    {
-        "pk": 3, 
-        "model": "auth.user", 
-        "fields": {
-            "username": "ImvWgX1aPDcyH52WzyR1YaycVNI=", 
-            "first_name": "Green", 
-            "last_name": "Gri", 
-            "is_active": true, 
-            "is_superuser": true, 
-            "is_staff": true, 
-            "last_login": "2012-02-16 01:42:36", 
-            "groups": [], 
-            "user_permissions": [], 
-            "password": "sha1$1da8f$e77bd350be2356d14c9b06e88e6da923baa7b190", 
-            "email": "", 
-            "date_joined": "2012-02-16 01:42:36"
-        }
-    }, 
-    {
-        "pk": 1, 
         "model": "confucius.account", 
         "fields": {
             "languages": [
                 53
             ], 
-            "user": 1,
+            "user": 1, 
             "actual_conference": 1
         }
     }, 
@@ -71,7 +17,7 @@
             "languages": [
                 51
             ], 
-            "user": 2,
+            "user": 2, 
             "actual_conference": 1
         }
     }, 
@@ -82,7 +28,7 @@
             "languages": [
                 50
             ], 
-            "user": 3,
+            "user": 3, 
             "actual_conference": 1
         }
     }, 
@@ -656,7 +602,7 @@
             "startEvaluationDate": "2012-02-17", 
             "isOpen": true, 
             "title": "Les castors mutants", 
-            "endEvaluationDate": "2012-02-17", 
+            "endEvaluationDate": "2012-02-24", 
             "startConfDate": "2012-02-17", 
             "endSubmitDate": "2012-02-17", 
             "url": "", 
@@ -746,6 +692,57 @@
     }, 
     {
         "pk": 1, 
+        "model": "confucius.alert", 
+        "fields": {
+            "conference": 1, 
+            "roles": [
+                2
+            ], 
+            "title": "Premiere Alerte", 
+            "forPresident": false, 
+            "content": "test trigger date", 
+            "action": null, 
+            "reminder": null, 
+            "trigger_date": "2012-02-23", 
+            "event": null
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "confucius.alert", 
+        "fields": {
+            "conference": 1, 
+            "roles": [
+                1
+            ], 
+            "title": "Heeeey", 
+            "forPresident": false, 
+            "content": "test reminder", 
+            "action": null, 
+            "reminder": 4, 
+            "trigger_date": null, 
+            "event": 6
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "confucius.alert", 
+        "fields": {
+            "conference": 1, 
+            "roles": [
+                1
+            ], 
+            "title": "Troiseme Alert", 
+            "forPresident": true, 
+            "content": "Avec une putain d'action", 
+            "action": 4, 
+            "reminder": null, 
+            "trigger_date": null, 
+            "event": null
+        }
+    }, 
+    {
+        "pk": 1, 
         "model": "confucius.role", 
         "fields": {
             "code": "REVI", 
@@ -759,7 +756,7 @@
             "code": "AUTH", 
             "name": "Author"
         }
-    },
+    }, 
     {
         "pk": 1, 
         "model": "confucius.conferenceaccountrole", 
@@ -850,8 +847,172 @@
         "pk": 1, 
         "model": "confucius.domain", 
         "fields": {
-            "code": "dqs", 
-            "name": "qsdqsdqsdqsd"
+            "code": "ma", 
+            "name": "mathematics"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "confucius.reminder", 
+        "fields": {
+            "name": "1 Month before", 
+            "value": 30
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "confucius.reminder", 
+        "fields": {
+            "name": "2 weeks before", 
+            "value": 15
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "confucius.reminder", 
+        "fields": {
+            "name": "One week before", 
+            "value": 7
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "confucius.reminder", 
+        "fields": {
+            "name": "One day before", 
+            "value": 1
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "confucius.reminder", 
+        "fields": {
+            "name": "2 Months before", 
+            "value": 60
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "confucius.event", 
+        "fields": {
+            "name": "startConfDate"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "confucius.event", 
+        "fields": {
+            "name": "endConfDate"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "confucius.event", 
+        "fields": {
+            "name": "startSubmitDate"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "confucius.event", 
+        "fields": {
+            "name": "endSubmitDate"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "confucius.event", 
+        "fields": {
+            "name": "startEvaluationDate"
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "confucius.event", 
+        "fields": {
+            "name": "endEvaluationDate"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "confucius.action", 
+        "fields": {
+            "name": "New User joined the Conference"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "confucius.action", 
+        "fields": {
+            "name": "New User left the Conference"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "confucius.action", 
+        "fields": {
+            "name": "User has add a review"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "confucius.action", 
+        "fields": {
+            "name": "User has add a paper"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "ImwWgX1aPDcyH53WzyR1YaycVNI=", 
+            "first_name": "Blu", 
+            "last_name": "Blou", 
+            "is_active": true, 
+            "is_superuser": true, 
+            "is_staff": true, 
+            "last_login": "2012-02-23 09:59:00", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$1da8f$e77bd350be2356d14c9b06e88e6da923baa7b190", 
+            "email": "", 
+            "date_joined": "2012-02-16 01:42:36"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "ImvWgX1aPDcyH53WzyR1YaycVNI=", 
+            "first_name": "Red", 
+            "last_name": "Rey", 
+            "is_active": true, 
+            "is_superuser": true, 
+            "is_staff": true, 
+            "last_login": "2012-02-16 01:42:36", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$1da8f$e77bd350be2356d14c9b06e88e6da923baa7b190", 
+            "email": "", 
+            "date_joined": "2012-02-16 01:42:36"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "ImvWgX1aPDcyH52WzyR1YaycVNI=", 
+            "first_name": "Green", 
+            "last_name": "Gri", 
+            "is_active": true, 
+            "is_superuser": true, 
+            "is_staff": true, 
+            "last_login": "2012-02-16 01:42:36", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$1da8f$e77bd350be2356d14c9b06e88e6da923baa7b190", 
+            "email": "", 
+            "date_joined": "2012-02-16 01:42:36"
         }
     }
 ]

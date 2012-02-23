@@ -8,9 +8,15 @@
 
 {% block content_main %}
 
-<h1>Dashboard ( 
+<h1>Dashboard (
 {% for role in roles %}
-    {{role}} 
+    {% filter lower %}
+        {% if forloop.last%}
+            {{role}}
+        {% else %}
+            {{role}} and
+        {% endif %} 
+    {% endfilter %}
 {% endfor %}
 )
 </h1>

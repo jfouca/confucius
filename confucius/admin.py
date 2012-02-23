@@ -1,6 +1,6 @@
 from django.contrib.admin import AdminSite, ModelAdmin, StackedInline
 
-from confucius.models import Account, PostalAddress, EmailAddress, Language, Conference, Role, ConferenceAccountRole, Alert, Domain
+from confucius.models import Account, PostalAddress, EmailAddress, Language, Conference, Role, ConferenceAccountRole, Alert, Domain, Reminder, Event, Action
 from confucius.forms.authforms import AdminAccountForm, ConferenceAccountRoleForm
 from django.forms.widgets import CheckboxSelectMultiple
 
