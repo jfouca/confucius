@@ -4,7 +4,7 @@
 {% block title %}Conference {% endblock %}
 
 {% block content_header %}
-<h1>My Conferences</h1>
+<h1>My Conferences</h1><br/>
 {% endblock %}
 
 {% block content_main %}
@@ -29,26 +29,8 @@
             <td>{{ membership.conference.start_date }}</td>
             <td>{% if membership.conference.is_open %}Open{% else %}Closed{% endif %}</td>
         </tr>
-
-        {% comment %}
-        <tr class="actions">
-            <td></td>
-            <td colspan="4">
-                {% for role in membership.roles.all %}
-                    {% ifequal role.name 'Chair' %}
-                    <a class="btn btn-primary" href="{% url 'conference_update' membership.conference.pk %}">Edit configuration</a>
-                    {% endifequal %}
-                    {% ifequal role.name 'Reviewer' %}
-                    <a class="btn btn-info" href="#">Submit review</a>
-                    {% endifequal %}
-                    {% ifequal role.name 'Submitter' %}
-                    <a class="btn" href="{% url 'submit_paper' membership.conference.pk %}">Submit paper</a>
-                    {% endifequal %}
-                {% endfor %}
-                
-            </td>
-        </tr>
-        {% endcomment %}
+        {% empty %}
+            <h3>You are not subscribed to a conference</h3><br/>
         {% endfor %}
     </tbody>
 </table>

@@ -7,7 +7,7 @@ from django.views.generic import UpdateView, ListView
 from django.views.generic.detail import BaseDetailView, SingleObjectTemplateResponseMixin
 
 from confucius.forms import AlertForm
-from confucius.models import Action, Alert, Conference, Event, Membership, Reminder
+from confucius.models import Action, Alert, Conference, Event, Membership, Paper, Reminder, Role
 from confucius.decorators.confdecorators import user_access_conference
 
 
@@ -37,10 +37,12 @@ class ConferenceToggleView(SingleObjectTemplateResponseMixin, BaseDetailView):
 def dashboard(request, conference_pk=None, template_name='conference/dashboard.html'):
     if conference_pk:
         conference = get_object_or_404(Conference, pk=conference_pk)
-        Membership.objects.get(conference=conference, user=request.user).set_last_accessed()
+        membership = Membership.objects.get(conference=conference, user=request.user)
+        membership.set_last_accessed()
     else:
         try:
-            conference = Membership.objects.get(user=request.user, last_accessed=True).conference
+            membership = Membership.objects.get(user=request.user, last_accessed=True)
+            conference = membership.conference
         except Membership.DoesNotExist:
             return redirect('membership_list')
 
@@ -48,11 +50,23 @@ def dashboard(request, conference_pk=None, template_name='conference/dashboard.h
     alerts_reminder = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, action__isnull=True)
     alerts_action = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, reminder__isnull=True)
 
+    user_papers = Paper.objects.filter(conference=conference, submitter=request.user)
+    # Don't show all papers if you are not the chair of the conference
+    chair_role = Role.objects.get(code="C")
+    if chair_role in membership.roles.all() :
+        conference_papers = Paper.objects.filter(conference=conference)
+    else:
+        conference_papers = None
+    
+
     context = {
         'alerts_trigger': alerts_trigger,
         'alerts_reminder': alerts_reminder,
         'alerts_action': alerts_action,
         'conference': conference,
+        'membership': membership,
+        'user_papers': user_papers,
+        'conference_papers': conference_papers
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))
