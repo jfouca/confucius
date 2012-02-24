@@ -93,7 +93,7 @@ class EmailFormSet(inlineformset_factory(User, Email)):
                     if self.has_main:
                         raise forms.ValidationError('There can only be one main %s.' % self.model.__name__)
                     self.has_main = True
-        except KeyError:
+        except:
             pass
 
         if not self.has_main:

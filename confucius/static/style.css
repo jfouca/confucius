@@ -110,7 +110,7 @@ body {
     color: #ffffff;
 }
 
-.alert {
+#messages {
     position:absolute;
     right:20px;
     top:70px;

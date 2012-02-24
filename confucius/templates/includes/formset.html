@@ -8,8 +8,10 @@
 </div>
 {% endif %}
 
-{{ formset.management_form }}
+<div id="id_{{ formset.prefix }}">
+    {{ formset.management_form }}
 
-{% for form in formset %}
-    {% include 'includes/form.html' %}
-{% endfor %}
+    {% for form in formset %}
+        {% include 'includes/form.html' %}
+    {% endfor %}
+</div>
