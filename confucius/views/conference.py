@@ -31,21 +31,27 @@ class ConferenceToggleView(SingleObjectTemplateResponseMixin, BaseDetailView):
         object.save()
         messages.success(self.request, 'You have successfully %s the conference %s' % ('opened' if object.is_open else 'closed', object.title))
         return redirect('dashboard')
-        
 
-@login_required
-def dashboard(request, conference_pk=None, template_name='conference/dashboard.html'):
-    if conference_pk:
-        conference = get_object_or_404(Conference, pk=conference_pk)
-        membership = Membership.objects.get(conference=conference, user=request.user)
+def switch_to_last_accedeed(conf_pk, user, redirect_to):
+    if conf_pk:
+        conference = get_object_or_404(Conference, pk=conf_pk)
+        membership = Membership.objects.get(conference=conference, user=user)
         membership.set_last_accessed()
     else:
         try:
-            membership = Membership.objects.get(user=request.user, last_accessed=True)
+            membership = Membership.objects.get(user=user, last_accessed=True)
             conference = membership.conference
         except Membership.DoesNotExist:
-            return redirect('membership_list')
+            return redirect(redirect_to)    
+    return conference            
+            
 
+@login_required
+def dashboard(request, conference_pk=None, template_name='conference/dashboard.html'):
+
+    conference = switch_to_last_accedeed(conference_pk, request.user, 'dashboard')
+    membership = Membership.objects.get(conference=conference, user=request.user)
+    
     alerts_trigger = Alert.objects.filter(conference=conference.pk, reminder__isnull=True, action__isnull=True)
     alerts_reminder = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, action__isnull=True)
     alerts_action = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, reminder__isnull=True)
@@ -103,22 +109,38 @@ def exit_mockuser(request):
     return redirect('change_conference', original_conference.pk)
 
 '''
+
+@login_required
+def create_alert(request, conference_pk, template_name='conference/alerts/create_alert.html'):
     
-class CreateAlert(CreateView):
-    context_object_name = 'alert'
-    #extra_context = {
-    #    'conference':conference ,
-    #}
-    form_class = modelform_factory(Alert)
-    model = Alert
-    success_url = '/conference/dashboard/'
-    template_name = 'conference/alert/create_alert.html'     
-    
+    conference = switch_to_last_accedeed(conference_pk, request.user, 'dashboard')
+    form = AlertForm()
+    reminders = Reminder.objects.all()
+    events = Event.objects.all()
+    actions = Action.objects.all()
+
+    if request.method == 'POST':
+        form = AlertForm(request.POST, instance=Alert(conference=conference))
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+
+    context = {
+        'conference': conference,
+        'form': form,
+        'reminders': reminders,
+        'events': events,
+        'actions': actions
+    }
+
+    return render_to_response(template_name, context, context_instance=RequestContext(request))
+
+
 class EditAlert(UpdateView):
     context_object_name = 'alert'
-    form_class = modelform_factory(Alert)
+    form_class = AlertForm
     model = Alert
     success_url = '/conference/dashboard/'
-    template_name = 'conference/alert/create_alert.html' 
+    template_name = 'conference/alerts/edit_alert.html' 
 
     
