@@ -4,10 +4,46 @@
 {% block title %}{{ alert.conference.title}} : Alert Edition{% endblock %}
 
  {% block content_header %}
-<h1>Edit Alert for conference: {{ alert.conference.title}}</h1>
+<h1>Edit "{{alert.title}}" for conference: {{ alert.conference.title}}</h1>
 {% endblock %}
 
-{% include 'alerts.html' %}
+{% block subtopbar %}
+<div class="span12 db-top">
+    <div class="db-top-inner-min">
+        <i class="icon-calendar icon-white"></i> Start date {{ alert.conference.start_date|date:'SHORT_DATE_FORMAT' }} | 
+        <i class="icon-info-sign icon-white"></i> Submissions end date {{ alert.conference.submissions_end_date|date:'SHORT_DATE_FORMAT' }} | 
+        <i class="icon-exclamation-sign icon-white"></i> Reviews end date {{ alert.conference.reviews_end_date|date:'SHORT_DATE_FORMAT' }}
+    </div>
+</div>
+{% endblock %}
+
+{% block content_main %}
+<form class="form-horizontal" method="post">{% csrf_token %}
+    <div class="control-group">
+        <label class="control-label">Alert type</label>
+        <div class="controls">
+            <label class="radio">
+                <input type="radio" name="type" id="reminder" value="reminder">
+                Reminder
+            </label>
+            <label class="radio">
+                <input type="radio" name="type" id="trigger" value="trigger">
+                Trigger Date
+            </label>
+            <label class="radio">
+                <input type="radio" name="type" id="action" value="action">
+                Action
+            </label>
+        </div>
+    </div>
+    {% include 'includes/form.html' %}
+    <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="Create">
+        <a href="{% url 'dashboard' %}" class="btn btn-danger">Return</a>
+    </div>
+    </fieldset>
+</form>
+{% endblock %}
 
 {% block script %}
 <script>
