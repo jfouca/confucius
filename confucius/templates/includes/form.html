@@ -8,6 +8,10 @@
 </div>
 {% endif %}
 
+{% for field in form.hidden_fields %}
+    {{ field }}
+{% endfor %}
+
 {% for field in form.visible_fields %}
 <div class="control-group {% if field.errors %}error{% endif %}">
     <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}</label>
