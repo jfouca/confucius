@@ -39,8 +39,6 @@ class Conference(ConfuciusModel):
     url = models.URLField(blank=True)
     members = models.ManyToManyField(User, through='Membership')
     domains = models.ManyToManyField('Domain', related_name="conferences")
-    
-    
 
     def __unicode__(self):
         return self.title

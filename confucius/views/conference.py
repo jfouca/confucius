@@ -44,6 +44,7 @@ def dashboard(request, conference_pk=None, template_name='conference/dashboard.h
             membership = Membership.objects.get(user=request.user, last_accessed=True)
             conference = membership.conference
         except Membership.DoesNotExist:
+            messages.warning(request, 'You must select a conference first before accessing the dashboard')
             return redirect('membership_list')
 
     alerts_trigger = Alert.objects.filter(conference=conference.pk, reminder__isnull=True, action__isnull=True)
@@ -53,11 +54,10 @@ def dashboard(request, conference_pk=None, template_name='conference/dashboard.h
     user_papers = Paper.objects.filter(conference=conference, submitter=request.user)
     # Don't show all papers if you are not the chair of the conference
     chair_role = Role.objects.get(code="C")
-    if chair_role in membership.roles.all() :
+    if chair_role in membership.roles.all():
         conference_papers = Paper.objects.filter(conference=conference)
     else:
         conference_papers = None
-    
 
     context = {
         'alerts_trigger': alerts_trigger,
@@ -135,7 +135,8 @@ def create_alert(request, conference_pk, template_name='conference/alert/create_
     if request.method == 'POST':
         form = AlertForm(request.POST, instance=Alert(conference=conference))
         if form.is_valid():
-            form.save()
+            alert = form.save()
+            messages.success(request, 'Alert "%s" successfully created.' % alert.title)
             return redirect('dashboard')
 
     context = {
