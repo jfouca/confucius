@@ -4,7 +4,13 @@
 {% block title %}Submission{% endblock %}
 
 {% block content_header %}
-
+<h1>
+    {% if instance %}
+        Edit paper
+    {% else %}
+        Submit paper
+    {% endif %}
+</h1><br/>
 {% endblock %}
 
 {% block content_main %}
@@ -14,7 +20,7 @@
     {{form}}
 
     <div class="form-actions">
-        <input type="submit" class="btn btn-primary" value="Create"/>
+        <input type="submit" class="btn btn-primary" value="{% if instance %} Update paper {% else %} Submit paper {% endif %}"/>
     </div>
     
 </form>
