@@ -20,7 +20,6 @@ class Alert(ConfuciusModel):
     event = models.ForeignKey('Event', blank=True, null=True)
     action = models.ForeignKey('Action', blank=True, null=True)
     roles = models.ManyToManyField('Role', blank=True)
-    for_president = models.BooleanField()
 
     class Meta(ConfuciusModel.Meta):
         unique_together = ('title', 'conference',)

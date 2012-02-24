@@ -2,10 +2,21 @@
 {% load url from future %}
 
 {% block title %}Conference "{{ conference.title }}"{% endblock %}
-{% block brand %}Conference "{{ conference.title }}"{% endblock %}
+{% block brand %}Conference "{{ conference.title }}"  
+
+{% if not conference.is_open %}
+(closed)
+{% endif %}
+
+
+
+{% endblock %}
 
 {% block content_header %}
-<h2>Dashboard</h2>
+<h1>Dashboard</h1>
+<h3>as
+    {{membership.roles.all|join:', '}}
+</h3><br/>
 {% endblock %}
 
 {% block subtopbar %}
@@ -19,24 +30,76 @@
 {% endblock %}
 
 {% block content_main %}
-<p>
-    <a href="{% url 'conference_edit' conference.pk %}" class="btn btn-primary">Edit the conference</a>
-    <a href="{% url 'create_alert' %}" class="btn btn-info">Create Alert</a>
-</p>
+
+<p><b>
+    {% for role in membership.roles.all %}
+        {% ifequal role.name 'Chair' %}
+            <a href="{% url 'conference_edit' conference.pk %}" class="btn btn-primary" >Edit the conference</a>
+            <a href="{% url 'create_alert' conference.pk %}" class="btn btn-info">Create Alert</a>
+            <span>&nbsp;</span>
+        {% endifequal %}
+        {% ifequal role.name 'Reviewer' %}
+            <a href="#" class="btn btn-info" >Submit review</a>
+            <span>&nbsp;</span>
+        {% endifequal %}
+        {% ifequal role.name 'Submitter' %}
+            <a href="{% url 'submit_paper' membership.conference.pk %}" class="btn" >Submit paper</a>
+            <span>&nbsp;</span>
+        {% endifequal %}
+    {% endfor %}
+</b></p>
+
+
+{% if user_papers.count > 0 %}
+<h3>My submissions</h3>
+    <table class="table table-striped">
+        <tr>
+            <th>Title</th>
+            <th>Submit date</th>
+            <th>Last update date</th>
+        </tr>
+        {% for paper in user_papers.all %}
+        <tr>
+            <td><b><a href="{% url 'edit_paper' conference.pk paper.pk %}">{{paper.title}}</a></b></td>
+            <td>{{paper.submission_date|date:"m/d/y"}}</td>
+            <td>{{paper.last_update_date|date:"m/d/y"}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+
+
+{% if conference_papers %}
+<h3>Conference submissions</h3>
+    <table class="table table-striped">
+        <tr>
+            <th>Title</th>
+            <th>Submit date</th>
+            <th>Last update date</th>
+        </tr>
+        {% for paper in conference_papers %}
+        <tr>
+            <td><b>{{paper.title}}</b></td>
+            <td>{{paper.submission_date|date:"m/d/y"}}</td>
+            <td>{{paper.last_update_date|date:"m/d/y"}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+
+
 {% if alerts_trigger %}
 <h3>Alerts with trigger</h3>
     <table class="table table-striped">
         <tr>
             <th>Title</th>
             <th>Date</th>
-            <th>For President</th>
             <th>Roles</th>
         </tr>
         {% for alert in alerts_trigger %}
         <tr>
             <td>{{alert.title}}</td>
             <td>{{alert.trigger_date|date:"m/d/y"}}</td>
-            <td>{{alert.for_president}}</td>
             <td>
                 {% for role in alert.roles.all %}
                     {{role}}
@@ -55,7 +118,6 @@
             <th>Title</th>
             <th>Reminder</th>
             <th>Event</th>
-            <th>For President</th>
             <th>Roles</th>
             
         </tr>
@@ -64,7 +126,6 @@
             <td>{{alert.title}}</td>
             <td>{{alert.reminder.name}}</td>
             <td>{{alert.event.name}}</td>
-            <td>{{alert.for_president}}</td>
             <td>
                 {% for role in alert.roles.all %}
                     {{role}}
@@ -82,14 +143,12 @@
         <tr>
             <th>Title</th>
             <th>Action</th>
-            <th>For President</th>
             <th>Roles</th>
         </tr>
         {% for alert in alerts_action %}
         <tr>
             <td>{{alert.title}}</td>
             <td>{{alert.action.name}}</td>
-            <td>{{alert.for_president}}</td>
             <td>
                 {% for role in alert.roles.all %}
                     {{role}}

@@ -6,7 +6,9 @@
 {% block content_header %}
 <h1>Account
         <a href="{% url 'password_change' %}" class="btn btn-info">Change my password</a>
-        <a href="#" class="btn btn-danger" id="close_account">Close my account</a>
+        {% if not user.is_superuser %}
+            <a href="#" class="btn btn-danger" id="close_account">Close my account</a>
+        {% endif %}
 </h1>
 {% endblock %}
 

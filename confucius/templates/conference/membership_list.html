@@ -4,11 +4,11 @@
 {% block title %}Conference {% endblock %}
 
 {% block content_header %}
-<h1>My Conferences</h1>
+<h1>My Conferences</h1><br/>
 {% endblock %}
 
 {% block content_main %}
-<table class="table table-bordered">
+<table class="table table-bordered ">
     <thead>
         <tr>
             <th>Title</th>
@@ -20,7 +20,7 @@
     <tbody>
         {% for membership in membership_list %}
         <tr class="infos">
-            <td><a href="{% url 'dashboard' membership.conference.pk %}"><strong>{{ membership.conference.title }}</strong></a></td>
+            <td><strong>{{ membership.conference.title }}</strong></td>
             <td>
                 {% for role in membership.roles.all %}
                     {{ role }}
@@ -30,13 +30,15 @@
             <td>{% if membership.conference.is_open %}Open{% else %}Closed{% endif %}</td>
         </tr>
 
-        {% comment %}
         <tr class="actions">
-            <td></td>
-            <td colspan="4">
+            <td colspan="1">
+                <a class="btn btn-info" href="{% url 'dashboard' membership.conference.pk %}"> Go to Dashboard </a>
+            </td>
+            <td colspan="3">
                 {% for role in membership.roles.all %}
                     {% ifequal role.name 'Chair' %}
-                    <a class="btn btn-primary" href="{% url 'conference_update' membership.conference.pk %}">Edit configuration</a>
+                    <a class="btn btn-primary" href="{% url 'conference_edit' membership.conference.pk %}">Edit configuration</a>
+                    <a class="btn btn-primary" href="{% url 'create_alert' membership.conference.pk %}">Create Alert</a>
                     {% endifequal %}
                     {% ifequal role.name 'Reviewer' %}
                     <a class="btn btn-info" href="#">Submit review</a>
@@ -45,11 +47,28 @@
                     <a class="btn" href="{% url 'submit_paper' membership.conference.pk %}">Submit paper</a>
                     {% endifequal %}
                 {% endfor %}
-                
             </td>
         </tr>
-        {% endcomment %}
+        {% empty %}
+            <h3>You are not subscribed to a conference</h3><br/>
         {% endfor %}
     </tbody>
 </table>
+{% endblock %}
+{% block extra_style %}
+<style>
+    tr.infos:hover {
+        cursor:pointer;
+    }
+</style>
+{% endblock %}
+{% block script %}
+<script>
+    $(function() {
+        $('tr.infos').click(function(e) {
+            $(this).next().toggle('fast');
+            return false;
+        }).next().hide();
+    });
+</script>
 {% endblock %}
