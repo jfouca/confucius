@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.forms.models import modelform_factory
 from django.shortcuts import get_object_or_404, redirect, render_to_response
 from django.template import RequestContext
@@ -6,7 +7,7 @@ from django.views.generic import UpdateView, ListView
 from django.views.generic.detail import BaseDetailView, SingleObjectTemplateResponseMixin
 
 from confucius.forms import AlertForm
-from confucius.models import Action, Alert, Conference, Event, Membership, Reminder, Role
+from confucius.models import Action, Alert, Conference, Event, Membership, Reminder
 from confucius.decorators.confdecorators import user_access_conference
 
 
@@ -15,7 +16,7 @@ class MembershipListView(ListView):
     template_name = 'conference/membership_list.html'
 
     def get_queryset(self):
-        return Membership.objects.filter(user__exact=self.request.user)
+        return Membership.objects.filter(user=self.request.user)
 
 
 class ConferenceToggleView(SingleObjectTemplateResponseMixin, BaseDetailView):
@@ -28,7 +29,8 @@ class ConferenceToggleView(SingleObjectTemplateResponseMixin, BaseDetailView):
         object = self.get_object()
         object.is_open = not object.is_open
         object.save()
-        return redirect('/conference/')
+        messages.success(self.request, 'You have successfully %s the conference %s' % ('opened' if object.is_open else 'closed', object.title))
+        return redirect('account')
 
 
 @login_required

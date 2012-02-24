@@ -1,19 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-       <meta charset="utf-8">
-       <title>{% block title %}Confucius{% endblock %}</title>
-       <link rel="stylesheet" href="{{ STATIC_URL }}jqueryui/css/jquery-ui-1.8.17.custom.css" />
-       <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css" />
-       <link rel="stylesheet" href="{{ STATIC_URL }}style.css" />
-       {% block style %}{% endblock %}
+        <meta charset="utf-8">
+        <title>{% block title %}Confucius{% endblock %}</title>
+        <link rel="stylesheet" href="{{ STATIC_URL }}jqueryui/css/jquery-ui-1.8.17.custom.css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}style.css" />
+        {% block style %}{% endblock %}
     </head>
     <body>
-       {% block topbar %}{% endblock %}
-       {% block base_content %}{% endblock %}
-       <script src="{{ STATIC_URL }}jquery.js"></script>
-       <script src="{{ STATIC_URL }}jqueryui/js/jquery-ui-1.8.17.custom.min.js"></script>
-       <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
-       {% block script %}{% endblock %}
+        {% block topbar %}{% endblock %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="span4 alert alert-{{ message.tags }} fade in">
+                <a class="close" data-dismiss="alert">×</a>
+                {% if 'error' == message.tags|first %}
+                    <h4 class="alert-heading">Error!</h4>
+                {% endif %}
+                {% if 'success' == message.tags|first %}
+                    <h4 class="alert-heading">Well done!</h4>
+                {% endif %}
+                {% if 'info' == message.tags|first %}
+                    <h4 class="alert-heading">Heads up!</h4>
+                {% endif %}
+                {{ message }}
+            </div>
+            {% endfor %}
+            <script>
+                $(function() {$('.alert').alert();});
+            </script>
+        {% endif %}
+        {% block base_content %}{% endblock %}
+        <script src="{{ STATIC_URL }}jquery.js"></script>
+        <script src="{{ STATIC_URL }}jqueryui/js/jquery-ui-1.8.17.custom.min.js"></script>
+        <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
+        {% block script %}{% endblock %}
     </body>
 </html>

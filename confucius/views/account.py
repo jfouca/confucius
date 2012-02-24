@@ -38,8 +38,10 @@ def edit_account(request, template='account/edit_account.html'):
 @login_required
 def close_account(request):
     from django.contrib.auth import logout
+    from django.contrib import messages
 
     request.user.is_active = False
     request.user.save()
     logout(request)
+    messages.info(request, 'Your account has been closed.')
     return redirect('login')

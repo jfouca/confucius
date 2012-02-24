@@ -109,3 +109,9 @@ body {
 .headline:before {
     color: #ffffff;
 }
+
+.alert {
+    position:absolute;
+    right:20px;
+    top:60px;
+}

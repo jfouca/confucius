@@ -43,6 +43,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
 )
 
 ROOT_URLCONF = 'confucius.urls'
@@ -54,6 +55,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'django.contrib.messages',
 )
 
 AUTHENTICATION_BACKENDS = ('confucius.backends.AccountBackend',)
