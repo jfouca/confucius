@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-from confucius.models import Conference, Account, Role, Alert, Reminder, Event, ConferenceAccountRole, EmailAddress
+from confucius.models import Conference, Role, Alert, Reminder, Event, Membership, Email
 from django.core.mail import send_mail
 from datetime import datetime, timedelta
 
@@ -31,15 +31,16 @@ class Command(BaseCommand):
             self.do_task(alert,conference,new_date,current_date)    
     
     def do_task(self, alert, conference, new_date, current_date):
-        if alert.for_president == True:
-            president_email = EmailAddress.objects.get(account=conference.president,main=True)
-            send_mail(alert.title+" to president", alert.content+"-- to president", 'no-reply-alerts@confucius.com',[str(president_email)], fail_silently=False)
         for role in alert.roles.all() :
             if str(new_date)[0:10] == str(current_date)[0:10]:
-                confaccountrole = ConferenceAccountRole.objects.filter(conference=conference,role=role)
-                for entry in confaccountrole:
-                    account = entry.account
-                    email = EmailAddress.objects.get(account=account,main=True)
-                    send_mail(alert.title, alert.content, 'no-reply-alerts@confucius.com',[str(email)], fail_silently=False)
-                        
+                membership = Membership.objects.filter(conference=conference,roles=role)
+                for entry in membership:
+                    user = entry.user
+                    email = Email.objects.get(user=user,main=True)
+                    self.stdout.write(" ** envoi de mail a l adresse suivante: %s ** \n" % str(email))
+                    try:
+                        send_mail(alert.title, alert.content, 'no-reply-alerts@confucius.com',[str(email)], fail_silently=False)
+                    except:
+                        self.stderr.write("An error occured during the email sending process. The SMTP settings may be uncorrect, or the receiver(%s) email address may not exist\n" % str(email))
+                           
                         
