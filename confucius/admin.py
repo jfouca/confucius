@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
 from django.contrib.auth.models import User
 
 from confucius.forms import AddressFormSet, EmailFormSet, UserCreationForm, UserForm
-from confucius.models import Address, Conference, Domain, Email, Membership, Paper
+from confucius.models import Address, Conference, Domain, Email, Membership, Paper, Alert
 
 
 class AdminUserForm(UserForm):
@@ -101,4 +101,3 @@ site = admin.AdminSite()
 site.register(User, UserAdmin)
 site.register(Conference, ConferenceAdmin)
 site.register(Domain)
-site.register(Paper)

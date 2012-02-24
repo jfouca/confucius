@@ -125,8 +125,8 @@ def home_conference(request):
 
 
 @login_required
-def create_alert(request, template_name='conference/alert/create_alert.html'):
-    conference = Membership.objects.get(user=request.user, last_accessed=True).conference
+def create_alert(request, conference_pk, template_name='conference/alert/create_alert.html'):
+    conference = get_object_or_404(Conference, pk=conference_pk)
     form = AlertForm()
     reminders = Reminder.objects.all()
     events = Event.objects.all()
