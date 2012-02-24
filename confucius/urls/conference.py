@@ -9,4 +9,6 @@ urlpatterns = patterns('confucius.views',
     url(r'^mockuser/(?P<role_id>\d+)$', 'use_mockuser', name='mockuser_conference'),
     url(r'^exitmockuser/$', 'exit_mockuser', name='exit_mockuser_conference'),
     url(r'^create_alert$', 'create_alert', name='create_alert'),
+    url(r'^reviewer_invitation$', 'reviewer_invitation', name='reviewer_invitation'),
+    url(r'^reviewer_invitation/(?P<hashCode>.+)$', 'reviewer_response', name='reviewer_response'),
 )

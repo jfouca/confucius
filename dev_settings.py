@@ -58,16 +58,10 @@ INSTALLED_APPS = (
 
 AUTHENTICATION_BACKENDS = ('confucius.backends.AccountBackend',)
 
-<<<<<<< HEAD
-LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/conference/home'
-
 EMAIL_HOST = "smtp.orange.fr"
 EMAIL_HOST_USER = "y.lemaulf@orange.fr"
 EMAIL_HOST_PASSWORD = "lemaulf"
 EMAIL_PORT = 25
 
-=======
 LOGIN_URL = '/account/login/'
 LOGIN_REDIRECT_URL = '/conference/'
->>>>>>> e0d3239ba6faa716125af99f0376c67cef0e3223
