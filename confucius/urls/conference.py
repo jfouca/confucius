@@ -3,7 +3,6 @@ from django.conf.urls.defaults import patterns, url
 from confucius.views import ConferenceToggleView, ConferenceUpdateView, MembershipListView
 
 urlpatterns = patterns('confucius.views',
-    url(r'^$', 'dashboard'),
     url(r'^dashboard/$', 'dashboard', name='dashboard'),
     url(r'^dashboard/(?P<conference_pk>\d+)/$', 'dashboard', name='dashboard'),
     url(r'^list/$', MembershipListView.as_view(), name='membership_list'),
