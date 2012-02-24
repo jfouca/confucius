@@ -5,6 +5,8 @@ urlpatterns = patterns('confucius.views',
     url(r'^$', 'edit_account', name='account'),
     url(r'^close/$', 'close_account', name='close_account'),
     url(r'^create/$', 'create_account', name='create_account'),
+    url(r'^create/(?P<hashCode>.+)$', 'activate_account', name='activate_account'),
+    
 )
 
 # django.contrib.auth views

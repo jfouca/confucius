@@ -5,8 +5,8 @@ from django.template import RequestContext
 from django.views.generic import UpdateView, ListView
 from django.views.generic.detail import BaseDetailView, SingleObjectTemplateResponseMixin
 
-from confucius.forms import AlertForm, InvitationForm
-from confucius.models import Action, Alert, Conference, Event, Membership, MockUser, Reminder, Role, ReviewerResponse
+from confucius.forms import AlertForm, InvitationForm, DomainsForm
+from confucius.models import Action, Alert, Domain, Conference, Event, Membership, MockUser, Reminder, Role, ReviewerResponse
 from confucius.decorators.confdecorators import user_access_conference
 
 
@@ -159,24 +159,30 @@ def reviewer_response(request, hashCode):
             context_instance=RequestContext(request))
       
       # Test if the conference paper review is not over
-      if datetime.date.today() > response.conference.endEvaluationDate:
+      import datetime
+      if datetime.date.today() > response.conference.reviews_end_date:
         return render_to_response('conference/reviewer_answer.html',
             {"error_message":"Paper Review is over for the conference "+response.conference.title}, 
             context_instance=RequestContext(request)) 
        
-      form = DomainsForm(instance=response.conference)
+      #form = DomainsForm(instance=response.conference)
       if request.POST:
         if 'Accept' in request.POST:
-            domains_form = DomainsForm(request.POST, instance=response.conference)
-            if domains_form.is_valid():
-                domains = domains_form.cleaned_data['domains']
+            #domains_form = DomainsForm(request.POST, instance=response.conference)
+            #if domains_form.is_valid():
+            #    domains = domains_form.cleaned_data['domains']
             
             #Role creation and adding selected domain
-            confAccountRole = ConferenceAccountRole.objects.create(account=account, conference=response.conference)
-            reviewer_role = get_object_or_404(Role, code="REVI")
-            confAccountRole.role.add(reviewer_role)
-            for domain in domains:
-                reviewer_domain = get_object_or_404(Domain, name=domain)
+            try :
+                MembershipRole = Membership.objects.get(user=user, conference=response.conference)
+            except:
+                MembershipRole = Membership.objects.create(user=user, conference=response.conference)
+            reviewer_role = Role.objects.get(code="R")
+            MembershipRole.roles.add(reviewer_role)
+                
+            #for domain in domains:
+            #    reviewer_domain = Domain.objects.get(name=domain)
+            #    MembershipRole.domains.add(reviewer_domain)
             #Delete the current key from the answer wait table
             response.delete()
             return render_to_response('conference/reviewer_answer_confirm.html', context_instance=RequestContext(request))
@@ -187,4 +193,4 @@ def reviewer_response(request, hashCode):
             return render_to_response('conference/reviewer_answer_confirm.html', context_instance=RequestContext(request))    
       else:
         return render_to_response('conference/reviewer_answer.html',
-            {"title":response.conference.title, "form":form}, context_instance=RequestContext(request))
+            {"title":response.conference.title}, context_instance=RequestContext(request))

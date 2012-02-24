@@ -26,8 +26,11 @@ class UserCreationForm(AuthUserCreationForm):
         used as an underlying authentication token.
         """
         super(UserCreationForm, self).__init__(*args, **kwargs)
-        del self.base_fields['username']
-        del self.fields['username']
+        try :
+            del self.base_fields['username']
+            del self.fields['username']
+        except :
+            pass
 
     def clean_email(self):
         email = self.cleaned_data['email']

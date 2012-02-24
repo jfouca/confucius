@@ -208,3 +208,18 @@ class ReviewerResponse(models.Model):
     
     class Meta(ConfuciusModel.Meta):
         unique_together = ('email_addr','conference')
+
+
+from django.forms import ModelForm
+from django import forms
+class DomainsForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(DomainsForm, self).__init__(*args, **kwargs)
+        self.fields['domains'].help_text = ''
+        self.fields['domains'].widget = forms.CheckboxSelectMultiple()
+        
+    class Meta:
+        model = Conference
+        exclude = ('title','members','help_text','start_date','startConfDate', 'submissions_start_date','submissions_end_date','reviews_start_date','reviews_end_date','url','is_open')
+        fields = ('domains',)
