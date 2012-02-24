@@ -35,21 +35,18 @@
 {% block script %}
 <script>
     $(function() {
-        $('#form').on('submit', function() { return false; });
-        $('#form').on('change', function(e) {
-            $(e.target).next().html($('<i class="icon icon-refresh">'));
-            $.post('{% url 'account' %}', $(this).serialize(), function(data) {
-                console.log(e.target);
-                console.log(data);
-                $(e.target).parent().parent().parent().addClass('success');
-                $(e.target).next().text('saved!');
-            });
+        $('#id_trigger_date, #id_action, #id_event, #id_reminder').val('').closest('div.control-group').hide();
+        $('#reminder').on('click', function() {
+            $('#id_trigger_date, #id_action').val('').closest('div.control-group').hide();
+            $('#id_reminder, #id_event').closest('div.control-group').show('slow');
         });
-        $('#close_account_modal').modal({
-            show: 0
+        $('#trigger').on('click', function() {
+            $('#id_reminder, #id_action, #id_event').val('').closest('div.control-group').hide();
+            $('#id_trigger_date').closest('div.control-group').show('slow');
         });
-        $('#close_account').on('click', function() {
-            $('#close_account_modal').modal('show');
+        $('#action').on('click', function() {
+            $('#id_trigger_date, #id_reminder, #id_event').val('').closest('div.control-group').hide();
+            $('#id_action').closest('div.control-group').show('slow');
         });
     });
 </script>

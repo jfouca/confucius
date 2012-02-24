@@ -95,6 +95,7 @@
             <th>Title</th>
             <th>Date</th>
             <th>Roles</th>
+            <th>Edit</th>
         </tr>
         {% for alert in alerts_trigger %}
         <tr>
@@ -107,6 +108,7 @@
                     None
                 {% endfor %}
             </td>
+            <td><a href="{% url 'edit_alert' alert.pk %}" class="brn btn-danger">Edit the alert</a></td>
         </tr>
         {% endfor %}
     </table>
