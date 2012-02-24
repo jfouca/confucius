@@ -1,0 +1,160 @@
+{% extends 'base-in.html' %}
+{% load url from future %}
+
+{% block title %}Edit conference{% endblock %}
+
+{% block content_header %}
+<h1>Edit conference: {{ conference.title }}</h1>
+{% endblock %}
+
+{% block content_main %}
+{% if form.errors %}
+    <div class="alert alert-error">
+        {{ form.errors }}
+    </div>
+{% endif %}
+<form class="form-horizontal" method="post">
+{% csrf_token %}
+    <div class="row">
+        <div class="span10">
+            <fieldset>
+                <legend>Conference</legend>
+                <div class="control-group">
+                    <div class="controls">
+                        <div class="controls-inputs">
+                            {% if conference.is_open %}
+                                <a id="toggle_conference" href="#" class="btn btn-danger">Close the conference</a>
+                            {% else %}
+                                <a id="toggle_conference" href="#" class="btn btn-success">Open the conference</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">{{ form.title.label }}</label>
+                    <div class="controls">   
+                        <div class="input-prepend">    
+                            <span class="add-on"><i class="icon-home"></i></span>
+                            <input name="{{ form.title.html_name }}" value="{{ form.title.value }}" class="input-medium" type="text">
+                        </div>    
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">{{ form.url.label }}</label>
+                    <div class="controls">   
+                        <div class="input-prepend">    
+                            <span class="add-on"><i class="icon-home"></i></span>
+                            <input name="{{ form.url.html_name }}" value="{{ form.url.value }}" class="input-medium" type="text">
+                        </div>    
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">{{ form.start_date.label }}</label>
+                    <div class="controls">
+                        <div class="input-prepend">
+                            <span class="add-on"><i class="icon-calendar"></i></span>
+                            <input name="{{ form.start_date.html_name }}" value="{{ form.start_date.value|date:'SHORT_DATE_FORMAT' }}" class="input-small" type="text">
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="span5">
+            <fieldset>
+                <div class="control-group">
+                    <label class="control-label">{{ form.domains.label }}</label>
+                    <div class="controls">   
+                        <div class="controls-inputs">    
+                            {{ form.domains }}
+                        </div>    
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        
+    </div>
+    <div class="row">
+        <div class="span5">
+            <fieldset>
+                <legend>Submissions</legend>
+                 <div class="control-group">
+                     <label class="control-label">{{ form.submissions_start_date.label }}</label>
+                    <div class="controls">   
+                        <div class="input-prepend">
+                            <span class="add-on"><i class="icon-calendar"></i></span>
+                            <input name="{{ form.submissions_start_date.html_name }}" value="{{ form.submissions_start_date.value|date:'SHORT_DATE_FORMAT' }}" class="input-small" type="text">
+                        </div>    
+                    </div>
+                </div>
+                 <div class="control-group">
+                     <label class="control-label">{{ form.submissions_end_date.label }}</label>
+                    <div class="controls">   
+                        <div class="input-prepend">
+                            <span class="add-on"><i class="icon-calendar"></i></span>
+                            <input name="{{ form.submissions_end_date.html_name }}" value="{{ form.submissions_end_date.value|date:'SHORT_DATE_FORMAT' }}" class="input-small" type="text">
+                        </div>    
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="span5">
+            <fieldset>
+                <legend>Evaluations</legend>
+                <div class="control-group">
+                    <label class="control-label">{{ form.reviews_start_date.label }}</label>
+                    <div class="controls">   
+                        <div class="input-prepend">
+                            <span class="add-on"><i class="icon-calendar"></i></span>    
+                            <input name="{{ form.reviews_start_date.html_name }}" value="{{ form.reviews_start_date.value|date:'SHORT_DATE_FORMAT' }}" class="input-small" type="text">
+                        </div>    
+                    </div>
+                </div>     
+                <div class="control-group">
+                    <label class="control-label">{{ form.reviews_end_date.label }}</label>
+                    <div class="controls">   
+                        <div class="input-prepend">
+                            <span class="add-on"><i class="icon-calendar"></i></span>   
+                            <input name="{{ form.reviews_end_date.html_name }}" value="{{ form.reviews_end_date.value|date:'SHORT_DATE_FORMAT' }}" class="input-small" type="text">
+                        </div>    
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <fieldset>
+        <div class="form-actions">
+            <input type="submit" class="btn btn-primary" value="Update configuration">
+        </div>
+    </fieldset>
+</form>
+<div class="modal hide fade" id="toggle_modal">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>{{ conference.title }}</h3>
+    </div>
+    <div class="modal-body">
+        <p>Are you sure?</p>
+    </div>
+    <div class="modal-footer">
+        <a href="{% url 'conference_toggle' conference.id %}" class="btn btn-large btn-danger">Yes, I am</a>
+        <a data-dismiss="modal" class="btn btn-large">No, forgive me</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    $(function() {
+        $('input[name$="date"]').datepicker({
+            dateFormat: 'mm/dd/yy',
+        });
+        $('#toggle_modal').modal({
+            show: 0,
+        });
+        $('#toggle_conference').click(function() {
+            $('#toggle_modal').modal('show');
+            return false;
+        });
+    });
+</script>
+{% endblock %}

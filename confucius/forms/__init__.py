@@ -1,4 +1,3 @@
-from confucius.forms.confadminform import (CreateAdminForm)
-from confucius.forms.authforms import (AdminAccountForm, CreateAccountForm)
-from confucius.forms.editconf_forms import (EditConfForm, InviteReviewerForm, DomainsForm)
-
+from confucius.forms.account import (AddressFormSet, EmailFormSet, UserForm, UserCreationForm)
+from confucius.forms.conference import (AlertForm, ConferenceForm)
+from confucius.forms.submission import (PaperForm)

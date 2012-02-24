@@ -6,6 +6,10 @@ body {
     padding-top: 40px;
 }
 
+.content-header {
+  padding-left: 0;
+}
+
 .controls > input {
     margin-top: 3px;
 }
@@ -19,6 +23,11 @@ body {
     opacity: 1;
 }
 
+.ui-datepicker {
+    border: 1px solid #aaa;
+    background: #fff;
+}
+
 /* Navbar */
 
 .navbar-text {
@@ -29,6 +38,7 @@ body {
 
 .sidebar-nav {
     margin: 0;
+    padding: 15px 12px;
     background-color: #fff;
 
 }
@@ -40,11 +50,11 @@ body {
 }
 
 .content {
-    margin: 0;
+
 }
 
 .content-header {
-    padding: 5px 15px;
+    padding: 5px 0;
 }
 
 .content-header h1 {
@@ -52,7 +62,6 @@ body {
 }
 
 .content-main {
-    margin: 15px 0 0 0;
 }
 
 .content-footer {
@@ -99,4 +108,10 @@ body {
 
 .headline:before {
     color: #ffffff;
+}
+
+.alert {
+    position:absolute;
+    right:20px;
+    top:70px;
 }

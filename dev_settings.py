@@ -1,5 +1,3 @@
-import os.path 
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -20,12 +18,21 @@ MEDIA_URL = '/media/'
 STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
 ADMIN_MEDIA_PREFIX = '/static/admin/'
-PROJECT_DIR = os.path.dirname(__file__) 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
 SECRET_KEY = ''
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.core.context_processors.request',
+    'django.contrib.messages.context_processors.messages',
+)
 
 TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
@@ -36,12 +43,9 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-
-TEMPLATE_DIRS = (
-   os.path.join(PROJECT_DIR, 'templates'),
-) 
 ROOT_URLCONF = 'confucius.urls'
 
 INSTALLED_APPS = (
@@ -51,15 +55,15 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'django.contrib.messages',
 )
 
 AUTHENTICATION_BACKENDS = ('confucius.backends.AccountBackend',)
-
-LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/conference/home'
 
 EMAIL_HOST = "smtp.orange.fr"
 EMAIL_HOST_USER = "y.lemaulf@orange.fr"
 EMAIL_HOST_PASSWORD = "lemaulf"
 EMAIL_PORT = 25
 
+LOGIN_URL = '/account/login/'
+LOGIN_REDIRECT_URL = '/conference/dashboard/'
