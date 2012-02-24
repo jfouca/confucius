@@ -6,7 +6,7 @@ from django.views.generic import UpdateView, ListView
 from django.views.generic.detail import BaseDetailView, SingleObjectTemplateResponseMixin
 
 from confucius.forms import AlertForm
-from confucius.models import Action, Alert, Conference, Event, Membership, MockUser, Reminder, Role
+from confucius.models import Action, Alert, Conference, Event, Membership, Reminder, Role
 from confucius.decorators.confdecorators import user_access_conference
 
 
@@ -63,7 +63,7 @@ class ConferenceUpdateView(UpdateView):
     success_url = '/conference/dashboard/'
     template_name = 'conference/conference_form.html'
 
-
+'''
 @login_required
 @user_access_conference(onlyPresident=True)
 def use_mockuser(request, role_id):
@@ -86,6 +86,7 @@ def exit_mockuser(request):
 
     return redirect('change_conference', original_conference.pk)
 
+'''
 
 @login_required
 @user_access_conference()

@@ -1,0 +1,23 @@
+{% extends "base-in.html" %}
+{% load url from future %}
+
+{% block title %}Submission{% endblock %}
+
+{% block content_header %}
+
+{% endblock %}
+
+{% block content_main %}
+
+<form id="form" class="form-horizontal" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form}}
+
+    <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="Create"/>
+    </div>
+    
+</form>
+{% endblock %}
+
+

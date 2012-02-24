@@ -39,7 +39,9 @@ class Conference(ConfuciusModel):
     reviews_end_date = models.DateField()
     url = models.URLField(blank=True)
     members = models.ManyToManyField(User, through='Membership')
-    domains = models.ManyToManyField('Domain')
+    domains = models.ManyToManyField('Domain', related_name="conferences")
+    
+    
 
     def __unicode__(self):
         return self.title
@@ -89,7 +91,7 @@ class MessageTemplate(ConfuciusModel):
     def __unicode__(self):
         return self.title
 
-
+'''
 class MockUser(models.Model):
     from django.db.models.signals import post_save
 
@@ -175,6 +177,7 @@ class MockUser(models.Model):
 
     post_save.connect(check_user_is_in_mockmode, sender=User)
 
+'''
 
 class Reminder(ConfuciusModel):
     value = models.PositiveIntegerField()
