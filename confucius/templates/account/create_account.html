@@ -10,11 +10,6 @@
 <form method="post" action="">
 {% csrf_token %}
     {% if form%}
-        {% if form.error_messages %}
-        <div class="alert alert-error">
-        {{form.error_messages}}
-        </div>
-        {% endif %}
         {{ form }}
         <br>
         <input type="hidden" name="next" value="{{ next }}" />

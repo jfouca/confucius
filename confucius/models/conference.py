@@ -195,3 +195,33 @@ class Role(ConfuciusModel):
 
     def __unicode__(self):
         return self.name
+
+        
+class ReviewerResponse(models.Model):
+    STATUS_CHOICES = (
+        (u'R', u'Refused'),
+        (u'W', u'Waiting for response'),
+    )    
+    
+    hash_code = models.CharField(max_length=64)
+    email_addr = models.EmailField(unique=True, verbose_name="email")
+    conference = models.ForeignKey(Conference)
+    invitation_status = models.CharField(max_length=2, choices=STATUS_CHOICES)
+    
+    class Meta(ConfuciusModel.Meta):
+        unique_together = ('email_addr','conference')
+
+
+from django.forms import ModelForm
+from django import forms
+class DomainsForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(DomainsForm, self).__init__(*args, **kwargs)
+        self.fields['domains'].help_text = ''
+        self.fields['domains'].widget = forms.CheckboxSelectMultiple()
+        
+    class Meta:
+        model = Conference
+        exclude = ('title','members','help_text','start_date','startConfDate', 'submissions_start_date','submissions_end_date','reviews_start_date','reviews_end_date','url','is_open')
+        fields = ('domains',)
