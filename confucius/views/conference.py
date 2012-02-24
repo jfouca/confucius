@@ -30,7 +30,7 @@ class ConferenceToggleView(SingleObjectTemplateResponseMixin, BaseDetailView):
         object.is_open = not object.is_open
         object.save()
         messages.success(self.request, 'You have successfully %s the conference %s' % ('opened' if object.is_open else 'closed', object.title))
-        return redirect('account')
+        return redirect('dashboard')
 
 
 @login_required
