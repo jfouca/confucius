@@ -1,9 +1,11 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
 from django.contrib.auth.models import User
-
 from confucius.forms import AddressFormSet, EmailFormSet, UserCreationForm, UserForm
 from confucius.models import Address, Conference, Domain, Email, Membership, Paper, Alert
+
+
+
 
 
 class AdminUserForm(UserForm):
@@ -82,6 +84,35 @@ class UserAdmin(AuthUserAdmin):
             yield inline.get_formset(request, obj)
 
 
+class PaperAdmin(admin.ModelAdmin):
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('title', 'language', 'submitter', 'conference', 'emails_authors', 'document',)}
+        ),
+    )
+    fieldsets = (
+        ('Paper information', {
+            'fields': (('title', 'language'), )
+        }),
+        ('Authors information', {
+            'fields': (('submitter', 'conference',), 'emails_authors', )
+        }),
+        ('Date information', {
+            'fields': (('submission_date', 'last_update_date', ),)
+        }),
+        ('Document', {
+            'fields': ('document',)
+        })
+    )
+    filter_horizontal = ()
+    list_display = ('title', 'conference', 'submitter', 'submission_date', 'last_update_date')
+    list_filter = ('conference__title',)
+    ordering = ('conference',)
+    readonly_fields = ('submission_date', 'last_update_date', )
+    search_fields  = ('title', 'conference')
+
+  
 class MembershipInline(admin.StackedInline):
     from django import forms
     from django.db import models
@@ -94,10 +125,11 @@ class MembershipInline(admin.StackedInline):
 
 
 class ConferenceAdmin(admin.ModelAdmin):
-    inlines = (MembershipInline,)
+    inlines = (MembershipInline, )
 
 
 site = admin.AdminSite()
 site.register(User, UserAdmin)
-site.register(Conference, ConferenceAdmin)
+site.register(Conference, ConferenceAdmin, )
 site.register(Domain)
+site.register(Paper, PaperAdmin,)
