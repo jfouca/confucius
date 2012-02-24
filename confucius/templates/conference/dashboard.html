@@ -2,7 +2,15 @@
 {% load url from future %}
 
 {% block title %}Conference "{{ conference.title }}"{% endblock %}
-{% block brand %}Conference "{{ conference.title }}"{% endblock %}
+{% block brand %}Conference "{{ conference.title }}"  
+
+{% if not conference.is_open %}
+(closed)
+{% endif %}
+
+
+
+{% endblock %}
 
 {% block content_header %}
 <h2>Dashboard</h2>
