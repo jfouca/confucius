@@ -9,6 +9,7 @@ from confucius.forms import AddressFormSet, EmailFormSet, UserForm
 def edit_account(request, template='account/edit_account.html'):
     import json
     from django.http import HttpResponse
+    from confucius.utils import errors_to_dict
 
     form = UserForm(instance=request.user)
     address_formset = AddressFormSet(instance=request.user)
@@ -18,13 +19,15 @@ def edit_account(request, template='account/edit_account.html'):
         form = UserForm(request.POST, instance=request.user)
         address_formset = AddressFormSet(request.POST, instance=request.user)
         email_formset = EmailFormSet(request.POST, instance=request.user)
+        errors = {}
 
         for f in (form, address_formset, email_formset):
             if f.is_valid():
                 f.save()
             else:
-                return HttpResponse(json.dumps(f.errors), content_type='text/plain')
-        return HttpResponse('', content_type='text/plain')
+                errors = dict(errors.items() + errors_to_dict(f).items())
+
+        return HttpResponse(json.dumps(errors), content_type='text/plain')
 
     context = {
         'address_formset': address_formset,
