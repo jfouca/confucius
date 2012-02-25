@@ -38,10 +38,6 @@
             <a href="{% url 'create_alert' conference.pk %}" class="btn btn-info">Create Alert</a>
             <span>&nbsp;</span>
         {% endifequal %}
-        {% ifequal role.name 'Reviewer' %}
-            <a href="#" class="btn btn-info" >Submit review</a>
-            <span>&nbsp;</span>
-        {% endifequal %}
         {% ifequal role.name 'Submitter' %}
             <a href="{% url 'submit_paper' membership.conference.pk %}" class="btn" >Submit paper</a>
             <span>&nbsp;</span>
@@ -86,6 +82,43 @@
         {% endfor %}
     </table>
 {% endif %}
+
+
+{% if user_assignments.count > 0 %}
+<h3>My assignments</h3>
+    <table class="table table-striped">
+        <tr>
+            <th>Paper title</th>
+            <th>Is done ?</th>
+        </tr>
+        {% for assignment in user_assignments.all %}
+        <tr>
+            <td><b><a href="{% url 'submit_review' assignment.pk%}">{{assignment.paper.title}}</a></b></td>
+            <td>{{assignment.is_done}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+
+
+{% if conference_assignments %}
+<h3>Conference assignments</h3>
+    <table class="table table-striped">
+        <tr>
+            <th>Paper title</th>
+            <th>Reviewer</th>
+            <th>Is done ?</th>
+        </tr>
+        {% for assignment in conference_assignments %}
+        <tr>
+            <td>{{assignment.paper.title}}</td>
+            <td>{{assignment.reviewer}}</td>
+            <td>{{assignment.is_done}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+
 
 
 {% if alerts_trigger %}

@@ -1016,7 +1016,6 @@
         "model": "confucius.assignment",
         "fields": {
             "reviewer": 1,
-            "is_accepted": true,
             "paper": 1,
             "is_done": false,
             "review": null

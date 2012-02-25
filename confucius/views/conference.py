@@ -7,7 +7,7 @@ from django.views.generic import UpdateView, ListView
 from django.views.generic.detail import BaseDetailView, SingleObjectTemplateResponseMixin
 
 from confucius.forms import AlertForm
-from confucius.models import Action, Alert, Conference, Event, Membership, Paper, Reminder, Role
+from confucius.models import Action, Alert, Assignment, Conference, Event, Membership, Paper, Reminder, Role
 from confucius.decorators.confdecorators import user_access_conference
 
 
@@ -51,11 +51,15 @@ def dashboard(request, conference_pk=None, template_name='conference/dashboard.h
     alerts_action = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, reminder__isnull=True)
 
     user_papers = Paper.objects.filter(conference=conference, submitter=request.user)
-    # Don't show all papers if you are not the chair of the conference
+    user_assignments = Assignment.objects.filter(reviewer=request.user, is_assigned=True)
+    
+    # Don't show all papers and assignments if you are not the chair of the conference
     chair_role = Role.objects.get(code="C")
     if chair_role in membership.roles.all() :
+        conference_assignments = Assignment.objects.filter(paper__conference=conference, is_assigned=True)
         conference_papers = Paper.objects.filter(conference=conference)
     else:
+        conference_assignments = None
         conference_papers = None
     
 
@@ -66,7 +70,9 @@ def dashboard(request, conference_pk=None, template_name='conference/dashboard.h
         'conference': conference,
         'membership': membership,
         'user_papers': user_papers,
-        'conference_papers': conference_papers
+        'conference_papers': conference_papers,
+        'user_assignments': user_assignments,
+        'conference_assignments': conference_assignments
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))

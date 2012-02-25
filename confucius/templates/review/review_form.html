@@ -1,0 +1,43 @@
+{% extends "base-in.html" %}
+{% load url from future %}
+
+{% block title %}Review{% endblock %}
+
+{% block content_header %}
+<h1>
+    {% if instance %}
+        Edit review
+    {% else %}
+        Submit review
+    {% endif %}
+</h1><br/>
+{% endblock %}
+
+{% block content_main %}
+
+<p>Title : {{assignment.paper.title}}</p>
+<p>Conference : {{assignment.paper.conference.title}}</p>
+<p>Domains : {{assignment.paper.domains.all|join:', '}}</p>
+<p>Language : {{assignment.paper.title}}</p>
+<p><a href="{{assignment.paper.document.url}}" class="btn btn-primary">Download the paper</a></p>
+<br/>
+
+
+<form id="form" class="form-horizontal" method="post">
+    {% csrf_token %}
+
+    {{form}}
+
+    <div class="form-actions">
+        {% if not assignment.is_done %}
+            <input type="submit" name="save_and_continue" class="btn" value="Save review and continue later"/>
+            <input type="submit" name="save_and_submit" class="btn btn-primary" value="Save and submit review"/>
+        {% else %}
+            <input type="submit" name="save" class="btn btn-primary" value="Update review"/>
+        {% endif %}
+    </div>
+    
+</form>
+{% endblock %}
+
+
