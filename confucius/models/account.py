@@ -6,6 +6,7 @@ from confucius.models import ConfuciusModel
 
 class Email(ConfuciusModel):
     user = models.ForeignKey(User, related_name='emails')
+    confirmed = models.BooleanField(default=False)
     main = models.BooleanField(default=False)
     value = models.EmailField(unique=True)
 
@@ -25,6 +26,31 @@ class Email(ConfuciusModel):
 
     def __unicode__(self):
         return self.value
+
+
+class EmailSignup(ConfuciusModel):
+    date = models.DateTimeField(auto_now=True)
+    activation_key = models.CharField(max_length=40)
+    email = models.ForeignKey(Email)
+
+    def has_expired(self):
+        import datetime
+
+        expiration_date = self.date + datetime.timedelta(days=1)
+        if datetime.datetime.now() >= expiration_date:
+            return True
+        return False
+
+    def send_activation_email(self):
+        from django.core.mail import send_mail
+        from django.middleware.csrf import _get_new_csrf_key
+        from django.template.loader import render_to_string
+
+        self.activation_key = _get_new_csrf_key()
+        context = {'activation_key': self.activation_key}
+        message = render_to_string('registration/activation_email.html', context)
+
+        send_mail('Email confirmation', message, None, (unicode(self.email),))
 
 
 class Address(ConfuciusModel):

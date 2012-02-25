@@ -54,7 +54,10 @@ class UserCreationForm(AuthUserCreationForm):
         user = super(UserCreationForm, self).save(commit=False)
         user.username = email_to_username(user.email)
         user.save()
-        Email.objects.create(value=user.email, main=True, user=user)
+        email = Email.objects.create(value=user.email, main=True, user=user)
+        from confucius.models.account import EmailSignup
+        email_signup = EmailSignup.objects.create(email=email)
+        email_signup.send_activation_email()
 
         return user
 

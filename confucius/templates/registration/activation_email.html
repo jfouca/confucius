@@ -1,0 +1,4 @@
+{% load url from future %}
+{% autoescape off %}
+{{ site.protocol }}://{{ site.domain }}/{{ activation_key }}
+{% endautoescape %}
