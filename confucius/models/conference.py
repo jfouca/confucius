@@ -1,7 +1,6 @@
-from django.contrib.auth.models import User
 from django.db import models
 
-from confucius.models import ConfuciusModel
+from confucius.models import ConfuciusModel, User
 
 
 class Action(ConfuciusModel):

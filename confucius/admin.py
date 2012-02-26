@@ -1,11 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
-from django.contrib.auth.models import User
+
 from confucius.forms import AddressFormSet, EmailFormSet, UserCreationForm, UserForm
-from confucius.models import Address, Conference, Domain, Email, Membership, Paper, Alert, Review, Assignment
-
-
-
+from confucius.models import Address, Conference, Domain, Email, Membership, Paper, User
 
 
 class AdminUserForm(UserForm):
@@ -110,9 +107,9 @@ class PaperAdmin(admin.ModelAdmin):
     list_filter = ('conference__title',)
     ordering = ('conference',)
     readonly_fields = ('submission_date', 'last_update_date', )
-    search_fields  = ('title', 'conference')
+    search_fields = ('title', 'conference')
 
-  
+
 class MembershipInline(admin.StackedInline):
     from django import forms
     from django.db import models
