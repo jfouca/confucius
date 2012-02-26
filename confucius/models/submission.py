@@ -21,3 +21,10 @@ class Paper(ConfuciusModel):
     def __unicode__(self):
         return self.title
 
+
+    def save(self, *args, **kwargs):
+        from datetime import datetime
+        if self.pk is None:
+            self.submission_date = datetime.now()
+        self.last_update_date = datetime.now()
+        super(Paper, self).save(*args, **kwargs)

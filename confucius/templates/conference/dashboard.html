@@ -35,11 +35,8 @@
     {% for role in membership.roles.all %}
         {% ifequal role.name 'Chair' %}
             <a href="{% url 'conference_edit' conference.pk %}" class="btn btn-primary" >Edit the conference</a>
+            <a href="{% url 'paper_selection_list' %}" class="btn btn-info">Paper selection</a>
             <a href="{% url 'create_alert' conference.pk %}" class="btn btn-info">Create Alert</a>
-            <span>&nbsp;</span>
-        {% endifequal %}
-        {% ifequal role.name 'Reviewer' %}
-            <a href="#" class="btn btn-info" >Submit review</a>
             <span>&nbsp;</span>
         {% endifequal %}
         {% ifequal role.name 'Submitter' %}
@@ -49,6 +46,47 @@
     {% endfor %}
 </b></p>
 
+<br/>
+{% for role in membership.roles.all %} {% ifequal role.name 'Chair' %}
+<table width="100%"><tr>
+    <td width="45%" valign="top">
+        <h3>Last submissions</h3>
+            <table class="table table-striped">
+            <tr>
+                <th>Title</th>
+                <th>Submit date</th>
+            </tr>
+            {% for paper in conference_papers %}
+                <tr>
+                    <td><b>{{paper.title}}</b></td>
+                    <td>{{paper.submission_date|date:"m/d/y"}}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="2">No submissions for this conference.</td></tr>
+            {% endfor %}
+        </table>
+    </td>
+    <td width="1%">&nbsp;</td>
+    <td width="45%" valign="top">
+        <h3>Last finished reviews</h3>
+        <table class="table table-striped">
+            <tr>
+                <th>Paper title</th>
+                <th>Review title</th>
+            </tr>
+            {% for assignment in conference_assignments %}
+                <tr>
+                    <td>{{assignment.paper.title}}</td>
+                    <td>{{assignment.review.title}}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="2">No reviews for this conference.</td></tr>
+            {% endfor %}
+        </table>
+    </td>
+</tr></table>
+{% endifequal %} {% endfor %}
+
 
 {% if user_papers.count > 0 %}
 <h3>My submissions</h3>
@@ -57,38 +95,54 @@
             <th>Title</th>
             <th>Submit date</th>
             <th>Last update date</th>
+            <th></th>
         </tr>
         {% for paper in user_papers.all %}
-        <tr>
-            <td><b><a href="{% url 'edit_paper' conference.pk paper.pk %}">{{paper.title}}</a></b></td>
-            <td>{{paper.submission_date|date:"m/d/y"}}</td>
-            <td>{{paper.last_update_date|date:"m/d/y"}}</td>
-        </tr>
-        {% endfor %}
-    </table>
-{% endif %}
-
-
-{% if conference_papers %}
-<h3>Conference submissions</h3>
-    <table class="table table-striped">
-        <tr>
-            <th>Title</th>
-            <th>Submit date</th>
-            <th>Last update date</th>
-        </tr>
-        {% for paper in conference_papers %}
         <tr>
             <td><b>{{paper.title}}</b></td>
             <td>{{paper.submission_date|date:"m/d/y"}}</td>
             <td>{{paper.last_update_date|date:"m/d/y"}}</td>
+            <td><a href="{% url 'edit_paper' conference.pk paper.pk %}" class="btn btn-info">Edit paper</a></td>
         </tr>
+        {% empty %}
+            <tr><td colspan="4">You haven't submit a paper for this conference.</td></tr>
         {% endfor %}
     </table>
 {% endif %}
 
 
+{% if user_assignments.count > 0 %}
+<h3>My assignments</h3>
+    <table class="table table-striped">
+        <tr>
+            <th>Paper title</th>
+            <th>Is done ?</th>
+            <th></th>
+        </tr>
+        {% for assignment in user_assignments.all %}
+        <tr>
+            <td><b>{{assignment.paper.title}}</b></td>
+            <td>{{assignment.is_done}}</td>
+            <td><a href="{% url 'submit_review' assignment.pk %}" class="btn">
+                {% if assignment.is_done %} 
+                    Edit review 
+                {% else %} 
+                    Submit review 
+                {% endif %}
+            </a></td>
+        
+        </tr>
+        {% empty %}
+            <tr><td colspan="4">You haven't receive an assignment for this conference.</td></tr>
+        {% endfor %}
+    </table>
+{% endif %}
+
+
+
+
 {% if alerts_trigger %}
+
 <h3>Alerts with trigger</h3>
     <table class="table table-striped">
         <tr>

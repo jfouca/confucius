@@ -7,7 +7,7 @@ from django.views.generic import UpdateView, ListView
 from django.views.generic.detail import BaseDetailView, SingleObjectTemplateResponseMixin
 
 from confucius.forms import AlertForm
-from confucius.models import Action, Alert, Conference, Event, Membership, Paper, Reminder, Role
+from confucius.models import Action, Alert, Assignment, Conference, Event, Membership, Paper, Reminder, Role
 from confucius.decorators.confdecorators import user_access_conference
 
 
@@ -51,13 +51,12 @@ def dashboard(request, conference_pk=None, template_name='conference/dashboard.h
     alerts_reminder = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, action__isnull=True)
     alerts_action = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, reminder__isnull=True)
 
-    user_papers = Paper.objects.filter(conference=conference, submitter=request.user)
-    # Don't show all papers if you are not the chair of the conference
+    user_papers = Paper.objects.filter(conference=conference, submitter=request.user).order_by('-last_update_date')
+    user_assignments = Assignment.objects.filter(reviewer=request.user, is_assigned=True)
+    
     chair_role = Role.objects.get(code="C")
-    if chair_role in membership.roles.all():
-        conference_papers = Paper.objects.filter(conference=conference)
-    else:
-        conference_papers = None
+    conference_reviews = Assignment.objects.filter(paper__conference=conference, is_done=True, review__isnull=False).order_by('-review__last_update_date')[:10]
+    conference_papers = Paper.objects.filter(conference=conference).order_by('-submission_date')[:10]
 
     context = {
         'alerts_trigger': alerts_trigger,
@@ -66,7 +65,9 @@ def dashboard(request, conference_pk=None, template_name='conference/dashboard.h
         'conference': conference,
         'membership': membership,
         'user_papers': user_papers,
-        'conference_papers': conference_papers
+        'conference_papers': conference_papers,
+        'user_assignments': user_assignments,
+        'conference_reviews': conference_reviews
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))

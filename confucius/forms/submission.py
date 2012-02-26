@@ -20,17 +20,13 @@ class PaperForm(forms.ModelForm):
         
         
     def save(self, **kwargs):
-        from datetime import datetime
         paper = super(PaperForm, self).save(commit=False)
         
         # Update only one time these fields (during the creation)
         if paper.pk is None:
-            paper.submission_date = datetime.now()
             paper.submitter = kwargs.pop('user')
             paper.conference = Conference.objects.get(pk=kwargs.pop('pk_conference'))
-                
-        paper.last_update_date = datetime.now()
-        paper.save() # In order to get a primary key, for m2m relations (domains)
+            paper.save() # In order to get a primary key, for m2m relations (domains)
         
         paper.domains = self.cleaned_data['domains']
         paper.save()
