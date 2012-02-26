@@ -12,6 +12,6 @@ class ConfuciusModel(models.Model):
         app_label = 'confucius'
 
 
-from confucius.models.account import Address, Email, Language
-from confucius.models.conference import (Action, Alert, Conference, Domain, Event, Membership, MessageTemplate, Reminder, Role)
-from confucius.models.submission import (Paper)
+from confucius.models.account import *
+from confucius.models.conference import *
+from confucius.models.submission import *

@@ -1,6 +1,5 @@
-from django.contrib.auth.models import User
 from django.db import models
-from confucius.models import Domain
+from confucius.models import Domain, User
 
 from confucius.models import ConfuciusModel
 

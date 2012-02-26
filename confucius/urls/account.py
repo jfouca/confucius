@@ -1,9 +1,12 @@
 from django.conf.urls.defaults import patterns, url
 
+from confucius.views import ConfirmEmailView
+
 # confucius views
 urlpatterns = patterns('confucius.views',
     url(r'^$', 'edit_account', name='account'),
     url(r'^close/$', 'close_account', name='close_account'),
+    (r'^confirm-email/(?P<activation_key>[0-9a-f]+)/$', ConfirmEmailView.as_view())
 )
 
 # django.contrib.auth views

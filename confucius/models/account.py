@@ -1,7 +1,51 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User as AuthUser
 from django.db import models
 
 from confucius.models import ConfuciusModel
+
+
+# Monkeypatch
+del AuthUser.get_absolute_url
+
+
+class User(AuthUser):
+    class Meta:
+        proxy = True
+
+    def __unicode__(self):
+        return self.email
+
+
+class Activation(ConfuciusModel):
+    activation_key = models.CharField(max_length=64, unique=True)
+    date = models.DateTimeField(auto_now_add=True)
+    email = models.ForeignKey('Email', unique=True)
+
+    def has_expired(self):
+        import datetime
+
+        expiration_date = self.date + datetime.timedelta(days=1)
+        if datetime.datetime.now() >= expiration_date:
+            return True
+        return False
+
+    def clean(self):
+        from hashlib import sha256
+        from confucius.utils import random_string
+
+        if self.activation_key is None:
+            self.activation_key = sha256(random_string()).hexdigest()
+
+        super(Activation, self).clean()
+
+    def send_email(self):
+        from django.core.mail import send_mail
+        from django.template.loader import render_to_string
+
+        context = {'activation_key': self.activation_key}
+        message = render_to_string('registration/activation_email.html', context)
+
+        send_mail('Email confirmation', message, None, (unicode(self.email),))
 
 
 class Email(ConfuciusModel):
@@ -15,7 +59,11 @@ class Email(ConfuciusModel):
         When saved, if self is a main address it should update the User's email
         with its value.
         """
-        from confucius.utils import email_to_username
+        from hashlib import sha256
+        from confucius.utils import email_to_username, random_string
+
+        if self.pk is None:
+            self.activation_key = sha256(random_string()).hexdigest()
 
         super(Email, self).save(*args, **kwargs)
 
@@ -26,31 +74,6 @@ class Email(ConfuciusModel):
 
     def __unicode__(self):
         return self.value
-
-
-class EmailSignup(ConfuciusModel):
-    date = models.DateTimeField(auto_now=True)
-    activation_key = models.CharField(max_length=40)
-    email = models.ForeignKey(Email)
-
-    def has_expired(self):
-        import datetime
-
-        expiration_date = self.date + datetime.timedelta(days=1)
-        if datetime.datetime.now() >= expiration_date:
-            return True
-        return False
-
-    def send_activation_email(self):
-        from django.core.mail import send_mail
-        from django.middleware.csrf import _get_new_csrf_key
-        from django.template.loader import render_to_string
-
-        self.activation_key = _get_new_csrf_key()
-        context = {'activation_key': self.activation_key}
-        message = render_to_string('registration/activation_email.html', context)
-
-        send_mail('Email confirmation', message, None, (unicode(self.email),))
 
 
 class Address(ConfuciusModel):

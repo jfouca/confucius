@@ -4,6 +4,7 @@
         "model": "confucius.email", 
         "fields": {
             "user": 1, 
+            "confirmed": true,
             "main": true, 
             "value": "blu@blu.com"
         }
@@ -13,6 +14,7 @@
         "model": "confucius.email", 
         "fields": {
             "user": 2, 
+            "confirmed": true,
             "main": true, 
             "value": "red@red.com"
         }
@@ -22,6 +24,7 @@
         "model": "confucius.email", 
         "fields": {
             "user": 3, 
+            "confirmed": true,
             "main": true, 
             "value": "green@green.com"
         }

@@ -1,9 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
-from django.contrib.auth.models import User
 
 from confucius.forms import AddressFormSet, EmailFormSet, UserCreationForm, UserForm
-from confucius.models import Address, Conference, Domain, Email, Membership, Paper, Alert
+from confucius.models import Address, Conference, Domain, Email, Membership, User
 
 
 class AdminUserForm(UserForm):
