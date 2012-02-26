@@ -50,17 +50,13 @@ def dashboard(request, conference_pk=None, template_name='conference/dashboard.h
     alerts_reminder = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, action__isnull=True)
     alerts_action = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, reminder__isnull=True)
 
-    user_papers = Paper.objects.filter(conference=conference, submitter=request.user)
+    user_papers = Paper.objects.filter(conference=conference, submitter=request.user).order_by('-last_update_date')
     user_assignments = Assignment.objects.filter(reviewer=request.user, is_assigned=True)
     
-    # Don't show all papers and assignments if you are not the chair of the conference
     chair_role = Role.objects.get(code="C")
-    if chair_role in membership.roles.all() :
-        conference_assignments = Assignment.objects.filter(paper__conference=conference, is_assigned=True)
-        conference_papers = Paper.objects.filter(conference=conference)
-    else:
-        conference_assignments = None
-        conference_papers = None
+    conference_reviews = Assignment.objects.filter(paper__conference=conference, is_done=True, review__isnull=False).order_by('-review__last_update_date')[:10]
+    conference_papers = Paper.objects.filter(conference=conference).order_by('-submission_date')[:10]
+    
     
 
     context = {
@@ -72,7 +68,7 @@ def dashboard(request, conference_pk=None, template_name='conference/dashboard.h
         'user_papers': user_papers,
         'conference_papers': conference_papers,
         'user_assignments': user_assignments,
-        'conference_assignments': conference_assignments
+        'conference_reviews': conference_reviews
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))

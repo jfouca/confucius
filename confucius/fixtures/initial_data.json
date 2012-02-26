@@ -964,7 +964,7 @@
         "pk": 1,
         "model": "confucius.paper",
         "fields": {
-            "submission_date": "2012-02-24",
+            "submission_date": "2012-02-20",
             "conference": 1,
             "language": 14,
             "title": "Un papier",
@@ -972,7 +972,7 @@
             "domains": [
                 1
             ],
-            "last_update_date": "2012-02-24",
+            "last_update_date": "2012-02-20",
             "submitter": 1,
             "document": "documents/test_32.txt"
         }
@@ -981,7 +981,7 @@
         "pk": 2,
         "model": "confucius.paper",
         "fields": {
-            "submission_date": "2012-02-24",
+            "submission_date": "2012-02-20",
             "conference": 1,
             "language": 18,
             "title": "Autre papier",
@@ -1006,7 +1006,7 @@
             "domains": [
                 1
             ],
-            "last_update_date": "2012-02-24",
+            "last_update_date": "2012-02-26",
             "submitter": 1,
             "document": "documents/test_34.txt"
         }
@@ -1017,6 +1017,7 @@
         "fields": {
             "reviewer": 1,
             "paper": 1,
+            "is_assigned": true,
             "is_done": false,
             "review": null
         }

@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
-
 from confucius.models import Conference, ConfuciusModel, Paper
+from datetime import datetime
 
 
 class Assignment(ConfuciusModel):
@@ -25,14 +25,12 @@ class Review(ConfuciusModel):
     commentary_for_president = models.TextField()
     overall_evaluation = models.IntegerField()
     reviewer_confidence = models.IntegerField()
-    last_update_date = models.DateField()
+    last_update_date = models.DateField(default=datetime.now())
     
     def __unicode__(self):
         return self.title + " by " + self.assignment.reviewer 
 
     def save(self, *args, **kwargs):
-        from datetime import datetime
-            
         self.last_update_date = datetime.now()
         super(Review, self).save(*args, **kwargs)
       
