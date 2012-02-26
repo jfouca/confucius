@@ -41,9 +41,6 @@
                     <a class="btn btn-primary" href="{% url 'conference_edit' membership.conference.pk %}">Edit configuration</a>
                     <a class="btn btn-primary" href="{% url 'create_alert' membership.conference.pk %}">Create Alert</a>
                     {% endifequal %}
-                    {% ifequal role.name 'Reviewer' %}
-                    <a class="btn btn-info" href="#">Submit review</a>
-                    {% endifequal %}
                     {% ifequal role.name 'Submitter' %}
                     <a class="btn" href="{% url 'submit_paper' membership.conference.pk %}">Submit paper</a>
                     {% endifequal %}

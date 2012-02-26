@@ -7,5 +7,6 @@ urlpatterns = patterns('',
     (r'^account/', include('confucius.urls.account')),
     (r'^conference/', include('confucius.urls.conference')),
     (r'^submission/', include('confucius.urls.submission')),
+    (r'^review/', include('confucius.urls.review')),
     (r'^admin/', include(admin.site.urls)),
 )
