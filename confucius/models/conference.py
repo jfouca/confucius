@@ -31,6 +31,7 @@ class Alert(ConfuciusModel):
 class Conference(ConfuciusModel):
     title = models.CharField(max_length=100, unique=True)
     is_open = models.BooleanField(default=False)
+    has_finalize_paper_selections = models.BooleanField(default=False)
     start_date = models.DateField()
     submissions_start_date = models.DateField()
     submissions_end_date = models.DateField()

@@ -35,6 +35,7 @@
     {% for role in membership.roles.all %}
         {% ifequal role.name 'Chair' %}
             <a href="{% url 'conference_edit' conference.pk %}" class="btn btn-primary" >Edit the conference</a>
+            <a href="{% url 'paper_selection_list' %}" class="btn btn-info">Paper selection</a>
             <a href="{% url 'create_alert' conference.pk %}" class="btn btn-info">Create Alert</a>
             <span>&nbsp;</span>
         {% endifequal %}

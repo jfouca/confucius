@@ -20,6 +20,10 @@ class ReviewForm(forms.ModelForm):
         if review is not None:
             self.fields["overall_evaluation"].initial = review.overall_evaluation
             self.fields["reviewer_confidence"].initial = review.reviewer_confidence
+        else:
+            self.fields["overall_evaluation"].initial = '4'
+            self.fields["reviewer_confidence"].initial = '3'
+            
     
     def save(self, **kwargs):
         review = super(ReviewForm, self).save(commit=False)
