@@ -38,6 +38,14 @@
     </div>
     
 </form>
+
+
 {% endblock %}
 
-
+{% block script %}
+<script>
+    $(function() {
+        $("#overall_evaluation").stars();
+    });
+</script>
+{% endblock %}

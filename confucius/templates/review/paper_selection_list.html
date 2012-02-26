@@ -1,0 +1,96 @@
+{% extends 'base-in.html' %}
+{% load url from future %}
+
+{% block title %}Paper selection{% endblock %}
+
+
+{% block content_header %}
+<h1>Paper selection</h1>
+{% endblock %}
+
+{% block content_main %}
+<h3>Papers ready to be selected</h3>
+<table class="table table-striped">
+    <tr>
+        <th>Title</th>
+        <th>Number of reviews</th>
+        <th>Selection</th>
+        <th></th>
+    </tr>
+    {% for paper in papers_ready %}
+        <tr>
+            <td><b>{{paper.title}}</b></td>
+            <td>{{paper.assignments.count}}</td>
+            {% if paper.selection %}
+                <td>
+                    {% if paper.selection.is_selected %}
+                        Selected
+                    {% else %}
+                        Not selected
+                    {% endif %}
+                </td>
+                <td><a href="{% url 'read_reviews' paper.pk %}" class="btn">Update selection</a></td>
+            {% else %}
+                <td>Not decided</td>
+                <td><a href="{% url 'read_reviews' paper.pk %}" class="btn btn-info">Submit selection</a></td>
+            {% endif %}
+        </tr>
+    {% empty %}
+        <tr><td colspan="4">No papers were reviewed.</td></tr>
+    {% endfor %}
+</table>
+{% if conference.has_finalize_paper_selections %}
+    <p>The conference has already finalize paper selections.</p>
+{% else %}
+    <a href="{% url 'finalize_selection' %}" class="btn btn-primary">Finalize the paper selection</a>
+{% endif %}
+<br/><br/><br/>
+
+
+<table width="100%"><tr>
+    <td width="45%" valign="top">
+        <h3>Reviews not submitted</h3>
+            <table class="table table-striped">
+            <tr>
+                <th>Paper title</th>
+                <th>Reviewer</th>
+                <th>Last update date</th>
+            </tr>
+            {% for assignment in assignments_without_reviews %}
+                <tr>
+                    <td><b>{{assignment.paper.title}}</b></td>
+                    <td>{{assignment.reviewer}}</td>
+                    <td>
+                        {% if not assignment.review %}
+                            Not started
+                        {% else %}
+                            {{ assignment.review.last_update_date|date:"m/d/y" }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="3">For assigned papers, all reviews have been done.</td></tr>
+            {% endfor %}
+        </table>
+    </td>
+    <td width="1%">&nbsp;</td>
+    <td width="45%" valign="top">
+        <h3>Papers not assigned</h3>
+        <table class="table table-striped">
+            <tr>
+                <th>Paper title</th>
+                <th>Last update date</th>
+            </tr>
+            {% for paper in papers_not_assigned %}
+                <tr>
+                    <td><b>{{paper.title}}</b></td>
+                    <td>{{paper.last_update_date|date:"m/d/y"}}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="2">All papers have been assigned.</td></tr>
+            {% endfor %}
+        </table>
+    </td>
+</tr></table>
+
+{% endblock %}
