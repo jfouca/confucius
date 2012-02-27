@@ -67,7 +67,8 @@
 <script>
     $(function() {
         $('tr.infos').click(function(e) {
-            $(this).next().toggle('fast');
+            $('tr.infos').next().hide();
+            $(this).next().show('slow');
             return false;
         }).next().hide();
     });
