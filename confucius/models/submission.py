@@ -7,6 +7,7 @@ class Paper(ConfuciusModel):
     title = models.CharField(max_length=100, unique=True)
     submitter = models.ForeignKey(User)
     emails_authors = models.TextField()
+    description = models.TextField()
     submission_date = models.DateField(auto_now_add=True)
     last_update_date = models.DateField(auto_now=True)
     language = models.ForeignKey('Language')

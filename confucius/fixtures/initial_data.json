@@ -972,6 +972,7 @@
             "language": 14,
             "title": "Un papier",
             "emails_authors": "a@a.a",
+            "description": "blu blu blu",
             "domains": [
                 1
             ],
@@ -989,6 +990,7 @@
             "language": 18,
             "title": "Autre papier",
             "emails_authors": "azeazezqefsg",
+            "description": "red red red",
             "domains": [
                 1
             ],
@@ -1006,6 +1008,7 @@
             "language": 17,
             "title": "jjujuju",
             "emails_authors": "azdsfsdg",
+            "description": "green green green",
             "domains": [
                 1
             ],
