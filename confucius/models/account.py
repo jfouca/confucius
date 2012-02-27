@@ -15,6 +15,15 @@ class User(AuthUser):
     def __unicode__(self):
         return self.email
 
+    def get_last_accessed_conference(self):
+        try:
+            membership = self.memberships.get(last_accessed=True)
+            return membership.conference
+        except:
+            pass
+
+        return None
+
 
 class Activation(ConfuciusModel):
     activation_key = models.CharField(max_length=64, unique=True)

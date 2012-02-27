@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from confucius.models import User
 
 
 class AccountBackend(object):

@@ -62,7 +62,7 @@ class Event(ConfuciusModel):
 
 
 class Membership(ConfuciusModel):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, related_name='memberships')
     conference = models.ForeignKey(Conference)
     roles = models.ManyToManyField('Role')
     domains = models.ManyToManyField(Domain)
@@ -75,6 +75,22 @@ class Membership(ConfuciusModel):
         Membership.objects.filter(user=self.user).update(last_accessed=False)
         self.last_accessed = True
         self.save()
+
+    def _has_role(self, code):
+        try:
+            self.roles.get(code=code)
+            return True
+        except:
+            return False
+
+    def has_chair_role(self):
+        return self._has_role('C')
+
+    def has_reviewer_role(self):
+        return self._has_role('R')
+
+    def has_submitter_role(self):
+        return self._has_role('S')
 
 
 class MessageTemplate(ConfuciusModel):
@@ -175,6 +191,7 @@ class MockUser(models.Model):
     post_save.connect(check_user_is_in_mockmode, sender=User)
 
 '''
+
 
 class Reminder(ConfuciusModel):
     value = models.PositiveIntegerField()
