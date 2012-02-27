@@ -10,7 +10,7 @@
 <form method="post" action="">
 {% csrf_token %}
     {% if form%}
-        {{ form }}
+        {% include 'includes/form.html' %}
         <br>
         <input type="hidden" name="next" value="{{ next }}" />
         <button type="submit" class="btn btn-primary">Create Account</button>
