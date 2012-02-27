@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, redirect
-from confucius.models import Assignment, Conference, Review, Membership, Paper, PaperSelection
+from confucius.models import Assignment, Conference, Review, Membership, Paper, PaperSelection, Role
 from confucius.views import dashboard
 from confucius.forms import ReviewForm
 from django.template import RequestContext
@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 def auto_assignment(request, pk_paper):
     paper = Paper.objects.get(pk=pk_paper)
     
-    assignment = Assignment.objects.create(reviewer=User.objects.get(pk=2), paper=paper)
+    assignment = Assignment.objects.create(reviewer=request.user, paper=paper)
     assignment.save()
     
     return redirect('dashboard')
@@ -86,3 +86,19 @@ def finalize_selection(request):
     conference.save()
 
     return redirect('dashboard')
+    
+@login_required
+def assigments(request):
+    membership = Membership.objects.get(user=request.user, last_accessed=True)
+    conference = membership.conference
+    papers = Paper.objects.filter(conference=conference)
+    role = Role.objects.get(name="Reviewer")
+    reviewers = Membership.objects.filter(roles=role,conference=conference)
+    domains = conference.domains
+    context = {
+        'conference':conference,
+        'papers':papers,
+        'reviewers':reviewers,
+        'domains':domains,
+    }
+    return render_to_response('review/assigments.html', context, context_instance=RequestContext(request))
