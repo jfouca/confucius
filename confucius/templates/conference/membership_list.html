@@ -23,7 +23,7 @@
             <td><strong>{{ membership.conference.title }}</strong></td>
             <td>
                 {% for role in membership.roles.all %}
-                    {{ role }}
+                    <span class="label">{{ role }}</span>
                 {% endfor %}
             </td>
             <td>{{ membership.conference.start_date }}</td>
@@ -31,24 +31,21 @@
         </tr>
 
         <tr class="actions">
-
-            {% if membership.conference.is_open %}
+            {% if membership.conference.is_open or membership.has_chair_role %}
                 <td colspan="1">
                     <a class="btn btn-info" href="{% url 'dashboard' membership.conference.pk %}"> Go to Dashboard </a>
                 </td>
                 <td colspan="3">
-                    {% for role in membership.roles.all %}
-                        {% ifequal role.name 'Chair' %}
+                    {% if membership.has_chair_role %}
                         <a class="btn btn-primary" href="{% url 'conference_edit' membership.conference.pk %}">Edit configuration</a>
                         <a class="btn btn-primary" href="{% url 'create_alert' membership.conference.pk %}">Create Alert</a>
-                        {% endifequal %}
-                        {% ifequal role.name 'Reviewer' %}
+                    {% endif %}
+                    {% if membership.has_reviewer_role %}
                         <a class="btn btn-info" href="#">Submit review</a>
-                        {% endifequal %}
-                        {% ifequal role.name 'Submitter' %}
+                    {% endif %}
+                    {% if membership.has_submitter_role %}
                         <a class="btn" href="{% url 'submit_paper' membership.conference.pk %}">Submit paper</a>
-                        {% endifequal %}
-                    {% endfor %}
+                    {% endif %}
                 </td>
             {% endif %}
 
@@ -59,7 +56,7 @@
     </tbody>
 </table>
 {% endblock %}
-{% block extra_style %}
+{% block style %}
 <style>
     tr.infos:hover {
         cursor:pointer;

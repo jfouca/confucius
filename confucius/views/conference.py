@@ -59,8 +59,7 @@ def switch_to_last_accedeed(request, conf_pk, user):
 
 @login_required
 def dashboard(request, conference_pk=None, template_name='conference/dashboard.html'):
-
-    conference = switch_to_last_accedeed(conference_pk, request.user)
+    conference = request.user.get_last_accessed_conference()
     membership = Membership.objects.get(conference=conference, user=request.user)
 
     alerts_trigger = Alert.objects.filter(conference=conference.pk, reminder__isnull=True, action__isnull=True)
