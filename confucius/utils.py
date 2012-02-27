@@ -1,5 +1,7 @@
 from base64 import b64encode
 from hashlib import sha1
+import random
+import string
 
 
 def email_to_username(email):
@@ -22,3 +24,7 @@ def errors_to_dict(form):
         pass
 
     return dict(errors + non_form_errors.items())
+
+
+def random_string(size=64, chars=string.ascii_letters + string.digits):
+    return ''.join(random.choice(chars) for n in range(size))

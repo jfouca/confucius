@@ -1,7 +1,6 @@
-from django.contrib.auth.models import User
 from django.db import models
 
-from confucius.models import ConfuciusModel
+from confucius.models import ConfuciusModel, User
 
 
 class Action(ConfuciusModel):
@@ -40,8 +39,6 @@ class Conference(ConfuciusModel):
     url = models.URLField(blank=True)
     members = models.ManyToManyField(User, through='Membership')
     domains = models.ManyToManyField('Domain', related_name="conferences")
-    
-    
 
     def __unicode__(self):
         return self.title

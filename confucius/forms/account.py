@@ -1,9 +1,24 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm as AuthUserCreationForm
-from django.contrib.auth.models import User
 from django.forms.models import inlineformset_factory
 
-from confucius.models import Address, Email, Language
+from confucius.models import Activation, Address, Email, Language, User
+
+
+class EmailForm(forms.ModelForm):
+    class Meta:
+        model = Email
+
+    def save(self, commit=True):
+        email = super(EmailForm, self).save(commit=False)
+
+        if commit:
+            email.save()
+            if 'value' in self.changed_data:
+                activation = Activation.objects.create(email=email)
+                activation.send_email()
+
+        return email
 
 
 class UserCreationForm(AuthUserCreationForm):
@@ -75,6 +90,7 @@ class UserForm(forms.ModelForm):
 
 class EmailFormSet(inlineformset_factory(User, Email)):
     extra = 1
+    form = EmailForm
     has_main = False
 
     class Meta:

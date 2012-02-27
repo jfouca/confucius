@@ -1,9 +1,39 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
+<<<<<<< HEAD
 from django.core.mail import send_mail
 from confucius.models import ActivationKey
 from confucius.forms import AddressFormSet, EmailFormSet, UserForm, UserCreationForm
+=======
+from django.views.generic import DetailView
+
+from confucius.forms import AddressFormSet, EmailFormSet, UserForm
+from confucius.models import Activation
+from confucius.views import NeverCacheView
+
+
+class ConfirmEmailView(NeverCacheView, DetailView):
+    context_object_name = 'email'
+    template_name = 'registration/email_confirm.html'
+
+    def get_object(self):
+        activation_key = self.kwargs.get('activation_key', None)
+
+        try:
+            activation = Activation.objects.get(activation_key=activation_key)
+            activation.delete()
+        except Activation.DoesNotExist:
+            return None
+
+        if activation.has_expired():
+            return None
+
+        activation.email.confirmed = True
+        activation.email.save()
+
+        return activation.email
+>>>>>>> 224597fc16a07cccf814e23c274d91138de40a88
 
 
 @login_required
