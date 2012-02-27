@@ -163,8 +163,8 @@
                     None
                 {% endfor %}
             </td>
-            <td><a href="{% url 'edit_alert' alert.pk %}" class="btn btn-info">Edit the alert</a></td>
-            <td><a href="{% url 'delete_alert' alert.pk %}" class="btn btn-danger">Delete the alert</a></td>
+            <td><a href="{% url 'edit_alert' conference.pk alert.pk %}" class="btn btn-info">Edit the alert</a></td>
+            <td><a href="{% url 'delete_alert' conference.pk alert.pk %}" class="btn btn-danger">Delete the alert</a></td>
         </tr>
         {% endfor %}
     </table>
@@ -193,8 +193,8 @@
                     None
                 {% endfor %}
             </td>
-            <td><a href="{% url 'edit_alert' alert.pk %}" class="btn btn-info">Edit the alert</a></td>
-            <td><a href="{% url 'delete_alert' alert.pk %}" class="btn btn-danger">Delete the alert</a></td>
+            <td><a href="{% url 'edit_alert' conference.pk alert.pk %}" class="btn btn-info">Edit the alert</a></td>
+            <td><a href="{% url 'delete_alert' conference.pk alert.pk %}" class="btn btn-danger">Delete the alert</a></td>
         </tr>
         {% endfor %}
     </table>
@@ -220,8 +220,8 @@
                     None
                 {% endfor %}
             </td>
-            <td><a href="{% url 'edit_alert' alert.pk %}" class="btn btn-info">Edit the alert</a></td>
-            <td><a href="{% url 'delete_alert' alert.pk %}" class="btn btn-danger">Delete the alert</a></td>
+            <td><a href="{% url 'edit_alert' conference.pk alert.pk %}" class="btn btn-info">Edit the alert</a></td>
+            <td><a href="{% url 'delete_alert' conference.pk alert.pk %}" class="btn btn-danger">Delete the alert</a></td>
         </tr>
         {% endfor %}
     </table>

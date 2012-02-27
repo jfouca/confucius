@@ -1,20 +1,13 @@
 {% extends 'base-in.html' %}
 {% load url from future %}
 
-{% block title %}{{ alert.conference.title}} : Alert Edition{% endblock %}
+{% block title %}{{ alert.title }}{% endblock %}
 
  {% block content_header %}
-<h1>Edit "{{alert.title}}" for conference: {{ alert.conference.title}}</h1>
+ <h1>{{ alert.title}}</h1>
 {% endblock %}
 
 {% block subtopbar %}
-<div class="span12 db-top">
-    <div class="db-top-inner-min">
-        <i class="icon-calendar icon-white"></i> Start date {{ alert.conference.start_date|date:'SHORT_DATE_FORMAT' }} | 
-        <i class="icon-info-sign icon-white"></i> Submissions end date {{ alert.conference.submissions_end_date|date:'SHORT_DATE_FORMAT' }} | 
-        <i class="icon-exclamation-sign icon-white"></i> Reviews end date {{ alert.conference.reviews_end_date|date:'SHORT_DATE_FORMAT' }}
-    </div>
-</div>
 {% endblock %}
 
 {% block content_main %}

@@ -1,8 +1,23 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
-from confucius.models import Paper, Membership, Conference
+from django.views.generic import CreateView
+
+from confucius.models import Paper
 from confucius.forms import PaperForm
+from confucius.views import RoleView
+
+
+class CreatePaperView(RoleView, CreateView):
+    model = Paper
+    form_class = PaperForm
+    template_name = 'submission/paper_form.html'
+    success_url = '/conference/dashboard/'
+
+    def get_initial(self):
+        initial = super(CreatePaperView, self).get_initial()
+        initial.update({'conference': self.conference, 'submitter': self.request.user})
+        return initial
 
 
 @login_required

@@ -8,7 +8,7 @@ urlpatterns = patterns('',
     (r'^$', RedirectView.as_view(url=settings.LOGIN_REDIRECT_URL)),
     (r'^account/', include('confucius.urls.account')),
     (r'^conference/', include('confucius.urls.conference')),
-    (r'^submission/', include('confucius.urls.submission')),
+    (r'^conference/', include('confucius.urls.submission')),
     (r'^review/', include('confucius.urls.review')),
     (r'^admin/', include(admin.site.urls)),
 )

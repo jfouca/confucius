@@ -33,7 +33,7 @@
         <tr class="actions">
             {% if membership.conference.is_open or membership.has_chair_role %}
                 <td colspan="1">
-                    <a class="btn btn-info" href="{% url 'dashboard' membership.conference.pk %}"> Go to Dashboard </a>
+                    <a class="btn btn-info" href="{% url 'dashboard_set' membership.conference.pk %}">Go to Dashboard</a>
                 </td>
                 <td colspan="3">
                     {% if membership.has_chair_role %}

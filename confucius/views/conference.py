@@ -1,13 +1,13 @@
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.forms.models import modelform_factory
-from django.shortcuts import get_object_or_404, redirect, render_to_response
-from django.template import RequestContext
-from django.views.generic import CreateView, UpdateView, ListView, DeleteView, TemplateView
-from django.views.generic.detail import BaseDetailView, SingleObjectTemplateResponseMixin
+from django.shortcuts import redirect
+from django.utils.decorators import method_decorator
+from django.views.generic import CreateView, UpdateView, ListView, DeleteView, TemplateView, RedirectView
+from django.views.generic.detail import BaseDetailView, SingleObjectTemplateResponseMixin, View
 
 from confucius.forms import AlertForm
-from confucius.models import Action, Alert, Assignment, Conference, Event, Membership, Paper, Reminder
+from confucius.models import Alert, Assignment, Conference, Membership, Paper
 from confucius.views import LoginRequiredView
 
 
@@ -15,25 +15,16 @@ class RoleView(LoginRequiredView):
     conference = None
     membership = None
 
+    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         pk = kwargs.get('pk', None)
-
-        if pk:
-            try:
-                self.conference = Conference.objects.get(pk=pk)
-            except:
-                messages.warning(request, u'You have no membership to that conference.')
-                return redirect('account')
-        else:
-            self.conference = request.user.get_last_accessed_conference()
-
+        self.conference = Conference.objects.get(pk=pk)
         self.membership = Membership.objects.get(user=request.user, conference=self.conference)
         self.membership.set_last_accessed()
 
         if self.has_access(request):
             return super(RoleView, self).dispatch(request, *args, **kwargs)
 
-        messages.warning(request, u'You have no access to that conference')
         return redirect('dashboard')
 
     def has_access(self, request):
@@ -86,11 +77,15 @@ class ConferenceToggleView(PresidentView, SingleObjectTemplateResponseMixin, Bas
         return redirect('dashboard')
 
 
-class DashboardView(TemplateView, RoleView):
+class DashboardView(TemplateView, LoginRequiredView):
     template_name = 'conference/dashboard.html'
 
     def get_context_data(self, **kwargs):
         conference = self.request.user.get_last_accessed_conference()
+
+        if conference is None:
+            redirect('membership_list')
+
         membership = Membership.objects.get(conference=conference, user=self.request.user)
         alerts_trigger = Alert.objects.filter(conference=conference.pk, reminder__isnull=True, action__isnull=True)
         alerts_reminder = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, action__isnull=True)
@@ -117,6 +112,19 @@ class DashboardView(TemplateView, RoleView):
         return context
 
 
+class SetDashboardView(RedirectView, RoleView):
+    url = '/conference/dashboard/'
+    permanent = False
+
+    def get(self, request, *args, **kwargs):
+        pk = kwargs.get('pk', None)
+        conference = Conference.objects.get(pk=pk)
+        membership = Membership.objects.get(user=request.user, conference=conference)
+        membership.set_last_accessed()
+
+        return super(SetDashboardView, self).get(request, *args, **kwargs)
+
+
 class ConferenceUpdateView(PresidentView, UpdateView):
     context_object_name = 'conference'
     form_class = modelform_factory(Conference, exclude=('members', 'is_open'))
@@ -125,58 +133,24 @@ class ConferenceUpdateView(PresidentView, UpdateView):
     template_name = 'conference/conference_form.html'
 
 
-@login_required
-def create_alert(request, conference_pk, template_name='conference/alerts/create_alert.html'):
-    return redirect('account')
-    """
-    form = AlertForm()
-    reminders = Reminder.objects.all()
-    events = Event.objects.all()
-    actions = Action.objects.all()
-
-    if request.method == 'POST':
-        form = AlertForm(request.POST, instance=Alert(conference=conference))
-        if form.is_valid():
-            alert = form.save()
-            messages.success(request, 'Alert "%s" successfully created.' % alert.title)
-            return redirect('dashboard')
-
-    context = {
-        'conference': conference,
-        'form': form,
-        'reminders': reminders,
-        'events': events,
-        'actions': actions
-    }
-
-    return render_to_response(template_name, context, context_instance=RequestContext(request))
-    """
-
-
-class CreateAlertView(PresidentView, CreateView):
+class AlertView(View):
     context_object_name = 'alert'
     form_class = AlertForm
     model = Alert
     success_url = '/conference/dashboard/'
-    template_name = 'conference/alerts/edit_alert.html'
+    template_name = 'conference/alerts/alert_form.html'
 
+
+class CreateAlertView(AlertView, CreateView, PresidentView):
     def get_initial(self):
         initial = super(CreateAlertView, self).get_initial()
         initial.update({'conference': self.conference})
         return initial
 
 
-class EditAlert(PresidentView, UpdateView):
-    context_object_name = 'alert'
-    form_class = AlertForm
-    model = Alert
-    success_url = '/conference/dashboard/'
-    template_name = 'conference/alerts/edit_alert.html'
+class EditAlert(AlertView, UpdateView, PresidentView):
+    pass
 
 
-class DeleteAlert(DeleteView):
-    context_object_name = 'alert'
-    form_class = AlertForm
-    model = Alert
-    success_url = '/conference/dashboard/'
+class DeleteAlert(AlertView, DeleteView, PresidentView):
     template_name = 'conference/alerts/confirm_delete_alert.html'
