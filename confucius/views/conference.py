@@ -191,7 +191,7 @@ def reviewer_invitation(request, conference_pk=None):
             
             # Sending a mail to the requested email address
             send_mail('Confucius Reviewer Invitation',
-                text+'http://localhost:8000/conference/reviewer_invitation/'+hash_code, 
+                text+'\nhttp://localhost:8000/conference/reviewer_invitation/'+hash_code, 
                 'no-reply@confucius.com',
                 [email], 
                 fail_silently=False)
