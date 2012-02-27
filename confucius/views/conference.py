@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.forms.models import modelform_factory
 from django.shortcuts import get_object_or_404, redirect, render_to_response
 from django.template import RequestContext
-from django.views.generic import UpdateView, ListView, CreateView
+from django.views.generic import UpdateView, ListView, CreateView, DeleteView
 from django.views.generic.detail import BaseDetailView, SingleObjectTemplateResponseMixin
 
 from confucius.forms import AlertForm
@@ -142,5 +142,11 @@ class EditAlert(UpdateView):
     model = Alert
     success_url = '/conference/dashboard/'
     template_name = 'conference/alerts/edit_alert.html' 
-
+    
+class DeleteAlert(DeleteView):
+    context_object_name = 'alert'
+    form_class = AlertForm
+    model = Alert
+    success_url = '/conference/dashboard/'
+    template_name = 'conference/alerts/confirm_delete_alert.html'
     

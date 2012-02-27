@@ -96,6 +96,7 @@
             <th>Date</th>
             <th>Roles</th>
             <th>Edit</th>
+            <th>Delete</th>
         </tr>
         {% for alert in alerts_trigger %}
         <tr>
@@ -108,7 +109,8 @@
                     None
                 {% endfor %}
             </td>
-            <td><a href="{% url 'edit_alert' alert.pk %}" class="brn btn-danger">Edit the alert</a></td>
+            <td><a href="{% url 'edit_alert' alert.pk %}" class="btn btn-info">Edit the alert</a></td>
+            <td><a href="{% url 'delete_alert' alert.pk %}" class="btn btn-danger">Delete the alert</a></td>
         </tr>
         {% endfor %}
     </table>
@@ -121,6 +123,8 @@
             <th>Reminder</th>
             <th>Event</th>
             <th>Roles</th>
+            <th>Edit</th>
+            <th>Delete</th>
             
         </tr>
         {% for alert in alerts_reminder %}
@@ -135,6 +139,8 @@
                     None
                 {% endfor %}
             </td>
+            <td><a href="{% url 'edit_alert' alert.pk %}" class="btn btn-info">Edit the alert</a></td>
+            <td><a href="{% url 'delete_alert' alert.pk %}" class="btn btn-danger">Delete the alert</a></td>
         </tr>
         {% endfor %}
     </table>
@@ -146,6 +152,8 @@
             <th>Title</th>
             <th>Action</th>
             <th>Roles</th>
+            <th>Edit</th>
+            <th>Alert</th>
         </tr>
         {% for alert in alerts_action %}
         <tr>
@@ -158,6 +166,8 @@
                     None
                 {% endfor %}
             </td>
+            <td><a href="{% url 'edit_alert' alert.pk %}" class="btn btn-info">Edit the alert</a></td>
+            <td><a href="{% url 'delete_alert' alert.pk %}" class="btn btn-danger">Delete the alert</a></td>
         </tr>
         {% endfor %}
     </table>
