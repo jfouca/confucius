@@ -6,13 +6,9 @@ from confucius.views import ConfirmEmailView
 urlpatterns = patterns('confucius.views',
     url(r'^$', 'edit_account', name='account'),
     url(r'^close/$', 'close_account', name='close_account'),
-<<<<<<< HEAD
     url(r'^create/$', 'create_account', name='create_account'),
     url(r'^create/(?P<hashCode>.+)$', 'activate_account', name='activate_account'),
-    
-=======
-    (r'^confirm-email/(?P<activation_key>[0-9a-f]+)/$', ConfirmEmailView.as_view())
->>>>>>> 224597fc16a07cccf814e23c274d91138de40a88
+    url(r'^confirm-email/(?P<activation_key>[0-9a-f]+)/$', ConfirmEmailView.as_view())
 )
 
 # django.contrib.auth views

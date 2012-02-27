@@ -31,24 +31,6 @@
         </tr>
 
         <tr class="actions">
-<<<<<<< HEAD
-            <td colspan="1">
-                <a class="btn btn-info" href="{% url 'dashboard' membership.conference.pk %}"> Go to Dashboard </a>
-            </td>
-            <td colspan="3">
-                {% for role in membership.roles.all %}
-                    {% ifequal role.name 'Chair' %}
-                    <a class="btn btn-primary" href="{% url 'reviewer_invitation' membership.conference.pk %}">Invite Reviewer</a>
-                    <a class="btn btn-primary" href="{% url 'conference_edit' membership.conference.pk %}">Edit configuration</a>
-                    <a class="btn btn-primary" href="{% url 'create_alert' membership.conference.pk %}">Create Alert</a>
-                    {% endifequal %}
-                    {% ifequal role.name 'Submitter' %}
-                    <a class="btn" href="{% url 'submit_paper' membership.conference.pk %}">Submit paper</a>
-                    {% endifequal %}
-                {% endfor %}
-            </td>
-=======
-
             {% if membership.conference.is_open %}
                 <td colspan="1">
                     <a class="btn btn-info" href="{% url 'dashboard' membership.conference.pk %}"> Go to Dashboard </a>
@@ -56,6 +38,7 @@
                 <td colspan="3">
                     {% for role in membership.roles.all %}
                         {% ifequal role.name 'Chair' %}
+                         <a class="btn btn-primary" href="{% url 'reviewer_invitation' membership.conference.pk %}">Invite Reviewer</a>
                         <a class="btn btn-primary" href="{% url 'conference_edit' membership.conference.pk %}">Edit configuration</a>
                         <a class="btn btn-primary" href="{% url 'create_alert' membership.conference.pk %}">Create Alert</a>
                         {% endifequal %}
@@ -68,8 +51,6 @@
                     {% endfor %}
                 </td>
             {% endif %}
-
->>>>>>> 224597fc16a07cccf814e23c274d91138de40a88
         </tr>
         {% empty %}
             <h3>You are not subscribed to a conference</h3><br/>

@@ -141,7 +141,6 @@ def create_alert(request, conference_pk, template_name='conference/alerts/create
     return render_to_response(template_name, context, context_instance=RequestContext(request))
 
 
-<<<<<<< HEAD
 """
 Send a invitation email with an answer link for reviewer invitation
 """
@@ -228,7 +227,8 @@ def reviewer_response(request, hashCode):
       else:
         return render_to_response('conference/reviewer_answer.html',
             {"title":response.conference.title}, context_instance=RequestContext(request))
-=======
+
+
 class EditAlert(UpdateView):
     context_object_name = 'alert'
     form_class = AlertForm
@@ -243,4 +243,3 @@ class DeleteAlert(DeleteView):
     success_url = '/conference/dashboard/'
     template_name = 'conference/alerts/confirm_delete_alert.html'
     
->>>>>>> 224597fc16a07cccf814e23c274d91138de40a88

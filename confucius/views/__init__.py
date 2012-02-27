@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-from confucius.views.account import (close_account, edit_account, activate_account, create_account)
-from confucius.views.conference import (ConferenceToggleView, ConferenceUpdateView, MembershipListView, create_alert, dashboard, reviewer_invitation, reviewer_response)
-from confucius.views.submission import (submit_paper)
-=======
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import FormView, View
@@ -31,5 +26,4 @@ class NeverCacheView(View):
 from confucius.views.account import *
 from confucius.views.conference import *
 from confucius.views.submission import *
->>>>>>> 224597fc16a07cccf814e23c274d91138de40a88
 from confucius.views.review import *
