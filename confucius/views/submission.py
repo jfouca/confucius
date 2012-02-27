@@ -1,10 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, redirect
-from django.forms.models import modelform_factory
 from django.template import RequestContext
 from confucius.models import Paper, Membership, Conference
 from confucius.forms import PaperForm
-from confucius.views import dashboard
 
 
 @login_required
