@@ -77,16 +77,9 @@ $(document).ready(function() {
     }
     
     function deleteForm(btn, prefix) {
-        console.log($(btn).parents(/^control-/));
-        
         $(btn).parents("div[class^='control-']").parent().remove();
-        var forms = $('.dynamic-form');
-        $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
-        for (var i=0, formCount=forms.length; i<formCount; i++) {
-    	    $(forms.get(i)).children().not(':last').children().each(function() {
-    	        updateElementIndex(this, prefix, i);
-    	    });
-        }
+        var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+        $('#id_' + prefix + '-TOTAL_FORMS').val(formCount - 1);
         return false;
     }
 </script>
