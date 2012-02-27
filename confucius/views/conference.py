@@ -8,7 +8,16 @@ from django.views.generic.detail import BaseDetailView, SingleObjectTemplateResp
 
 from confucius.forms import AlertForm
 from confucius.models import Action, Alert, Assignment, Conference, Event, Membership, Paper, Reminder, Role
-from confucius.decorators.confdecorators import user_access_conference
+from confucius.views import LoginRequiredView
+
+
+class PresidentView(LoginRequiredView):
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.has_perm('change', Conference.objects.get(pk=kwargs.get('pk', None))):
+            return super(PresidentView, self).dispatch(request, *args, **kwargs)
+        else:
+            messages.error(request, 'DANS TA GUEULE')
+            return redirect('dashboard')
 
 
 class MembershipListView(ListView):
@@ -73,7 +82,7 @@ def dashboard(request, conference_pk=None, template_name='conference/dashboard.h
     return render_to_response(template_name, context, context_instance=RequestContext(request))
 
 
-class ConferenceUpdateView(UpdateView):
+class ConferenceUpdateView(PresidentView, UpdateView):
     context_object_name = 'conference'
     form_class = modelform_factory(Conference, exclude=('members', 'is_open'))
     model = Conference
@@ -106,7 +115,6 @@ def exit_mockuser(request):
 '''
 
 @login_required
-@user_access_conference()
 def home_conference(request):
     conference = Membership.objects.get(user__exact=request.user, last_accessed=True).conference
     directory = "conference/home/"
