@@ -25,15 +25,10 @@ class InvitationForm(forms.Form):
 
 
 class DomainsForm(forms.ModelForm):
+    domains = forms.ModelMultipleChoiceField(Domain.objects.all(), required=True)
     
     def __init__(self, *args, **kwargs):
-        super(DomainsForm, self).__init__(*args, **kwargs)
-        self.fields['domains'].help_text = ''
-    
-    class Meta:
-        model = Conference
-        exclude = ('title','accounts','president','help_text','startConfDate','startConfDate','endConfDate',
-        'startSubmitDate','endSubmitDate','startEvaluationDate','endEvaluationDate','url','isOpen')
-        widgets = {	    
-	    'domains' : forms.CheckboxSelectMultiple()
-	    }
+        pk_conference = kwargs.pop('pk_conference')
+        super(InvitationForm, self).__init__(*args, **kwargs)
+        # Building domains, from an existing paper and a conference's id
+        self.fields["domains"].queryset = Conference.objects.get(pk=pk_conference).domains
