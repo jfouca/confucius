@@ -15,7 +15,7 @@
 {% block content_main %}
 <form id="form" class="form-horizontal" method="post">{% csrf_token %}
     {% include 'includes/form.html' %}
-    {% include 'includes/formset.html' with formset=email_formset %}
+    {% include 'includes/formset.html' with formset=email_formset edit='True' list='True' %}
     {% include 'includes/formset.html' with formset=address_formset %}
 </form>
 <div class="modal hide fade" id="close_account_modal">
@@ -34,47 +34,114 @@
 {% endblock %}
 {% block script %}
 <script>
-    $(function() {
-        $('#form').on('submit', function() { return false; });
-        $('#form').on('change', function(e) {
-            $('div.control-group', this).removeClass('success error');
-            $('span.help-inline', this).empty();
-            $('.alert', this).alert('close');
-
-            $.post('{% url 'account' %}', $(this).serialize(), function(data) {
-            console.log(data);
-                var errors = $.parseJSON(data);
-                var input = $(e.target);
-                var ctrl_group = input.closest('div.control-group');
-
-                if (!$.isEmptyObject(errors)) {
-                    for (field in errors) {
-                        var error_message = errors[field][0];
-                        var dest = $('#id_' + field);
-                        var ctrl_group = dest.closest('div.control-group');
-
-                        if (dest.is('div')) {
-                            $('<div class="alert alert-error fade in">')
-                            .append('<a class="close" data-dismiss="alert" href="#">&times;</a>')
-                            .append(error_message)
-                            .prependTo(dest);
-                        } else {
-                            dest.next().text(error_message);
-                        }
-
-                        ctrl_group.addClass('error');
-                    }
-                    return;
-                }
-
-                ctrl_group.addClass('success');
-                input.next().text('saved!');
-            });
+$(document).ready(function() {
+    var id_to_hide = ["-main", "-DELETE", "-confirmed"];
+    for (var i=0; i<id_to_hide.length; i++) {
+        $('input:checkbox[id $= '+id_to_hide[i]+']').each(function(i) {
+            $('#control_' + $(this).attr('id')).hide();
         });
-        $('#close_account_modal').modal({show: 0});
-        $('#close_account').on('click', function() {
-            $('#close_account_modal').modal('show');
+    }
+});
+</script>
+<script>
+	function updateElementIndex(element, prefix, formCount) {
+		var id_regex = new RegExp('(' + prefix + '-\\d+)');
+		var replacement = prefix + '-' + formCount;
+		if ($(element).attr("for")) $(element).attr("for", $(element).attr("for").replace(id_regex, replacement));
+		if (element.id) element.id = element.id.replace(id_regex, replacement);
+		if (element.name) element.name = element.name.replace(id_regex, replacement);
+	}
+
+    function addForm(btn, prefix) {
+        var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+        var row = $('#id_'+ prefix +'> .clone').clone(true).get(0);
+
+        $(row).removeAttr('class');
+        $(row).find('.confirmed').remove();
+        $(row).find('.add-row').remove();
+        $(row).find("input[name$='value']").val('');
+        $(row).find('.rm-row').removeAttr('style');
+        
+        var tags = ["div", "label", "input"];
+        for (var i=0; i<tags.length; i++) {
+            $(row).find(tags[i]).each(function() {
+        	    updateElementIndex(this, prefix, formCount);
+            });
+        }
+        $('#id_' + prefix + '-TOTAL_FORMS').val(formCount + 1);
+        
+        $(row).appendTo($('#id_'+ prefix));
+        $(row).hide();
+        $(row).fadeToggle("slow");
+        return false;
+    }
+    
+    function deleteForm(btn, prefix) {
+        console.log($(btn).parents(/^control-/));
+        
+        $(btn).parents("div[class^='control-']").parent().remove();
+        var forms = $('.dynamic-form');
+        $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+        for (var i=0, formCount=forms.length; i<formCount; i++) {
+    	    $(forms.get(i)).children().not(':last').children().each(function() {
+    	        updateElementIndex(this, prefix, i);
+    	    });
+        }
+        return false;
+    }
+</script>
+<script>
+$(function () {
+    $('.add-row').live('click', function() {
+	    return addForm(this, '{{ email_formset.prefix }}');
+    });
+    $('.rm-row').live('click', function() {
+	    return deleteForm(this, '{{ email_formset.prefix }}');
+    })
+});
+</script>
+<script>
+$(function() {
+    $('#form').on('submit', function() { return false; });
+    $('#form').on('change', function(e) {
+        $('div.control-group', this).removeClass('success error');
+        $('span.help-inline', this).empty();
+        $('.alert', this).alert('close');
+
+        $.post('{% url 'account' %}', $(this).serialize(), function(data) {
+        console.log(data);
+            var errors = $.parseJSON(data);
+            var input = $(e.target);
+            var ctrl_group = input.closest('div.control-group');
+
+            if (!$.isEmptyObject(errors)) {
+                for (field in errors) {
+                    var error_message = errors[field][0];
+                    var dest = $('#id_' + field);
+                    var ctrl_group = dest.closest('div.control-group');
+
+                    if (dest.is('div')) {
+                        $('<div class="alert alert-error fade in">')
+                        .append('<a class="close" data-dismiss="alert" href="#">&times;</a>')
+                        .append(error_message)
+                        .prependTo(dest);
+                    } else {
+                        dest.next().text(error_message);
+                    }
+
+                    ctrl_group.addClass('error');
+                }
+                return;
+            }
+
+            ctrl_group.addClass('success');
+            input.next().text('saved!');
         });
     });
+    $('#close_account_modal').modal({show: 0});
+    $('#close_account').on('click', function() {
+        $('#close_account_modal').modal('show');
+    });
+});
 </script>
 {% endblock %}

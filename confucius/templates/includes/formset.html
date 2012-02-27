@@ -8,10 +8,10 @@
 </div>
 {% endif %}
 
-<div id="id_{{ formset.prefix }}">
+<{% ifequal list 'True' %}ul class="unstyled"{% else %}div{% endifequal %} id="id_{{ formset.prefix }}">
     {{ formset.management_form }}
 
     {% for form in formset %}
-        {% include 'includes/form.html' %}
+        {% ifequal list 'True' %}<li {% if forloop.first %}class="clone"{% endif %}>{% endifequal %}{% include 'includes/form.html' with edit=edit first=forloop.first confirmed=form.confirmed %}{% ifequal list 'True' %}</li>{% endifequal %}
     {% endfor %}
-</div>
+</{% ifequal list 'True' %}ul{% else %}div{% endifequal %}>

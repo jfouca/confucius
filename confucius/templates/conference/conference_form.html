@@ -14,6 +14,8 @@
     </div>
 {% endif %}
 <form class="form-horizontal" method="post">
+{% include 'includes/form.html' %}
+
 {% csrf_token %}
     <div class="row">
         <div class="span10">
@@ -145,9 +147,7 @@
 {% block script %}
 <script>
     $(function() {
-        $('input[name$="date"]').datepicker({
-            dateFormat: 'mm/dd/yy',
-        });
+
         $('#toggle_modal').modal({
             show: 0,
         });
