@@ -5,6 +5,7 @@ from confucius.views import dashboard
 from confucius.forms import ReviewForm
 from django.template import RequestContext
 from django.contrib.auth.models import User
+from django.forms.models import model_to_dict
 
 
 
@@ -88,17 +89,18 @@ def finalize_selection(request):
     return redirect('dashboard')
     
 @login_required
-def assigments(request):
-    membership = Membership.objects.get(user=request.user, last_accessed=True)
-    conference = membership.conference
+def assignments(request):
+    conference = Membership.objects.get(user=request.user, last_accessed=True).conference
     papers = Paper.objects.filter(conference=conference)
     role = Role.objects.get(name="Reviewer")
-    reviewers = Membership.objects.filter(roles=role,conference=conference)
+    memberships_list = Membership.objects.filter(roles=role,conference=conference)
+    reviewers = [membership.user for membership in memberships_list]
     domains = conference.domains
+    
     context = {
         'conference':conference,
         'papers':papers,
         'reviewers':reviewers,
         'domains':domains,
     }
-    return render_to_response('review/assigments.html', context, context_instance=RequestContext(request))
+    return render_to_response('review/assignments.html', context, context_instance=RequestContext(request))

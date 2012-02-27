@@ -7,5 +7,5 @@ urlpatterns = patterns('confucius.views',
     url(r'^selection/$', 'paper_selection_list', name="paper_selection_list"),
     url(r'^read/(?P<pk_paper>\d+)$', 'read_reviews', name="read_reviews"),
     url(r'^finalize/$', 'finalize_selection', name="finalize_selection"),
-    url(r'^assigmnent/$', 'assigmnents', name="assigmnents"),
+    url(r'^assignments/$', 'assignments', name="assignments"),
 )

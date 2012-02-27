@@ -1,7 +1,7 @@
 {% extends 'base-in.html' %}
 {% load url from future %}
 
-{% block title %}Assigmnents {% endblock %}
+{% block title %}Assignments {% endblock %}
 {% block brand %}Conference "{{ conference.title }}"  
 {% endblock %}
 {% block content_header %}
@@ -17,6 +17,7 @@
 </div>
 {% endblock %}
 {% block content_main %}
+
 <p><strong>Automatic assignment : </strong><a href="#" class="btn btn-primary"> Let's do it </a>
 <table class="table table-bordered ">
     <thead>
@@ -38,24 +39,46 @@
             <td>
                 {{domains.all|join:', '}}
             </td>
-            <td>TO DO </td>
+            <td>{{paper.assignments.all.count}}</td>
             <td>{{paper.language}}</td>
-        </tr>
-
-        <tr class="actions">
-            <td colspan="5">
-                
-                
-                <table class="table table-bordered ">
-                    <tr>
-                        <th>Assigned</th>
-                        <th>Reviewer</th>
-                        <th>Domains</th>
-                        <th>Assignation</th>
-                    </tr>
-                    
-                </table>
-            </td>
+            
+            <tr class="actions">
+                {% if paper.assignments.all.count > 0 %}
+                    <td colspan="6">
+                        <table class="table table-bordered ">
+                            <tr>
+                                <th></th>
+                                <th>Reviewer</th>
+                                <th>Domains</th>
+                                <th>Assignation</th>
+                            </tr>
+                            {% for assignment in paper.assignments.all %}
+                                <tr>
+                                    <td>TO DO - Create button </td>
+                                    <td>{{assignment.reviewer}}</td>
+                                    <td>{{assignment.get_domains.all|join:', '}}</td>
+                                    <td>{{assignment.get_papers.count}}</td>
+                                </tr>
+                             {% empty %}
+                                <td> kikou </td>
+                            {% endfor %}
+                        </table>
+                        
+                        
+                        <div class="toto">
+                            <select multiple="multiple" class="selectAdd input-xlarge multiSelect">
+                                {% for reviewer in reviewers %}
+                                    <option value="{{reviewer.pk}}">{{reviewer}}</option>
+                                {% endfor %}
+                            </select>
+                            <label class="control-label" for="tags">Search reviewer :</label>
+				          	<div class="controls">
+						        <input type="text" id="textbox" class="span3" placeholder="Skill" value=""/>
+                            </div>
+                        </div>
+                    </td>
+                {% endif %}
+            </tr>
         </tr>
         {% empty %}
             <h3>There is no papers for this conference</h3><br/>
@@ -71,12 +94,154 @@
 </style>
 {% endblock %}
 {% block script %}
+<script src="{{ STATIC_URL }}jquery.autocomplete.js"></script>
+<script src="{{ STATIC_URL }}jquery.selectoptionsort.js"></script>
 <script>
+
+
     $(function() {
         $('tr.infos').click(function(e) {
             $(this).next().toggle('fast');
             return false;
         }).next().hide();
     });
+    
+    $(document).ready(function(){
+
+	var options = [];
+	var tab = [];
+
+	/*
+		This fonction is used to fill the tab array, in order to use values for autocompletion.
+	*/
+	$("select.selectAdd option").each(function(){
+		/*
+			for each option find in the select we add the value to the tab.
+		*/
+		tab.push($(this).val());
+	});
+
+//sort
+	$(function() {
+		$("select.selectAdd").selectOptionSort();
+	}); 
+
+	/*
+		When a value is clicked in the select list, we want to remove it from the list, and create a checkbox with the selected value.
+	*/
+	$("select.selectAdd").click(function(){
+		//get the selected value
+		var val = $("#multiSelect").val();
+		if (val!=null){
+			//create a checkbox with the value selected
+			//$("div.skills").append("<label class='checkbox inline'><input type='checkbox' value ='" + val + "' >"+ val +"</label>");
+			alert("add (select.selectAdd)")
+			// remove the value in the list	 		
+			$("#multiSelect option:selected").remove();			
+			// remove from options array (the array which contains the value of the list) the value			
+			options.remove(val);
+			// remove from autocompletion cache the selected value. We don't want to see it anymore if it not appear in the list
+			var valBis = val.toString();
+			// Get the first letter of the word in order to put this in a hashmap (see jquery.autocomplte.js)
+			q = valBis.substring(0, 1).toLowerCase();			
+			subFromCache(q, valBis);
+		}
+	});
+
+	
+
+	$('input[type=checkbox]').live('click', function () {
+		var val = $(this).attr("value");
+		$("select.selectAdd").append("<option>"+ val +"</option>");
+		options.push({value: val, text : val});
+		$("select.selectAdd").selectOptionSort();
+		addDataToCache(val);
+		$(this).parent().remove();
+	});
+
+	jQuery.fn.filterByText = function() {
+	    return this.each(function() {
+		var select = this;
+		var textbox = $(this).parent().parent().find('input[id=textbox]')
+
+        for (var i=0, j=options.length; i<j; i++){
+            options.pop();
+        }
+
+		$(select).find('option').each(function() {
+		    options.push({value: $(this).val(), text: $(this).text()});
+		});
+		$(select).data('options', options);
+
+		$(textbox).bind('change keyup', function() {
+		    var options = $(select).empty().data('options');
+		    var search = $.trim($(this).val());
+		    var regex = new RegExp("^" + search,"gi");
+
+		    $.each(options, function(i) {
+		        var option = options[i];
+		        if(option.text.match(regex) !== null) {
+		            $(select).append(
+		                $('<option>').text(option.text).val(option.value)
+		            );
+		        }
+		    });
+		});
+
+	    });
+	};	
+
+	$(function() {
+		$('.multiSelect').filterByText(true);
+		//$('#multiSelect2').filterByText("input[id=textbox2]", true);
+	});  
+
+	$('input[type=text]').keypress(function(event, val){
+		var keycode = (event.keyCode ? event.keyCode : event.which);
+		var val = this.value;
+		if(keycode == '13'){
+			var valBis;
+			var text;
+			for (var i=0, j=options.length; i<j; i++){
+				text = options[i].text.toLowerCase();
+				valBis = val.toLowerCase();
+				if (text==valBis){
+					//$("div.skills").append("<label class='checkbox inline'><input type='checkbox' value ='" + options[i].text + "' >"+ options[i].text +"</label>");
+			 		alert("add (keypress)")
+			 		//$("#multiSelect option:selected").remove();			
+					options.remove(options[i].text);
+					$(this).val("");
+					return false;
+				}
+			}
+			return false;
+		}
+	});
+
+	$('input[type=text]').live('test', function(event , val){
+		//$("div.skills").append("<label class='checkbox inline'><input type='checkbox' value ='" + val + "' >"+ val +"</label>");
+		alert("add live")
+		$('#multiSelect').select(val);
+		options.remove(val);	
+		$(this).val('');
+		var str;
+		for (var i=0, j=options.length; i<j; i++){
+			str += "<option>"+ options[i].value +"</option>";
+		}
+		$('#multiSelect').html(str);
+	})
+	
+
+	$('input[type=text]').autocompleteArray(
+		tab,
+		{
+			delay:10,
+			minChars:1,
+			autoFill:true,
+			maxItemsToShow:10
+		}
+	);
+
+});
 </script>
 {% endblock %}

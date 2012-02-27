@@ -2,11 +2,11 @@ from datetime import datetime
 
 from django.db import models
 
-from confucius.models import ConfuciusModel, User
+from confucius.models import ConfuciusModel, User, Conference, Membership
 
 
 class Assignment(ConfuciusModel):
-    conference = models.ForeignKey(Conference, related_name="assigmnent")
+    conference = models.ForeignKey(Conference, related_name="assignments")
     reviewer = models.ForeignKey(User)
     paper = models.ForeignKey('Paper', related_name="assignments")
     is_assigned = models.BooleanField(default=False)
@@ -19,6 +19,11 @@ class Assignment(ConfuciusModel):
     def __unicode__(self):
         return str(self.reviewer) + " <=> " + str(self.paper)
 
+    def get_papers(self):
+        return Assignment.objects.filter(conference=self.conference, reviewer=self.reviewer)
+        
+    def get_domains(self):
+        return Membership.objects.get(conference=self.conference, user=self.reviewer).domains
 
 class Review(ConfuciusModel):
     title = models.CharField(max_length=50)
