@@ -1,8 +1,8 @@
-from confucius.models import Conference, Membership, Role, User
+from confucius.models import User
 
 
 class AccountBackend(object):
-    supports_object_permissions = True
+    supports_object_permissions = False
     supports_anonymous_user = False
     supports_inactive_user = False
 
@@ -20,21 +20,3 @@ class AccountBackend(object):
             return User.objects.get(pk=user_id)
         except User.DoesNotExist:
             return None
-
-    def has_perm(self, user, perm, obj=None):
-        if not isinstance(obj, Conference):
-            return True
-
-        try:
-            membership = Membership.objects.get(conference=obj, user=user)
-        except Membership.DoesNotExist:
-            return False
-
-        chair = Role.objects.get(code='C')
-        reviewer = Role.objects.get(code='R')
-        submitter = Role.objects.get(code='S')
-
-        if perm is 'change':
-            if chair in membership.roles.all():
-                return True
-            return False

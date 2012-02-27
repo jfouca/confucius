@@ -17,7 +17,7 @@ class User(AuthUser):
 
     def get_last_accessed_conference(self):
         try:
-            membership = self.memberships.get(conference__is_open=True, last_accessed=True)
+            membership = self.memberships.get(last_accessed=True)
             return membership.conference
         except:
             pass
