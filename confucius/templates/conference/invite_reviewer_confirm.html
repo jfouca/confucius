@@ -1,17 +1,29 @@
 {% extends "base-in.html" %}
 {% load url from future %}
 
-{% block title %}Create Conference{% endblock %}
+{% block title %}Conference "{{ conference.title }}"{% endblock %}
+{% block brand %}Conference "{{ conference.title }}"  
 
-{% block content %}
-    <h1> Account Creation </h1>
-<br>
+{% if not conference.is_open %}
+(closed)
+{% endif %}
 
-<form method="post" action="">
-{% csrf_token %}
+{% endblock %}
+
+{% block subtopbar %}
+<div class="span12 db-top">
+    <div class="db-top-inner-min">
+        <i class="icon-calendar icon-white"></i> Start date {{ conference.start_date|date:'SHORT_DATE_FORMAT' }} | 
+        <i class="icon-info-sign icon-white"></i> Submissions end date {{ conference.submissions_end_date|date:'SHORT_DATE_FORMAT' }} | 
+        <i class="icon-exclamation-sign icon-white"></i> Reviews end date {{ conference.reviews_end_date|date:'SHORT_DATE_FORMAT' }}
+    </div>
+</div>
+{% endblock %}
+
+{% block content_main %}
+    <h1> Invitation sent </h1>
+    <br/>
     <div>The invitation has been succesfully created.<br>
     An email has been sent to the address {{email}} with an answer link.</div>
-<br>
-</form>
-
+    <br/>
 {% endblock %}

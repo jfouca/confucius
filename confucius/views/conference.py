@@ -149,6 +149,8 @@ Send a invitation email with an answer link for reviewer invitation
 def reviewer_invitation(request, conference_pk=None):
     conference = get_object_or_404(Conference, pk=conference_pk)
     
+    invitations = ReviewerResponse.objects.filter(conference=conference)
+    
     if request.POST:
         form = InvitationForm(request.POST)
         if form.is_valid():
@@ -160,19 +162,35 @@ def reviewer_invitation(request, conference_pk=None):
             # Adding the invitation to the answer wait table with non duplication test
             from django.db import IntegrityError
             try:
-                response = ReviewerResponse.objects.create(hash_code=hash_code, email_addr=email, conference=conference, invitation_status="W")
+                response = ReviewerResponse.objects.create(hash_code=hash_code, email_addr=email, conference=conference, status="W")
             except IntegrityError:
                 error_messages = "An invitation already exist for the email address "+email
-                return render_to_response('conference/invite_reviewer.html',{"form":form,"error":error_messages}, context_instance=RequestContext(request))
+                return render_to_response('conference/invite_reviewer.html',
+                    {"form":form,
+                    "error":error_messages,
+                    "invitation_list":invitations,
+                    "conference":conference}, 
+                    context_instance=RequestContext(request))
             
             # Sending a mail to the requested email address
-            send_mail('Confucius Reviewer Invitation',text+'http://localhost:8000/conference/reviewer_invitation/'+hash_code, 'no-reply@confucius.com',[email], fail_silently=False)
+            send_mail('Confucius Reviewer Invitation',
+                text+'http://localhost:8000/conference/reviewer_invitation/'+hash_code, 
+                'no-reply@confucius.com',
+                [email], 
+                fail_silently=False)
             
-            return render_to_response("conference/invite_reviewer_confirm.html",{"email": email},context_instance=RequestContext(request))   
+            return render_to_response("conference/invite_reviewer_confirm.html",
+                {"email": email,
+                "conference":conference},
+                context_instance=RequestContext(request))   
     else:
         text = 'You just have receive an invitation to be reviewer for the conference '+conference.title +'.Please find enclose a link to answer this invitation.'
         form = InvitationForm({'invitation_text':text})
-        return render_to_response("conference/invite_reviewer.html",{"form":form}, context_instance=RequestContext(request))
+        return render_to_response("conference/invite_reviewer.html",
+            {"form":form, 
+            "invitation_list":invitations, 
+            "conference":conference}, 
+            context_instance=RequestContext(request))
 
 
 """
@@ -198,12 +216,12 @@ def reviewer_response(request, hashCode):
             {"error_message":"Paper Review is over for the conference "+response.conference.title}, 
             context_instance=RequestContext(request)) 
        
-      #form = DomainsForm(instance=response.conference)
+      form = DomainsForm(instance=response.conference)
       if request.POST:
         if 'Accept' in request.POST:
-            #domains_form = DomainsForm(request.POST, instance=response.conference)
-            #if domains_form.is_valid():
-            #    domains = domains_form.cleaned_data['domains']
+            domains_form = DomainsForm(request.POST, instance=response.conference)
+            if domains_form.is_valid():
+                domains = domains_form.cleaned_data['domains']
             
             #Role creation and adding selected domain
             try :
@@ -213,20 +231,20 @@ def reviewer_response(request, hashCode):
             reviewer_role = Role.objects.get(code="R")
             MembershipRole.roles.add(reviewer_role)
                 
-            #for domain in domains:
-            #    reviewer_domain = Domain.objects.get(name=domain)
-            #    MembershipRole.domains.add(reviewer_domain)
+            for domain in domains:
+                reviewer_domain = Domain.objects.get(name=domain)
+                MembershipRole.domains.add(reviewer_domain)
             #Delete the current key from the answer wait table
             response.delete()
             return render_to_response('conference/reviewer_answer_confirm.html', context_instance=RequestContext(request))
         if 'Refuse' in request.POST:
             #Pass the status of the answer to "Refused"
-            response.invitation_status="R"
+            response.status="R"
             response.save()
             return render_to_response('conference/reviewer_answer_confirm.html', context_instance=RequestContext(request))    
       else:
         return render_to_response('conference/reviewer_answer.html',
-            {"title":response.conference.title}, context_instance=RequestContext(request))
+            {"form":form, "title":response.conference.title}, context_instance=RequestContext(request))
 
 
 class EditAlert(UpdateView):
@@ -242,4 +260,3 @@ class DeleteAlert(DeleteView):
     model = Alert
     success_url = '/conference/dashboard/'
     template_name = 'conference/alerts/confirm_delete_alert.html'
-    
