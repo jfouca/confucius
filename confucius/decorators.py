@@ -1,6 +1,6 @@
 from functools import wraps
-from confucius.models import Conference, Role
-from django.shortcuts import redirect
+
+from django.contrib.auth.decorators import user_passes_test
 
 
 def user_access_conference(onlyPresident=False, nameKwargConfId=None):

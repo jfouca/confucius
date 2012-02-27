@@ -1,7 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, redirect
 from confucius.models import Assignment, Conference, Review, Membership, Paper, PaperSelection
-from confucius.views import dashboard
 from confucius.forms import ReviewForm
 from django.template import RequestContext
 from django.contrib.auth.models import User

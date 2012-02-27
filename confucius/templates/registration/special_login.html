@@ -1,0 +1,28 @@
+{% extends "base-out.html" %}
+{% load url from future %}
+
+{% block title %}Confucius login{% endblock %}
+
+{% block content %}
+
+<div class="modal">
+    <div class="modal-header">
+        <h3>Log in to Confucius</h3>
+    </div>
+    <form class="form-horizontal" method="post">{% csrf_token %}
+        <div class="modal-body">
+            {% include 'includes/form.html' %}
+        </div>
+        <div class="modal-footer">
+            <input type="submit" class="btn btn-large btn-primary" value="Log in">
+    </form>
+    
+    <form class="form-horizontal" method="post" action="{% url 'create_account' %}">
+    {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}" />
+        <button type="submit" class="btn btn-large btn-primary">Create Account</button>
+        </div>
+   </form>
+</div>
+{% endblock %}
+

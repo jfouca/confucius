@@ -62,7 +62,7 @@ class Event(ConfuciusModel):
 
 
 class Membership(ConfuciusModel):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, related_name='memberships')
     conference = models.ForeignKey(Conference)
     roles = models.ManyToManyField('Role')
     domains = models.ManyToManyField(Domain)
@@ -75,6 +75,22 @@ class Membership(ConfuciusModel):
         Membership.objects.filter(user=self.user).update(last_accessed=False)
         self.last_accessed = True
         self.save()
+
+    def _has_role(self, code):
+        try:
+            self.roles.get(code=code)
+            return True
+        except:
+            return False
+
+    def has_chair_role(self):
+        return self._has_role('C')
+
+    def has_reviewer_role(self):
+        return self._has_role('R')
+
+    def has_submitter_role(self):
+        return self._has_role('S')
 
 
 class MessageTemplate(ConfuciusModel):
@@ -176,6 +192,7 @@ class MockUser(models.Model):
 
 '''
 
+
 class Reminder(ConfuciusModel):
     value = models.PositiveIntegerField()
     name = models.CharField(max_length=155, verbose_name="reminder")
@@ -193,3 +210,33 @@ class Role(ConfuciusModel):
 
     def __unicode__(self):
         return self.name
+
+        
+class ReviewerResponse(models.Model):
+    STATUS_CHOICES = (
+        ('R', 'Refused'),
+        ('W', 'Waiting for response'),
+    )    
+    
+    hash_code = models.CharField(max_length=64)
+    email_addr = models.EmailField(unique=True, verbose_name="email")
+    conference = models.ForeignKey(Conference)
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES)
+    
+    class Meta(ConfuciusModel.Meta):
+        unique_together = ('email_addr','conference')
+
+
+from django.forms import ModelForm
+from django import forms
+class DomainsForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(DomainsForm, self).__init__(*args, **kwargs)
+        self.fields['domains'].help_text = ''
+        self.fields['domains'].widget = forms.CheckboxSelectMultiple()
+        
+    class Meta:
+        model = Conference
+        exclude = ('title','members','help_text','start_date','startConfDate', 'submissions_start_date','submissions_end_date','reviews_start_date','reviews_end_date','url','is_open')
+        fields = ('domains',)

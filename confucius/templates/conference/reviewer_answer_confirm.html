@@ -1,0 +1,16 @@
+{% extends "base-in.html" %}
+{% load url from future %}
+
+{% block title %}Reviewer Invitation{% endblock %}
+
+{% block content %}
+    <h1> Answer Confirmed </h1>
+<br>
+
+<form method="post" action="">
+{% csrf_token %}
+    <div>Your answer has been registered. Thank you !</div>
+<br>
+</form>
+
+{% endblock %}

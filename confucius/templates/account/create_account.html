@@ -1,0 +1,24 @@
+{% extends "base-out.html" %}
+{% load url from future %}
+
+{% block title %}Create Conference{% endblock %}
+
+{% block content %}
+    <h1> Account Creation </h1>
+<br>
+
+<form method="post" action="">
+{% csrf_token %}
+    {% if form%}
+        {% include 'includes/form.html' %}
+        <br>
+        <input type="hidden" name="next" value="{{ next }}" />
+        <button type="submit" class="btn btn-primary">Create Account</button>
+    {% else %}
+        <div class="alert alert-error">
+        {{error_messages}}
+        </div>
+    {% endif %}    
+</form>
+
+{% endblock %}
