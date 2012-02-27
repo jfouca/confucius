@@ -31,6 +31,7 @@ class UserCreationForm(AuthUserCreationForm):
     last_name = forms.CharField(max_length=30)
 
     class Meta(AuthUserCreationForm.Meta):
+        model = User
         fields = ('email', 'first_name', 'last_name')
 
     def __init__(self, *args, **kwargs):
@@ -72,6 +73,7 @@ class UserCreationForm(AuthUserCreationForm):
         user = super(UserCreationForm, self).save(commit=False)
         user.username = email_to_username(user.email)
         user.save()
+        print user
         Email.objects.create(value=user.email, main=True, user=user)
 
         return user
