@@ -1,0 +1,17 @@
+{% extends "base-out.html" %}
+{% load url from future %}
+
+{% block title %}Create Conference{% endblock %}
+
+{% block content %}
+    <h1> Account Creation </h1>
+<br>
+
+<form method="post" action="">
+{% csrf_token %}
+    <div>Your account is succesfully created.<br>
+    An email has been sent to the address you has provided, please click on the encolsed link to activate your account.</div>
+<br>
+</form>
+
+{% endblock %}

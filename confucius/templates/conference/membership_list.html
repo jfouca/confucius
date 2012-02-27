@@ -37,6 +37,7 @@
                 </td>
                 <td colspan="3">
                     {% if membership.has_chair_role %}
+                        <a class="btn btn-primary" href="{% url 'reviewer_invitation' membership.conference.pk %}">Invite Reviewer</a>
                         <a class="btn btn-primary" href="{% url 'conference_edit' membership.conference.pk %}">Edit configuration</a>
                         <a class="btn btn-primary" href="{% url 'create_alert' membership.conference.pk %}">Create Alert</a>
                     {% endif %}
@@ -48,7 +49,6 @@
                     {% endif %}
                 </td>
             {% endif %}
-
         </tr>
         {% empty %}
             <h3>You are not subscribed to a conference</h3><br/>
