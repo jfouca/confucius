@@ -7,7 +7,7 @@ from django.views.generic import CreateView, UpdateView, ListView, DeleteView, T
 from django.views.generic.detail import BaseDetailView, SingleObjectTemplateResponseMixin, View
 
 from confucius.forms import AlertForm
-from confucius.models import Alert, Assignment, Conference, Membership, Paper
+from confucius.models import Alert, Conference, Membership, Paper, Assignment
 from confucius.views import LoginRequiredView
 
 

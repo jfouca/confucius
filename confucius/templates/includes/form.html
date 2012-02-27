@@ -14,11 +14,15 @@
 
 <div id="id_{{ form.prefix }}">
     {% for field in form.visible_fields %}
-    <div class="control-group {% if field.errors %}error{% endif %}">
-        <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}</label>
+    <div class="control-group {% if field.errors %}error{% endif %}{% if first %}first{% endif %}" id="control_id_{{ field.html_name }}">
+        <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}
+            {% if confirmed %}
+                <a href="#" class="confirmed" rel="tooltip" title="This email has been confirmed"><i class="icon icon-ok"></i></a>
+            {% endif %}
+        </label>
         <div class="controls">
             {% ifequal field|type 'date' %}
-                {% include 'includes/fields/input_prepend.html' with icon='calendar' field=field|small %}
+                {% include 'includes/fields/input_prepend.html' with icon='calendar' field=field|calendar %}
             {% endifequal %}
             {% ifequal field|type 'password' %}
                 {% include 'includes/fields/input_prepend.html' with icon='lock' field=field|medium %}
@@ -27,7 +31,7 @@
                 {% include 'includes/fields/input_prepend.html' with icon='pencil' field=field|medium %}
             {% endif %}
             {% if field|type == 'email' %}
-                {% include 'includes/fields/input_prepend.html' with icon='envelope' field=field|medium %}
+                {% include 'includes/fields/input_prepend.html' with icon='envelope' field=field|medium first=first confirmed=confirmed %}
             {% endif %}
             {% if field|type == 'textarea' or field|type == 'select' or field|type == 'selectm' %}
                 {{ field }}

@@ -47,6 +47,5 @@ def large(field):
     return field.as_widget(attrs={'class': 'input-large'})
 
 @register.filter
-def help(field): 
-    return mark_safe('<p class="help-block">' + field.help_text + '</p>')
-    
+def calendar(field):
+    return field.as_widget(attrs={'class': 'input-small datepicker'})

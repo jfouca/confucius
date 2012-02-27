@@ -31,6 +31,7 @@ class UserCreationForm(AuthUserCreationForm):
     last_name = forms.CharField(max_length=30)
 
     class Meta(AuthUserCreationForm.Meta):
+        model = User
         fields = ('email', 'first_name', 'last_name')
 
     def __init__(self, *args, **kwargs):
@@ -41,8 +42,11 @@ class UserCreationForm(AuthUserCreationForm):
         used as an underlying authentication token.
         """
         super(UserCreationForm, self).__init__(*args, **kwargs)
-        del self.base_fields['username']
-        del self.fields['username']
+        try :
+            del self.base_fields['username']
+            del self.fields['username']
+        except :
+            pass
 
     def clean_email(self):
         email = self.cleaned_data['email']
@@ -69,6 +73,7 @@ class UserCreationForm(AuthUserCreationForm):
         user = super(UserCreationForm, self).save(commit=False)
         user.username = email_to_username(user.email)
         user.save()
+        print user
         Email.objects.create(value=user.email, main=True, user=user)
 
         return user

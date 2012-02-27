@@ -37,11 +37,9 @@
             <a href="{% url 'conference_edit' conference.pk %}" class="btn btn-primary" >Edit the conference</a>
             <a href="{% url 'paper_selection_list' %}" class="btn btn-info">Paper selection</a>
             <a href="{% url 'create_alert' conference.pk %}" class="btn btn-info">Create Alert</a>
-            <span>&nbsp;</span>
         {% endifequal %}
         {% ifequal role.name 'Submitter' %}
             <a href="{% url 'submit_paper' membership.conference.pk %}" class="btn" >Submit paper</a>
-            <span>&nbsp;</span>
         {% endifequal %}
     {% endfor %}
 </b></p>

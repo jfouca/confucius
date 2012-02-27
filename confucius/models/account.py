@@ -100,3 +100,14 @@ class Language(ConfuciusModel):
 
     def __unicode__(self):
         return self.name
+
+
+class ActivationKey(ConfuciusModel):
+    hash_code = models.CharField(max_length=64)
+    #page user have requested before creating his account
+    next_page = models.CharField(max_length=255)
+    user = models.ForeignKey(User)
+    expiration_date = models.DateField()
+    
+    def __unicode__(self):
+        return self.user.first_name+" "+self.user.last_name
