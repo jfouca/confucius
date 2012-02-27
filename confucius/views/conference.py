@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.forms.models import modelform_factory
 from django.shortcuts import get_object_or_404, redirect, render_to_response
 from django.template import RequestContext
-from django.views.generic import CreateView, UpdateView, ListView, DeleteView
+from django.views.generic import CreateView, UpdateView, ListView, DeleteView, TemplateView
 from django.views.generic.detail import BaseDetailView, SingleObjectTemplateResponseMixin
 
 from confucius.forms import AlertForm, InvitationForm, DomainsForm
@@ -14,22 +14,32 @@ from django.core.mail import send_mail
 
 
 class RoleView(LoginRequiredView):
+    conference = None
     membership = None
 
     def dispatch(self, request, *args, **kwargs):
-        try:
-            conference = Conference.objects.get(pk=kwargs.get('pk', None))
-            self.membership = Membership.objects.get(user=request.user, conference=conference)
-        except:
-            messages.warning(request, u'You have no membership to that conference.')
-            return redirect('account')
+        pk = kwargs.get('pk', None)
 
+        if pk:
+            try:
+                self.conference = Conference.objects.get(pk=pk)
+            except:
+                messages.warning(request, u'You have no membership to that conference.')
+                return redirect('account')
+        else:
+            self.conference = request.user.get_last_accessed_conference()
+
+        self.membership = Membership.objects.get(user=request.user, conference=self.conference)
         self.membership.set_last_accessed()
 
         if self.has_access(request):
             return super(RoleView, self).dispatch(request, *args, **kwargs)
 
+        messages.warning(request, u'You have no access to that conference')
         return redirect('dashboard')
+
+    def has_access(self, request):
+        return True
 
 
 class PresidentView(RoleView):
@@ -81,38 +91,35 @@ class ConferenceToggleView(PresidentView, SingleObjectTemplateResponseMixin, Bas
         return redirect('dashboard')
 
 
-@login_required
-def dashboard(request, conference_pk=None, template_name='conference/dashboard.html'):
-    conference = request.user.get_last_accessed_conference()
+class DashboardView(TemplateView, RoleView):
+    template_name = 'conference/dashboard.html'
 
-    if conference is None:
-        return redirect('membership_list')
+    def get_context_data(self, **kwargs):
+        conference = self.request.user.get_last_accessed_conference()
+        membership = Membership.objects.get(conference=conference, user=self.request.user)
+        alerts_trigger = Alert.objects.filter(conference=conference.pk, reminder__isnull=True, action__isnull=True)
+        alerts_reminder = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, action__isnull=True)
+        alerts_action = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, reminder__isnull=True)
+        user_papers = Paper.objects.filter(conference=conference, submitter=self.request.user).order_by('-last_update_date')
+        user_assignments = Assignment.objects.filter(reviewer=self.request.user, is_assigned=True)
+        conference_reviews = Assignment.objects.filter(paper__conference=conference, is_done=True, review__isnull=False).order_by('-review__last_update_date')[:10]
+        conference_papers = Paper.objects.filter(conference=conference).order_by('-submission_date')[:10]
 
-    membership = Membership.objects.get(conference=conference, user=request.user)
+        context = super(DashboardView, self).get_context_data(**kwargs)
 
-    alerts_trigger = Alert.objects.filter(conference=conference.pk, reminder__isnull=True, action__isnull=True)
-    alerts_reminder = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, action__isnull=True)
-    alerts_action = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, reminder__isnull=True)
+        context.update({
+            'alerts_trigger': alerts_trigger,
+            'alerts_reminder': alerts_reminder,
+            'alerts_action': alerts_action,
+            'conference': conference,
+            'membership': membership,
+            'user_papers': user_papers,
+            'conference_papers': conference_papers,
+            'user_assignments': user_assignments,
+            'conference_reviews': conference_reviews
+        })
 
-    user_papers = Paper.objects.filter(conference=conference, submitter=request.user).order_by('-last_update_date')
-    user_assignments = Assignment.objects.filter(reviewer=request.user, is_assigned=True)
-
-    conference_reviews = Assignment.objects.filter(paper__conference=conference, is_done=True, review__isnull=False).order_by('-review__last_update_date')[:10]
-    conference_papers = Paper.objects.filter(conference=conference).order_by('-submission_date')[:10]
-
-    context = {
-        'alerts_trigger': alerts_trigger,
-        'alerts_reminder': alerts_reminder,
-        'alerts_action': alerts_action,
-        'conference': conference,
-        'membership': membership,
-        'user_papers': user_papers,
-        'conference_papers': conference_papers,
-        'user_assignments': user_assignments,
-        'conference_reviews': conference_reviews
-    }
-
-    return render_to_response(template_name, context, context_instance=RequestContext(request))
+        return context
 
 
 class ConferenceUpdateView(PresidentView, UpdateView):
@@ -263,6 +270,11 @@ class CreateAlertView(PresidentView, CreateView):
     model = Alert
     success_url = '/conference/dashboard/'
     template_name = 'conference/alerts/edit_alert.html'
+
+    def get_initial(self):
+        initial = super(CreateAlertView, self).get_initial()
+        initial.update({'conference': self.conference})
+        return initial
 
 
 class EditAlert(PresidentView, UpdateView):

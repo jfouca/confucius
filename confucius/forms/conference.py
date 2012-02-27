@@ -4,15 +4,11 @@ from confucius.models import Alert, Conference, Domain
 
 
 class AlertForm(forms.ModelForm):
+    conference = forms.ModelChoiceField(queryset=Conference.objects.all(), widget=forms.HiddenInput())
 
     class Meta:
         model = Alert
-        fields = ('reminder', 'event', 'trigger_date', 'action', 'title', 'content', 'roles')
 
-    def __init__(self, *args, **kwargs):
-        super(AlertForm, self).__init__(*args, **kwargs)
-        self.fields['roles'].help_text = ''
-        
     def clean(self):
         cleaned_data = super(AlertForm, self).clean()
         try:
