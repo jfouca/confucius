@@ -72,16 +72,16 @@
                         {% endfor %}
                         </tbody>
                         </table>
+                        <div class="row">
+                            <div class="span5">
+                                <a href="{% url 'assignments' conference.pk %}" class="pull-right btn btn-primary">Assignments</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="span10">
                         <a href="{% url 'paper_selection_list' conference.pk %}" class="pull-right btn btn-primary">Paper selection</a> 
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="span10">
-                        <a href="{% url 'assignments' conference.pk %}" class="pull-right btn btn-primary">Assignments</a>
                     </div>
                 </div>
                 <div class="row">

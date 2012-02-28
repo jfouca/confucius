@@ -12,7 +12,7 @@ from django.template import RequestContext
 from confucius.decorators import has_chair_role, has_reviewer_role
 from confucius.forms import ReviewForm
 from confucius.models import Assignment, Email, Membership, Paper, PaperSelection, Review, Role, User
-
+import time
 
 @require_POST
 @login_required
@@ -20,6 +20,10 @@ from confucius.models import Assignment, Email, Membership, Paper, PaperSelectio
 @csrf_protect
 def auto_assignment(request):
     if request.is_ajax():
+        #to show the modal frame in assignments.html
+        time.sleep(4)
+        
+        
         conference = request.conference
 
         role = Role.objects.get(code="R")
@@ -251,10 +255,11 @@ def updateAssignmentsTables(request):
 @login_required
 @has_chair_role
 @csrf_protect
-def deleteAssignmentRow(request, assignment_pk):
+def deleteAssignmentRow(request):
 #tests whether it is a GET or POST ajax request, and treat it
     if request.is_ajax():
         if request.method == 'POST':
+            assignment_pk = request.POST.get('end')
             Assignment.objects.get(pk=assignment_pk).delete()
             return HttpResponse("kikou")
     # If you want to prevent non XHR calls
