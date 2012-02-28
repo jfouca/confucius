@@ -275,15 +275,13 @@
 	})
 	
 	$('#auto_assignment').click(function(){
-	    var $content = $('<div>Coucou</div>').dialog({
-            closeOnEscape: false,
-			open: function(event, ui) { $(".ui-dialog-titlebar-close", ui.dialog || ui).hide(); }
+	    var $content = $('<div><center><img src=\"/static/ajax-loader.gif\"> </img></center></div>').dialog({
 		});
 		
 	    $.post("/review/auto-assignment/", {},
             function(data) {
-                $content.dialog('close');
                 window.location.reload();
+                content.dialog('close');
             }
         );
         
