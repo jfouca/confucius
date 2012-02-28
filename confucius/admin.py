@@ -85,7 +85,7 @@ class PaperAdmin(admin.ModelAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('title', 'language', 'submitter', 'conference', 'emails_authors', 'document',)}
+            'fields': ('title', 'language', 'submitter', 'conference', 'co_authors', 'file',)}
         ),
     )
     fieldsets = (
@@ -93,13 +93,13 @@ class PaperAdmin(admin.ModelAdmin):
             'fields': (('title', 'language'), )
         }),
         ('Authors information', {
-            'fields': (('submitter', 'conference',), 'emails_authors', )
+            'fields': (('submitter', 'conference',), 'co_authors', )
         }),
         ('Date information', {
             'fields': (('submission_date', 'last_update_date', ),)
         }),
-        ('Document', {
-            'fields': ('document',)
+        ('File', {
+            'fields': ('file',)
         })
     )
     filter_horizontal = ()
@@ -127,6 +127,6 @@ class ConferenceAdmin(admin.ModelAdmin):
 
 site = admin.AdminSite()
 site.register(User, UserAdmin)
-site.register(Conference, ConferenceAdmin, )
+site.register(Conference, ConferenceAdmin)
 site.register(Domain)
-site.register(Paper, PaperAdmin,)
+site.register(Paper, PaperAdmin)

@@ -43,9 +43,6 @@ class Conference(ConfuciusModel):
     def __unicode__(self):
         return self.title
 
-    def get_president(self):
-        return self.members.get(roles__in=Role.objects.filter(code='C')).user
-
 
 class Domain(ConfuciusModel):
     name = models.CharField(max_length=50, unique=True)

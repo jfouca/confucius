@@ -8,6 +8,7 @@ from confucius.models import Activation, Address, Email, Language, User
 class EmailForm(forms.ModelForm):
     class Meta:
         model = Email
+        fields = ('value', 'main')
 
     def save(self, commit=True):
         email = super(EmailForm, self).save(commit=False)
@@ -42,11 +43,8 @@ class UserCreationForm(AuthUserCreationForm):
         used as an underlying authentication token.
         """
         super(UserCreationForm, self).__init__(*args, **kwargs)
-        try :
-            del self.base_fields['username']
-            del self.fields['username']
-        except :
-            pass
+        del self.base_fields['username']
+        del self.fields['username']
 
     def clean_email(self):
         email = self.cleaned_data['email']
@@ -80,14 +78,28 @@ class UserCreationForm(AuthUserCreationForm):
 
 
 class UserForm(forms.ModelForm):
-    first_name = forms.CharField(max_length=30, required=False)
-    languages = forms.ModelMultipleChoiceField(queryset=Language.objects.all(), required=False)
-    last_name = forms.CharField(max_length=30)
+    languages = forms.ModelMultipleChoiceField(Language.objects.all(), required=False)
 
     class Meta:
-        fields = ('first_name', 'languages', 'last_name')
+        fields = ('first_name', 'last_name', 'languages')
         model = User
-        ordering = ('first_name', 'last_name', 'languages')
+
+    def __init__(self, *args, **kwargs):
+        super(UserForm, self).__init__(*args, **kwargs)
+
+        self.fields['last_name'].required = True
+        self.fields['languages'].initial = self.instance.languages.all()
+
+    def save(self, commit=True):
+        user = super(UserForm, self).save(commit)
+
+        user.languages.clear()
+        user.languages.add(*self.cleaned_data['languages'])
+
+        if commit:
+            user.save()
+
+        return user
 
 
 class EmailFormSet(inlineformset_factory(User, Email)):

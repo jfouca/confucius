@@ -971,14 +971,14 @@
             "conference": 1,
             "language": 14,
             "title": "Un papier",
-            "emails_authors": "a@a.a",
+            "co_authors": "a@a.a",
             "description": "blu blu blu",
             "domains": [
                 1
             ],
             "last_update_date": "2012-02-20",
             "submitter": 1,
-            "document": "documents/test_32.txt"
+            "file": "papers/test_32.txt"
         }
     },
     {
@@ -989,14 +989,14 @@
             "conference": 1,
             "language": 18,
             "title": "Autre papier",
-            "emails_authors": "azeazezqefsg",
+            "co_authors": "azeazezqefsg",
             "description": "red red red",
             "domains": [
                 1
             ],
             "last_update_date": "2012-02-24",
             "submitter": 1,
-            "document": "documents/test_33.txt"
+            "file": "papers/test_33.txt"
         }
     },
     {
@@ -1007,14 +1007,14 @@
             "conference": 1,
             "language": 17,
             "title": "jjujuju",
-            "emails_authors": "azdsfsdg",
+            "co_authors": "azdsfsdg",
             "description": "green green green",
             "domains": [
                 1
             ],
             "last_update_date": "2012-02-26",
             "submitter": 1,
-            "document": "documents/test_34.txt"
+            "file": "papers/test_34.txt"
         }
     },
     {

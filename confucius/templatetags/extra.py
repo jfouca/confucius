@@ -1,8 +1,7 @@
 from django import template
-from django.core.urlresolvers import reverse
-from django.utils.safestring import mark_safe
 
 register = template.Library()
+
 
 @register.filter
 def no_time_left(date):
@@ -12,9 +11,10 @@ def no_time_left(date):
 
 @register.filter
 def active(name, request):
-    if request.path.startswith(reverse(name)):
+    if name in request.path:
         return 'active'
     return ''
+
 
 @register.filter
 def type(field):
@@ -34,17 +34,21 @@ def type(field):
         return 'email'
     return 'text'
 
+
 @register.filter
 def small(field):
     return field.as_widget(attrs={'class': 'input-small'})
+
 
 @register.filter
 def medium(field):
     return field.as_widget(attrs={'class': 'input-medium'})
 
+
 @register.filter
 def large(field):
     return field.as_widget(attrs={'class': 'input-large'})
+
 
 @register.filter
 def calendar(field):

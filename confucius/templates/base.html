@@ -12,7 +12,7 @@
         {% block topbar %}{% endblock %}
         {% if messages %}
             {% for message in messages %}
-            <div class="span5 alert alert-{{ message.tags }} fade in" id="messages">
+            <div class="span6 alert alert-{{ message.tags }} fade in" id="messages">
                 <a class="close" data-dismiss="alert">×</a>
                 {% if 'error' == message.tags|first %}
                     <h4 class="alert-heading">Error!</h4>

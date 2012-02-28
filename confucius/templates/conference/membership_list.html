@@ -19,38 +19,36 @@
     </thead>
     <tbody>
         {% for membership in membership_list %}
-        <tr class="infos">
-            <td><strong>{{ membership.conference.title }}</strong></td>
-            <td>
-                {% for role in membership.roles.all %}
-                    <span class="label">{{ role }}</span>
-                {% endfor %}
-            </td>
-            <td>{{ membership.conference.start_date }}</td>
-            <td>{% if membership.conference.is_open %}Open{% else %}Closed{% endif %}</td>
-        </tr>
-
-        <tr class="actions">
-            {% if membership.conference.is_open or membership.has_chair_role %}
-                <td colspan="1">
-                    <a class="btn btn-info" href="{% url 'dashboard_set' membership.conference.pk %}">Go to Dashboard</a>
-                </td>
-                <td colspan="3">
-                    {% if membership.has_chair_role %}
-                        <a class="btn btn-primary" href="{% url 'conference_edit' membership.conference.pk %}">Edit configuration</a>
-                        <a class="btn btn-primary" href="{% url 'create_alert' membership.conference.pk %}">Create Alert</a>
-                    {% endif %}
-                    {% if membership.has_reviewer_role %}
-                        <a class="btn btn-info" href="#">Submit review</a>
-                    {% endif %}
-                    {% if membership.has_submitter_role %}
-                        <a class="btn" href="{% url 'submit_paper' membership.conference.pk %}">Submit paper</a>
-                    {% endif %}
-                </td>
-            {% endif %}
-        </tr>
+        {% with conference=membership.conference %}
+            <tr class="infos">
+                <td><strong>{{ conference.title }}</strong></td>
+                <td>{% include 'includes/roles.html' with roles=membership.roles.all %}</td>
+                <td>{{ conference.start_date }}</td>
+                <td>{% include 'includes/conference_status.html' %}</td>
+            </tr>
+            
+            <tr class="actions">
+                {% if conference.is_open or membership.has_chair_role %}
+                    <td colspan="1">
+                        <a class="btn btn-info" href="{% url 'dashboard' conference.pk %}"> Go to Dashboard </a>
+                    </td>
+                    <td colspan="3">
+                        {% if membership.has_chair_role %}
+                            <a class="btn" href="{% url 'conference_edit' conference.pk %}">Edit configuration</a>
+                            <a class="btn" href="{% url 'alert' conference.pk %}">Create Alert</a>
+                            {% include 'includes/conference_toggle.html' %}
+                        {% endif %}
+                        {% if membership.has_reviewer_role %}
+                            <a class="btn" href="#">Submit review</a>
+                        {% endif %}
+                        {% if membership.has_submitter_role %}
+                        {% endif %}
+                    </td>
+                {% endif %}
+            </tr>
+        {% endwith %}
         {% empty %}
-            <h3>You are not subscribed to a conference</h3><br/>
+            <h3>You have no conferences yet.</h3>
         {% endfor %}
     </tbody>
 </table>

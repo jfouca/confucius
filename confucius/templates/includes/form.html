@@ -21,6 +21,7 @@
             {% endif %}
         </label>
         <div class="controls">
+            {% block controls %}
             {% ifequal field|type 'date' %}
                 {% include 'includes/fields/input_prepend.html' with icon='calendar' field=field|calendar %}
             {% endifequal %}
@@ -39,6 +40,7 @@
             {% if field|type == 'checkbox' %}
                 {% include 'includes/fields/checkbox.html' with field=field %}
             {% endif %}
+            {% endblock %}
             <p class="help-block">{{ field.help_text }}</p>
         </div>
     </div>
