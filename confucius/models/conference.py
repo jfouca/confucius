@@ -4,7 +4,7 @@ from confucius.models import ConfuciusModel, User
 
 
 class Action(ConfuciusModel):
-    name = models.CharField(max_length=155, verbose_name="Action")
+    name = models.CharField(max_length=155, verbose_name='Action')
 
     def __unicode__(self):
         return self.name
@@ -14,7 +14,7 @@ class Alert(ConfuciusModel):
     title = models.CharField(max_length=100, default=None)
     content = models.TextField(default=None)
     conference = models.ForeignKey('Conference')
-    trigger_date = models.DateField(verbose_name="trigger date", blank=True, null=True)
+    trigger_date = models.DateField(verbose_name='trigger date', blank=True, null=True)
     reminder = models.ForeignKey('Reminder', blank=True, null=True)
     event = models.ForeignKey('Event', blank=True, null=True)
     action = models.ForeignKey('Action', blank=True, null=True)
@@ -38,10 +38,24 @@ class Conference(ConfuciusModel):
     reviews_end_date = models.DateField()
     url = models.URLField(blank=True)
     members = models.ManyToManyField(User, through='Membership')
-    domains = models.ManyToManyField('Domain', related_name="conferences")
+    domains = models.ManyToManyField('Domain', related_name='conferences')
+    access_key = models.CharField(max_length=8)
 
     def __unicode__(self):
         return self.title
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('confucius.views.conference_access', (),
+            {'conference_pk': self.pk, 'access_key': self.access_key})
+
+    def save(self, *args, **kwargs):
+        from confucius.utils import random_string
+
+        if self.pk is None:
+            self.access_key = random_string(8)
+
+        super(Conference, self).save(*args, **kwargs)
 
 
 class Domain(ConfuciusModel):
@@ -52,7 +66,7 @@ class Domain(ConfuciusModel):
 
 
 class Event(ConfuciusModel):
-    name = models.CharField(max_length=155, verbose_name="linked to")
+    name = models.CharField(max_length=155, verbose_name='linked to')
 
     def __unicode__(self):
         return self.name
@@ -104,7 +118,7 @@ class MessageTemplate(ConfuciusModel):
 
 class Reminder(ConfuciusModel):
     value = models.PositiveIntegerField()
-    name = models.CharField(max_length=155, verbose_name="reminder")
+    name = models.CharField(max_length=155, verbose_name='reminder')
 
     class Meta(ConfuciusModel.Meta):
         unique_together = ('value', 'name')
@@ -129,7 +143,7 @@ class Invitation(ConfuciusModel):
         ('A', 'Accepted'),
         ('R', 'Refused'),
         ('W', 'Waiting for response')
-    ))
+    ), default='W')
     key = models.CharField(max_length=64, unique=True)
     message = models.TextField()
 

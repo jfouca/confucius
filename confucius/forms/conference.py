@@ -1,6 +1,6 @@
 from django import forms
 
-from confucius.models import Alert, Conference, Email, Invitation, Membership, User
+from confucius.models import Alert, Conference, Domain, Email, Invitation, Membership, User
 
 
 class AlertForm(forms.ModelForm):
@@ -11,7 +11,7 @@ class AlertForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(AlertForm, self).clean()
-        
+
         if cleaned_data['reminder'] is None and cleaned_data['event'] is None and cleaned_data['trigger_date'] is None and cleaned_data['action'] is None:
             raise forms.ValidationError('You must fill at least one of the following fields : Reminder, Action, Trigger date')
 
@@ -101,3 +101,17 @@ class InvitationForm(forms.ModelForm):
         invitation.save()
 
         return invitation
+
+
+class MembershipForm(forms.ModelForm):
+    class Meta:
+        model = Membership
+        fields = ('domains',)
+        widgets = {
+            'domains': forms.CheckboxSelectMultiple(),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(MembershipForm, self).__init__(*args, **kwargs)
+
+        self.fields['domains'].queryset = Domain.objects.filter(conferences__pk=self.instance.conference_id)

@@ -40,9 +40,9 @@
                             {% include 'includes/conference_toggle.html' %}
                         {% endif %}
                         {% if membership.has_reviewer_role %}
-                            <a class="btn" href="#">Submit review</a>
                         {% endif %}
                         {% if membership.has_submitter_role %}
+                            <a class="btn" href="{% url 'paper' conference.pk %}">Submit paper</a>
                         {% endif %}
                     </td>
                 {% endif %}
