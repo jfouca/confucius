@@ -2,10 +2,11 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
 from django.core.mail import send_mail
+from django.core.urlresolvers import resolve
 from django.views.generic import DetailView
 
 from confucius.forms import AddressFormSet, EmailFormSet, UserForm, UserCreationForm
-from confucius.models import Activation, ActivationKey
+from confucius.models import Activation, ActivationKey, ReviewerResponse
 from confucius.views import NeverCacheView
 
 
@@ -79,30 +80,60 @@ def close_account(request):
 
 from django.views.decorators.csrf import csrf_protect
 @csrf_protect
-def create_account(request, redirect_field_name='next'):
-    next = request.REQUEST.get(redirect_field_name, '')
-    
+def create_account(request, redirect_field_name='next'):    
     if request.POST:
-        form = UserCreationForm(request.POST)           
-        if form.is_valid():
-            created_user = form.save()
-            #Penser a desactiver l'utilisateur
+        next = request.REQUEST.get(redirect_field_name, '')
+        if next != '':
+            #Search with the email field if the form already exist
+            if request.REQUEST.get('email', '') == '':
+                    form = UserCreationForm()
+            else:
+                    form = UserCreationForm(request.POST)
+            
+            #Find the type if the action after the account creation is
+            #Reviewer_response to fill the email field automaticly       
+            match = resolve(next)
+            if match.url_name == 'reviewer_response':
+                hashCode = match.kwargs.get('hashCode',"")
+                try :
+                    invitation = ReviewerResponse.objects.get(hash_code=hashCode)
+                except:
+                    error_messages = "Account creation Unauthorized : Trying to create account with an invalid invitation code"
+                    return render_to_response('account/create_account.html',
+                        {"error_messages":error_messages}, 
+                        context_instance=RequestContext(request))
+                
+                form.fields['email'].initial = invitation.email_addr
+                form.fields['email'].widget.attrs['readonly'] = True
 
-            import datetime
-            expr_date = datetime.date.today() + datetime.timedelta(7)
-            ActivationKey.objects.create(hash_code=created_user.username, user=created_user, expiration_date=expr_date, next_page=next)
-            
-            user_email = form.cleaned_data['email']
-            send_mail('Confucius Account Creation', 'Please find enclose the activation link for your account : http://localhost:8000/account/create/'+created_user.username, 'no-reply@confucius.com',[user_email], fail_silently=False)
-            
-            return render_to_response('account/create_account_confirm.html', context_instance=RequestContext(request))
-        else:
-            return render_to_response('account/create_account.html',{"form":form,"next":next}, context_instance=RequestContext(request))
-    
+                          
+            if form.is_valid():
+                created_user = form.save()
+                created_user.is_active=False
+                created_user.save()
+
+                import datetime
+                expr_date = datetime.date.today() + datetime.timedelta(7)
+                ActivationKey.objects.create(
+                    hash_code=created_user.username, 
+                    user=created_user, 
+                    expiration_date=expr_date, 
+                    next_page=next)
+                
+                user_email = form.cleaned_data['email']
+                send_mail('Confucius Account Creation', 
+                    'Please find enclose the activation link for your account : http://localhost:8000/account/create/'+created_user.username, 
+                    'no-reply@confucius.com',
+                    [user_email], 
+                    fail_silently=False)
+                
+                return render_to_response('account/create_account_confirm.html', context_instance=RequestContext(request))
+            else:
+                return render_to_response('account/create_account.html',{"form":form,"next":next}, context_instance=RequestContext(request))
+        
     #If no POST data, display an error (direct call)
-    else:
-        error_messages = "Account creation Unauthorized"
-        return render_to_response('account/create_account.html',{"error_messages":error_messages}, context_instance=RequestContext(request))  
+    error_messages = "Account creation Unauthorized"
+    return render_to_response('account/create_account.html',{"error_messages":error_messages}, context_instance=RequestContext(request))  
 
 
 def activate_account(request, hashCode):
