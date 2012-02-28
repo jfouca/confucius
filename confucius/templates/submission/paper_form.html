@@ -3,6 +3,7 @@
 
 {% block title %}Submission{% endblock %}
 
+
 {% block content_header %}
 <h1>
     {% if instance %}
@@ -17,7 +18,7 @@
 
 <form id="form" class="form-horizontal" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{form}}
+    {% include 'includes/form.html' %}
 
     <div class="form-actions">
         <input type="submit" class="btn btn-primary" value="{% if instance %} Update paper {% else %} Submit paper {% endif %}"/>
