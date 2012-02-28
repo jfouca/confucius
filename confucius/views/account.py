@@ -31,6 +31,7 @@ class ConfirmEmailView(NeverCacheView, DetailView):
         return activation.email
 
 
+
 @login_required
 def edit_account(request, template='account/edit_account.html'):
     import json

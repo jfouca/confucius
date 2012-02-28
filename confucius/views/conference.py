@@ -2,15 +2,18 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.forms.models import modelform_factory
 from django.shortcuts import get_object_or_404, redirect, render_to_response
+from django.core.urlresolvers import reverse
+from django.core.mail import send_mail
 from django.template import RequestContext
 from django.views.generic import CreateView, UpdateView, ListView, DeleteView, TemplateView
 from django.views.generic.detail import BaseDetailView, SingleObjectTemplateResponseMixin
+
 
 from confucius.forms import AlertForm, InvitationForm, DomainsForm
 from confucius.models import Action, Alert, Conference, Event, Membership, Paper, Reminder, Role, Domain, ReviewerResponse, Assignment
 from confucius.decorators.confdecorators import user_access_conference
 from confucius.views import LoginRequiredView
-from django.core.mail import send_mail
+
 
 
 class RoleView(LoginRequiredView):
@@ -189,12 +192,24 @@ def reviewer_invitation(request, conference_pk=None):
                     "conference":conference}, 
                     context_instance=RequestContext(request))
             
-            # Sending a mail to the requested email address
-            send_mail('Confucius Reviewer Invitation',
-                text+'http://localhost:8000/conference/reviewer_invitation/'+hash_code, 
-                'no-reply@confucius.com',
-                [email], 
-                fail_silently=False)
+            #answer_link = settings.STATIC_URL+reverse('reviewer_response',args=[hash_code])
+            answer_link = 'http://localhost:8000/conference/reviewer_invitation/'+hash_code
+            #Sending a mail to the requested email address
+            try :
+                send_mail('Confucius Reviewer Invitation',
+                    text+'\n'+answer_link, 
+                    'no-reply@confucius.com',
+                    [email], 
+                    fail_silently=False)
+            except :
+                response.delete()
+                error_messages = "An error has been encoutered during the mail sending. Impossible to send this invitation"
+                return render_to_response('conference/invite_reviewer.html',
+                    {"form":form,
+                    "error":error_messages,
+                    "invitation_list":invitations,
+                    "conference":conference}, 
+                    context_instance=RequestContext(request))
             
             return render_to_response("conference/invite_reviewer_confirm.html",
                 {"email": email,
@@ -236,32 +251,41 @@ def reviewer_response(request, hashCode):
       form = DomainsForm(instance=response.conference)
       if request.POST:
         if 'Accept' in request.POST:
-            domains_form = DomainsForm(request.POST, instance=response.conference)
-            if domains_form.is_valid():
-                domains = domains_form.cleaned_data['domains']
-            
-            #Role creation and adding selected domain
-            try :
-                MembershipRole = Membership.objects.get(user=user, conference=response.conference)
-            except:
-                MembershipRole = Membership.objects.create(user=user, conference=response.conference)
-            reviewer_role = Role.objects.get(code="R")
-            MembershipRole.roles.add(reviewer_role)
+            form = DomainsForm(request.POST, instance=response.conference)
+            if form.is_valid():
+                domains = form.cleaned_data['domains']
+                #Role creation and adding selected domain
+                try :
+                    MembershipRole = Membership.objects.get(user=user, conference=response.conference)
+                except:
+                    MembershipRole = Membership.objects.create(user=user, conference=response.conference)
+                reviewer_role = Role.objects.get(code="R")
+                MembershipRole.roles.add(reviewer_role)
+                    
+                for domain in domains:
+                    reviewer_domain = Domain.objects.get(name=domain)
+                    MembershipRole.domains.add(reviewer_domain)
+                #Delete the current key from the answer wait table
+                response.delete()
+                return render_to_response('conference/reviewer_answer_confirm.html', context_instance=RequestContext(request))
+            else:
+                return render_to_response('conference/reviewer_answer.html',
+                {"form":form, 
+                "title":response.conference.title,
+                "ValidationError":"You have to choose at least one domain in the list"}, 
+                context_instance=RequestContext(request))
                 
-            for domain in domains:
-                reviewer_domain = Domain.objects.get(name=domain)
-                MembershipRole.domains.add(reviewer_domain)
-            #Delete the current key from the answer wait table
-            response.delete()
-            return render_to_response('conference/reviewer_answer_confirm.html', context_instance=RequestContext(request))
+                
         if 'Refuse' in request.POST:
             #Pass the status of the answer to "Refused"
             response.status="R"
             response.save()
             return render_to_response('conference/reviewer_answer_confirm.html', context_instance=RequestContext(request))    
-      else:
-        return render_to_response('conference/reviewer_answer.html',
-            {"form":form, "title":response.conference.title}, context_instance=RequestContext(request))
+
+      return render_to_response('conference/reviewer_answer.html',
+        {"form":form, 
+        "title":response.conference.title}, 
+        context_instance=RequestContext(request))
 
 
 class CreateAlertView(PresidentView, CreateView):

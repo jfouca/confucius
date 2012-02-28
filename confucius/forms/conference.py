@@ -59,4 +59,14 @@ class DomainsForm(forms.ModelForm):
         super(DomainsForm, self).__init__(*args, **kwargs)
         # Building domains, from an existing paper and a conference's id
         self.fields["domains"].queryset = Conference.objects.get(pk=conference.id).domains
-        self.fields["domains"].initial = conference.domains.all()    
+        self.fields["domains"].initial = conference.domains.all()
+        
+    def clean(self):
+        cleaned_data = super(DomainsForm, self).clean()
+        try:
+            if not cleaned_data['domains'] :
+                raise forms.ValidationError('You must choose at least one domain in the list')
+        except:
+            pass
+
+        return cleaned_data    

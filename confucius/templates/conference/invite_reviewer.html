@@ -51,9 +51,9 @@
     <div> Please enter the email address to send the reviewer invitation request</div>
     <form method="post" action="">
     {% csrf_token %}
-        {% if form.error_messages %}
+        {% if error %}
         <div class="alert alert-error">
-        {{form.error_messages}}
+        {{error}}
         </div>
         {% endif %}
             {% include 'includes/form.html' %}
