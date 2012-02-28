@@ -1,13 +1,62 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.forms.models import modelform_factory
-from django.shortcuts import redirect, render_to_response
+from django.shortcuts import get_object_or_404, redirect, render_to_response
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_GET, require_http_methods
 
 from confucius.decorators import has_chair_role, has_role
-from confucius.models import Alert, Conference, Membership, Paper, Assignment
+from confucius.models import Alert, Conference, Membership, Paper, Assignment, Role
+
+
+@require_GET
+def conference_access(request, conference_pk, access_key, template_name='conference/membership_form.html'):
+    conference = get_object_or_404(Conference, pk=conference_pk, access_key=access_key)
+
+    if request.user.is_authenticated():
+        try:
+            Membership.objects.get(user=request.user, conference=conference)
+            return redirect('dashboard', conference_pk=conference_pk)
+        except:
+            pass
+
+        return redirect('membership', conference_pk=conference_pk)
+    else:
+        # We don't handle anonymous users, yet.
+        return redirect('login')
+
+
+@require_http_methods(['GET', 'POST'])
+@login_required
+@csrf_protect
+def membership(request, conference_pk, template_name='conference/membership_form.html'):
+    from confucius.forms import MembershipForm
+
+    conference = Conference.objects.get(pk=conference_pk)
+
+    try:
+        membership = Membership.objects.get(user=request.user, conference=conference)
+    except:
+        membership = Membership(**{'conference': conference, 'user': request.user})
+
+    form = MembershipForm(instance=membership)
+
+    if 'POST' == request.method:
+        form = MembershipForm(request.POST, instance=membership)
+
+        if form.is_valid():
+            membership = form.save()
+            membership.roles.add(Role.objects.get(code='S'))
+            messages.success(request, u'Your membership has been sucessfully updated.')
+            return redirect('dashboard', conference_pk=membership.conference.pk)
+
+    context = {
+        'form': form,
+        'conference': conference,
+    }
+
+    return render_to_response(template_name, context, context_instance=RequestContext(request))
 
 
 @require_http_methods(['GET', 'POST'])
@@ -49,6 +98,8 @@ def conference_toggle(request):
 @login_required
 @has_role
 def dashboard(request, template_name='conference/dashboard.html'):
+    from django.contrib.sites.models import get_current_site
+
     conference = request.conference
     membership = request.membership
 
@@ -69,7 +120,8 @@ def dashboard(request, template_name='conference/dashboard.html'):
         'user_papers': user_papers,
         'conference_papers': conference_papers,
         'user_assignments': user_assignments,
-        'conference_reviews': conference_reviews
+        'conference_reviews': conference_reviews,
+        'public_url': 'http://%s%s' % (get_current_site(request).domain, conference.get_absolute_url())
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))
