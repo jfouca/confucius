@@ -11,7 +11,7 @@ from django.views.generic.detail import BaseDetailView, SingleObjectTemplateResp
 
 from confucius.forms import AlertForm, InvitationForm, DomainsForm
 from confucius.models import Action, Alert, Conference, Event, Membership, Paper, Reminder, Role, Domain, ReviewerResponse, Assignment
-from confucius.decorators.confdecorators import user_access_conference
+from confucius.decorators import user_access_conference
 from confucius.views import LoginRequiredView
 
 
