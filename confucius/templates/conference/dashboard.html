@@ -76,7 +76,12 @@
                 </div>
                 <div class="row">
                     <div class="span10">
-                        <b><a href="{% url 'paper_selection_list' conference.pk %}" class="pull-right btn btn-primary">Paper selection</a></b>
+                        <a href="{% url 'paper_selection_list' conference.pk %}" class="pull-right btn btn-primary">Paper selection</a> 
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span10">
+                        <a href="{% url 'assignments' conference.pk %}" class="pull-right btn btn-primary">Assignments</a>
                     </div>
                 </div>
                 <div class="row">

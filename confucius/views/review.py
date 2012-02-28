@@ -17,24 +17,10 @@ from confucius.models import Assignment, Email, Membership, Paper, PaperSelectio
 @require_POST
 @login_required
 @has_chair_role
-def auto_assignment(request, pk_paper):
-    paper = Paper.objects.get(pk=pk_paper)
-
-    assignment = Assignment.objects.create(reviewer=request.user, paper=paper)
-    assignment.save()
-
-    return redirect('dashboard')
-
-
-@require_http_methods(['GET', 'POST'])
-@login_required
 @csrf_protect
-def auto_assignment(request):   
+def auto_assignment(request):
     if request.is_ajax():
-        if request.method == 'GET':
-            return
-               
-        conference = Membership.objects.get(user=request.user, last_accessed=True).conference
+        conference = request.conference
 
         role = Role.objects.get(code="R")
         papers_list = Paper.objects.filter(conference=conference)
@@ -189,10 +175,11 @@ def finalize_selection(request):
     conference.save()
 
     return redirect('dashboard')
-    
+
 @login_required
+@has_chair_role
 def assignments(request):
-    conference = Membership.objects.get(user=request.user, last_accessed=True).conference
+    conference = request.conference
     papers = Paper.objects.filter(conference=conference)
     role = Role.objects.get(name="Reviewer")
     memberships_list = Membership.objects.filter(roles=role,conference=conference)
@@ -207,12 +194,15 @@ def assignments(request):
     }
     return render_to_response('review/assignments.html', context, context_instance=RequestContext(request))
 
+
+@login_required
+@has_chair_role
 @csrf_protect
 def updateReviewerList(request):
 #tests whether it is a GET or POST ajax request, and treat it
     if request.is_ajax():
         if request.method == 'POST':
-            conference = Membership.objects.get(user=request.user, last_accessed=True).conference
+            conference = request.conference
             paper_id = request.POST.get('paper_id')
             paper = Paper.objects.get(pk=paper_id)
             
@@ -226,13 +216,14 @@ def updateReviewerList(request):
     else:
         return HttpResponse(status=400)
         
-        
+@login_required
+@has_chair_role
 @csrf_protect
 def updateAssignmentsTables(request):      
 #tests whether it is a GET or POST ajax request, and treat it
     if request.is_ajax():     
         if request.method == 'POST':
-            conference = Membership.objects.get(user=request.user, last_accessed=True).conference
+            conference = request.conference
             paper_id = request.POST.get('paper_id')
             reviewer_id = request.POST.get('reviewer_id')
             
@@ -257,6 +248,8 @@ def updateAssignmentsTables(request):
     else:
         return HttpResponse(status=400)
 
+@login_required
+@has_chair_role
 @csrf_protect
 def deleteAssignmentRow(request, assignment_pk):
 #tests whether it is a GET or POST ajax request, and treat it

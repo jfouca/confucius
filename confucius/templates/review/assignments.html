@@ -110,7 +110,7 @@
         $('tr.infos').click(function(e) {
             var paperid = $(this).attr("id")
             $(this).next().toggle('fast');
-            $.post("/review/updateReviewerList/", { 
+            $.post("{% url 'updateReviewerList' conference.pk %}", { 
                 paper_id: paperid,
             },
                 function(data) {
@@ -131,10 +131,10 @@
             var toRemove = 'remove_';
             var end = start.replace(toRemove,'');
             var paperid = $('tr.infos').attr("id");
-            $.post("/review/deleteAssignmentRow/"+end+"/",
+            $.post("/conference/1/review/deleteAssignmentRow/"+end+"/",
                 function(data) {
                     my_button.parent().parent().remove();
-                    $.post("/review/updateReviewerList/", { 
+                    $.post("{% url 'updateReviewerList' conference.pk %}", { 
                         paper_id: paperid,
                     },
                         function(data) {
@@ -169,7 +169,7 @@
 	    var table = $(document).find("table#table_"+end);
 		if (val!=null){
 
-		    $.post("/review/updateAssignmentsTables/", { 
+            $.post("{% url 'updateAssignmentsTables' conference.pk %}", { 
                 paper_id : end,
                 reviewer_id : $(".multiSelect option:selected").attr("id")
             },
@@ -278,7 +278,7 @@
 	    var $content = $('<div><center><img src=\"/static/ajax-loader.gif\"> </img></center></div>').dialog({
 		});
 		
-	    $.post("/review/auto-assignment/", {},
+        $.post("{% url 'auto_assignment' conference.pk %}", {},
             function(data) {
                 window.location.reload();
                 content.dialog('close');
