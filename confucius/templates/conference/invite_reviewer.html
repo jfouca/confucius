@@ -1,6 +1,8 @@
 {% extends "base-in.html" %}
 {% load url from future %}
 
+{% load extra %}
+
 {% block title %}Conference "{{ conference.title }}"{% endblock %}
 {% block brand %}Conference "{{ conference.title }}"  
 
@@ -56,7 +58,8 @@
         {{error}}
         </div>
         {% endif %}
-            {% include 'includes/form.html' %}
+
+	    {% include 'includes/form.html' with big='True' %}
         <button type="submit" class="btn btn-primary">Send Invitation</button>
     </form>
 

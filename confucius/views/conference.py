@@ -191,8 +191,7 @@ def reviewer_invitation(request, conference_pk=None):
                     "conference":conference}, 
                     context_instance=RequestContext(request))
             
-            #answer_link = settings.STATIC_URL+reverse('reviewer_response',args=[hash_code])
-            answer_link = 'http://localhost:8000/conference/reviewer_invitation/'+hash_code
+            answer_link = 'http://%s%s' % (request.get_host(), reverse('reviewer_response',args=[hash_code]))
             #Sending a mail to the requested email address
             try :
                 send_mail('Confucius Reviewer Invitation',
@@ -216,7 +215,7 @@ def reviewer_invitation(request, conference_pk=None):
                 context_instance=RequestContext(request))   
     else:
         text = 'You just have receive an invitation to be reviewer for the conference '+conference.title +'.Please find enclose a link to answer this invitation.'
-        form = InvitationForm({'invitation_text':text})
+        form = InvitationForm(initial={'invitation_text':text})
         return render_to_response("conference/invite_reviewer.html",
             {"form":form, 
             "invitation_list":invitations, 
@@ -231,7 +230,6 @@ When a potential reviewer click on the answer link
 def reviewer_response(request, hashCode):
       
       assert hashCode is not None
-      user = request.user
       # Test if the key inside the answer link is in the answer wait table
       try:
         response = ReviewerResponse.objects.get(hash_code=hashCode)
@@ -255,9 +253,10 @@ def reviewer_response(request, hashCode):
                 domains = form.cleaned_data['domains']
                 #Role creation and adding selected domain
                 try :
-                    MembershipRole = Membership.objects.get(user=user, conference=response.conference)
+                    MembershipRole = Membership.objects.get(user=request.user, conference=response.conference)
                 except:
-                    MembershipRole = Membership.objects.create(user=user, conference=response.conference)
+                    print request.user.first_name
+                    MembershipRole = Membership.objects.create(user=request.user, conference=response.conference)
                 reviewer_role = Role.objects.get(code="R")
                 MembershipRole.roles.add(reviewer_role)
                     

@@ -90,7 +90,7 @@ class PaperAdmin(admin.ModelAdmin):
     )
     fieldsets = (
         ('Paper information', {
-            'fields': (('title', 'language'), )
+            'fields': (('title', 'language','domains'), )
         }),
         ('Authors information', {
             'fields': (('submitter', 'conference',), 'emails_authors', )

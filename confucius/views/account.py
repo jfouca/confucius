@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
 from django.core.mail import send_mail
-from django.core.urlresolvers import resolve
+from django.core.urlresolvers import reverse, resolve
 from django.views.generic import DetailView
 
 from confucius.forms import AddressFormSet, EmailFormSet, UserForm, UserCreationForm
@@ -121,8 +121,9 @@ def create_account(request, redirect_field_name='next'):
                     next_page=next)
                 
                 user_email = form.cleaned_data['email']
+                answer_link = 'http://%s%s' % (request.get_host(), reverse('activate_account',args=[created_user.username]))
                 send_mail('Confucius Account Creation', 
-                    'Please find enclose the activation link for your account : http://localhost:8000/account/create/'+created_user.username, 
+                    'Please find enclose the activation link for your account :\n'+answer_link, 
                     'no-reply@confucius.com',
                     [user_email], 
                     fail_silently=False)
@@ -159,7 +160,7 @@ def activate_account(request, hashCode):
     
     #login user after activation
     from django.contrib.auth import login
-    user.backend='django.contrib.auth.backends.ModelBackend' 
+    user.backend='confucius.backends.AccountBackend' 
     login(request, user)
     
     return redirect(activationKey.next_page)

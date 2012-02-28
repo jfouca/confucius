@@ -28,7 +28,11 @@
                 {% include 'includes/fields/input_prepend.html' with icon='envelope' field=field|medium first=first edit=edit confirmed=confirmed prefix=prefix %}
             {% endif %}
             {% if field|type == 'textarea' %}
-                {% include 'includes/fields/textarea.html' with field=field|textarea first=first edit=edit prefix=prefix %}
+		{% if big == 'True' %}
+		         {% include 'includes/fields/textarea.html' with field=field|bigtextarea first=first edit=edit prefix=prefix %}
+                {% else %}
+			 {% include 'includes/fields/textarea.html' with field=field|textarea first=first edit=edit prefix=prefix %}
+		{% endif %}
             {% endif %}
             {% if field|type == 'select' or field|type == 'selectm' %}
                 {{ field }}
