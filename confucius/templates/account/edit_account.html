@@ -15,8 +15,8 @@
 {% block content_main %}
 <form id="form" class="form-horizontal" method="post">{% csrf_token %}
     {% include 'includes/form.html' %}
-    {% include 'includes/formset.html' with formset=email_formset edit='True' list='True' %}
-    {% include 'includes/formset.html' with formset=address_formset %}
+    {% include 'includes/formset_edit.html' with formset=email_formset %}
+    {% include 'includes/formset_edit.html' with formset=address_formset %}
 </form>
 <div class="modal hide fade" id="close_account_modal">
     <div class="modal-header">
@@ -58,9 +58,9 @@ $(document).ready(function() {
 
         $(row).removeAttr('class');
         $(row).find('.confirmed').remove();
-        $(row).find('.add-row').remove();
+        $(row).find('.add-' + prefix).remove();
         $(row).find("input[name$='value']").val('');
-        $(row).find('.rm-row').removeAttr('style');
+        $(row).find('.rm-' + prefix).removeAttr('style');
         
         var tags = ["div", "label", "input"];
         for (var i=0; i<tags.length; i++) {
@@ -85,12 +85,18 @@ $(document).ready(function() {
 </script>
 <script>
 $(function () {
-    $('.add-row').live('click', function() {
+    $('.add-{{email_formset.prefix }}').live('click', function() {
 	    return addForm(this, '{{ email_formset.prefix }}');
     });
-    $('.rm-row').live('click', function() {
+    $('.rm-{{email_formset.prefix }}').live('click', function() {
 	    return deleteForm(this, '{{ email_formset.prefix }}');
-    })
+    });
+    $('.add-{{address_formset.prefix }}').live('click', function() {
+	    return addForm(this, '{{ address_formset.prefix }}');
+    });
+    $('.rm-{{address_formset.prefix }}').live('click', function() {
+	    return deleteForm(this, '{{ address_formset.prefix }}');
+    });
 });
 </script>
 <script>
