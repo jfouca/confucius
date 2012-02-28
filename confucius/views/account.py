@@ -159,7 +159,7 @@ def activate_account(request, hashCode):
     
     #login user after activation
     from django.contrib.auth import login
-    user.backend='django.contrib.auth.backends.ModelBackend' 
+    user.backend='confucius.backends.AccountBackend' 
     login(request, user)
     
     return redirect(activationKey.next_page)
