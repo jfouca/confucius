@@ -191,8 +191,7 @@ def reviewer_invitation(request, conference_pk=None):
                     "conference":conference}, 
                     context_instance=RequestContext(request))
             
-            #answer_link = settings.STATIC_URL+reverse('reviewer_response',args=[hash_code])
-            answer_link = 'http://localhost:8000/conference/reviewer_invitation/'+hash_code
+            answer_link = 'http://%s%s' % (request.get_host(), reverse('reviewer_response',args=[hash_code]))
             #Sending a mail to the requested email address
             try :
                 send_mail('Confucius Reviewer Invitation',
