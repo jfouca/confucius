@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
 
 from confucius.forms import AddressFormSet, EmailFormSet, UserCreationForm, UserForm
-from confucius.models import Address, Conference, Domain, Email, Membership, Paper, User
+from confucius.models import Assignment, Address, Conference, Domain, Email, Membership, Paper, User
 
 
 class AdminUserForm(UserForm):
@@ -130,3 +130,4 @@ site.register(User, UserAdmin)
 site.register(Conference, ConferenceAdmin)
 site.register(Domain)
 site.register(Paper, PaperAdmin)
+site.register(Assignment)

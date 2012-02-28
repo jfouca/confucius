@@ -852,53 +852,88 @@
         }
     },
     {
-        "pk": 1,
-        "model": "confucius.membership",
+        "pk": 1, 
+        "model": "confucius.membership", 
         "fields": {
-            "conference": 1,
+            "conference": 1, 
             "domains": [
-                1
-            ],
-            "last_accessed": true,
-            "user": 1,
+                1, 
+                2, 
+                3
+            ], 
+            "last_accessed": true, 
+            "user": 1, 
             "roles": [
-                1,
-                2,
+                1, 
+                2, 
                 3
             ]
         }
-    },
+    }, 
     {
-        "pk": 2,
-        "model": "confucius.membership",
+        "pk": 2, 
+        "model": "confucius.membership", 
         "fields": {
-            "conference": 2,
+            "conference": 2, 
             "domains": [
                 3
-            ],
-            "last_accessed": false,
-            "user": 1,
+            ], 
+            "last_accessed": false, 
+            "user": 1, 
             "roles": [
-                2,
+                2, 
                 3
             ]
         }
-    },
+    }, 
     {
-        "pk": 3,
-        "model": "confucius.membership",
+        "pk": 3, 
+        "model": "confucius.membership", 
         "fields": {
-            "conference": 4,
+            "conference": 4, 
             "domains": [
                 2
-            ],
-            "last_accessed": false,
-            "user": 1,
+            ], 
+            "last_accessed": false, 
+            "user": 1, 
             "roles": [
                 3
             ]
         }
-    },
+    }, 
+    {
+        "pk": 4, 
+        "model": "confucius.membership", 
+        "fields": {
+            "conference": 1, 
+            "domains": [
+                2, 
+                3
+            ], 
+            "last_accessed": false, 
+            "user": 2, 
+            "roles": [
+                2, 
+                3
+            ]
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "confucius.membership", 
+        "fields": {
+            "conference": 1, 
+            "domains": [
+                1, 
+                2
+            ], 
+            "last_accessed": false, 
+            "user": 3, 
+            "roles": [
+                2
+            ]
+        }
+    }, 
     {
         "pk": 1,
         "model": "confucius.reminder",
@@ -1018,14 +1053,39 @@
         }
     },
     {
-        "pk": 1,
-        "model": "confucius.assignment",
+        "pk": 1, 
+        "model": "confucius.assignment", 
         "fields": {
-            "reviewer": 1,
-            "paper": 1,
-            "is_assigned": true,
-            "is_done": false,
-            "review": null
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": null, 
+            "is_done": false, 
+            "paper": 1, 
+            "reviewer": 1
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "confucius.assignment", 
+        "fields": {
+            "conference": 1, 
+            "is_assigned": false, 
+            "review": null, 
+            "is_done": false, 
+            "paper": 1, 
+            "reviewer": 2
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "confucius.assignment", 
+        "fields": {
+            "conference": 1, 
+            "is_assigned": false, 
+            "review": null, 
+            "is_done": false, 
+            "paper": 2, 
+            "reviewer": 1
         }
     },
     {
