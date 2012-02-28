@@ -5,6 +5,9 @@
 
 {% block content_header %}
 <h1>Dashboard {% include 'includes/roles.html' with roles=membership.roles.all %}</h1>
+<p>
+    <span class="label label-info">Public conference link :</span> <a href="{{ public_url }}">{{ public_url }}</a>
+</p>
 {% endblock %}
 {% block brand %}Conference "{{ conference.title }}"  {% if not conference.is_open %}(closed){% endif %}{% endblock %}
 
