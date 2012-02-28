@@ -195,11 +195,21 @@ def reviewer_invitation(request, conference_pk=None):
             #answer_link = settings.STATIC_URL+reverse('reviewer_response',args=[hash_code])
             answer_link = 'http://localhost:8000/conference/reviewer_invitation/'+hash_code
             #Sending a mail to the requested email address
-            send_mail('Confucius Reviewer Invitation',
-                text+'\n'+answer_link, 
-                'no-reply@confucius.com',
-                [email], 
-                fail_silently=False)
+            try :
+                send_mail('Confucius Reviewer Invitation',
+                    text+'\n'+answer_link, 
+                    'no-reply@confucius.com',
+                    [email], 
+                    fail_silently=False)
+            except :
+                response.delete()
+                error_messages = "An error has been encoutered during the mail sending. Impossible to send this invitation"
+                return render_to_response('conference/invite_reviewer.html',
+                    {"form":form,
+                    "error":error_messages,
+                    "invitation_list":invitations,
+                    "conference":conference}, 
+                    context_instance=RequestContext(request))
             
             return render_to_response("conference/invite_reviewer_confirm.html",
                 {"email": email,
