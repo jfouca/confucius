@@ -165,7 +165,7 @@ def create_alert(request, conference_pk, template_name='conference/alerts/create
 Send a invitation email with an answer link for reviewer invitation
 """
 @login_required
-@user_access_conference(onlyPresident=True)
+#@user_access_conference(onlyPresident=True)
 def reviewer_invitation(request, conference_pk=None):
     conference = get_object_or_404(Conference, pk=conference_pk)
     
