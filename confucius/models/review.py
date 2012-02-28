@@ -1,7 +1,5 @@
 from datetime import datetime
-
 from django.db import models
-
 from confucius.models import ConfuciusModel, User, Conference, Membership
 
 

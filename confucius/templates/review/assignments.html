@@ -43,9 +43,10 @@
             <td>{{paper.language}}</td>
             
             <tr class="actions">
-                {% if paper.assignments.all.count > 0 %}
+                
                     <td colspan="6">
-                        <table class="table table-bordered ">
+                    {% if paper.assignments.all.count > 0 %}
+                        <table class="table table-bordered reviewers">
                             <tr>
                                 <th></th>
                                 <th>Reviewer</th>
@@ -59,25 +60,28 @@
                                     <td>{{assignment.get_domains.all|join:', '}}</td>
                                     <td>{{assignment.get_papers.count}}</td>
                                 </tr>
-                             {% empty %}
-                                <td> kikou </td>
+                            {% empty %}
+                                <td>Empty <td>                    
                             {% endfor %}
                         </table>
-                        
+                     {% endif %}
                         
                         <div class="toto">
-                            <select multiple="multiple" class="selectAdd input-xlarge multiSelect">
-                                {% for reviewer in reviewers %}
-                                    <option value="{{reviewer.pk}}">{{reviewer}}</option>
-                                {% endfor %}
-                            </select>
-                            <label class="control-label" for="tags">Search reviewer :</label>
-				          	<div class="controls">
-						        <input type="text" id="textbox" class="span3" placeholder="Skill" value=""/>
-                            </div>
+                            <form>
+                                <select multiple="multiple" class="selectAdd input-xlarge multiSelect">
+                                    {% for reviewer in reviewers %}
+                                        <option value="{{reviewer.pk}}">{{reviewer}} </option>
+                                    {% endfor %}
+                                </select>
+                                <input type="hidden" name="paper_id" name="paper_id" value="{{paper.pk}}"/>
+                                <label class="control-label" for="tags">Search reviewer :</label>
+				              	<div class="controls">
+						            <input type="text" id="textbox" class="span3" placeholder="Reviewer" value=""/>
+                                </div>
+                            </form>
                         </div>
                     </td>
-                {% endif %}
+               
             </tr>
         </tr>
         {% empty %}
@@ -96,9 +100,20 @@
 {% block script %}
 <script src="{{ STATIC_URL }}jquery.autocomplete.js"></script>
 <script src="{{ STATIC_URL }}jquery.selectoptionsort.js"></script>
+<script src="{{ STATIC_URL }}jquery.ajaxsend.js"></script>
 <script>
 
-
+/*  
+#
+#
+#
+#
+#  ********** Managing auto-completion ***********
+#
+#
+#
+#
+*/    
     $(function() {
         $('tr.infos').click(function(e) {
             $(this).next().toggle('fast');
@@ -131,13 +146,28 @@
 	*/
 	$("select.selectAdd").click(function(){
 		//get the selected value
-		var val = $("#multiSelect").val();
+		var val = $(".multiSelect").val();
 		if (val!=null){
-			//create a checkbox with the value selected
-			//$("div.skills").append("<label class='checkbox inline'><input type='checkbox' value ='" + val + "' >"+ val +"</label>");
-			alert("add (select.selectAdd)")
+			
+			/*  AJAXSEND
+			
+			$("table.reviewers").append("<tr><td>TO DO </td><td>"+lol+"</td><td>"+lol+"</td><td>"+lol+"</td></tr>");
+			
+			  
+			*/
+		    $.post("/review/updateAssignmentsTables/", { 
+                paper_id: $(".multiSelect").next().val(),
+                reviewer_id: val
+            },
+                function(data) {
+                    alert(data);
+                }
+            );
+			
+			
+			
 			// remove the value in the list	 		
-			$("#multiSelect option:selected").remove();			
+			$(".multiSelect option:selected").remove();			
 			// remove from options array (the array which contains the value of the list) the value			
 			options.remove(val);
 			// remove from autocompletion cache the selected value. We don't want to see it anymore if it not appear in the list
@@ -196,7 +226,7 @@
 		//$('#multiSelect2').filterByText("input[id=textbox2]", true);
 	});  
 
-	$('input[type=text]').keypress(function(event, val){
+	$('input[id=textbox]').keypress(function(event, val){
 		var keycode = (event.keyCode ? event.keyCode : event.which);
 		var val = this.value;
 		if(keycode == '13'){
@@ -208,7 +238,7 @@
 				if (text==valBis){
 					//$("div.skills").append("<label class='checkbox inline'><input type='checkbox' value ='" + options[i].text + "' >"+ options[i].text +"</label>");
 			 		alert("add (keypress)")
-			 		//$("#multiSelect option:selected").remove();			
+			 		$(".multiSelect option:selected").remove();			
 					options.remove(options[i].text);
 					$(this).val("");
 					return false;
@@ -221,16 +251,15 @@
 	$('input[type=text]').live('test', function(event , val){
 		//$("div.skills").append("<label class='checkbox inline'><input type='checkbox' value ='" + val + "' >"+ val +"</label>");
 		alert("add live")
-		$('#multiSelect').select(val);
+		$('.multiSelect').select(val);
 		options.remove(val);	
 		$(this).val('');
 		var str;
 		for (var i=0, j=options.length; i<j; i++){
 			str += "<option>"+ options[i].value +"</option>";
 		}
-		$('#multiSelect').html(str);
+		$('.multiSelect').html(str);
 	})
-	
 
 	$('input[type=text]').autocompleteArray(
 		tab,
@@ -243,5 +272,7 @@
 	);
 
 });
+
+
 </script>
 {% endblock %}

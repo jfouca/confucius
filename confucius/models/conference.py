@@ -75,7 +75,7 @@ class Membership(ConfuciusModel):
         Membership.objects.filter(user=self.user).update(last_accessed=False)
         self.last_accessed = True
         self.save()
-
+        
 
 class MessageTemplate(ConfuciusModel):
     title = models.CharField(max_length=100, default=None)

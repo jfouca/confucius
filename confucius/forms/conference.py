@@ -17,6 +17,7 @@ class AlertForm(forms.ModelForm):
         cleaned_data = super(AlertForm, self).clean()
         try:
             if cleaned_data['reminder'] is None and cleaned_data['event'] is None and cleaned_data['trigger_date'] is None and cleaned_data['action'] is None :
+                print "test"
                 raise forms.ValidationError('You must fill at least one of the following fields : Reminder, Action, Trigger date')
                
             if cleaned_data['reminder'] is not None and cleaned_data['event'] is None:

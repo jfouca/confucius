@@ -5,9 +5,9 @@ from confucius.views import dashboard
 from confucius.forms import ReviewForm
 from django.template import RequestContext
 from django.contrib.auth.models import User
-from django.forms.models import model_to_dict
-
-
+from django.http import HttpResponse
+from django.core import serializers
+from django.views.decorators.csrf import requires_csrf_token, csrf_protect
 
 @login_required
 def auto_assignment(request, pk_paper):
@@ -104,3 +104,20 @@ def assignments(request):
         'domains':domains,
     }
     return render_to_response('review/assignments.html', context, context_instance=RequestContext(request))
+
+@requires_csrf_token
+def updateAssignmentsTables(request):
+#tests whether it is a GET or POST ajax request, and treat it
+    if request.is_ajax():
+        if request.method == 'GET':
+            mimetype = 'application/javascript'
+            data = serializers.serialize('json', Assignment.objects.all())
+            return HttpResponse(data,mimetype)
+        elif request.method == 'POST':
+            print request.POST.values
+            print request.POST.getlist('reviewer_id')
+            return HttpResponse(request.POST.get('reviewer_id')[0])
+    # If you want to prevent non XHR calls
+    else:
+        return HttpResponse(status=400)
+
