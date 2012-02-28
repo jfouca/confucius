@@ -76,6 +76,36 @@ def dashboard(request, template_name='conference/dashboard.html'):
 
 
 @require_GET
+def conference_invitation(request, template_name='conference/invitation.html'):
+    pass
+
+
+@require_http_methods(['GET', 'POST'])
+@login_required
+@has_chair_role
+def conference_invite(request, template_name='conference/invitation_form.html'):
+    from confucius.forms import InvitationForm
+    from confucius.models import Invitation
+
+    form = InvitationForm()
+
+    if 'POST' == request.method:
+        instance = Invitation(conference=request.conference)
+        form = InvitationForm(request.POST, instance=instance)
+
+        if form.is_valid():
+            invitation = form.save(request)
+            messages.success(request, u'An invitation has been sent to "%s".' % invitation.user)
+            return redirect('dashboard')
+
+    context = {
+        'form': form,
+    }
+
+    return render_to_response(template_name, context, context_instance=RequestContext(request))
+
+
+@require_GET
 @login_required
 def membership_list(request, template_name='conference/membership_list.html'):
     membership_list = Membership.objects.filter(user=request.user)
