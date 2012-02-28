@@ -36,6 +36,7 @@
                         {% if membership.has_chair_role %}
                             <a class="btn" href="{% url 'conference_edit' conference.pk %}">Edit configuration</a>
                             <a class="btn" href="{% url 'alert' conference.pk %}">Create Alert</a>
+                            <a class="btn" href="{% url 'conference_invite' conference.pk %}">Invite someone</a>
                             {% include 'includes/conference_toggle.html' %}
                         {% endif %}
                         {% if membership.has_reviewer_role %}
