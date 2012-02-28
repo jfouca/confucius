@@ -216,7 +216,7 @@ def reviewer_invitation(request, conference_pk=None):
                 context_instance=RequestContext(request))   
     else:
         text = 'You just have receive an invitation to be reviewer for the conference '+conference.title +'.Please find enclose a link to answer this invitation.'
-        form = InvitationForm({'invitation_text':text})
+        form = InvitationForm(initial={'invitation_text':text})
         return render_to_response("conference/invite_reviewer.html",
             {"form":form, 
             "invitation_list":invitations, 
