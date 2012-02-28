@@ -18,33 +18,41 @@
 {% block base_content %}
 <div class="container">
     <div class="row">
-        {% block subtopbar %}{% endblock %}
+        <div class="span12">
+            <div class="row">
+                {% block subtopbar %}{% endblock %}
+            </div>
 
-        {% block sidebar %}
-        <div class="span2">
-            <div class="well sidebar-nav">
-                <ul class="nav nav-list">
-                    <li class="nav-header {{ 'dashboard'|active:request }}"><a href="{% url 'dashboard' %}">Dashboard</a></li>
-                    <li class="nav-header {{ 'list'|active:request }}"><a href="{% url 'membership_list' %}">Conferences</a></li>
-                    <li class="nav-header {{ 'account'|active:request }}"><a href="{% url 'account' %}">Account</a></li>
-                </ul>
+            <div class="row">
+                {% block sidebar %}
+                <div class="span2">
+                    <div class="well sidebar-nav">
+                        <ul class="nav nav-list">
+                            <li class="nav-header {{ 'dashboard'|active:request }}"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                            <li class="nav-header {{ 'list'|active:request }}"><a href="{% url 'membership_list' %}">Conferences</a></li>
+                            <li class="nav-header {{ 'account'|active:request }}"><a href="{% url 'account' %}">Account</a></li>
+                        </ul>
+                    </div>
+                </div>
+                {% endblock %}
+
+                {% block content %}
+                <div class="row">
+                     <div class="span10 content" role="main">
+                        <header class="page-header">
+                            {% block content_header %}{% endblock %}
+                        </header>
+                        <div class="content-main">
+                            {% block content_main %}{% endblock %}
+                        </div>
+                        <footer class="content-footer">
+                            <div class="powered">Proudly powered by <a href="http://confuciusproject.com/">Confucius</a></div>
+	                </footer>
+	                </div>
+                </div>
+                {% endblock %}
             </div>
         </div>
-        {% endblock %}
-
-        {% block content %}
-         <div class="span10 content" role="main">
-            <header class="content-header">
-                {% block content_header %}{% endblock %}
-            </header>
-            <div class="content-main">
-                {% block content_main %}{% endblock %}
-            </div>
-            <footer class="content-footer">
-                <div class="powered">Proudly powered by <a href="http://confuciusproject.com/">Confucius</a></div>
-	    </footer>
-        </div>
-        {% endblock %}
     </div>
 </div>
 {% endblock %}
