@@ -17,8 +17,7 @@
 </div>
 {% endblock %}
 {% block content_main %}
-
-<p><strong>Automatic assignment : </strong><a href="#" class="btn btn-primary"> Let's do it </a>
+<p><strong>Automatic assignment : </strong><a id="auto_assignment" href="#" class="btn btn-primary"> Let's do it </a>
 <table class="table table-bordered ">
     <thead>
         <tr>
@@ -261,7 +260,7 @@
 			return false;
 		}
 	});
-
+	
 	$('input[type=text]').live('test', function(event , val){
 		//$("div.skills").append("<label class='checkbox inline'><input type='checkbox' value ='" + val + "' >"+ val +"</label>");
 		alert("add live")
@@ -274,6 +273,22 @@
 		}
 		$('.multiSelect').html(str);
 	})
+	
+	$('#auto_assignment').click(function(){
+	    var $content = $('<div>Coucou</div>').dialog({
+            closeOnEscape: false,
+			open: function(event, ui) { $(".ui-dialog-titlebar-close", ui.dialog || ui).hide(); }
+		});
+		
+	    $.post("/review/auto-assignment/", {},
+            function(data) {
+                $content.dialog('close');
+                window.location.reload();
+            }
+        );
+        
+        return false;
+	});
 
 
 });

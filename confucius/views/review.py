@@ -6,18 +6,79 @@ from confucius.forms import ReviewForm
 from django.template import RequestContext
 from django.http import HttpResponse
 from django.views.decorators.csrf import requires_csrf_token
+from django.db.models import Count
 import simplejson
 
+@requires_csrf_token
 @login_required
-def auto_assignment(request, pk_paper):
-    paper = Paper.objects.get(pk=pk_paper)
+def auto_assignment(request):   
+    if request.is_ajax():
+        if request.method == 'GET':
+            return
+               
+        conference = Membership.objects.get(user=request.user, last_accessed=True).conference
+
+        role = Role.objects.get(code="R")
+        papers_list = Paper.objects.filter(conference=conference)
+        memberships_list = Membership.objects.filter(conference=conference, roles=role)
+       
+       
+        if memberships_list.count() <= 0 or papers_list.count() <= 0 :
+            return HttpResponse("Fail")
+       
+        # Clear assignments
+        Assignment.objects.filter(paper__conference=conference).delete()
+       
+       
+        # Assignments
+        for paper in papers_list:
+           paper_domains = paper.domains.all()
+           paper_language = paper.language
+          
+           #results = memberships_list.filter(domains__in=paper_domains, user__languages=paper_language)
+           results = memberships_list.filter(domains=paper_domains)
+           if results.count() > 0:
+                results = results.distinct("user")
+               
+                for result in results:
+                    user = result.user
+                    Assignment.objects.create(paper=paper, reviewer=user, conference=conference).save()
+       
+       
+        # Check assignments load
+        assignments = Assignment.objects.filter(paper__conference=conference)
+        nb_assignments = assignments.count()
+        avg_assi_by_papers = (nb_assignments / papers_list.count())
+        avg_assi_by_reviewers = (nb_assignments / memberships_list.count())
+       
+        avg_assi_by_papers = 3
+        avg_assi_by_reviewers = 3
+       
+        memberships = memberships_list.annotate(assi_nmb=Count('user__assignments')).filter(assi_nmb__gt=avg_assi_by_reviewers).order_by("-assi_nmb")
+       
+        for membership in memberships:
+            user = membership.user
+            nb_assignments_to_remove = membership.assi_nmb - avg_assi_by_reviewers
+           
+            print user, nb_assignments_to_remove
+           
+            #assignments = Assignment.objects.filter(paper__conference=conference).annotate(paper_nmb=Count('paper__assignments')).filter(reviewer=user, paper_nmb__gt=avg_assi_by_papers)
+            assignments = Assignment.objects.filter(paper__conference=conference).annotate(paper_nmb=Count('paper__assignments')).filter(reviewer=user, paper_nmb__gt=avg_assi_by_papers)
+            if assignments.count() < nb_assignments_to_remove:
+                nb_assignments_to_remove = assignments.count()
+           
+            print user, nb_assignments_to_remove
+            for assignment in assignments[:nb_assignments_to_remove]:
+                assignment.delete()
+               
+       
+        # Response
+        return HttpResponse("Success")
+    # If you want to prevent non XHR calls
+    else:
+        return HttpResponse(status=400)
     
-    assignment = Assignment.objects.create(reviewer=request.user, paper=paper)
-    assignment.save()
-    
-    return redirect('dashboard')
-    
-    
+        
 @login_required
 def submit_review(request, pk_assignment):
     assignment = Assignment.objects.get(pk=pk_assignment)
