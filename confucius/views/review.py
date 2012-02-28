@@ -1,13 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, redirect
-from confucius.models import Assignment, Conference, Review, Membership, Paper, PaperSelection, Role
+from confucius.models import Assignment, Conference, Email, Review, Membership, Paper, PaperSelection, Role, User
 from confucius.views import dashboard
 from confucius.forms import ReviewForm
 from django.template import RequestContext
-from django.contrib.auth.models import User
 from django.http import HttpResponse
-from django.core import serializers
-from django.views.decorators.csrf import requires_csrf_token, csrf_protect
+from django.views.decorators.csrf import requires_csrf_token
+import simplejson
 
 @login_required
 def auto_assignment(request, pk_paper):
@@ -106,18 +105,62 @@ def assignments(request):
     return render_to_response('review/assignments.html', context, context_instance=RequestContext(request))
 
 @requires_csrf_token
-def updateAssignmentsTables(request):
+def updateReviewerList(request):
 #tests whether it is a GET or POST ajax request, and treat it
     if request.is_ajax():
-        if request.method == 'GET':
-            mimetype = 'application/javascript'
-            data = serializers.serialize('json', Assignment.objects.all())
-            return HttpResponse(data,mimetype)
-        elif request.method == 'POST':
-            print request.POST.values
-            print request.POST.getlist('reviewer_id')
-            return HttpResponse(request.POST.get('reviewer_id')[0])
+        if request.method == 'POST':
+            conference = Membership.objects.get(user=request.user, last_accessed=True).conference
+            paper_id = request.POST.get('paper_id')
+            paper = Paper.objects.get(pk=paper_id)
+            
+            role = Role.objects.get(name="Reviewer")
+            memberships_list = Membership.objects.filter(roles=role,conference=conference).exclude(user__assignments__paper=paper)
+            reviewers = [(membership.user.pk, membership.user.last_name+" "+membership.user.first_name+" ("+", ".join([domain.name for domain in membership.domains.all()])+")") for membership in memberships_list]
+            
+            data = simplejson.dumps(reviewers)
+            return HttpResponse(data, mimetype="application/json")
+    # If you want to prevent non XHR calls
+    else:
+        return HttpResponse(status=400)
+        
+        
+@requires_csrf_token
+def updateAssignmentsTables(request):      
+#tests whether it is a GET or POST ajax request, and treat it
+    if request.is_ajax():     
+        if request.method == 'POST':
+            conference = Membership.objects.get(user=request.user, last_accessed=True).conference
+            paper_id = request.POST.get('paper_id')
+            reviewer_id = request.POST.get('reviewer_id')
+            
+            reviewer = User.objects.get(pk=reviewer_id)
+            paper = Paper.objects.get(pk=paper_id)
+            role = Role.objects.get(name="Reviewer")
+            membership = Membership.objects.get(roles=role, user=reviewer, conference=conference)                 
+            conference = membership.conference
+            
+                        
+            assignment = Assignment.objects.create(paper=paper,reviewer=reviewer, conference=conference)
+            assignment.save()
+            
+            membership = Membership.objects.get(roles=role,conference=conference,user=reviewer)
+            email = Email.objects.get(user=reviewer,main=True)
+            
+            datas = [(assignment.pk, membership.user.pk, email.value, ", ".join([domain.name for domain in membership.domains.all()]), assignment.get_papers().count())]
+            
+            data = simplejson.dumps(datas)
+            return HttpResponse(data, mimetype="application/json")
     # If you want to prevent non XHR calls
     else:
         return HttpResponse(status=400)
 
+@requires_csrf_token
+def deleteAssignmentRow(request, assignment_pk):
+#tests whether it is a GET or POST ajax request, and treat it
+    if request.is_ajax():
+        if request.method == 'POST':
+            Assignment.objects.get(pk=assignment_pk).delete()
+            return HttpResponse("kikou")
+    # If you want to prevent non XHR calls
+    else:
+        return HttpResponse(status=400)

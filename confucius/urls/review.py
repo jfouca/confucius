@@ -9,4 +9,6 @@ urlpatterns = patterns('confucius.views',
     url(r'^finalize/$', 'finalize_selection', name="finalize_selection"),
     url(r'^assignments/$', 'assignments', name="assignments"),
     url(r'^updateAssignmentsTables/$', 'updateAssignmentsTables', name="updateAssignmentsTables"),
+    url(r'^updateReviewerList/$', 'updateReviewerList', name="updateReviewerList"),
+    url(r'^deleteAssignmentRow/(?P<assignment_pk>\d+)/$', 'deleteAssignmentRow', name="deleteAssignmentRow"),
 )

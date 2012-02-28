@@ -5,7 +5,7 @@ from confucius.models import ConfuciusModel, User, Conference, Membership
 
 class Assignment(ConfuciusModel):
     conference = models.ForeignKey(Conference, related_name="assignments")
-    reviewer = models.ForeignKey(User)
+    reviewer = models.ForeignKey(User, related_name="assignments")
     paper = models.ForeignKey('Paper', related_name="assignments")
     is_assigned = models.BooleanField(default=False)
     is_done = models.BooleanField(default=False)
