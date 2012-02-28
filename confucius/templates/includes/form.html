@@ -1,12 +1,6 @@
 {% load extra %}
 
-{% if form.non_field_errors %}
-<div class="alert alert-error">
-    {% for error in form.non_field_errors %}
-    <p>{{ error }}</p>
-    {% endfor %}
-</div>
-{% endif %}
+{% include 'includes/form_errors.html' with form=form %}
 
 {% for field in form.hidden_fields %}
     {{ field }}
@@ -32,9 +26,12 @@
                 {% include 'includes/fields/input_prepend.html' with icon='pencil' field=field|medium %}
             {% endif %}
             {% if field|type == 'email' %}
-                {% include 'includes/fields/input_prepend.html' with icon='envelope' field=field|medium first=first confirmed=confirmed %}
+                {% include 'includes/fields/input_prepend.html' with icon='envelope' field=field|medium first=first edit=edit confirmed=confirmed prefix=prefix %}
             {% endif %}
-            {% if field|type == 'textarea' or field|type == 'select' or field|type == 'selectm' %}
+            {% if field|type == 'textarea' %}
+                {% include 'includes/fields/textarea.html' with field=field|textarea first=first edit=edit prefix=prefix %}
+            {% endif %}
+            {% if field|type == 'select' or field|type == 'selectm' %}
                 {{ field }}
             {% endif %}
             {% if field|type == 'checkbox' %}

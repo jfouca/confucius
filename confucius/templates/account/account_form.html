@@ -61,9 +61,9 @@ $(document).ready(function() {
 
         $(row).removeAttr('class');
         $(row).find('.confirmed').remove();
-        $(row).find('.add-row').remove();
+        $(row).find('.add-' + prefix).remove();
         $(row).find("input[name$='value']").val('');
-        $(row).find('.rm-row').removeAttr('style');
+        $(row).find('.rm-' + prefix).removeAttr('style');
         
         var tags = ["div", "label", "input"];
         for (var i=0; i<tags.length; i++) {
@@ -88,16 +88,58 @@ $(document).ready(function() {
 </script>
 <script>
 $(function () {
-    $('.add-row').live('click', function() {
+    $('.add-{{email_formset.prefix }}').live('click', function() {
 	    return addForm(this, '{{ email_formset.prefix }}');
     });
-    $('.rm-row').live('click', function() {
+    $('.rm-{{email_formset.prefix }}').live('click', function() {
 	    return deleteForm(this, '{{ email_formset.prefix }}');
-    })
+    });
+    $('.add-{{address_formset.prefix }}').live('click', function() {
+	    return addForm(this, '{{ address_formset.prefix }}');
+    });
+    $('.rm-{{address_formset.prefix }}').live('click', function() {
+	    return deleteForm(this, '{{ address_formset.prefix }}');
+    });
 });
 </script>
 <script>
 $(function() {
+    //$('#form').on('submit', function() { return false; });
+    $('#form').on('change', function(e) {
+        $('div.control-group', this).removeClass('success error');
+        $('span.help-inline', this).empty();
+        $('.alert', this).alert('close');
+
+        $.post('{% url 'account' %}', $(this).serialize(), function(data) {
+        console.log(data);
+            var errors = $.parseJSON(data);
+            var input = $(e.target);
+            var ctrl_group = input.closest('div.control-group');
+
+            if (!$.isEmptyObject(errors)) {
+                for (field in errors) {
+                    var error_message = errors[field][0];
+                    var dest = $('#id_' + field);
+                    var ctrl_group = dest.closest('div.control-group');
+
+                    if (dest.is('div')) {
+                        $('<div class="alert alert-error fade in">')
+                        .append('<a class="close" data-dismiss="alert" href="#">&times;</a>')
+                        .append(error_message)
+                        .prependTo(dest);
+                    } else {
+                        dest.next().text(error_message);
+                    }
+
+                    ctrl_group.addClass('error');
+                }
+                return;
+            }
+
+            ctrl_group.addClass('success');
+            input.next().text('saved!');
+        });
+    });
     $('#close_account_modal').modal({show: 0});
     $('#close_account').on('click', function() {
         $('#close_account_modal').modal('show');

@@ -42,7 +42,7 @@
 {% if conference.has_finalize_paper_selections %}
     <p>The conference has already finalize paper selections.</p>
 {% else %}
-    <a href="{% url 'finalize_selection' %}" class="btn btn-primary">Finalize the paper selection</a>
+    <a href="{% url 'finalize_selection' conference.pk %}" class="btn btn-primary">Finalize the paper selection</a>
 {% endif %}
 <br/><br/><br/>
 

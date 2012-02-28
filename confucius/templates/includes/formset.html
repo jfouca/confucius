@@ -1,17 +1,11 @@
 {% load extra %}
 
-{% if formset.non_field_errors %}
-<div class="alert alert-error">
-    {% for error in formset.non_field_errors %}
-    <p>{{ error }}</p>
-    {% endfor %}
-</div>
-{% endif %}
+{% include 'includes/form_errors.html' with form=formset %}
 
-<{% ifequal list 'True' %}ul class="unstyled"{% else %}div{% endifequal %} id="id_{{ formset.prefix }}">
+<div id="id_{{ formset.prefix }}">
     {{ formset.management_form }}
 
     {% for form in formset %}
-        {% ifequal list 'True' %}<li {% if forloop.first %}class="clone"{% endif %}>{% endifequal %}{% include 'includes/form.html' with edit=edit first=forloop.first confirmed=form.confirmed %}{% ifequal list 'True' %}</li>{% endifequal %}
+        {% include 'includes/form.html' with prefix=formset.prefix confirmed=form.confirmed %}
     {% endfor %}
-</{% ifequal list 'True' %}ul{% else %}div{% endifequal %}>
+</div>

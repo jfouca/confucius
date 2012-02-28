@@ -51,5 +51,10 @@ def large(field):
 
 
 @register.filter
+def textarea(field):
+    return field.as_widget(attrs={'class': 'input-large', 'rows': '3'})
+
+
+@register.filter
 def calendar(field):
     return field.as_widget(attrs={'class': 'input-small datepicker'})
