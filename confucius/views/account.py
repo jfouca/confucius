@@ -109,7 +109,8 @@ def create_account(request, redirect_field_name='next'):
                           
             if form.is_valid():
                 created_user = form.save()
-                #Penser a desactiver l'utilisateur
+                created_user.is_active=False
+                created_user.save()
 
                 import datetime
                 expr_date = datetime.date.today() + datetime.timedelta(7)
