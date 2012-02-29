@@ -1,0 +1,25 @@
+<div class="alert alert-success fade in" id="messages">
+    <a class="close" data-dismiss="alert">×</a>
+    <h4 class="alert-heading">Success!</h4>
+        The automatic reviews assignment ended correctly.
+</div>
+    
+<div class="modal hide fade" id="toggle_modal_loading">
+    <div class="modal-header">
+        <h3>Automatic review assignment is currently in progress</h3>
+    </div>
+    <div class="modal-body">
+        <p><center><strong>please wait...</strong></center></p>
+        <center><img src="/static/ajax-loader.gif" alt="a gif load animation"/></center>
+    </div>
+</div>
+
+<p><strong>Automatic assignment : </strong><a id="auto_assignment" href="#" class="btn btn-primary" > Let's do it </a> 
+
+    <span class="add-on">
+        <i class="icon icon-pencil"></i>
+    </span><input class="input-medium" type="text" name="avg_assi_by_paper" id="avg_assi_by_paper" placeholder="Average by paper" maxlength="4" value="0" rel="tooltip" title="Average by paper" /> 
+    <span class="add-on">
+        <i class="icon icon-pencil"></i>
+    </span>
+    <input class="input-medium" type="text" name="avg_assi_by_reviewer" id="avg_assi_by_reviewer" placeholder="Average by reviewer" maxlength="4" value="0" rel="tooltip" title="Average by reviewer" /></p>

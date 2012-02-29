@@ -21,7 +21,7 @@ import time
 def auto_assignment(request):
     if request.is_ajax():
         #to show the modal frame in assignments.html
-        time.sleep(4)
+        time.sleep(2)
         
         
         conference = request.conference
