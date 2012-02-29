@@ -270,8 +270,17 @@ def deleteAssignmentRow(request):
 #tests whether it is a GET or POST ajax request, and treat it
     if request.is_ajax():
         assignment_pk = request.POST.get('end')
-        Assignment.objects.get(pk=assignment_pk).delete()
-        return HttpResponse("Success")
+        assignment = Assignment.objects.get(pk=assignment_pk)
+        reviewer_to_delete = assignment.reviewer
+        assignment.delete()
+        
+        role = Role.objects.get(name="Reviewer")
+        membership = Membership.objects.get(roles=role,conference=request.conference,user=reviewer_to_delete)
+         
+        reviewer_info = [reviewer_to_delete.pk, reviewer_to_delete.last_name+" "+reviewer_to_delete.first_name+" ("+", ".join([domain.name for domain in membership.domains.all()])+") - ("+", ".join([language.name for language in reviewer_to_delete.languages.all()])+")"]        
+        
+        data = simplejson.dumps(reviewer_info)
+        return HttpResponse(data, mimetype="application/json")
     # If you want to prevent non XHR calls
     else:
         return HttpResponse(status=400)
