@@ -29,11 +29,11 @@
                     <div class="span10 toggle-buttons">
                         <div class="pull-left">
                             <a href="{% url 'sendEmailtoUsers' conference.pk %}" class="btn btn-info" >Send Emails to users</a>
-			     <a class="btn" href="{% url 'conference_invite' conference.pk %}">Invite someone</a>
+			     <a href="{% url 'conference_invite' conference.pk %}" class="btn">Invite someone</a>
 
                         </div>
                         <div class="pull-right">
-                            <a href="{% url 'sendEmailtoUsers' conference.pk %}" class="btn btn-primary" >Edit conference</a>
+                            <a href="{% url 'conference_edit' conference.pk %}" class="btn btn-primary" >Edit conference</a>
                             <a href="{% url 'assignments' conference.pk %}" class="btn btn-primary">Assignments</a>
                             <a href="{% url 'paper_selection_list' conference.pk %}" class="btn btn-primary">Paper selection</a>
                             <a href="{% url 'alert' conference.pk %}" class="btn btn-primary">Create Alert</a>
