@@ -1,8 +1,3 @@
-<div class="alert alert-success fade in" id="messages">
-    <a class="close" data-dismiss="alert">×</a>
-    <h4 class="alert-heading">Success!</h4>
-        The automatic reviews assignment ended correctly.
-</div>
     
 <div class="modal hide fade" id="toggle_modal_loading">
     <div class="modal-header">
@@ -10,7 +5,7 @@
     </div>
     <div class="modal-body">
         <p><center><strong>please wait...</strong></center></p>
-        <center><img src="/static/ajax-loader.gif" alt="a gif load animation"/></center>
+        <center><img src="{{ STATIC_URL }}ajax-loader.gif" alt="a gif load animation"/></center>
     </div>
 </div>
 
@@ -23,3 +18,75 @@
         <i class="icon icon-pencil"></i>
     </span>
     <input class="input-medium" type="text" name="avg_assi_by_reviewer" id="avg_assi_by_reviewer" placeholder="Average by reviewer" maxlength="4" rel="tooltip" title="Average by reviewer" /></p>
+<div id="container">
+    <table class="table table-bordered" id="datas">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Authors</th>
+                <th>Submitter</th>
+                <th>Domains</th>
+                <th>Reviewers</th>
+                <th>Language</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for paper in papers %}
+            <tr class="infos" id="{{paper.pk}}">
+                <td><strong>{{ paper.title }}</strong></td>
+                <td> {{paper.co_authors}} </td>
+                <td> {{paper.submitter}} </td>
+                <td>
+                    {{paper.domains.all|join:', '}}
+                </td>
+                <td id="assignments_{{paper.pk}}">{{paper.assignments.all.count}}</td>
+                <td>{{paper.language}}</td>
+                <td><i class="pull-right icon icon-chevron-down"></i></td>
+                
+                <tr class="actions">
+                    
+                        <td colspan="7">
+                            <table class="table table-bordered reviewers" id="table_{{paper.pk}}">
+                                <tr>
+                                    
+                                    <th>Reviewer</th>
+                                    <th>Domains</th>
+                                    <th>Languages</th>
+                                    <th>Assignation number</th>
+                                    <th></th>
+                                </tr>
+                                {% for assignment in paper.assignments.all %}
+                                    <tr>
+                                        <td>{{assignment.reviewer}}</td>
+                                        <td>{{assignment.get_domains.all|join:', '}}</td>
+                                        <td>{{assignment.reviewer.languages.all|join:', '}}</td>
+                                        <td id="paper_count_{{assignment.pk}}" >{{assignment.get_papers.count}}</td>
+                                        <td><a href="#" class="btn btn-danger assignment" id="remove_{{assignment.pk}}--table_{{paper.pk}}">Remove</th></td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                            
+                            <div class="toto">
+                                <form>
+                                    <label class="control-label">Click on the reviewers below to assign them on the current Paper</label>
+                                    <select multiple="multiple" class="selectAdd input-xlarge multiSelect" id="reviewers_list_{{paper.pk}}">
+                                       
+                                    </select>
+                                </form>
+                            </div>
+                        </td>
+                   
+                </tr>
+            </tr>
+            {% empty %}
+                <h3>There is no papers for this conference</h3><br/>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="span6 alert alert-success fade in hide" id="messages">
+    <a class="close" data-dismiss="alert">×</a>
+    <h4 class="alert-heading">Success!</h4>
+        The automatic reviews assignment ended correctly.
+</div>

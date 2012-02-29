@@ -2,6 +2,7 @@ import simplejson
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 from django.http import HttpResponse
 from django.db.models import Count
 from django.views.decorators.csrf import csrf_protect
@@ -9,10 +10,11 @@ from django.views.decorators.http import require_GET, require_POST, require_http
 from django.shortcuts import get_object_or_404, redirect, render_to_response
 from django.template import RequestContext
 
+
 from confucius.decorators import has_chair_role, has_reviewer_role
 from confucius.forms import ReviewForm
 from confucius.models import Assignment, Email, Membership, Paper, PaperSelection, Review, Role, User
-import time
+
 
 @require_POST
 @login_required
@@ -20,10 +22,6 @@ import time
 @csrf_protect
 def auto_assignment(request):
     if request.is_ajax():
-        #to show the modal frame in assignments.html
-        time.sleep(2)
-        
-        
         conference = request.conference
 
         role = Role.objects.get(code="R")
@@ -181,6 +179,7 @@ def finalize_selection(request):
 
 @login_required
 @has_chair_role
+@csrf_protect
 def assignments(request):
     conference = request.conference
     papers = Paper.objects.filter(conference=conference)
@@ -195,6 +194,7 @@ def assignments(request):
         'reviewers':reviewers,
         'domains':domains,
     }
+    
     return render_to_response('review/assignments.html', context, context_instance=RequestContext(request))
 
 @require_POST
@@ -282,3 +282,4 @@ def refreshAssignationNumber(request):
     # If you want to prevent non XHR calls
     else:
         return HttpResponse(status=400)
+        
