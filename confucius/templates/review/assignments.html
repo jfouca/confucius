@@ -7,15 +7,7 @@
 {% block content_header %}
 <h1>Assignments</h1><br/>
 {% endblock %}
-{% block subtopbar %}
-<div class="span12 db-top">
-    <div class="db-top-inner-min">
-        <i class="icon-calendar icon-white"></i> Start date {{ conference.start_date|date:'SHORT_DATE_FORMAT' }} | 
-        <i class="icon-info-sign icon-white"></i> Submissions end date {{ conference.submissions_end_date|date:'SHORT_DATE_FORMAT' }} | 
-        <i class="icon-exclamation-sign icon-white"></i> Reviews end date {{ conference.reviews_end_date|date:'SHORT_DATE_FORMAT' }}
-    </div>
-</div>
-{% endblock %}
+
 {% block content_main %}
 
 {% include 'includes/assignments.html' %}
