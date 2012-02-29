@@ -190,7 +190,7 @@ def sendEmailtoUsers(request, template_name='conference/send_email_to_users.html
             for receiver in receivers:
                 email = receiver.email
                 try:
-                    send_mail(title, content, 'no-reply-alerts@confucius.com',['foucault.jeremy@gmail.com'], fail_silently=False)
+                    send_mail(title, content, 'no-reply-alerts@confucius.com',[unicode(email)], fail_silently=False)
                     
                 except:
                     messages.error(request, u'An error occured during the email sending process. The SMTP settings may be uncorrect, or the receiver(%s) email address may not exist\n' % str(email))
