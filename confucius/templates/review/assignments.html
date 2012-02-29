@@ -32,80 +32,71 @@
 <script src="{{ STATIC_URL }}jquery.selectoptionsort.js"></script>
 <script src="{{ STATIC_URL }}jquery.ajaxsend.js"></script>
 <script>
-$(document).ready(function(){
 
-    // Displays all the reviewers not yet assigned to this paper for this conference in the select input
-    $(function() {
-        $('tr.infos').click(function(e) {
-            $('tr.infos').next().hide();
-            var paperid = $(this).attr("id")
-            $(this).next().slideToggle('fast');
-            $.post("{% url 'updateReviewerList' conference.pk %}", { 
-                paper_id: paperid,
-            },
-                function(data) {
-                    $("#reviewers_list_"+paperid).find('option').remove();
-                    $.each(data,function(index, value) {
-                        $("#reviewers_list_"+paperid).append("<option id=\""+value[0]+"\">"+value[1]+"</option>")
-                    });
-                }
-            );
-            
-            $.post("{% url 'refreshAssignationNumber' conference.pk %}", { 
-                paper_id: paperid,
-            },
-                function(data) {
-                    $.each(data,function(index,value){
-                        $("td#paper_count_"+value[0]).text(value[1]);
-                    });
-                }
-            );
-            return false;
-        }).next().hide();
-    });
-    
-    
-    // When a click on the "Remove" button is captured, we remove the reviewer from the table and add an option in the select input
-    $(function() {
-        $('a.assignment').live("click",function(e) {
-            var my_button = $(this)
-            var assign_id = $(this).attr("id");
-            var substri = assign_id.split('--table_');
-            var paperid = parseInt(substri[1]);
-            var start = substri[0];
-            var toRemove = 'remove_';
-            var end = start.replace(toRemove,'');
+function updateReviewerList() {
+    $('tr.infos').click(function(e) {
+        $('tr.infos').next().hide();
+        var paperid = $(this).attr("id")
+        $(this).next().slideToggle('fast');
+        $.post("{% url 'updateReviewerList' conference.pk %}", { 
+            paper_id: paperid,
+        },
+            function(data) {
+                $("#reviewers_list_"+paperid).find('option').remove();
+                $.each(data,function(index, value) {
+                    $("#reviewers_list_"+paperid).append("<option id=\""+value[0]+"\">"+value[1]+"</option>")
+                });
+            }
+        );
+        
+        $.post("{% url 'refreshAssignationNumber' conference.pk %}", { 
+            paper_id: paperid,
+        },
+            function(data) {
+                $.each(data,function(index,value){
+                    $("td#paper_count_"+value[0]).text(value[1]);
+                });
+            }
+        );
+        return false;
+    }).next().hide();
 
-            
-            $.post("{% url 'deleteAssignmentRow' conference.pk %}", {
-                    'end': end,
+}
+
+function deleteAssignmentRow() {
+    $('a.assignment').live("click",function(e) {
+        var my_button = $(this)
+        var assign_id = $(this).attr("id");
+        var substri = assign_id.split('--table_');
+        var paperid = parseInt(substri[1]);
+        var start = substri[0];
+        var toRemove = 'remove_';
+        var end = start.replace(toRemove,'');
+
+        
+        $.post("{% url 'deleteAssignmentRow' conference.pk %}", {
+                'end': end,
+            },
+            function(data) {
+                my_button.parent().parent().remove();
+                $.post("{% url 'updateReviewerList' conference.pk %}", { 
+                    paper_id: paperid,
                 },
-                function(data) {
-                    my_button.parent().parent().remove();
-                    $.post("{% url 'updateReviewerList' conference.pk %}", { 
-                        paper_id: paperid,
-                    },
-                        function(data) {
-                            $("#reviewers_list_"+paperid).find('option').remove();
-                            $.each(data,function(index, value) {
-                                $("#reviewers_list_"+paperid).append("<option id=\""+value[0]+"\">"+value[1]+"</option>")
-                            });
-                        }
-                    );
-                    var res = parseInt($("td#assignments_"+paperid).text());
-                    $("td#assignments_"+paperid).text(res-1);                    
-                }
-            );
-        });
+                    function(data) {
+                        $("#reviewers_list_"+paperid).find('option').remove();
+                        $.each(data,function(index, value) {
+                            $("#reviewers_list_"+paperid).append("<option id=\""+value[0]+"\">"+value[1]+"</option>")
+                        });
+                    }
+                );
+                var res = parseInt($("td#assignments_"+paperid).text());
+                $("td#assignments_"+paperid).text(res-1);                    
+            }
+        );
     });
-    
+}
 
-
-	$(function() {
-		$("select.selectAdd").selectOptionSort();
-	}); 
-
-	// When a click on a select option is captured, remove the option form the list, and add the reviewer to the table
+function updateAssignmentsTables() {
 	$("select.selectAdd").click(function(){
 	    var val = $(this).attr("id");
 	    var clicked = $(".multiSelect option:selected");
@@ -130,9 +121,10 @@ $(document).ready(function(){
 			
 		}
 	});
-	
+}
 
-    // When a click is captured on the auto-assign button, lauch the modal frame and execute the algorithm
+
+function auto_assign() {
 	$('#auto_assignment').click(function(){
 	    var by_paper = $("#avg_assi_by_paper").val();
 	    if( by_paper == '' ) {
@@ -155,8 +147,16 @@ $(document).ready(function(){
                 
                 $.get("{% url 'assignments' conference.pk %}", {},
                 function(data) {
-                    var html = $('table#datas', data).html();
+                    var html = $('div#container', data).html();
+                    $('div#container').replaceWith(html);
+                    $('tr.infos').next().hide();
+                    updateReviewerList();
                     
+                    deleteAssignmentRow();
+                    
+                    updateAssignmentsTables();
+                    
+                    auto_assign();
                 }
             );
             }
@@ -164,9 +164,30 @@ $(document).ready(function(){
 
         return false;
 	});
+}
 
+    
+    $(function() {
+        // Displays all the reviewers not yet assigned to this paper for this conference in the select input
+        updateReviewerList();
+        
+        // When a click on the "Remove" button is captured, we remove the reviewer from the table and add an option in the select input
+        deleteAssignmentRow();
+        
+        // When a click is captured on the auto-assign button, lauch the modal frame and execute the algorithm
+        updateAssignmentsTables();
+        
+        // When a click on a select option is captured, remove the option form the list, and add the reviewer to the table
+        auto_assign();
+    });
+    
+    
+	$(function() {
+		$("select.selectAdd").selectOptionSort();
+	}); 
 
-});
+    
+
 
 
 </script>
