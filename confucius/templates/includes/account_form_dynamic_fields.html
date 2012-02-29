@@ -17,7 +17,7 @@
                 {% for field in form.visible_fields %}
                     <div class="control-group {% if field.errors %}error{% endif %}{% if first %}first{% endif %}{% ifequal field|type 'checkbox' %}hidden{% endifequal %}" id="control_id_{{ field.html_name }}">
                         <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}
-                            {% if form.confirmed %}
+                            {% if form.confirmed.value %}
                                 <a href="#" class="confirmed" rel="tooltip" title="This email has been confirmed"><i class="icon icon-ok"></i></a>
                             {% endif %}
                         </label>

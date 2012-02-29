@@ -8,7 +8,7 @@ from confucius.models import Activation, Address, Email, Language, User
 class EmailForm(forms.ModelForm):
     class Meta:
         model = Email
-        fields = ('value', 'main')
+        fields = ('value', 'main', 'confirmed')
 
     def save(self, commit=True):
         email = super(EmailForm, self).save(commit=False)
