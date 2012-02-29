@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="{{ STATIC_URL }}jqueryui/css/jquery-ui-1.8.17.custom.css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}style.css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}jquery.autocomplete.css" />
         {% block style %}{% endblock %}
     </head>
     <body>
@@ -32,6 +33,8 @@
         {% endif %}
         {% block base_content %}{% endblock %}
         <script src="{{ STATIC_URL }}jquery.js"></script>
+        <script src="{{ STATIC_URL }}jquery.autocomplete.js"></script>
+        <script src="{{ STATIC_URL }}jquery.selectoptionsort.js"></script>
         <script src="{{ STATIC_URL }}jqueryui/js/jquery-ui-1.8.17.custom.min.js"></script>
         <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
         <script src="{{ STATIC_URL }}confucius.js"></script>
