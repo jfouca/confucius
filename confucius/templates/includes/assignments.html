@@ -86,30 +86,6 @@
     </table>
 </div>
 
-<div>
-    <h3>Blablabla</h3>
-    <table class="table table-bordered ">
-        <thead>
-            <tr>
-                <th>name</th>
-                <th>domains</th>
-                <th>languages</th>
-                <th>assigns</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for mem in memberships_list %}
-            <tr>
-                <td>{{ mem.user.email }}</td>
-                <td>{{ mem.domains.all|join:", " }}</td>
-                <td>{{ mem.user.languages.all|join:", " }}</td>
-                <td>{{ mem.user.assignments.count }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-
 <div class="span6 alert alert-success fade in hide" id="messages">
     <a class="close" data-dismiss="alert">×</a>
     <h4 class="alert-heading">Success!</h4>
