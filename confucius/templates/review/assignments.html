@@ -17,6 +17,12 @@
 </div>
 {% endblock %}
 {% block content_main %}
+<div class="alert alert-success hide" id="toggle_alert_succes">
+    <a class="close" data-dismiss="alert">×</a>
+    <h4 class="alert-heading">Success!</h4>
+        The automatic reviews assignment ended correctly.
+</div>
+    
 <div class="modal hide fade" id="toggle_modal_loading">
     <div class="modal-header">
         <h3>Automatic review assignment is currently in progress</h3>
@@ -27,7 +33,16 @@
     </div>
 </div>
 
-<p><strong>Automatic assignment : </strong><a id="auto_assignment" href="#" class="btn btn-primary" > Let's do it </a>
+<p><strong>Automatic assignment : </strong><a id="auto_assignment" href="#" class="btn btn-primary" > Let's do it </a> 
+
+    <span class="add-on">
+        <i class="icon icon-pencil"></i>
+    </span><input class="input-medium" type="text" name="avg_assi_by_paper" id="avg_assi_by_paper" placeholder="Min by paper" maxlength="4" value="0"/> 
+    <span class="add-on">
+        <i class="icon icon-pencil"></i>
+    </span>
+    <input class="input-medium" type="text" name="avg_assi_by_reviewer" id="avg_assi_by_reviewer" placeholder="Min by reviewer" maxlength="4" value="0" /></p>
+
 <table class="table table-bordered ">
     <thead>
         <tr>
@@ -49,7 +64,7 @@
             <td>
                 {{paper.domains.all|join:', '}}
             </td>
-            <td>{{paper.assignments.all.count}}</td>
+            <td id="assignments_{{paper.pk}}">{{paper.assignments.all.count}}</td>
             <td>{{paper.language}}</td>
             <td><i class="pull-right icon icon-chevron-down"></i></td>
             
@@ -58,17 +73,20 @@
                     <td colspan="7">
                         <table class="table table-bordered reviewers" id="table_{{paper.pk}}">
                             <tr>
-                                <th></th>
+                                
                                 <th>Reviewer</th>
                                 <th>Domains</th>
-                                <th>Assignation</th>
+                                <th>Languages</th>
+                                <th>Assignation number</th>
+                                <th></th>
                             </tr>
                             {% for assignment in paper.assignments.all %}
                                 <tr>
-                                    <td><a href="#" class="btn btn-danger assignment" id="remove_{{assignment.pk}}--table_{{paper.pk}}">Remove</th></td>
                                     <td>{{assignment.reviewer}}</td>
                                     <td>{{assignment.get_domains.all|join:', '}}</td>
-                                    <td>{{assignment.get_papers.count}}</td>
+                                    <td>{{assignment.reviewer.languages.all|join:', '}}</td>
+                                    <td id="paper_count_{{assignment.pk}}" >{{assignment.get_papers.count}}</td>
+                                    <td><a href="#" class="btn btn-danger assignment" id="remove_{{assignment.pk}}--table_{{paper.pk}}">Remove</th></td>
                                 </tr>
                             {% endfor %}
                         </table>
@@ -107,10 +125,11 @@ $(document).ready(function(){
     // Displays all the reviewers not yet assigned to this paper for this conference in the select input
     $(function() {
         $('tr.infos').click(function(e) {
+            $('tr.infos').next().hide();
             var paperid = $(this).attr("id")
             $(this).next().slideToggle('fast');
-            $(this).find('.icon').toggleClass('icon-chevron-up')
-            $(this).find('.icon').toggleClass('icon-chevron-down');
+            $(this).next().find('.icon').toggleClass('icon-chevron-up')
+            $(this).next().find('.icon').toggleClass('icon-chevron-down');
             $.post("{% url 'updateReviewerList' conference.pk %}", { 
                 paper_id: paperid,
             },
@@ -118,6 +137,16 @@ $(document).ready(function(){
                     $("#reviewers_list_"+paperid).find('option').remove();
                     $.each(data,function(index, value) {
                         $("#reviewers_list_"+paperid).append("<option id=\""+value[0]+"\">"+value[1]+"</option>")
+                    });
+                }
+            );
+            
+            $.post("{% url 'refreshAssignationNumber' conference.pk %}", { 
+                paper_id: paperid,
+            },
+                function(data) {
+                    $.each(data,function(index,value){
+                        $("td#paper_count_"+value[0]).text(value[1]);
                     });
                 }
             );
@@ -152,7 +181,9 @@ $(document).ready(function(){
                                 $("#reviewers_list_"+paperid).append("<option id=\""+value[0]+"\">"+value[1]+"</option>")
                             });
                         }
-                    );                    
+                    );
+                    var res = parseInt($("td#assignments_"+paperid).text());
+                    $("td#assignments_"+paperid).text(res-1);                    
                 }
             );
         });
@@ -179,8 +210,10 @@ $(document).ready(function(){
             },
                 function(data) {
                     $.each(data,function(index, value) {
-                        table.append("<tr><td><a href=\"#\" class=\"btn btn-danger assignment\" id=\"remove_"+value[0]+"--table_"+end+"\">Remove</a></td><td>"+value[2]+"</td><td>"+value[3]+"</td><td>"+value[4]+"</td></tr>");
+                        table.append("<tr><td>"+value[2]+"</td><td>"+value[3]+"</td><td>"+value[5]+"</td><td id=\"paper_count_"+value[0]+"\">"+value[4]+"</td><td><a href=\"#\" class=\"btn btn-danger assignment\" id=\"remove_"+value[0]+"--table_"+end+"\">Remove</a></td></tr>");
                     });
+                    var res = parseInt($("td#assignments_"+end).text());
+                    $("td#assignments_"+end).text(res+1);
                     clicked.remove();
                 }
             );
@@ -191,11 +224,23 @@ $(document).ready(function(){
 
     // When a click is captured on the auto-assign button, lauch the modal frame and execute the algorithm
 	$('#auto_assignment').click(function(){
+	    var by_paper = $("#avg_assi_by_paper").val();
+	    if( by_paper == '' ) {
+	        by_paper = 0;
+	    }
+	    var by_reviewer = $("#avg_assi_by_reviewer").val();
+	    if( by_reviewer == '' ) {
+	        by_reviewer = 0;
+	    }
         $('#toggle_modal_loading').modal({
             keyboard: false
         }).show();
-        $.post("{% url 'auto_assignment' conference.pk %}", {},
+        $.post("{% url 'auto_assignment' conference.pk %}", {
+                'by_paper':by_paper,
+                'by_reviewer':by_reviewer,
+            },
             function(data) {
+                $(".alert").toggle();
                 window.location.reload();
             }
         );
