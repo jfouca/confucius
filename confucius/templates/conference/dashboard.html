@@ -75,7 +75,7 @@
                             </tr>
                         {% for assignment in conference_reviews %}
                             <tr>
-                                <td>{{assignment.paper.title}}</td>
+                                <td><a href="{% url 'submit_review' conference.pk assignment.pk %}"> {{assignment.paper.title}}</td>
                                 <td>{{assignment.review.title}}</td>
                             </tr>
                         {% empty %}
