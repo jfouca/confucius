@@ -117,11 +117,12 @@ class PaperAdmin(admin.ModelAdmin):
     search_fields = ('title', 'conference')
 
 
-class MembershipInline(admin.StackedInline):
+class MembershipInline(admin.TabularInline):
     from django import forms
     from django.db import models
 
     extra = 0
+    exclude = ('last_accessed',)
     formfield_overrides = {
         models.ManyToManyField: {'widget': forms.CheckboxSelectMultiple},
     }
@@ -129,8 +130,20 @@ class MembershipInline(admin.StackedInline):
 
 
 class ConferenceAdmin(admin.ModelAdmin):
-    inlines = (MembershipInline,)
-    readonly_fields = ('access_key',)
+    inlines = (MembershipInline, )
+    fieldsets = (
+        ('Conference information', {
+            'fields': ('title', 'url', 'domains')
+        }),
+        ('Date information', {
+            'fields': (('start_date',), ('submissions_start_date', 'submissions_end_date'), ('reviews_start_date', 'reviews_end_date'),)
+        }),
+        ('Special datas', {
+            'classes': ('collapse',),
+            'fields': ('access_key', 'is_open', 'has_finalize_paper_selections')
+        })
+    )
+    readonly_fields = ('access_key', 'is_open', 'has_finalize_paper_selections')
 
     def get_form(self, request, obj=None, **kwargs):
         if obj is None:

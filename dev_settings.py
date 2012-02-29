@@ -34,8 +34,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages',
 )
 
-TEMPLATE_LOADERS = (
-    'django.template.loaders.app_directories.Loader',
+TEMPLATE_DIRS = (
+    'templates',
 )
 
 MIDDLEWARE_CLASSES = (
