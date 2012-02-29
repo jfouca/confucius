@@ -1,0 +1,23 @@
+{% extends 'base-in.html' %}
+{% load url from future %}
+
+{% block title %} Send an Email {% endblock %}
+
+ {% block content_header %}
+<h1>Create Alert for conference: {{ conference.title}}</h1>
+{% endblock %}
+
+{% block content_main %}
+
+<form class="form-horizontal" method="POST">{% csrf_token %}
+
+    {% include 'includes/form.html' %}
+    
+    <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="Create">
+        <a href="{% url 'dashboard' %}" class="btn btn-danger">Return</a>
+    </div>
+</form>
+{% endblock %}
+
+
