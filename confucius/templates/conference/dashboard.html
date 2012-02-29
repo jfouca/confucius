@@ -3,13 +3,14 @@
 
 {% block title %}Conference "{{ conference.title }}"{% endblock %}
 
+{% block brand %}Conference "{{ conference.title }}"  {% if not conference.is_open %}(closed){% endif %}{% endblock %}
+
 {% block content_header %}
 <h1>Dashboard {% include 'includes/roles.html' with roles=membership.roles.all %}</h1>
 <p>
     <span class="label label-info">Public conference link :</span> <a href="{{ public_url }}">{{ public_url }}</a>
 </p>
 {% endblock %}
-{% block brand %}Conference "{{ conference.title }}"  {% if not conference.is_open %}(closed){% endif %}{% endblock %}
 
 {% block content_main %}
 <!-- Chair part -->
@@ -18,13 +19,27 @@
     <div class="span10 toggle-body">
         <div class="row toggle-div">
             <div class="span10">
-                <h2>Chair Part
-                <i class="pull-right icon icon-chevron-down"></i></h2>
+                <div class="row">
+                    <div class="span10">
+                        <h2>Chair Part
+                        <i class="pull-right icon icon-chevron-down"></i></h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span10 toggle-buttons">
+                        <div class="pull-right">
+                            <a href="{% url 'conference_edit' conference.pk %}" class="btn btn-primary" >Edit conference</a>
+                            <a href="{% url 'assignments' conference.pk %}" class="btn btn-primary">Assignments</a>
+                            <a href="{% url 'paper_selection_list' conference.pk %}" class="btn btn-primary">Paper selection</a>
+                            <a href="{% url 'alert' conference.pk %}" class="btn btn-primary">Create Alert</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div><!-- toggle -->
+        <div class="hidden"><!-- toggle -->
         <div class="row">
-            <div class="span10">
+            <div class="span10 toggle">
                 <div class="row">
                     <div class="span5">
                         <h3>Last submissions</h3>
@@ -65,16 +80,6 @@
                         {% endfor %}
                         </tbody>
                         </table>
-                        <div class="row">
-                            <div class="span5">
-                                <a href="{% url 'assignments' conference.pk %}" class="pull-right btn btn-primary">Assignments</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="span10">
-                        <a href="{% url 'paper_selection_list' conference.pk %}" class="pull-right btn btn-primary">Paper selection</a> 
                     </div>
                 </div>
                 <div class="row">
@@ -123,12 +128,6 @@
                                 <td><center><a href="{% url 'delete_alert' conference.pk alert.pk %}" class="btn btn-danger">Delete the alert</a></center></td>
                             </tr>
                         {% endfor %}
-                        <tr>
-                            <td colspan="3"/>
-                            <td colspan="2">
-                                <b><center><a href="{% url 'alert' conference.pk %}" class="btn btn-primary">Create Alert</a></center></b>
-                            </td>
-                        </tr>
                         </tbody>
                         </table>
                     </div>
@@ -148,13 +147,24 @@
     <div class="span10 toggle-body">
         <div class="row toggle-div">
             <div class="span10">
-                <h2>Submitter Part
-                <i class="pull-right icon icon-chevron-down"></i></h2>
+                <div class="row">
+                    <div class="span10">
+                        <h2>Submitter Part
+                        <i class="pull-right icon icon-chevron-down"></i></h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span10 toggle-buttons">
+                        <div class="pull-right">
+                            <a href="{% url 'paper' membership.conference.pk %}" class="btn btn-primary">Submit paper</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div><!-- toggle -->
+        <div class="hidden"><!-- toggle -->
         <div class="row">
-            <div class="span10">
+            <div class="span10 toggle">
                 <h3>My submissions</h3>
                 <table class="table table-striped table-bordered">
                 <tbody>
@@ -174,12 +184,6 @@
                     {% empty %}
                         <tr><td colspan="4">You haven't submit a paper for this conference.</td></tr>
                     {% endfor %}
-                    <tr>
-                        <td colspan="3"/>
-                        <td><b><center>
-                            <a href="{% url 'paper' membership.conference.pk %}" class="btn btn-primary">Submit paper</a>
-                        </center></b></td>
-                    </tr>
                 </tbody>
                 </table>
             </div>
@@ -200,9 +204,9 @@
                 <i class="pull-right icon icon-chevron-down"></i></h2>
             </div>
         </div>
-        <div><!-- toggle -->
+        <div class="hidden"><!-- toggle -->
         <div class="row">
-            <div class="span10">
+            <div class="span10 toggle">
                 <h3>My assignments</h3>
                 <table class="table table-striped table-bordered">
                 <tbody>
@@ -240,18 +244,31 @@
 
 {% block style %}
 <style>
+    .hidden {
+        display: none;
+    }
+    .visible {
+        display: block;
+    }
     .toggle-body h2 {
         margin-bottom: 15px;
         padding: 10px 15px 5px 5px;
-        border-top: 1px solid lightgrey;
-        border-bottom: 1px solid lightgrey;
+        border-top: 3px solid lightgrey;
         background-color: #f8f8f8;
     }
     .toggle-body h3 {
         padding-left: 5px;
     }
-    .toggle-div:hover {
+    .toggle-body h2:hover {
         cursor: pointer;
+    }
+    .toggle-buttons {
+        margin-bottom: 15px;
+        text-align: center;
+    }
+    .toggle {
+        padding-top: 15px;
+        border-top: 1px solid lightgrey;
     }
 </style>
 {% endblock %}
@@ -259,11 +276,15 @@
 {% block script %}
 <script>
     $(function() {
-        {% if membership.roles.count >= 2 %}
-        $('.toggle-div').next().toggle();
+        {% if membership.roles.count < 2 %}
+            $('.toggle-div').next().toggleClass('hidden');
+            $('.toggle-div').next().toggleClass('visible');
         {% endif %}
         $('.toggle-div').click(function(e) {
-            $(this).next().slideToggle('fast');
+            $(this).next().slideToggle('slow');
+            $(this).next().toggleClass('hidden');
+            $(this).next().toggleClass('visible');
+            
             $(this).find('.icon').toggleClass('icon-chevron-up')
             $(this).find('.icon').toggleClass('icon-chevron-down');
             return false;
