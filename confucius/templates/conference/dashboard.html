@@ -48,11 +48,14 @@
                             <tr>
                                 <th>Title</th>
                                 <th>Submit date</th>
+				<th>Submitter</th>
                             </tr>
                         {% for paper in conference_papers %}
                             <tr>
-                                <td><b>{{paper.title}}</b></td>
+                                <td><b><a href="{% url 'paper' conference.pk paper.pk %}"> {{paper.title}}</b></td>
                                 <td>{{paper.submission_date|date:"m/d/y"}}</td>
+                                <td>{{paper.submitter}}</td>
+
                             </tr>
                         {% empty %}
                             <tr>
