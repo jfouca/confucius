@@ -49,7 +49,7 @@ def finalize_assignment(request):
 @csrf_protect
 def auto_assignment(request):
     if request.is_ajax():
-        start_time = time.time()*1000
+        #start_time = time.time()*1000
     
         # Get datas
         conference = request.conference
@@ -66,14 +66,8 @@ def auto_assignment(request):
         # Clear assignments
         Assignment.objects.filter(conference=conference, is_assigned=False).delete()
         
-        # Building an Assignment object from wrong informations. Will be manipulated (and avoid objects creations).
-        assignment_object = Assignment.objects.create(paper=papers_list[0], reviewer=request.user, conference=conference)
-        assignment_object.delete()      # Must delete to "clean" the object
-        
-        
         # Assignment per paper
         for paper in papers_list:
-            assignment_object.paper = paper
             paper_domains = paper.domains.all()
             set_paper_domains = set(paper_domains)
             
@@ -93,12 +87,12 @@ def auto_assignment(request):
                     
                 if nb_assi >= max_assi_per_papers:
                     break
-                
+                        
                 if set_paper_domains <= set(membership.domains.all()):
-                    assignment_object.reviewer = membership.user
-                    assignment_object.pk = None
-                    assignment_object.save()
-                    nb_assi += 1
+                    assignment, created = Assignment.objects.get_or_create(paper=paper, reviewer=membership.user, conference=conference)
+                    if created == True:
+                        assignment.save()
+                        nb_assi += 1
                 else:
                     others_reviewers.append(membership.user)           
             
@@ -106,15 +100,15 @@ def auto_assignment(request):
             for reviewer in others_reviewers:
                 if nb_assi >= max_assi_per_papers:
                     break
-                    
-                assignment_object.reviewer = reviewer
-                assignment_object.pk = None
-                assignment_object.save()
-                nb_assi += 1
+                
+                assignment, created = Assignment.objects.get_or_create(paper=paper, reviewer=reviewer, conference=conference)
+                if created == True:
+                    assignment.save()
+                    nb_assi += 1
         
         
-        end_time = time.time()*1000
-        print str(end_time - start_time)
+        #end_time = time.time()*1000
+        #print str(end_time - start_time)
         
         
         # Response
