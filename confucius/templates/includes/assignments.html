@@ -9,7 +9,7 @@
     </div>
 </div>
 
-<p><strong>Automatic assignment : </strong><a id="auto_assignment" href="#" class="btn btn-primary" > Let's do it </a> 
+<p><strong>Automatic assignment : </strong><a id="auto_assignment" href="#" class="btn btn-info" > Let's do it </a> 
 
     <span class="add-on">
         <i class="icon icon-pencil"></i>
@@ -18,6 +18,10 @@
         <i class="icon icon-pencil"></i>
     </span>
     <input class="input-medium" type="text" name="avg_assi_by_reviewer" id="avg_assi_by_reviewer" placeholder="Average by reviewer" maxlength="4" rel="tooltip" title="Average by reviewer" /></p>
+</p>
+<p>
+    <a href="{% url finalize_assignment conference.pk %}" class="btn btn-primary" > Finalize assignments </a> 
+</p>
 <div id="container">
     <table class="table table-bordered" id="datas">
         <thead>
@@ -81,30 +85,6 @@
             </tr>
             {% empty %}
                 <h3>There is no papers for this conference</h3><br/>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-
-<div>
-    <h3>Blablabla</h3>
-    <table class="table table-bordered ">
-        <thead>
-            <tr>
-                <th>name</th>
-                <th>domains</th>
-                <th>languages</th>
-                <th>assigns</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for mem in memberships_list %}
-            <tr>
-                <td>{{ mem.user.email }}</td>
-                <td>{{ mem.domains.all|join:", " }}</td>
-                <td>{{ mem.user.languages.all|join:", " }}</td>
-                <td>{{ mem.user.assignments.count }}</td>
-            </tr>
             {% endfor %}
         </tbody>
     </table>
