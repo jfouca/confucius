@@ -103,7 +103,7 @@ class UserForm(forms.ModelForm):
 
 
 class EmailFormSet(inlineformset_factory(User, Email)):
-    extra = 1
+    extra = 0
     form = EmailForm
     has_main = False
 
@@ -134,7 +134,7 @@ class EmailFormSet(inlineformset_factory(User, Email)):
 
 
 class AddressFormSet(inlineformset_factory(User, Address)):
-    extra = 1
+    extra = 0
 
     class Meta:
         model = Email

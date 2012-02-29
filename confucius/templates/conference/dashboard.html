@@ -248,20 +248,11 @@
 
 {% block style %}
 <style>
-    .hidden {
-        display: none;
-    }
-    .visible {
-        display: block;
-    }
     .toggle-top h2 {
         margin-bottom: 15px;
         padding: 10px 15px 5px 5px;
         border-top: 3px solid lightgrey;
         background-color: #f8f8f8;
-    }
-    .toggle-top h3 {
-        padding-left: 5px;
     }
     .toggle-top h2:hover {
         cursor: pointer;
@@ -273,6 +264,9 @@
     .toggled {
         padding-top: 15px;
         border-top: 1px solid lightgrey;
+    }
+    .toggled h3 {
+        padding-left: 5px;
     }
 </style>
 {% endblock %}
