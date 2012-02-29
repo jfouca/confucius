@@ -7,109 +7,10 @@
 {% block content_header %}
 <h1>Assignments</h1><br/>
 {% endblock %}
-{% block subtopbar %}
-<div class="span12 db-top">
-    <div class="db-top-inner-min">
-        <i class="icon-calendar icon-white"></i> Start date {{ conference.start_date|date:'SHORT_DATE_FORMAT' }} | 
-        <i class="icon-info-sign icon-white"></i> Submissions end date {{ conference.submissions_end_date|date:'SHORT_DATE_FORMAT' }} | 
-        <i class="icon-exclamation-sign icon-white"></i> Reviews end date {{ conference.reviews_end_date|date:'SHORT_DATE_FORMAT' }}
-    </div>
-</div>
-{% endblock %}
+
 {% block content_main %}
 
 {% include 'includes/assignments.html' %}
-
-<table class="table table-bordered ">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Authors</th>
-            <th>Submitter</th>
-            <th>Domains</th>
-            <th>Reviewers</th>
-            <th>Language</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for paper in papers %}
-        <tr class="infos" id="{{paper.pk}}">
-            <td><strong>{{ paper.title }}</strong></td>
-            <td> {{paper.co_authors}} </td>
-            <td> {{paper.submitter}} </td>
-            <td>
-                {{paper.domains.all|join:', '}}
-            </td>
-            <td id="assignments_{{paper.pk}}">{{paper.assignments.all.count}}</td>
-            <td>{{paper.language}}</td>
-            <td><i class="pull-right icon icon-chevron-down"></i></td>
-            
-            <tr class="actions">
-                
-                    <td colspan="7">
-                        <table class="table table-bordered reviewers" id="table_{{paper.pk}}">
-                            <tr>
-                                
-                                <th>Reviewer</th>
-                                <th>Domains</th>
-                                <th>Languages</th>
-                                <th>Assignation number</th>
-                                <th></th>
-                            </tr>
-                            {% for assignment in paper.assignments.all %}
-                                <tr>
-                                    <td>{{assignment.reviewer}}</td>
-                                    <td>{{assignment.get_domains.all|join:', '}}</td>
-                                    <td>{{assignment.reviewer.languages.all|join:', '}}</td>
-                                    <td id="paper_count_{{assignment.pk}}" >{{assignment.get_papers.count}}</td>
-                                    <td><a href="#" class="btn btn-danger assignment" id="remove_{{assignment.pk}}--table_{{paper.pk}}">Remove</th></td>
-                                </tr>
-                            {% endfor %}
-                        </table>
-                        
-                        <div class="toto">
-                            <form>
-                                <label class="control-label">Click on the reviewers below to assign them on the current Paper</label>
-                                <select multiple="multiple" class="selectAdd input-xlarge multiSelect" id="reviewers_list_{{paper.pk}}">
-                                   
-                                </select>
-                            </form>
-                        </div>
-                    </td>
-               
-            </tr>
-        </tr>
-        {% empty %}
-            <h3>There is no papers for this conference</h3><br/>
-        {% endfor %}
-    </tbody>
-</table>
-
-
-
-<h3>Blabla</h3>
-<table class="table table-bordered ">
-    <thead>
-        <tr>
-            <th>name</th>
-            <th>domains</th>
-            <th>languages</th>
-            <th>assigns</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for mem in memberships_list %}
-        <tr>
-            <td>{{ mem.user.email }}</td>
-            <td>{{ mem.domains.all|join:", " }}</td>
-            <td>{{ mem.user.languages.all|join:", " }}</td>
-            <td>{{ mem.user.assignments.count }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
 
 {% endblock %}
 {% block extra_style %}
@@ -123,82 +24,71 @@
 <script src="{{ STATIC_URL }}jquery.selectoptionsort.js"></script>
 <script src="{{ STATIC_URL }}jquery.ajaxsend.js"></script>
 <script>
-$(document).ready(function(){
 
-    // Displays all the reviewers not yet assigned to this paper for this conference in the select input
-    $(function() {
-        $('tr.infos').click(function(e) {
-            $('tr.infos').next().hide();
-            var paperid = $(this).attr("id")
-            $(this).next().slideToggle('fast');
-            $(this).next().find('.icon').toggleClass('icon-chevron-up')
-            $(this).next().find('.icon').toggleClass('icon-chevron-down');
-            $.post("{% url 'updateReviewerList' conference.pk %}", { 
-                paper_id: paperid,
-            },
-                function(data) {
-                    $("#reviewers_list_"+paperid).find('option').remove();
-                    $.each(data,function(index, value) {
-                        $("#reviewers_list_"+paperid).append("<option id=\""+value[0]+"\">"+value[1]+"</option>")
-                    });
-                }
-            );
-            
-            $.post("{% url 'refreshAssignationNumber' conference.pk %}", { 
-                paper_id: paperid,
-            },
-                function(data) {
-                    $.each(data,function(index,value){
-                        $("td#paper_count_"+value[0]).text(value[1]);
-                    });
-                }
-            );
-            return false;
-        }).next().hide();
-    });
-    
-    
-    // When a click on the "Remove" button is captured, we remove the reviewer from the table and add an option in the select input
-    $(function() {
-        $('a.assignment').live("click",function(e) {
-            var my_button = $(this)
-            var assign_id = $(this).attr("id");
-            var substri = assign_id.split('--table_');
-            var paperid = parseInt(substri[1]);
-            var start = substri[0];
-            var toRemove = 'remove_';
-            var end = start.replace(toRemove,'');
+function updateReviewerList() {
+    $('tr.infos').click(function(e) {
+        $('tr.infos').next().hide();
+        var paperid = $(this).attr("id")
+        $(this).next().slideToggle('fast');
+        $.post("{% url 'updateReviewerList' conference.pk %}", { 
+            paper_id: paperid,
+        },
+            function(data) {
+                $("#reviewers_list_"+paperid).find('option').remove();
+                $.each(data,function(index, value) {
+                    $("#reviewers_list_"+paperid).append("<option id=\""+value[0]+"\">"+value[1]+"</option>")
+                });
+            }
+        );
+        
+        $.post("{% url 'refreshAssignationNumber' conference.pk %}", { 
+            paper_id: paperid,
+        },
+            function(data) {
+                $.each(data,function(index,value){
+                    $("td#paper_count_"+value[0]).text(value[1]);
+                });
+            }
+        );
+        return false;
+    }).next().hide();
 
-            
-            $.post("{% url 'deleteAssignmentRow' conference.pk %}", {
-                    'end': end,
+}
+
+function deleteAssignmentRow() {
+    $('a.assignment').live("click",function(e) {
+        var my_button = $(this)
+        var assign_id = $(this).attr("id");
+        var substri = assign_id.split('--table_');
+        var paperid = parseInt(substri[1]);
+        var start = substri[0];
+        var toRemove = 'remove_';
+        var end = start.replace(toRemove,'');
+
+        
+        $.post("{% url 'deleteAssignmentRow' conference.pk %}", {
+                'end': end,
+            },
+            function(data) {
+                my_button.parent().parent().remove();
+                $.post("{% url 'updateReviewerList' conference.pk %}", { 
+                    paper_id: paperid,
                 },
-                function(data) {
-                    my_button.parent().parent().remove();
-                    $.post("{% url 'updateReviewerList' conference.pk %}", { 
-                        paper_id: paperid,
-                    },
-                        function(data) {
-                            $("#reviewers_list_"+paperid).find('option').remove();
-                            $.each(data,function(index, value) {
-                                $("#reviewers_list_"+paperid).append("<option id=\""+value[0]+"\">"+value[1]+"</option>")
-                            });
-                        }
-                    );
-                    var res = parseInt($("td#assignments_"+paperid).text());
-                    $("td#assignments_"+paperid).text(res-1);                    
-                }
-            );
-        });
+                    function(data) {
+                        $("#reviewers_list_"+paperid).find('option').remove();
+                        $.each(data,function(index, value) {
+                            $("#reviewers_list_"+paperid).append("<option id=\""+value[0]+"\">"+value[1]+"</option>")
+                        });
+                    }
+                );
+                var res = parseInt($("td#assignments_"+paperid).text());
+                $("td#assignments_"+paperid).text(res-1);                    
+            }
+        );
     });
-    
+}
 
-
-	$(function() {
-		$("select.selectAdd").selectOptionSort();
-	}); 
-
-	// When a click on a select option is captured, remove the option form the list, and add the reviewer to the table
+function updateAssignmentsTables() {
 	$("select.selectAdd").click(function(){
 	    var val = $(this).attr("id");
 	    var clicked = $(".multiSelect option:selected");
@@ -223,9 +113,10 @@ $(document).ready(function(){
 			
 		}
 	});
-	
+}
 
-    // When a click is captured on the auto-assign button, lauch the modal frame and execute the algorithm
+
+function auto_assign() {
 	$('#auto_assignment').click(function(){
 	    var by_paper = $("#avg_assi_by_paper").val();
 	    if( by_paper == '' ) {
@@ -243,16 +134,52 @@ $(document).ready(function(){
                 'by_reviewer':by_reviewer,
             },
             function(data) {
-                window.location.reload();
-                $("#messages").alert();
+                $('#messages').toggleClass('hide');
+                $('#toggle_modal_loading').modal('hide');
+                
+                $.get("{% url 'assignments' conference.pk %}", {},
+                function(data) {
+                    var html = $('div#container', data).html();
+                    $('div#container').replaceWith(html);
+                    $('tr.infos').next().hide();
+                    updateReviewerList();
+                    
+                    deleteAssignmentRow();
+                    
+                    updateAssignmentsTables();
+                    
+                    auto_assign();
+                }
+            );
             }
         );
-        
+
         return false;
 	});
+}
 
+    
+    $(function() {
+        // Displays all the reviewers not yet assigned to this paper for this conference in the select input
+        updateReviewerList();
+        
+        // When a click on the "Remove" button is captured, we remove the reviewer from the table and add an option in the select input
+        deleteAssignmentRow();
+        
+        // When a click is captured on the auto-assign button, lauch the modal frame and execute the algorithm
+        updateAssignmentsTables();
+        
+        // When a click on a select option is captured, remove the option form the list, and add the reviewer to the table
+        auto_assign();
+    });
+    
+    
+	$(function() {
+		$("select.selectAdd").selectOptionSort();
+	}); 
 
-});
+    
+
 
 
 </script>
