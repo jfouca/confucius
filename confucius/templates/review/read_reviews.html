@@ -13,7 +13,7 @@
     <p><font color="red"><b>You have already made a decision for this paper.</b></font></p>
 {% endif %}
 <p>Title : {{paper.title}}</p>
-<p>Conference : {{paper.conference.title}}</p>
+<p>Conference : {{conference.title}}</p>
 <p>Domains : {{paper.domains.all|join:', '}}</p>
 <p>Language : {{paper.title}}</p>
 <p><a href="{{paper.document.url}}" class="btn btn-primary">Download the paper</a></p>
@@ -45,7 +45,7 @@
             {% endif %}
         </p>
         
-        <a href="{% url 'paper_selection_list' %}" class="btn">Make the decision later</a>
+        <a href="{% url 'paper_selection_list' conference.pk %}" class="btn">Make the decision later</a>
         <input type="submit" name="select_paper" class="btn btn-primary" value="SELECT this paper"/>
         <input type="submit" name="dont_select_paper" class="btn btn-danger" value="DON'T SELECT this paper"/>
     </div>
