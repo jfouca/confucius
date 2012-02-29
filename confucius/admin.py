@@ -121,13 +121,10 @@ class MembershipInline(admin.StackedInline):
     model = Membership
 
 
-class ConferenceAdmin(admin.ModelAdmin):
-    inlines = (MembershipInline, )
-
 
 site = admin.AdminSite()
 site.register(User, UserAdmin)
-site.register(Conference, ConferenceAdmin)
+site.register(Conference,)
 site.register(Domain)
 site.register(Paper, PaperAdmin)
 site.register(Assignment)
