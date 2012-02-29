@@ -9,8 +9,8 @@ This invitation comes with the following message from the chair of the conferenc
 "{{ invitation.message }}"
 
 If you wish to accept the invitation, please click on the following link :
-http://{{ domain }}{% url 'invitation_accept' invitation.conference.pk invitation.key %}
+http://{{ domain }}{% url 'conference_invitation' invitation.key 'accept' %}
 
 If you are not available or interested, please click on the following link :
-http://{{ domain }}{% url 'invitation_refuse' invitation.conference.pk invitation.key %}
+http://{{ domain }}{% url 'conference_invitation' invitation.key 'refuse' %}
 {% endautoescape %}

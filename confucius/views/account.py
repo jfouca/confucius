@@ -6,35 +6,6 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_GET, require_http_methods
 
 
-@require_GET
-def confirm_email(request, activation_key, template_name='account/confirm_email.html'):
-    """
-    This is where the User lands when he follows the link sent to him via email
-    No need for login_required since the User can be new (and therefore can't log in, yet),
-    plus the activation_key is unpredictable.
-    """
-    from confucius.models import Activation
-
-    try:
-        activation = Activation.objects.get(activation_key=activation_key)
-        activation.delete()
-    except Activation.DoesNotExist:
-        activation = None
-
-    email = None
-
-    if activation is not None and not activation.has_expired():
-        email = activation.email
-        email.confirmed = True
-        email.save()
-
-    context = {
-        'email': email,
-    }
-
-    return render_to_response(template_name, context, context_instance=RequestContext(request))
-
-
 @require_http_methods(['GET', 'POST'])
 @login_required
 @csrf_protect
@@ -83,6 +54,35 @@ def close_account(request):
     logout(request)
     messages.info(request, u'Your account has been successfully closed.')
     return redirect('login')
+
+
+@require_GET
+def confirm_email(request, activation_key, template_name='account/confirm_email.html'):
+    """
+    This is where the User lands when he follows the link sent to him via email
+    No need for login_required since the User can be new (and therefore can't log in, yet),
+    plus the activation_key is unpredictable.
+    """
+    from confucius.models import Activation
+
+    try:
+        activation = Activation.objects.get(activation_key=activation_key)
+        activation.delete()
+    except Activation.DoesNotExist:
+        activation = None
+
+    email = None
+
+    if activation is not None and not activation.has_expired():
+        email = activation.email
+        email.confirmed = True
+        email.save()
+
+    context = {
+        'email': email,
+    }
+
+    return render_to_response(template_name, context, context_instance=RequestContext(request))
 
 
 @require_http_methods(['GET', 'POST'])

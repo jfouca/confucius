@@ -43,9 +43,7 @@
                         {% endif %}
                         {% if membership.has_reviewer_role %}
                         {% endif %}
-                        {% if membership.has_submitter_role %}
-                            <a class="btn" href="{% url 'paper' conference.pk %}">Submit paper</a>
-                        {% endif %}
+                        <a class="btn" href="{% url 'paper' conference.pk %}">Submit paper</a>
                     </td>
                 {% endif %}
             </tr>

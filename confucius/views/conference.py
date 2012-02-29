@@ -7,7 +7,8 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_GET, require_http_methods
 
 from confucius.decorators import has_chair_role, has_role
-from confucius.models import Alert, Conference, Membership, Paper, Assignment, Role
+from confucius.forms import MembershipForm
+from confucius.models import Alert, Assignment, Conference, Invitation, Membership, Paper, Role
 
 
 @require_GET
@@ -31,8 +32,6 @@ def conference_access(request, conference_pk, access_key, template_name='confere
 @login_required
 @csrf_protect
 def membership(request, conference_pk, template_name='conference/membership_form.html'):
-    from confucius.forms import MembershipForm
-
     conference = Conference.objects.get(pk=conference_pk)
 
     try:
@@ -128,8 +127,31 @@ def dashboard(request, template_name='conference/dashboard.html'):
 
 
 @require_GET
-def conference_invitation(request, template_name='conference/invitation.html'):
-    pass
+def conference_invitation(request, key, decision, template_name='conference/invitation.html'):
+    invitation = get_object_or_404(Invitation, key=key)
+
+    if not invitation.pending():
+        return redirect('already_answered')
+
+    if decision == 'refuse':
+        invitation.refuse()
+        return redirect('refusal')
+
+    if not invitation.user.is_active:
+        return redirect('signup', key=key)
+
+    invitation.accept()
+
+    try:
+        membership = Membership.objects.get(user=invitation.user, conference=invitation.conference)
+    except:
+        membership = Membership.objects.create(user=invitation.user, conference=invitation.conference)
+
+    membership.roles.clear()
+    membership.roles.add(invitation.roles.all())
+
+    messages.success(request, u'You are now participating in the conference "%s"' % invitation.conference)
+    return redirect('dashboard', conference_pk=invitation.conference.pk)
 
 
 @require_http_methods(['GET', 'POST'])
@@ -137,7 +159,6 @@ def conference_invitation(request, template_name='conference/invitation.html'):
 @has_chair_role
 def conference_invite(request, template_name='conference/invitation_form.html'):
     from confucius.forms import InvitationForm
-    from confucius.models import Invitation
 
     form = InvitationForm()
 
@@ -164,6 +185,52 @@ def membership_list(request, template_name='conference/membership_list.html'):
 
     context = {
         'membership_list': membership_list,
+    }
+
+    return render_to_response(template_name, context, context_instance=RequestContext(request))
+
+
+@require_http_methods(['GET', 'POST'])
+@csrf_protect
+def signup(request, key, template_name='registration/signup_form.html'):
+    from django.contrib.auth import authenticate, login
+    from django.db.models import Q
+    from confucius.forms import PaperForm, SignupForm
+
+    if request.user.is_authenticated():  # You're already registered, what the fuck would you signup for?
+        return redirect('dashboard')
+
+    invitation = get_object_or_404(Invitation, key=key)
+
+    try:
+        invitation.roles.get(Q(code='R') | Q(code='C'))
+        instance = Membership(**{'conference': invitation.conference, 'user': invitation.user})
+        extra_form_class = MembershipForm
+    except:
+        instance = Paper(**{'conference': invitation.conference, 'submitter': invitation.user})
+        extra_form_class = PaperForm
+
+    form = SignupForm(instance=invitation.user)
+    extra_form = extra_form_class(instance=instance)
+
+    if request.method == 'POST':
+        form = SignupForm(request.POST, instance=invitation.user)
+        extra_form = extra_form_class(request.POST, request.FILES, instance=instance)
+
+        for f in (form, extra_form):
+            if f.is_valid():
+                f.save()
+
+        if not form.errors and not extra_form.errors:
+            user = authenticate(username=invitation.user.email, password=form.cleaned_data.get('password1'))
+            login(request, user)
+            messages.success(request, u'Congratulations! You have successfully submitted your paper to the conference.')
+            return redirect('dashboard')
+
+    context = {
+        'form': form,
+        'extra_form': extra_form,
+        'invitation': invitation,
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))

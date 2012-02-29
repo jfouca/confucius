@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import patterns, include, url
+from django.views.generic import TemplateView
 
 
 basepatterns = patterns('confucius.views',
@@ -8,8 +9,6 @@ basepatterns = patterns('confucius.views',
     url(r'^update/$', 'conference_edit', name='conference_edit'),
     url(r'^toggle/$', 'conference_toggle', name='conference_toggle'),
     url(r'^invite/$', 'conference_invite', name='conference_invite'),
-    url(r'^invitation/(?P<key>[0-9a-f]{64})/accept$', 'conference_invitation', name='invitation_accept'),
-    url(r'^invitation/(?P<key>[0-9a-f]{64})/refuse$', 'conference_invitation', name='invitation_refuse'),
     (r'^alert/', include('confucius.urls.alert')),
     (r'^paper/', include('confucius.urls.paper')),
     (r'^review/', include('confucius.urls.review')),
@@ -18,5 +17,9 @@ basepatterns = patterns('confucius.views',
 urlpatterns = patterns('confucius.views',
     url(r'^dashboard/$', 'dashboard', name='dashboard'),
     url(r'^list/$', 'membership_list', name='membership_list'),
+    url(r'^invitation/(?P<key>[0-9a-f]{64})/(?P<decision>accept|refuse)/$', 'conference_invitation', name='conference_invitation'),
+    url(r'^refusal/$', TemplateView.as_view(template_name='conference/refusal.html'), name='refusal'),
+    url(r'^already-answered/$', TemplateView.as_view(template_name='conference/already_answered.html'), name='already_answered'),
+    url(r'^signup/(?P<key>[0-9a-f]{64})/$', 'signup', name='signup'),
     (r'^(?P<conference_pk>\d+)/', include(basepatterns)),
 )

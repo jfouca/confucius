@@ -149,3 +149,16 @@ class Invitation(ConfuciusModel):
 
     class Meta(ConfuciusModel.Meta):
         unique_together = ('user', 'conference')
+
+    def _decision(self, code):
+        self.decision = code
+        self.save()
+
+    def pending(self):
+        return self.decision == 'W'
+
+    def refuse(self):
+        self._decision('R')
+
+    def accept(self):
+        self._decision('A')

@@ -1,11 +1,11 @@
 from django import forms
-from confucius.models import Domain, Paper
+from confucius.models import Domain, Membership, Paper, Role
 
 
 class PaperForm(forms.ModelForm):
     class Meta:
-        model = Paper
         fields = ('title', 'description', 'file', 'co_authors', 'language', 'domains')
+        model = Paper
         widgets = {
             'domains': forms.CheckboxSelectMultiple(),
         }
@@ -14,3 +14,12 @@ class PaperForm(forms.ModelForm):
         super(PaperForm, self).__init__(*args, **kwargs)
 
         self.fields['domains'].queryset = Domain.objects.filter(conferences__pk=self.instance.conference_id)
+
+    def save(self, commit=True):
+        paper = super(PaperForm, self).save(commit)
+
+        membership, created = Membership.objects.get_or_create(user=paper.submitter, conference=paper.conference)
+        membership.roles.add(Role.objects.get(code='S'))
+        membership.set_last_accessed()
+
+        return paper

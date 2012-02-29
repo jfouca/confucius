@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load url from future %}
+
+{% block title %}{% endblock %}
+
+{% block base_content %}
+<div class="modal">
+	  <div class="modal-header">
+          <h3>You've already answered the invitation.</h3>
+	  </div>
+      <div class="modal-footer">
+          {% if request.user.is_authenticated %}
+          <a href="{% url 'account' %}" class="btn">Go back to my account</a>
+          <a href="{% url 'membership_list' %}" class="btn">View the list of my conferences</a>
+          {% endif %}
+	  </div>
+</div>
+{% endblock %}

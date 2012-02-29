@@ -1,5 +1,6 @@
 from django import forms
 
+from confucius.forms import UserForm
 from confucius.models import Alert, Conference, Domain, Email, Invitation, Membership, User
 
 
@@ -59,7 +60,7 @@ class InvitationForm(forms.ModelForm):
 
         try:
             email = Email.objects.get(value=cleaned_data['email'])
-            membership = Membership.objects.get(user=email.user, conference=cleaned_data['conference'], roles__in=(cleaned_data['role'],))
+            membership = Membership.objects.get(user=email.user, conference=cleaned_data['conference'], roles__in=cleaned_data['roles'])
         except:
             pass
 
@@ -67,7 +68,7 @@ class InvitationForm(forms.ModelForm):
             raise forms.ValidationError(u'This user has already that role in the Conference.')
 
         if email is None:
-            user = User.objects.create(email=self.cleaned_data['email'], username=email_to_username(self.cleaned_data['email']))
+            user = User.objects.create(email=self.cleaned_data['email'], username=email_to_username(self.cleaned_data['email']), is_active=False)
             Email.objects.create(value=user.email, main=True, user=user)
         else:
             user = email.user
@@ -99,6 +100,7 @@ class InvitationForm(forms.ModelForm):
             template.render(Context(context)), None, [invitation.user.email])
 
         invitation.save()
+        self.save_m2m()
 
         return invitation
 
@@ -115,3 +117,37 @@ class MembershipForm(forms.ModelForm):
         super(MembershipForm, self).__init__(*args, **kwargs)
 
         self.fields['domains'].queryset = Domain.objects.filter(conferences__pk=self.instance.conference_id)
+
+
+class SignupForm(UserForm):
+    password1 = forms.CharField(label=u'Password', widget=forms.PasswordInput)
+    password2 = forms.CharField(label=u'Password confirmation', widget=forms.PasswordInput)
+
+    class Meta(UserForm.Meta):
+        fields = ('email', 'first_name', 'last_name', 'password1', 'password2', 'languages')
+
+    def __init__(self, *args, **kwargs):
+        super(SignupForm, self).__init__(*args, **kwargs)
+
+        self.fields['email'].widget.attrs['readonly'] = True
+
+    def clean_password2(self):
+        password1 = self.cleaned_data.get('new_password1')
+        password2 = self.cleaned_data.get('new_password2')
+        if password1 and password2:
+            if password1 != password2:
+                raise forms.ValidationError(u"The two passwords didn't match.")
+        return password2
+
+    def save(self, commit=True):
+        user = super(SignupForm, self).save(commit)
+
+        if commit:
+            user.set_password(self.cleaned_data.get('password1'))
+            user.is_active = True
+            user.save()
+            email = user.emails.get(main=True)
+            email.confirmed = True
+            email.save()
+
+        return user
