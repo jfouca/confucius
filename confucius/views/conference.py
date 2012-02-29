@@ -1,13 +1,15 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.forms.models import modelform_factory
 from django.shortcuts import get_object_or_404, redirect, render_to_response
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
-from django.views.decorators.http import require_GET, require_http_methods
+from django.views.decorators.http import require_GET, require_POST, require_http_methods
 
 from confucius.decorators import has_chair_role, has_role
 from confucius.models import Alert, Conference, Membership, Paper, Assignment, Role
+from confucius.forms import SendEmailToUsersForm
 
 
 @require_GET
@@ -167,3 +169,40 @@ def membership_list(request, template_name='conference/membership_list.html'):
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))
+    
+@login_required
+@has_chair_role
+@csrf_protect
+def sendEmailtoUsers(request, template_name='conference/send_email_to_users.html'):
+
+    conference = request.conference
+    form = SendEmailToUsersForm(initial={'conference':conference})
+    
+    if 'POST' == request.method:
+        form = SendEmailToUsersForm(request.POST,initial={'conference':conference})
+
+        if form.is_valid():
+            #Get the cleaned_data from FORM and then send the email
+            title = form.cleaned_data['title']
+            content = form.cleaned_data['content']
+            receivers = form.cleaned_data['receivers']
+            
+            for receiver in receivers:
+                email = receiver.email
+                try:
+                    send_mail(title, content, 'no-reply-alerts@confucius.com',['foucault.jeremy@gmail.com'], fail_silently=False)
+                    
+                except:
+                    messages.error(request, u'An error occured during the email sending process. The SMTP settings may be uncorrect, or the receiver(%s) email address may not exist\n' % str(email))
+                    return redirect('dashboard')
+                    
+            messages.success(request, u'You succesfully have just sent your email to the receiver(s)')        
+            return redirect('dashboard')
+
+    context = {
+        'form': form,
+        'conference': conference
+    }
+
+    return render_to_response(template_name, context, context_instance=RequestContext(request))
+     
