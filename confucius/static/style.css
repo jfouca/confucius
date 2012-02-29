@@ -34,38 +34,34 @@ body {
     margin: 0 5px;
 }
 
+.logo {
+    padding-left: 48px;
+    background: url("logo_mini.png") left center no-repeat;
+}
+    
+
 /* Sidebar */
 
 .sidebar-nav {
     margin: 0;
     padding: 15px 12px;
-    background-color: #fff;
+    background-color: #f5f5f5;
 
 }
 
 /* Content */
 
-.content-span {
-    margin-left: 0;
-}
-
 .content {
-
 }
 
 .content-header {
-    padding: 5px 0;
 }
 
-.content-header h1 {
-
-}
 
 .content-main {
 }
 
-.content-footer {
-    padding: 5px 15px;
+.footer {
     border-top: 1px solid lightgrey;
 }
 
@@ -73,10 +69,8 @@ body {
 
 .db-top {
     display:block;
-    margin-bottom: 5px;
-    color: #f2f2f2;
-    background-color: #222;
-    border-bottom: 1px solid black;
+    color: #222;
+    background-color: #f0f0f0;
     border-radius: 0px 0px 4px 4px;
     -moz-border-radius: 0px 0px 4px 4px;
     -webkit-border-radius: 0px 0px 4px 4px;
