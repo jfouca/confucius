@@ -328,9 +328,9 @@ jQuery.autocomplete = function(input, options) {
 				function() { $("li", ul).removeClass("ac_over"); $(this).addClass("ac_over"); active = $("li", ul).indexOf($(this).get(0)); },
 				function() { $(this).removeClass("ac_over"); }
 			).click(function(e) { 
-				var val = $(this).html();		
+				var val = $(this).html();	
 				// remove from options array (the array which contains the value of the list) the value
-				$('#textbox').trigger('test', val);			
+				$(reviewer_list_number).parent().find('input').trigger('test', val);			
 				// Get the first letter of the word in order to put this in a hashmap (see jquery.autocomplte.js)
 				q = val.substring(0, 1).toLowerCase();			
 				subFromCache(q, val);
@@ -503,7 +503,6 @@ jQuery.fn.autocomplete = function(url, options, data) {
 		var input = this;
 		new jQuery.autocomplete(input, options);
 	});
-
 	// Don't break the chain
 	return this;
 }
@@ -519,8 +518,10 @@ function setTab(opt){
 }
 
 var options;
+var reviewer_list_number;
 
-jQuery.fn.autocompleteArray = function(data, option) {
+jQuery.fn.autocompleteArray = function(nb, data, option) {
+    reviewer_list_number = nb;
 	options = option;
 	return this.autocomplete(null, options, data);
 }
@@ -572,37 +573,45 @@ function addDataToCache(data){
 			// no url was specified, we need to adjust the cache length to make sure it fits the local data store
 			if( typeof options.url != "string" ) options.cacheLength = 1;
 
- 			cache.data[sFirstChar].length++;
-			var  nb =  cache.data[sFirstChar].length;
+ 			if (typeof cache.data[sFirstChar] != 'undefined') {
+ 			    cache.data[sFirstChar].length++;
+			    var  nb =  cache.data[sFirstChar].length;
 			
-			// loop through the array and create a lookup structure
-			for( var i=0; i < nb; i++ ){
+			    // loop through the array and create a lookup structure
+			    for( var i=0; i < nb; i++ ){
 				
-				if (i==nb-1){
-					row = ((typeof data == "string") ? [data] : data);
-				}
-				else {
-					// if row is a string, make an array otherwise just reference the array
-					row = ((typeof cache.data[sFirstChar][i] == "string") ? [cache.data[sFirstChar][i]] : cache.data[sFirstChar][i]);
-				}
+				    if (i==nb-1){
+					    row = ((typeof data == "string") ? [data] : data);
+				    }
+				    else {
+					    // if row is a string, make an array otherwise just reference the array
+					    row = ((typeof cache.data[sFirstChar][i] == "string") ? [cache.data[sFirstChar][i]] : cache.data[sFirstChar][i]);
+				    }
 
-				// if the length is zero, don't add to list
-				if( row[0].length > 0 ){
-					// if no lookup array for this character exists, look it up now
-					if( !stMatchSets[sFirstChar] ) stMatchSets[sFirstChar] = [];
-					// if the match is a string
-					stMatchSets[sFirstChar].push(row);
-				}
+				    // if the length is zero, don't add to list
+				    if( row[0].length > 0 ){
+					    // if no lookup array for this character exists, look it up now
+					    if( !stMatchSets[sFirstChar] ) stMatchSets[sFirstChar] = [];
+					    // if the match is a string
+					    stMatchSets[sFirstChar].push(row);
+				    }
 				
-			}
+			    }
 			
-			options.data[options.data.length] = data;
+			    options.data[options.data.length] = data;
 
-			stMatchSets[sFirstChar].sort();
-			// add the data items to the cache
-			// increase the cache size
-			options.cacheLength++;
-			// add to the cache
-			addToCache(sFirstChar, stMatchSets[sFirstChar]);
+			    stMatchSets[sFirstChar].sort();
+			    // add the data items to the cache
+			    // increase the cache size
+			    options.cacheLength++;
+			    // add to the cache
+			    addToCache(sFirstChar, stMatchSets[sFirstChar]);
+	        }
+	        else {
+	            row = ((typeof data == "string") ? [data] : data);
+	            if( !stMatchSets[sFirstChar] ) stMatchSets[sFirstChar] = [];
+	            stMatchSets[sFirstChar].push(row);
+	            addToCache(sFirstChar, stMatchSets[sFirstChar]);
+	        }
 		}
 }

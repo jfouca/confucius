@@ -1,0 +1,31 @@
+{% extends 'base-in.html' %}
+{% load url from future %}
+
+{% block title %}Conference {% endblock %}
+
+{% block subtopbar %}{% endblock %}
+
+{% block content_header %}
+<h1>Alerts</h1>
+{% endblock %}
+
+{% block content_main %}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Title</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for alert in alert_list %}
+        <tr>
+            <td>{{ alert.title }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No alert has been set yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

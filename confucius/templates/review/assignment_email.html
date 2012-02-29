@@ -1,0 +1,9 @@
+{% load url from future %}
+{% autoescape off %}
+Hello,
+
+You have received papers to reviews, for the conference "{{ conference.title }}".
+
+If you wish to review those papers, please click on the following link:
+http://{{ domain }}{% url 'dashboard' conference.pk %}
+{% endautoescape %}

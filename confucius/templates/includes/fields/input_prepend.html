@@ -3,11 +3,5 @@
         <i class="icon icon-{{ icon }}"></i>
     </span>
     {{ field }}
-    {% ifequal edit 'True' %}
-        <span class="help-inline">
-            {% if first %}<a href="#" class="add-{{ prefix }}"><i class="icon-plus"></i></a>{% endif %}
-            <a href="#" class="rm-{{ prefix }}"{% if first %} style="display:none"{% endif %}><i class="icon-minus"></i></a>
-        </span>
-    {% endifequal %}
     <span class="help-inline">{{ field.errors|first }}</span>
 </div>

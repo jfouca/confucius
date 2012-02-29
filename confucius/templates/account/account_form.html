@@ -17,8 +17,9 @@
 {% block content_main %}
 <form id="form" class="form-horizontal" method="post">{% csrf_token %}
     {% include 'includes/form.html' %}
-    {% include 'includes/formset.html' with formset=email_formset edit='True' list='True' %}
-    {% include 'includes/formset.html' with formset=address_formset %}
+    {% include 'includes/account_form_dynamic_fields.html' with formset=email_formset %}
+    {% include 'includes/account_form_dynamic_fields.html' with formset=address_formset %}
+ 
     <div class="form-actions">
         <input type="submit" class="btn btn-primary" value="Save changes">
     </div>
@@ -39,52 +40,99 @@
 {% endblock %}
 {% block script %}
 <script>
-$(document).ready(function() {
-    var id_to_hide = ["-main", "-DELETE", "-confirmed"];
-    for (var i=0; i<id_to_hide.length; i++) {
-        $('input:checkbox[id $= '+id_to_hide[i]+']').each(function(i) {
-            $('#control_' + $(this).attr('id')).hide();
-        });
-    }
-});
-</script>
-<script>
 	function updateElementIndex(element, prefix, formCount) {
+	    // regew to find the id in the ids
 		var id_regex = new RegExp('(' + prefix + '-\\d+)');
+		// we want to replace it
 		var replacement = prefix + '-' + formCount;
-		if ($(element).attr("for")) $(element).attr("for", $(element).attr("for").replace(id_regex, replacement));
-		if (element.id) element.id = element.id.replace(id_regex, replacement);
-		if (element.name) element.name = element.name.replace(id_regex, replacement);
+		// in the for element
+		if ($(element).attr("for"))
+		    $(element).attr("for", $(element).attr("for").replace(id_regex, replacement));
+		// the ids
+		if (element.id)
+		    element.id = element.id.replace(id_regex, replacement);
+		// the the names
+		if (element.name)
+		    element.name = element.name.replace(id_regex, replacement);
 	}
 
     function addForm(btn, prefix) {
+        // first let's check the previous field
+        if(!$(btn).parents('li').find("input[name$='value']").val()
+            && !$(btn).parents('li').find("textarea[name$='value']").val())
+            // nothing to add, just fill the empty field please
+            return false;
+    
+        // retrieve how many forms we have
         var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+        // the new element added to the page
         var row = $('#id_'+ prefix +'> .clone').clone(true).get(0);
-
-        $(row).removeAttr('class');
-        $(row).find('.confirmed').remove();
-        $(row).find('.add-' + prefix).remove();
-        $(row).find("input[name$='value']").val('');
-        $(row).find('.rm-' + prefix).removeAttr('style');
         
+        // we add it to the list
+        $(btn).parents('ul').append($(row));
+        // but we don't want to see it yet
+        $(row).hide();
+
+        // it's new!
+        $(row).toggleClass('new');
+        // this is not to clone
+        $(row).toggleClass('clone');
+        // and we only add from the last
+        $(row).prev().find('.add-' + prefix).toggleClass('hidden');
+        
+        // it's not yet confirmed if an email
+        //$(row).find('.confirmed').remove();
+        // we want to see the plus button
+        if($(row).find('.add-' + prefix).hasClass('hidden'))
+            $(row).find('.add-' + prefix).toggleClass('hidden');
+        // and the minus button
+        if($(row).find('.rm-' + prefix).hasClass('hidden'))
+            $(row).find('.rm-' + prefix).toggleClass('hidden');
+        // now we clear the email field
+        $(row).find("input[type=text][name$='value']").val('');
+        // or the textarea
+        $(row).find("textarea[name$='value']").val('');
+        
+        // let's update some ids
         var tags = ["div", "label", "input"];
         for (var i=0; i<tags.length; i++) {
             $(row).find(tags[i]).each(function() {
         	    updateElementIndex(this, prefix, formCount);
             });
         }
+        // we now have a new form
         $('#id_' + prefix + '-TOTAL_FORMS').val(formCount + 1);
         
-        $(row).appendTo($('#id_'+ prefix));
-        $(row).hide();
+        // and the magic appends
         $(row).fadeToggle("slow");
+        
         return false;
     }
     
     function deleteForm(btn, prefix) {
-        $(btn).parents("div[class^='control-']").parent().remove();
-        var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
-        $('#id_' + prefix + '-TOTAL_FORMS').val(formCount - 1);
+        // sfx
+        $(btn).parents('li').fadeToggle('slow', function() {
+            // no item after?
+            if($(btn).parents('li').next().index()==-1)
+                // previous gets the plus button
+                $(btn).parents('li').prev().find('.add-' + prefix).toggleClass('hidden');
+
+            // if it's newly created
+            if($(btn).parents('li').hasClass('new')) {
+                // remove it
+                $(btn).parents('li').remove();
+                // medic! dead form!
+                var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+                // to the cemetery
+                $('#id_' + prefix + '-TOTAL_FORMS').val(formCount - 1);
+            } else {
+                // check it for deletion
+                $(btn).parents('li').find("input[type=checkbox][name$='DELETE']").attr('checked', true);
+                // we move it from the end of the list
+                $(btn).parents('ul').prepend($(btn).parents('li'));
+            }
+        });
+
         return false;
     }
 </script>
@@ -101,50 +149,6 @@ $(function () {
     });
     $('.rm-{{address_formset.prefix }}').live('click', function() {
 	    return deleteForm(this, '{{ address_formset.prefix }}');
-    });
-});
-</script>
-<script>
-$(function() {
-    //$('#form').on('submit', function() { return false; });
-    $('#form').on('change', function(e) {
-        $('div.control-group', this).removeClass('success error');
-        $('span.help-inline', this).empty();
-        $('.alert', this).alert('close');
-
-        $.post('{% url 'account' %}', $(this).serialize(), function(data) {
-        console.log(data);
-            var errors = $.parseJSON(data);
-            var input = $(e.target);
-            var ctrl_group = input.closest('div.control-group');
-
-            if (!$.isEmptyObject(errors)) {
-                for (field in errors) {
-                    var error_message = errors[field][0];
-                    var dest = $('#id_' + field);
-                    var ctrl_group = dest.closest('div.control-group');
-
-                    if (dest.is('div')) {
-                        $('<div class="alert alert-error fade in">')
-                        .append('<a class="close" data-dismiss="alert" href="#">&times;</a>')
-                        .append(error_message)
-                        .prependTo(dest);
-                    } else {
-                        dest.next().text(error_message);
-                    }
-
-                    ctrl_group.addClass('error');
-                }
-                return;
-            }
-
-            ctrl_group.addClass('success');
-            input.next().text('saved!');
-        });
-    });
-    $('#close_account_modal').modal({show: 0});
-    $('#close_account').on('click', function() {
-        $('#close_account_modal').modal('show');
     });
 });
 </script>

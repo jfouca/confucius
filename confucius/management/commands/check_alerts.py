@@ -36,7 +36,7 @@ class Command(BaseCommand):
                 membership = Membership.objects.filter(conference=conference,roles=role)
                 for entry in membership:
                     user = entry.user
-                    email = Email.objects.get(user=user,main=True)
+                    email = user.email
                     self.stdout.write(" ** envoi de mail a l adresse suivante: %s ** \n" % str(email))
                     try:
                         send_mail(alert.title, alert.content, 'no-reply-alerts@confucius.com',[str(email)], fail_silently=False)

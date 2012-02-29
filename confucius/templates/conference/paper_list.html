@@ -1,0 +1,39 @@
+{% extends 'base-in.html' %}
+{% load url from future %}
+
+{% block title %}Conference {% endblock %}
+
+{% block subtopbar %}{% endblock %}
+
+{% block content_header %}
+<h1>Papers</h1>
+{% endblock %}
+
+{% block content_main %}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Submitter</th>
+            <th>Date</th>
+            <th>Language</th>
+            <th>Domains</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for paper in paper_list %}
+        <tr>
+            <td>{{ paper.title }}</td>
+            <td>{{ paper.submitter }}</td>
+            <td>{{ paper.submission_date }}</td>
+            <td>{{ paper.language }}</td>
+            <td>{% for domain in paper.domains.all %}<span class="label">{{ domain }}</span>{% endfor %}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No paper has been submitted yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.forms.models import modelform_factory
 from django.shortcuts import get_object_or_404, redirect, render_to_response
 from django.template import RequestContext
@@ -7,7 +8,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_GET, require_http_methods
 
 from confucius.decorators import has_chair_role, has_role
-from confucius.forms import MembershipForm
+from confucius.forms import MembershipForm, SendEmailToUsersForm
 from confucius.models import Alert, Assignment, Conference, Invitation, Membership, Paper, Role
 
 
@@ -222,15 +223,53 @@ def signup(request, key, template_name='registration/signup_form.html'):
                 f.save()
 
         if not form.errors and not extra_form.errors:
+            invitation.accept()
             user = authenticate(username=invitation.user.email, password=form.cleaned_data.get('password1'))
             login(request, user)
-            messages.success(request, u'Congratulations! You have successfully submitted your paper to the conference.')
+            messages.success(request, u'Congratulations! Welcome to the conference.')
             return redirect('dashboard')
 
     context = {
         'form': form,
         'extra_form': extra_form,
         'invitation': invitation,
+    }
+
+    return render_to_response(template_name, context, context_instance=RequestContext(request))
+
+
+@login_required
+@has_chair_role
+@csrf_protect
+def send_email_to_users(request, template_name='conference/send_email_to_users.html'):
+
+    conference = request.conference
+    form = SendEmailToUsersForm(initial={'conference': conference})
+
+    if 'POST' == request.method:
+        form = SendEmailToUsersForm(request.POST, initial={'conference': conference})
+
+        if form.is_valid():
+            #Get the cleaned_data from FORM and then send the email
+            title = form.cleaned_data['title']
+            content = form.cleaned_data['content']
+            receivers = form.cleaned_data['receivers']
+
+            for receiver in receivers:
+                email = receiver.email
+                try:
+                    send_mail(title, content, 'no-reply-alerts@confucius.com', [unicode(email)], fail_silently=False)
+
+                except:
+                    messages.error(request, u'An error occured during the email sending process. The SMTP settings may be uncorrect, or the receiver(%s) email address may not exist\n' % str(email))
+                    return redirect('dashboard')
+
+            messages.success(request, u'You succesfully have just sent your email to the receiver(s)')
+            return redirect('dashboard')
+
+    context = {
+        'form': form,
+        'conference': conference
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))
