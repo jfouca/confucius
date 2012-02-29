@@ -1,8 +1,15 @@
+from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
 
 from confucius.forms import AddressFormSet, EmailFormSet, UserCreationForm, UserForm
 from confucius.models import Assignment, Address, Conference, Domain, Email, Membership, Paper, User
+
+
+class AdminConferenceForm(forms.ModelForm):
+    class Meta:
+        model = Conference
+        exclude = ('access_key')
 
 
 class AdminUserForm(UserForm):
@@ -90,7 +97,7 @@ class PaperAdmin(admin.ModelAdmin):
     )
     fieldsets = (
         ('Paper information', {
-            'fields': (('title', 'language','domains'), )
+            'fields': (('title', 'language', 'domains'), )
         }),
         ('Authors information', {
             'fields': (('submitter', 'conference',), 'co_authors', )
@@ -123,6 +130,13 @@ class MembershipInline(admin.StackedInline):
 
 class ConferenceAdmin(admin.ModelAdmin):
     inlines = (MembershipInline, )
+    readonly_fields = ('access_key',)
+
+    def get_form(self, request, obj=None, **kwargs):
+        if obj is None:
+            kwargs.update({'form': AdminConferenceForm})
+
+        return super(ConferenceAdmin, self).get_form(request, obj, **kwargs)
 
 
 site = admin.AdminSite()
