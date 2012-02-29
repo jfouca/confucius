@@ -17,6 +17,32 @@ from confucius.forms import ReviewForm
 from confucius.models import Assignment, Email, Membership, Paper, PaperSelection, Review, Role, User
 
 
+@require_http_methods(['GET', 'POST'])
+@login_required
+@has_chair_role
+def finalize_assignment(request):
+    from django.contrib.sites.models import get_current_site
+    from django.core.mail import send_mail
+    from django.template import Context, loader
+
+    conference = request.conference
+    assignments = Assignment.objects.filter(conference=conference, is_assigned=False)
+    for assignment in assignments:
+        assignment.is_assigned = True
+        assignment.save()
+    
+    
+    reviewers_list = list(set([assignment.reviewer.email for assignment in assignments]))
+    template = loader.get_template('review/assignment_email.html')
+    context = {
+            'domain': get_current_site(request).domain,
+            'conference': conference,
+    }
+    send_mail('You have received papers to reviews for the conference "%s"' % conference, template.render(Context(context)), None, reviewers_list)
+    
+    return redirect('dashboard')
+        
+        
 @require_POST
 @login_required
 @has_chair_role
@@ -30,16 +56,16 @@ def auto_assignment(request):
         role = Role.objects.get(code="R")
         papers_list = Paper.objects.filter(conference=conference)
         papers_list = papers_list.annotate(domains_nb=Count('domains')).order_by("-domains_nb")
-        max_assi_per_papers = request.POST.get('by_paper');
-        max_assi_per_reviewers = request.POST.get('by_reviewer');
+        max_assi_per_papers = int(request.POST.get('by_paper'));
+        max_assi_per_reviewers = int(request.POST.get('by_reviewer'));
         
         if papers_list.count() <= 0 :
             return HttpResponse(status=403)
         
         
         # Clear assignments
-        Assignment.objects.filter(conference=conference).delete()
-
+        Assignment.objects.filter(conference=conference, is_assigned=False).delete()
+        
         # Building an Assignment object from wrong informations. Will be manipulated (and avoid objects creations).
         assignment_object = Assignment.objects.create(paper=papers_list[0], reviewer=request.user, conference=conference)
         assignment_object.delete()      # Must delete to "clean" the object
@@ -63,11 +89,11 @@ def auto_assignment(request):
             nb_assi = 0
             for membership in memberships_list:
                 if paper.submitter == membership.user:
-                    continue;
+                    continue
                     
                 if nb_assi >= max_assi_per_papers:
-                    break;
-                    
+                    break
+                
                 if set_paper_domains <= set(membership.domains.all()):
                     assignment_object.reviewer = membership.user
                     assignment_object.pk = None
@@ -79,8 +105,8 @@ def auto_assignment(request):
             # Need more reviewers ? Use the "others" list !
             for reviewer in others_reviewers:
                 if nb_assi >= max_assi_per_papers:
-                    break;
-                
+                    break
+                    
                 assignment_object.reviewer = reviewer
                 assignment_object.pk = None
                 assignment_object.save()
@@ -95,6 +121,7 @@ def auto_assignment(request):
         return HttpResponse(status=202)
         
         
+@require_http_methods(['GET', 'POST'])
 @login_required
 @has_reviewer_role
 @csrf_protect
@@ -149,6 +176,8 @@ def paper_selection_list(request, template_name='review/paper_selection_list.htm
 @login_required
 @has_chair_role
 def read_reviews(request, pk_paper, template_name='review/read_reviews.html'):
+    conference = request.conference
+
     paper = Paper.objects.get(pk=pk_paper)
     reviews = Review.objects.filter(assignment__paper=paper)
 
@@ -162,11 +191,12 @@ def read_reviews(request, pk_paper, template_name='review/read_reviews.html'):
 
             selection.save()
 
-            return redirect('paper_selection_list')
+            return redirect('paper_selection_list', conference.pk)
 
     context = {
         'paper': paper,
         'reviews': reviews,
+        'conference': conference,
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))
@@ -176,17 +206,34 @@ def read_reviews(request, pk_paper, template_name='review/read_reviews.html'):
 @login_required
 @has_chair_role
 def finalize_selection(request):
-    membership = Membership.objects.get(user=request.user, last_accessed=True)
-    conference = membership.conference
+    conference = request.conference
+    
+    # Check papers
+    papers = Paper.objects.filter(conference=conference)
+    isError = False
+    try:
+        for paper in papers:
+            if not paper.selection:
+                isError = True
+                break
+    except:
+        isError = True
+        pass
+    
+    if isError == True:
+        messages.warning(request, u"You can't finalize papers selection while all papers haven't be reviewed or selected.")
+        return redirect('paper_selection_list', conference.pk)
+    else:
+        for paper_selection in conference.selections.all():
+            paper_selection.is_submit = True
+            paper_selection.save()
 
-    for paper_selection in conference.selections.all():
-        paper_selection.is_submit = True
-        paper_selection.save()
+        conference.has_finalize_paper_selections = True
+        conference.save()
+    
+        messages.warning(request, u"Papers selection have been finalized.")
+        return redirect('dashboard', conference.pk)
 
-    conference.has_finalize_paper_selections = True
-    conference.save()
-
-    return redirect('dashboard')
 
 @login_required
 @has_chair_role

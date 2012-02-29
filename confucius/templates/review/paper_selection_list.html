@@ -29,10 +29,10 @@
                         Not selected
                     {% endif %}
                 </td>
-                <td><a href="{% url 'read_reviews' paper.pk %}" class="btn">Update selection</a></td>
+                <td><a href="{% url 'read_reviews' conference.pk paper.pk %}" class="btn">Update selection</a></td>
             {% else %}
                 <td>Not decided</td>
-                <td><a href="{% url 'read_reviews' paper.pk %}" class="btn btn-info">Submit selection</a></td>
+                <td><a href="{% url 'read_reviews' conference.pk paper.pk %}" class="btn btn-info">Submit selection</a></td>
             {% endif %}
         </tr>
     {% empty %}
