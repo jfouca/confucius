@@ -85,6 +85,32 @@
         {% endfor %}
     </tbody>
 </table>
+
+
+
+<h3>Blabla</h3>
+<table class="table table-bordered ">
+    <thead>
+        <tr>
+            <th>name</th>
+            <th>domains</th>
+            <th>languages</th>
+            <th>assigns</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for mem in memberships_list %}
+        <tr>
+            <td>{{ mem.user.email }}</td>
+            <td>{{ mem.domains.all|join:", " }}</td>
+            <td>{{ mem.user.languages.all|join:", " }}</td>
+            <td>{{ mem.user.assignments.count }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
 {% endblock %}
 {% block extra_style %}
 <style>

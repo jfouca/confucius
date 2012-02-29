@@ -259,7 +259,7 @@
 {% block script %}
 <script>
     $(function() {
-        {% if membership.roles.count >= 2 %}
+        {% if membership.roles.count > 2 %}
         $('.toggle-div').next().toggle();
         {% endif %}
         $('.toggle-div').click(function(e) {

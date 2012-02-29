@@ -129,7 +129,7 @@ class MembershipInline(admin.StackedInline):
 
 
 class ConferenceAdmin(admin.ModelAdmin):
-    inlines = (MembershipInline, )
+    #inlines = (MembershipInline, )
     readonly_fields = ('access_key',)
 
     def get_form(self, request, obj=None, **kwargs):
@@ -141,7 +141,7 @@ class ConferenceAdmin(admin.ModelAdmin):
 
 site = admin.AdminSite()
 site.register(User, UserAdmin)
-site.register(Conference, ConferenceAdmin)
+site.register(Conference,)
 site.register(Domain)
 site.register(Paper, PaperAdmin)
 site.register(Assignment)
