@@ -115,3 +115,12 @@ class MembershipForm(forms.ModelForm):
         super(MembershipForm, self).__init__(*args, **kwargs)
 
         self.fields['domains'].queryset = Domain.objects.filter(conferences__pk=self.instance.conference_id)
+        
+class SendEmailToUsersForm(forms.Form):
+    title = forms.CharField(required=True)
+    content = forms.CharField(required=True, widget = forms.Textarea)
+    receivers = forms.ModelMultipleChoiceField(queryset=None, required=True)
+    
+    def __init__(self, *args, **kwargs):
+        super(SendEmailToUsersForm, self).__init__(*args, **kwargs)
+        self.fields['receivers'].queryset = self.initial['conference'].members.all()  
