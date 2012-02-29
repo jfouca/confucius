@@ -23,26 +23,30 @@
 {% block script %}
 <script src="{{ STATIC_URL }}jquery.selectoptionsort.js"></script>
 <script src="{{ STATIC_URL }}jquery.ajaxsend.js"></script>
+<script src="{{ STATIC_URL }}jquery.autocomplete.js"></script>
 <script>
 
-var options = [];
-
+var opts = [];
+var tab = [];
 
 function updateReviewerList() {
     $('tr.infos').click(function(e) {
         $('tr.infos').next().hide();
-        var paperid = $(this).attr("id")
+        var paperid = $(this).attr("id");
         $(this).next().slideToggle('fast');
         $.post("{% url 'updateReviewerList' conference.pk %}", { 
             paper_id: paperid,
         },
             function(data) {
-                options.splice(0, options.length);
+                opts.splice(0, opts.length);
+                tab.splice(0, tab.length);
                 $("#reviewers_list_"+paperid).find('option').remove();
                 $.each(data,function(index, value) {
                     $("#reviewers_list_"+paperid).append("<option id=\""+value[0]+"\">"+value[1]+"</option>");
-                     options.push({value: value[0], text: value[1]})
+                     opts.push({value: value[0], text: value[1]});
+                     tab.push(value[1]);
                 });
+                $("#reviewers_list_"+paperid).trigger("complete");
             }
         );
         
@@ -55,10 +59,23 @@ function updateReviewerList() {
                 });
             }
         );
-         $("#reviewers_list_"+paperid).filterByText(true);
+       
+        $("#reviewers_list_"+paperid).filterByText(true);
+       	
+       	 $("#reviewers_list_"+paperid).live("complete", function(){
+                $(this).parent().find('input').first().autocompleteArray(
+	                tab,
+	                {
+		                delay:10,
+		                minChars:1,
+		                autoFill:true,
+		                maxItemsToShow:10
+	                }
+	            )
+        }); 
+       	
         return false;
     }).next().hide();
-
 }
 
 function deleteAssignmentRow() {
@@ -82,10 +99,10 @@ function deleteAssignmentRow() {
                 },
                     function(data) {
                         $("#reviewers_list_"+paperid).find('option').remove();
-                        options.splice(0, options.length);                      
+                        opts.splice(0, opts.length);                      
                         $.each(data,function(index, value) {
                             $("#reviewers_list_"+paperid).append("<option id=\""+value[0]+"\">"+value[1]+"</option>");
-                            options.push({value: value[0], text: value[1]})
+                            opts.push({value: value[0], text: value[1]})
                         });
                     }
                 );
@@ -100,8 +117,8 @@ function deleteAssignmentRow() {
 function updateAssignmentsTables() {
 	$("select.selectAdd").click(function(){
 	    var val = $(this).attr("id");
-	    var value = $(".multiSelect option:selected").val(); 
 	    var clicked = $(".multiSelect option:selected");
+	    var value = clicked.val(); 
         var toRemove = 'reviewers_list_';
         var end = val.replace(toRemove,'');
 	    var table = $(document).find("table#table_"+end);
@@ -109,7 +126,7 @@ function updateAssignmentsTables() {
 
             $.post("{% url 'updateAssignmentsTables' conference.pk %}", { 
                 paper_id : end,
-                reviewer_id : $(".multiSelect option:selected").attr("id")
+                reviewer_id : $(clicked).attr("id")
             },
                 function(data) {
                     $.each(data,function(index, value) {
@@ -118,7 +135,14 @@ function updateAssignmentsTables() {
                     var res = parseInt($("td#assignments_"+end).text());
                     $("td#assignments_"+end).text(res+1);
                     clicked.remove();
-                    options.remove(value);
+                    opts.remove($(clicked).attr("id"));
+                    
+                    // remove from autocompletion cache the selected value. We don't want to see it anymore if it not appear in the list
+			        var valBis = value.toString();
+			        // Get the first letter of the word in order to put this in a hashmap (see jquery.autocomplte.js)
+			        q = valBis.substring(0, 1).toLowerCase();			
+			        subFromCache(q, valBis);
+                    
                 }
             );
 			
@@ -149,19 +173,19 @@ function auto_assign() {
                 $('#toggle_modal_loading').modal('hide');
                 
                 $.get("{% url 'assignments' conference.pk %}", {},
-                function(data) {
-                    var html = $('div#container', data).html();
-                    $('div#container').replaceWith(html);
-                    $('tr.infos').next().hide();
-                    updateReviewerList();
-                    
-                    deleteAssignmentRow();
-                    
-                    updateAssignmentsTables();
-                    
-                    auto_assign();
-                }
-            );
+                    function(data) {
+                        var html = $('div#container', data).html();
+                        $('div#container').replaceWith(html);
+                        $('tr.infos').next().hide();
+                        updateReviewerList();
+                        
+                        deleteAssignmentRow();
+                        
+                        updateAssignmentsTables();
+                        
+                        auto_assign();
+                    }
+                );
             }
         );
 
@@ -169,6 +193,49 @@ function auto_assign() {
 	});
 }
 
+function add_reviewer_after_keypress(){
+	$('#textbox').keypress(function(event, val){
+		var keycode = (event.keyCode ? event.keyCode : event.which);
+		var value = this.value;
+		if(keycode == '13'){
+			var valBis;
+			var text;
+			
+			var val = $(this).parent().parent().find('select').attr("id");
+			var toRemove = 'reviewers_list_';
+            var end = val.replace(toRemove,'');
+	        var table = $(document).find("table#table_"+end);
+			
+			for (var i=0, j=opts.length; i<j; i++){
+				text = opts[i].text.toLowerCase();
+				valBis = value.toLowerCase();
+				alert(text);
+				alert(valBis);
+				if (text==valBis){
+                    alert("ok1");
+                    $.post("{% url 'updateAssignmentsTables' conference.pk %}", { 
+                        paper_id : end,
+                        reviewer_id : opts[i].value
+                    },
+                    function(data) {
+                        $.each(data,function(index, value) {
+                            table.append("<tr><td>"+value[2]+"</td><td>"+value[3]+"</td><td>"+value[5]+"</td><td id=\"paper_count_"+value[0]+"\">"+value[4]+"</td><td><a href=\"#\" class=\"btn btn-danger assignment\" id=\"remove_"+value[0]+"--table_"+end+"\">Remove</a></td></tr>");
+                        });
+                        var res = parseInt($("td#assignments_"+end).text());
+                        $("td#assignments_"+end).text(res+1);
+                        opts.remove(value);
+                    }
+                    );
+		
+					opts.remove(opts[i].value);
+					$(this).val("");
+					return false;
+				}
+			}
+			return false;
+		}
+	});
+}
     
     $(function() {
         // Displays all the reviewers not yet assigned to this paper for this conference in the select input
@@ -182,6 +249,8 @@ function auto_assign() {
         
         // When a click on a select option is captured, remove the option form the list, and add the reviewer to the table
         auto_assign();
+        
+        add_reviewer_after_keypress();
     });
     
     
@@ -193,20 +262,22 @@ function auto_assign() {
 	jQuery.fn.filterByText = function() {
 	    return this.each(function() {
 		var select = this;
-        var textbox = $(select).parent().parent().next().find('input');
+		var textbox = $(this).parent().find('input').first();
 
-		$(select).data('options', options);
+        //var textbox = $(this).parent().parent().find('input[id=textbox]');
+
+		$(select).data('opts', opts);
 
 		$(textbox).bind('change keyup', function() {
-		    var options = $(select).empty().data('options');
+		    var opts = $(select).empty().data('opts');
 		    var search = $.trim($(this).val());
 		    var regex = new RegExp("^" + search,"gi");
 
-		    $.each(options, function(i) {
-		        var option = options[i];
+		    $.each(opts, function(i) {
+		        var option = opts[i];
 		        if(option.text.match(regex) !== null) {
 		            $(select).append(
-		                $("<option id=\""+option.value+"\">").text(option.text).val(option.value)
+		                $("<option id=\""+option.value+"\">").text(option.text).val(option.text)
 		            );
 		        }
 		    });
@@ -214,8 +285,6 @@ function auto_assign() {
 
 	    });
 	};	
-
-
 
 </script>
 {% endblock %}

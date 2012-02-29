@@ -503,7 +503,6 @@ jQuery.fn.autocomplete = function(url, options, data) {
 		var input = this;
 		new jQuery.autocomplete(input, options);
 	});
-
 	// Don't break the chain
 	return this;
 }
