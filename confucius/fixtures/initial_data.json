@@ -35,7 +35,10 @@
         "fields": {
             "code": "ar",
             "name": "Arabic",
-            "users": []
+            "users": [
+                1,
+                3
+            ]
         }
     },
     {
@@ -44,7 +47,9 @@
         "fields": {
             "code": "az",
             "name": "Azerbaijani",
-            "users": []
+            "users": [
+                1
+            ]
         }
     },
     {
@@ -53,7 +58,10 @@
         "fields": {
             "code": "bg",
             "name": "Bulgarian",
-            "users": []
+            "users": [
+                1,
+                2
+            ]
         }
     },
     {
@@ -62,7 +70,9 @@
         "fields": {
             "code": "bn",
             "name": "Bengali",
-            "users": []
+            "users": [
+                2
+            ]
         }
     },
     {
@@ -89,7 +99,10 @@
         "fields": {
             "code": "cs",
             "name": "Czech",
-            "users": []
+            "users": [
+                2,
+                3
+            ]
         }
     },
     {
@@ -107,7 +120,9 @@
         "fields": {
             "code": "da",
             "name": "Danish",
-            "users": []
+            "users": [
+                3
+            ]
         }
     },
     {
@@ -1009,16 +1024,16 @@
         "fields": {
             "submission_date": "2012-02-20",
             "conference": 1,
-            "language": 14,
+            "description": "blu blu blu",
+            "language": 1,
             "title": "Un papier",
             "co_authors": "a@a.a",
-            "description": "blu blu blu",
+            "file": "papers/test_32.txt",
+            "last_update_date": "2012-02-29",
+            "submitter": 1,
             "domains": [
                 1
-            ],
-            "last_update_date": "2012-02-20",
-            "submitter": 1,
-            "file": "papers/test_32.txt"
+            ]
         }
     },
     {
@@ -1027,16 +1042,16 @@
         "fields": {
             "submission_date": "2012-02-20",
             "conference": 1,
-            "language": 18,
+            "description": "red red red",
+            "language": 3,
             "title": "Autre papier",
             "co_authors": "azeazezqefsg",
-            "description": "red red red",
+            "file": "papers/test_33.txt",
+            "last_update_date": "2012-02-29",
+            "submitter": 1,
             "domains": [
                 1
-            ],
-            "last_update_date": "2012-02-24",
-            "submitter": 1,
-            "file": "papers/test_33.txt"
+            ]
         }
     },
     {
@@ -1045,16 +1060,16 @@
         "fields": {
             "submission_date": "2012-02-24",
             "conference": 1,
-            "language": 17,
+            "description": "green green green",
+            "language": 7,
             "title": "jjujuju",
             "co_authors": "azdsfsdg",
-            "description": "green green green",
+            "file": "papers/test_34.txt",
+            "last_update_date": "2012-02-29",
+            "submitter": 1,
             "domains": [
                 1
-            ],
-            "last_update_date": "2012-02-26",
-            "submitter": 1,
-            "file": "papers/test_34.txt"
+            ]
         }
     },
     {
