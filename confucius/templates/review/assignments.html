@@ -61,6 +61,7 @@ function updateReviewerList() {
 
 }
 
+
 function deleteAssignmentRow() {
     $('a.assignment').live("click",function(e) {
         var my_button = $(this)
@@ -77,18 +78,8 @@ function deleteAssignmentRow() {
             },
             function(data) {
                 my_button.parent().parent().remove();
-                $.post("{% url 'updateReviewerList' conference.pk %}", { 
-                    paper_id: paperid,
-                },
-                    function(data) {
-                        $("#reviewers_list_"+paperid).find('option').remove();
-                        options.splice(0, options.length);                      
-                        $.each(data,function(index, value) {
-                            $("#reviewers_list_"+paperid).append("<option id=\""+value[0]+"\">"+value[1]+"</option>");
-                            options.push({value: value[0], text: value[1]})
-                        });
-                    }
-                );
+                $("select#reviewers_list_"+paperid).append("<option id=\""+data[0]+"\">"+data[1]+"</option>");
+                options.push({value: data[0], text: data[1]})
                 var res = parseInt($("td#assignments_"+paperid).text());
                 $("td#assignments_"+paperid).text(res-1);                    
             }
@@ -145,23 +136,8 @@ function auto_assign() {
                 'by_reviewer':by_reviewer,
             },
             function(data) {
-                $('#messages').toggleClass('hide');
                 $('#toggle_modal_loading').modal('hide');
-                
-                $.get("{% url 'assignments' conference.pk %}", {},
-                function(data) {
-                    var html = $('div#container', data).html();
-                    $('div#container').replaceWith(html);
-                    $('tr.infos').next().hide();
-                    updateReviewerList();
-                    
-                    deleteAssignmentRow();
-                    
-                    updateAssignmentsTables();
-                    
-                    auto_assign();
-                }
-            );
+                window.location.reload();
             }
         );
 
