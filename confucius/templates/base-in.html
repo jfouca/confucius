@@ -6,7 +6,15 @@
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
-            <a class="brand">{% block brand %}Confucius{% endblock %}</a>
+            <a class="brand">
+                {% block brand %}
+                    {% if conference %}
+                        Conference "{{ conference.title }}"  {% if not conference.is_open %}(closed){% endif %}
+                    {% else %}
+                        Confucius
+                    {% endif %}
+                {% endblock %}
+            </a>
             <div class="nav-collapse">
                 <div class="pull-right logo"> 
                     <ul class="nav">

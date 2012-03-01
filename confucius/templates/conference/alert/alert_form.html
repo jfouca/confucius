@@ -1,13 +1,10 @@
 {% extends 'base-in.html' %}
 {% load url from future %}
 
-{% block title %}{{ alert.title }}{% endblock %}
+{% block title %}{% if alert.title %} {{ alert.title }} {% else %} Create new alert {% endif %}{% endblock %}
 
- {% block content_header %}
- <h1>{{ alert.title}}</h1>
-{% endblock %}
-
-{% block subtopbar %}
+{% block content_header %}
+<h1>{% if alert.title %} {{ alert.title}} {% else %} Create new alert {% endif %}</h1>
 {% endblock %}
 
 {% block content_main %}
