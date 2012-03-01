@@ -108,7 +108,7 @@ def dashboard(request, template_name='conference/dashboard.html'):
     alerts_reminder = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, action__isnull=True)
     alerts_action = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, reminder__isnull=True)
     user_papers = Paper.objects.filter(conference=conference, submitter=request.user).order_by('-last_update_date')
-    user_assignments = Assignment.objects.filter(reviewer=request.user, is_assigned=True)
+    user_assignments = Assignment.objects.filter(conference=conference, reviewer=request.user, is_assigned=True)
     conference_reviews = Assignment.objects.filter(paper__conference=conference, is_done=True, review__isnull=False).order_by('-review__last_update_date')
     conference_papers = Paper.objects.filter(conference=conference).order_by('-submission_date')
 
@@ -303,7 +303,8 @@ def paper_list(request, template_name='conference/paper_list.html'):
 def review_list(request, template_name='conference/review_list.html'):
     conference = request.conference    
     
-    user_assignments = Assignment.objects.filter(conference = conference, reviewer = request.user)
+    user_assignments = Assignment.objects.filter(conference=conference, reviewer=request.user, is_assigned=True)
+    
     
     context = {
         'user_assignments': user_assignments,

@@ -16,6 +16,8 @@
             <th>Title</th>
             <th>Trigger</th>
             <th>Recipients</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -24,6 +26,8 @@
                     <td><b>{{alert.title}}</b></td>
                     <td>{{alert.trigger_date|date:'SHORT_DATE_FORMAT'}}</td>
                     <td>{{ alert.roles.all|join:', '}}</td>
+                    <td><center><a href="{% url 'alert' conference.pk alert.pk %}" class="btn">Edit the alert</a></center></td>
+                    <td><center><a href="{% url 'delete_alert' conference.pk alert.pk %}" class="btn btn-danger">Delete the alert</a></center></td>
                 </tr>
             {% endfor %}
             
@@ -32,6 +36,8 @@
                     <td><b>{{alert.title}}</b></td>
                     <td>{{alert.reminder.name}} + {{alert.event.name}}</td>
                     <td>{{ alert.roles.all|join:', '}}</td>
+                    <td><center><a href="{% url 'alert' conference.pk alert.pk %}" class="btn">Edit the alert</a></center></td>
+                    <td><center><a href="{% url 'delete_alert' conference.pk alert.pk %}" class="btn btn-danger">Delete the alert</a></center></td>
                 </tr>
             {% endfor %}
 
@@ -40,6 +46,8 @@
                     <td><b>{{alert.title}}</b></td>
                     <td>{{alert.action.name}}</td>
                     <td>{{ alert.roles.all|join:', '}}</td>
+                    <td><center><a href="{% url 'alert' conference.pk alert.pk %}" class="btn">Edit the alert</a></center></td>
+                    <td><center><a href="{% url 'delete_alert' conference.pk alert.pk %}" class="btn btn-danger">Delete the alert</a></center></td>
                 </tr>
             {% endfor %}
     </tbody>

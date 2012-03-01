@@ -17,6 +17,7 @@
             <th>Date</th>
             <th>Language</th>
             <th>Domains</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -26,6 +27,13 @@
             <td>{{ paper.submission_date }}</td>
             <td>{{ paper.language }}</td>
             <td>{% for domain in paper.domains.all %}<span class="label">{{ domain }}</span>{% endfor %}</td>
+            <td><center>
+                {% if conference.are_submissions_over %}
+                    {% include 'includes/submissions_over_button.html' %}
+                {% else %}
+                    <a href="{% url 'paper' conference.pk paper.pk %}" class="btn btn">Edit paper</a>
+                {% endif%}                            
+            </center></td>
         </tr>
         {% empty %}
         <tr>
