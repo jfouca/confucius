@@ -3,6 +3,7 @@
 
 {% block title %}Submission{% endblock %}
 
+{% block brand %}Conference "{{ conference.title }}"  {% if not conference.is_open %}(closed){% endif %}{% endblock %}
 
 {% block content_header %}
 <h1>
