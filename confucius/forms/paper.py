@@ -23,3 +23,17 @@ class PaperForm(forms.ModelForm):
         membership.set_last_accessed()
 
         return paper
+        
+        
+    def clean(self):
+        cleaned_data = super(PaperForm, self).clean()   
+
+        instance = super(PaperForm, self).save(commit=False)
+        conference = instance.conference
+
+        if conference.are_submissions_over:
+            raise forms.ValidationError('The Submissions are over for now...')
+            
+
+        return cleaned_data
+        

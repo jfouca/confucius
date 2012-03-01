@@ -141,6 +141,7 @@ def submit_review(request, pk_assignment, template_name='review/review_form.html
         'form': form,
         'instance': review,
         'assignment': assignment,
+        'conference':request.conference,
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))

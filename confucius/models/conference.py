@@ -1,5 +1,5 @@
 from django.db import models
-
+from datetime import datetime
 from confucius.models import ConfuciusModel, User
 
 
@@ -56,6 +56,13 @@ class Conference(ConfuciusModel):
             self.access_key = random_string(8)
 
         super(Conference, self).save(*args, **kwargs)
+        
+    def are_submissions_over(self):
+        return True if datetime.now().date() > self.submissions_end_date else False
+        
+    def are_reviews_over(self):
+        return True if datetime.now().date() > self.reviews_end_date else False
+        
 
 
 class Domain(ConfuciusModel):

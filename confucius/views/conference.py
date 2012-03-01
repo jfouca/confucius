@@ -102,6 +102,7 @@ def dashboard(request, template_name='conference/dashboard.html'):
 
     conference = request.conference
     membership = request.membership
+    
 
     alerts_trigger = Alert.objects.filter(conference=conference.pk, reminder__isnull=True, action__isnull=True)
     alerts_reminder = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, action__isnull=True)
