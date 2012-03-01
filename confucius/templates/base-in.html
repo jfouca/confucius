@@ -8,7 +8,22 @@
         <div class="container">
             <a class="brand">{% block brand %}Confucius{% endblock %}</a>
             <div class="nav-collapse">
-                <div class="pull-right navbar-text logo"><i class="icon-user icon-white"></i> Logged in as <a href="/account">{{ user.first_name }} {{ user.last_name }}</a> | <a href="{% url 'logout' %}">Logout</a></div>
+                <div class="pull-right navbar-text logo"> 
+                    <i class="icon-user icon-white"></i>
+                    <ul class="nav pull-right">
+                        <li id="fat-menu" class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.first_name }} {{ user.last_name }}<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{% url 'account' %}">Edit my account</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{% url 'logout' %}">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                     <a class="dropdown-toggle" data-toggle="dropdown" >
+                        <b class="caret"></b>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
