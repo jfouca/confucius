@@ -43,6 +43,7 @@
     <p>The conference has already finalize paper selections.</p>
 {% else %}
     <a href="{% url 'finalize_selection' conference.pk %}" class="btn btn-primary">Finalize the paper selection</a>
+    <a href="{% url 'dashboard' %}" class="btn btn-danger">Return</a>
 {% endif %}
 <br/><br/><br/>
 
