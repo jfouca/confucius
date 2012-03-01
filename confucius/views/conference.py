@@ -226,8 +226,13 @@ def signup(request, key, template_name='registration/signup_form.html'):
             invitation.accept()
             user = authenticate(username=invitation.user.email, password=form.cleaned_data.get('password1'))
             login(request, user)
+            # Add roles
+            membership = Membership.objects.get(user=invitation.user, conference=invitation.conference)
+            for role in invitation.roles.all():
+                membership.roles.add(role)
+            membership.save()
             messages.success(request, u'Congratulations! Welcome to the conference.')
-            return redirect('dashboard')
+            return redirect('dashboard', invitation.conference.pk)
 
     context = {
         'form': form,
