@@ -34,7 +34,7 @@
                         </div>
                         <div class="span4">
                             <div class="pull-right">
-                                <a id="auto_assignment" href="#" class="btn btn-info" >Automatic</a>
+                                <a id="auto_assignment" href="javascript:void(0)" class="btn btn-info" >Automatic</a>
                                 <a href="{% url finalize_assignment conference.pk %}" class="btn btn-primary" >Finalize</a>
                             </div>
                         </div>
@@ -90,7 +90,7 @@
                                         <td>{{assignment.get_domains.all|join:', '}}</td>
                                         <td>{{assignment.reviewer.languages.all|join:', '}}</td>
                                         <td id="paper_count_{{assignment.pk}}" >{{assignment.get_papers.count}}</td>
-                                        <td><a href="#" class="btn btn-danger assignment" id="remove_{{assignment.pk}}--table_{{paper.pk}}">Remove</th></td>
+                                        <td><a href="javascript:void(0)" class="btn btn-danger assignment" id="remove_{{assignment.pk}}--table_{{ paper.pk }}">Remove</th></td>
                                     </tr>
                                 {% endfor %}
                             </table>
@@ -98,7 +98,7 @@
                             <div class="toto">
                                 <form>
                                     <label class="control-label">Click on the reviewers below to assign them on the current Paper</label>
-                                    <select multiple="multiple" class="selectAdd input-xxlarge multiSelect" id="reviewers_list_{{paper.pk}}">  
+                                    <select multiple="multiple" class="selectAdd input-xxlarge multiSelect" id="reviewers_list_{{ paper.pk }}">  
                                     </select>
                                     <label class="control-label" for="tags">Search reviewer :</label>
 		                          	<div class="controls">
