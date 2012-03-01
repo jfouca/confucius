@@ -41,10 +41,10 @@ $(document).ready(function() {
             var $icon = toggle_div.find('.icon');
             $icon.toggleClass('icon-chevron-up')
             $icon.toggleClass('icon-chevron-down');
-
-            // Displays all the reviewers not yet assigned to this paper for this conference in the select input
-            updateReviewerList(toggle_div);
         });
+        
+        // Displays all the reviewers not yet assigned to this paper for this conference in the select input
+        updateReviewerList(toggle_div);
 
         return false;
         }
