@@ -108,3 +108,13 @@ def password_change(request, template_name='account/password_change_form.html'):
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))
+
+
+@require_GET
+@login_required
+def languages(request):
+    import json
+    from django.http import HttpResponse
+    from confucius.models import Language
+
+    return HttpResponse(json.dumps([unicode(l) for l in Language.objects.all().order_by('name')]), 'application/json')

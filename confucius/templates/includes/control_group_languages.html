@@ -1,0 +1,12 @@
+{% load extra %}
+
+<div class="control-group{% if field.errors %} error{% endif %}" id="control_group_{{ field.html_name }}">
+    <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}</label>
+    <div class="controls" id="controls_{{ field.html_name }}">
+        {% include 'includes/fields/input_prepend.html' %}
+        <p class="help-block">{{ field.help_text }}</p>
+        {% for language in field.field.initial %}
+            <span class="label" id="language_{{ language.id }}">{{ language }} ×<input type="hidden" name="languages" value="{{ language.id }}"></span>
+        {% endfor %}
+    </div>
+</div>

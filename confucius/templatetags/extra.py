@@ -1,12 +1,7 @@
 from django import template
 
+
 register = template.Library()
-
-
-@register.filter
-def no_time_left(date):
-    """for icon in subtopbar"""
-    pass
 
 
 @register.filter
@@ -17,21 +12,35 @@ def active(name, request):
 
 
 @register.filter
+def icon(field):
+    try:
+        if type(field) == 'password':
+            return 'lock'
+        if type(field) in ('text', 'date', 'choice', 'multiple_choice'):
+            return 'pencil'
+        if type(field) == 'email':
+            return 'envelope'
+    except:
+        pass
+
+
+@register.filter
 def type(field):
-    if field.field.widget.__class__.__name__ is 'Select':
-        return 'select'
-    if field.field.widget.__class__.__name__ is 'SelectMultiple':
-        return 'selectm'
-    if field.field.widget.__class__.__name__ is 'CheckboxInput':
-        return 'checkbox'
-    if field.field.widget.__class__.__name__ is 'Textarea':
-        return 'textarea'
-    if field.field.widget.__class__.__name__ is 'PasswordInput':
-        return 'password'
-    if field.field.__class__.__name__ is 'DateField':
-        return 'date'
-    if field.field.__class__.__name__ is 'EmailField':
-        return 'email'
+    try:
+        if field.field.widget.__class__.__name__ is 'Textarea':
+            return 'textarea'
+        if field.field.widget.__class__.__name__ is 'PasswordInput':
+            return 'password'
+        if field.field.__class__.__name__ is 'ModelChoiceField':
+            return 'choice'
+        if field.field.__class__.__name__ is 'ModelMultipleChoiceField':
+            return 'multiple_choice'
+        if field.field.__class__.__name__ is 'DateField':
+            return 'date'
+        if field.field.__class__.__name__ is 'EmailField':
+            return 'email'
+    except:
+        pass
     return 'text'
 
 
@@ -54,11 +63,12 @@ def large(field):
 def textarea(field):
     return field.as_widget(attrs={'class': 'input-large', 'rows': '3'})
 
+
 @register.filter
 def bigtextarea(field):
     return field.as_widget(attrs={'class': 'input-xxlarge', 'rows': '6'})
 
+
 @register.filter
 def calendar(field):
     return field.as_widget(attrs={'class': 'input-small datepicker'})
-

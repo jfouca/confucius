@@ -1,7 +1,9 @@
+{% load extra %}
+
 <div class="input-prepend">
     <span class="add-on">
-        <i class="icon icon-{{ icon }}"></i>
+        <i class="icon icon-{{ field|icon }}"></i>
     </span>
-    {{ field }}
-    <span class="help-inline">{{ field.errors|first }}</span>
+    <input class="input-large" type="{{ type }}" id="id_{{ field.html_name }}" {% ifnotequal field|type 'multiple_choice' %}name="{{ field.html_name }}" value="{{ field.value }}"{% endifnotequal %} placeholder="{{ field.label }}">
+    <span class="help-inline">{% if field.errors %}{{ field.errors|first }}{% else %}{{ field.help_text }}{% endif %}</span>
 </div>

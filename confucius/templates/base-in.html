@@ -25,7 +25,6 @@
                     <li class="nav-header {{ 'dashboard'|active:request }}"><a href="{% url 'dashboard' %}">Dashboard</a></li>
                     {% block subnav %}{% endblock %}
                     <li class="nav-header {{ 'list'|active:request }}"><a href="{% url 'membership_list' %}">Conferences</a></li>
-                    <li class="nav-header {{ 'account'|active:request }}"><a href="{% url 'account' %}">Account</a></li>
                 </ul>
             </div>
         </div>

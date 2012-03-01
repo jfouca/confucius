@@ -3,6 +3,7 @@ from django.conf.urls.defaults import patterns, url
 # confucius views
 urlpatterns = patterns('confucius.views',
     url(r'^$', 'account', name='account'),
+    url(r'^languages/', 'languages', name='languages'),
     url(r'^confirm-email/(?P<activation_key>[0-9a-f]+)/$', 'confirm_email', name='confirm_email'),
     url(r'^password-change/$', 'password_change', name='password_change'),
     url(r'^close/$', 'close_account', name='close_account'),
