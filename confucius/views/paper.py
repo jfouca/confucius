@@ -36,6 +36,7 @@ def paper(request, paper_pk=None, template_name='conference/paper/paper_form.htm
 
     context = {
         'form': form,
+        'conference':request.conference,
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))

@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from django import forms
 
 from confucius.forms import UserForm
@@ -37,7 +39,27 @@ class AlertForm(forms.ModelForm):
 class ConferenceForm(forms.ModelForm):
     class Meta:
         model = Conference
-        exclude = ('members', 'is_open')
+        exclude = ('members', 'is_open', 'access_key')
+        
+    def clean(self):
+        cleaned_data = super(ConferenceForm, self).clean()
+        
+        start_date = cleaned_data['start_date']
+        start_review = cleaned_data['reviews_start_date']
+        end_review = cleaned_data['reviews_end_date']
+        start_sub = cleaned_data['submissions_start_date']
+        end_sub = cleaned_data['submissions_end_date']
+        
+        if end_sub < start_sub:
+            raise forms.ValidationError('Submissions end date precedes Submissions start date in time')
+        if start_review < end_sub:
+            raise forms.ValidationError('Reviews start date precedes Submissions end date in time')
+        if end_review < start_review:
+            raise forms.ValidationError('Reviews end date precedes Reviews start date in time')
+        if start_date < end_review:
+            raise forms.ValidationError('Conference start date precedes Reviews end date in time')
+        
+        return cleaned_data
 
 
 class InvitationForm(forms.ModelForm):
