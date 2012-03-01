@@ -39,7 +39,7 @@ class AlertForm(forms.ModelForm):
 class ConferenceForm(forms.ModelForm):
     class Meta:
         model = Conference
-        exclude = ('members', 'is_open', 'access_key')
+        exclude = ('members', 'is_open', 'access_key','has_finalize_paper_selections')
         
     def clean(self):
         cleaned_data = super(ConferenceForm, self).clean()

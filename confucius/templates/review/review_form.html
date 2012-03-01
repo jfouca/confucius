@@ -26,7 +26,7 @@
 <form id="form" class="form-horizontal" method="post">
     {% csrf_token %}
 
-    {{form}}
+    {% include 'includes/form.html' %}
 
     <div class="form-actions">
         {% if conference.are_reviews_over %}
