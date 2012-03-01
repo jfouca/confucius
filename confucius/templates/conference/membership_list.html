@@ -17,58 +17,64 @@
             <th>My roles</th>
             <th>Starting date</th>
             <th>Status</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         {% for membership in membership_list %}
         {% with conference=membership.conference %}
-            <tr class="infos">
+            <tr class="toggle-div">
                 <td><strong>{{ conference.title }}</strong></td>
                 <td>{% include 'includes/roles.html' with roles=membership.roles.all %}</td>
                 <td>{{ conference.start_date }}</td>
                 <td>{% include 'includes/conference_status.html' %}</td>
+                <td><i class="pull-right icon icon-chevron-down"></i></td>
             </tr>
             
             <tr class="actions">
                 {% if conference.is_open or membership.has_chair_role %}
-                    <td colspan="1">
-                        <a class="btn btn-info" href="{% url 'dashboard' conference.pk %}"> Go to Dashboard </a>
-                    </td>
-                    <td colspan="3">
-                        {% if membership.has_chair_role %}
-                            <a class="btn" href="{% url 'conference_edit' conference.pk %}">Edit configuration</a>
-                            <a class="btn" href="{% url 'alert' conference.pk %}">Create Alert</a>
-                            <a class="btn" href="{% url 'conference_invite' conference.pk %}">Invite someone</a>
-                            {% include 'includes/conference_toggle.html' %}
-                        {% endif %}
-                        {% if membership.has_reviewer_role %}
-                        {% endif %}
-                        <a class="btn" href="{% url 'paper' conference.pk %}">Submit paper</a>
+                    <td colspan="5">
+                        <div class="toggle hidden">
+                            <a class="btn btn-info" href="{% url 'dashboard' conference.pk %}"> Go to Dashboard </a>
+                            {% if membership.has_chair_role %}
+                                <a class="btn" href="{% url 'conference_edit' conference.pk %}">Edit configuration</a>
+                                <a class="btn" href="{% url 'alert' conference.pk %}">Create Alert</a>
+                                <a class="btn" href="{% url 'conference_invite' conference.pk %}">Invite someone</a>
+                                {% include 'includes/conference_toggle.html' %}
+                            {% endif %}
+                            {% if membership.has_reviewer_role %}
+                            {% endif %}
+                            <a class="btn" href="{% url 'paper' conference.pk %}">Submit paper</a>
+                        </div>
                     </td>
                 {% endif %}
             </tr>
         {% endwith %}
         {% empty %}
-            <h3>You have no conferences yet.</h3>
+            <tr>
+                <td><h3>You have no conferences yet.</h3></td>
+            </tr>
         {% endfor %}
     </tbody>
 </table>
 {% endblock %}
-{% block style %}
-<style>
-    tr.infos:hover {
-        cursor:pointer;
-    }
-</style>
-{% endblock %}
 {% block script %}
 <script>
-    $(function() {
-        $('tr.infos').click(function(e) {
-            $('tr.infos').next().hide();
-            $(this).next().show('slow');
-            return false;
-        }).next().hide();
+$(document).ready(function() {
+    $('.toggle-div').click(function() {
+        var toggle_div = $(this);
+        var $toggle = $(this).next().find('.toggle');
+        $toggle.slideToggle('fast', function() {
+            $toggle.toggleClass('hidden');
+            $toggle.toggleClass('visible');
+            
+            var $icon = toggle_div.find('.icon');
+            $icon.toggleClass('icon-chevron-up')
+            $icon.toggleClass('icon-chevron-down');
+        });
+
+        return false;
     });
+});
 </script>
 {% endblock %}

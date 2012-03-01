@@ -105,7 +105,7 @@ body {
     border-top: 3px solid lightgrey;
     background-color: #f8f8f8;
 }
-.toggle-top h2:hover {
+.toggle-div:hover {
     cursor: pointer;
 }
 .toggle-buttons {

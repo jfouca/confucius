@@ -262,25 +262,26 @@
 
 {% block script %}
 <script>
-    $(function() {
-        {% if membership.roles.count < 2 %}
-            var $toggle = $('.toggle-div').parents('.toggle-top').next('.toggle');
+$(document).ready(function() {
+    {% if membership.roles.count < 2 %}
+        var $toggle = $('.toggle-div').parents('.toggle-top').next('.toggle');
+        $toggle.toggleClass('hidden');
+        $toggle.toggleClass('visible');
+    {% endif %}
+    $('.toggle-div').click(function() {
+        var toggle_div = $(this);
+        var $toggle = $(this).parents('.toggle-top').next('.toggle');
+        $toggle.slideToggle('slow', function() {
             $toggle.toggleClass('hidden');
             $toggle.toggleClass('visible');
-        {% endif %}
-        $('.toggle-div').click(function() {
-            var $toggle = $(this).parents('.toggle-top').next('.toggle');
-            $toggle.slideToggle('slow', function() {
-                $toggle.toggleClass('hidden');
-                $toggle.toggleClass('visible');
-            });
-            
-            var $icon = $(this).find('.icon');
+                       
+            var $icon = toggle_div.find('.icon');
             $icon.toggleClass('icon-chevron-up')
             $icon.toggleClass('icon-chevron-down');
-
-            return false;
         });
-    }); 
+
+        return false;
+    });
+}); 
 </script>
 {% endblock %}
