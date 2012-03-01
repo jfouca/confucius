@@ -12,7 +12,8 @@ class PaperForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(PaperForm, self).__init__(*args, **kwargs)
-
+        
+        self.fields['domains'].help_text = ""
         self.fields['domains'].queryset = Domain.objects.filter(conferences__pk=self.instance.conference_id)
 
     def save(self, commit=True):

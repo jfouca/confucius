@@ -72,6 +72,11 @@ class InvitationForm(forms.ModelForm):
             'roles': forms.CheckboxSelectMultiple(),
         }
 
+    def __init__(self, *args, **kwargs):
+        super(InvitationForm, self).__init__(*args, **kwargs)
+        self.fields['roles'].help_text = ""
+
+
     def clean(self):
         from hashlib import sha256
         from confucius.utils import email_to_username, random_string

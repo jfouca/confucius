@@ -149,7 +149,9 @@ def conference_invitation(request, key, decision, template_name='conference/invi
         membership = Membership.objects.create(user=invitation.user, conference=invitation.conference)
 
     membership.roles.clear()
-    membership.roles.add(invitation.roles.all())
+    for role in invitation.roles.all():
+                membership.roles.add(role)
+    membership.save()
 
     messages.success(request, u'You are now participating in the conference "%s"' % invitation.conference)
     return redirect('dashboard', conference_pk=invitation.conference.pk)
