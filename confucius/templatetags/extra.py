@@ -18,6 +18,8 @@ def active(name, request):
 
 @register.filter
 def type(field):
+    if field.field.widget.__class__.__name__ is 'TextInput':
+        return 'text'
     if field.field.widget.__class__.__name__ is 'Select':
         return 'select'
     if field.field.widget.__class__.__name__ is 'SelectMultiple':
@@ -28,11 +30,16 @@ def type(field):
         return 'textarea'
     if field.field.widget.__class__.__name__ is 'PasswordInput':
         return 'password'
+    if field.field.widget.__class__.__name__ is 'CheckboxSelectMultiple':
+        return 'cbselectm'
+    if field.field.widget.__class__.__name__ is 'FileInput' \
+        or field.field.widget.__class__.__name__ is 'ClearableFileInput':
+        return 'file'
     if field.field.__class__.__name__ is 'DateField':
         return 'date'
     if field.field.__class__.__name__ is 'EmailField':
         return 'email'
-    return 'text'
+    return 'default'
 
 
 @register.filter
@@ -57,6 +64,10 @@ def textarea(field):
 @register.filter
 def bigtextarea(field):
     return field.as_widget(attrs={'class': 'input-xxlarge', 'rows': '6'})
+
+@register.filter
+def cbselectm(field):
+    return field.as_widget(attrs={'class': 'unstyled'})
 
 @register.filter
 def calendar(field):

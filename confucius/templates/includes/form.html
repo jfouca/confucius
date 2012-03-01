@@ -40,6 +40,18 @@
         {% ifequal field|type 'checkbox' %}
             {% include 'includes/fields/checkbox.html' with field=field %}
         {% endifequal %}
+        {% ifequal field|type 'cbselectm' %}
+            {{ field }}
+            <span class="help-inline">{{ field.errors|first }}</span>
+        {% endifequal %}
+        {% ifequal field|type 'file' %}
+            {{ field }}
+            <span class="help-inline">{{ field.errors|first }}</span>
+        {% endifequal %}
+        {% ifequal field|type 'default' %}
+            {{ field }}<p>#</p>
+            <span class="help-inline">{{ field.errors|first }}</span>
+        {% endifequal %}
         {% endblock %}
         <p class="help-block">{{ field.help_text }}</p>
     </div>
