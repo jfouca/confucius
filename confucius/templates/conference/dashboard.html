@@ -67,7 +67,7 @@
                         {% for paper in conference_papers %}
                             <tr>
                                 <td><b><a href="{% url 'paper' conference.pk paper.pk %}"> {{paper.title}}</b></td>
-                                <td>{{paper.submission_date|date:"m/d/y"}}</td>
+                                <td>{{paper.submission_date|date:'SHORT_DATE_FORMAT'}}</td>
                                 <td>{{paper.submitter}}</td>
 
                             </tr>
@@ -118,7 +118,7 @@
                         {% for alert in alerts_trigger %}
                             <tr>
                                 <td><b>{{alert.title}}</b></td>
-                                <td>{{alert.trigger_date|date:"m/d/y"}}</td>
+                                <td>{{alert.trigger_date|date:'SHORT_DATE_FORMAT'}}</td>
                                 <td>{{ alert.roles.all|join:', '}}</td>
                                 <td><center><a href="{% url 'alert' conference.pk alert.pk %}" class="btn">Edit the alert</a></center></td>
                                 <td><center><a href="{% url 'delete_alert' conference.pk alert.pk %}" class="btn btn-danger">Delete the alert</a></center></td>
@@ -197,8 +197,8 @@
                     {% for paper in user_papers.all %}
                     <tr>
                         <td><b>{{paper.title}}</b></td>
-                        <td>{{paper.submission_date|date:"m/d/y"}}</td>
-                        <td>{{paper.last_update_date|date:"m/d/y"}}</td>
+                        <td>{{paper.submission_date|date:'SHORT_DATE_FORMAT'}}</td>
+                        <td>{{paper.last_update_date|date:'SHORT_DATE_FORMAT'}}</td>
                         <td><center>
                             {% if conference.are_submissions_over %}
                                 {% include 'includes/submissions_over_button.html' %}

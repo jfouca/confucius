@@ -1,12 +1,12 @@
 {% extends 'base-in.html' %}
 {% load url from future %}
 
-{% block title %}Conference {% endblock %}
+{% block title %}My Papers {% endblock %}
 
 {% block subtopbar %}{% endblock %}
 
 {% block content_header %}
-<h1>Papers</h1>
+<h1>My Papers</h1>
 {% endblock %}
 
 {% block content_main %}
@@ -14,7 +14,6 @@
     <thead>
         <tr>
             <th>Title</th>
-            <th>Submitter</th>
             <th>Date</th>
             <th>Language</th>
             <th>Domains</th>
@@ -24,7 +23,6 @@
         {% for paper in paper_list %}
         <tr>
             <td>{{ paper.title }}</td>
-            <td>{{ paper.submitter }}</td>
             <td>{{ paper.submission_date }}</td>
             <td>{{ paper.language }}</td>
             <td>{% for domain in paper.domains.all %}<span class="label">{{ domain }}</span>{% endfor %}</td>
@@ -36,4 +34,5 @@
         {% endfor %}
     </tbody>
 </table>
+<p><a href="{% url 'dashboard' %}" class="btn btn-large btn-danger">Return</a></p>
 {% endblock %}

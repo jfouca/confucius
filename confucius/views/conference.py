@@ -7,7 +7,7 @@ from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_GET, require_http_methods
 
-from confucius.decorators import has_chair_role, has_role
+from confucius.decorators import has_chair_role, has_role, has_reviewer_role, has_submitter_role
 from confucius.forms import ConferenceForm, MembershipForm, SendEmailToUsersForm
 from confucius.models import Alert, Assignment, Conference, Invitation, Membership, Paper, Role
 
@@ -282,3 +282,66 @@ def send_email_to_users(request, template_name='conference/send_email_to_users.h
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))
+
+
+@login_required    
+@has_submitter_role
+def paper_list(request, template_name='conference/paper_list.html'):
+    conference = request.conference    
+    
+    papers = Paper.objects.filter(conference = conference, submitter = request.user)
+    
+    context = {
+        'paper_list': papers,
+        'conference': conference
+    }
+    return render_to_response(template_name, context, context_instance=RequestContext(request))
+    
+    
+@login_required
+@has_reviewer_role  
+def review_list(request, template_name='conference/review_list.html'):
+    conference = request.conference    
+    
+    user_assignments = Assignment.objects.filter(conference = conference, reviewer = request.user)
+    
+    context = {
+        'user_assignments': user_assignments,
+        'conference': conference
+    }
+    return render_to_response(template_name, context, context_instance=RequestContext(request))
+    
+
+@login_required
+@has_chair_role   
+def alert_list(request, template_name='conference/alert_list.html'):
+    conference = request.conference    
+    
+    alerts_trigger = Alert.objects.filter(conference=request.conference, reminder__isnull=True, action__isnull=True)
+    alerts_reminder = Alert.objects.filter(conference=request.conference, trigger_date__isnull=True, action__isnull=True)
+    alerts_action = Alert.objects.filter(conference=request.conference, trigger_date__isnull=True, reminder__isnull=True)
+    
+    context = {
+        'alerts_trigger': alerts_trigger,
+        'alerts_reminder': alerts_reminder,
+        'alerts_action': alerts_action,
+        'conference': conference
+    }
+    return render_to_response(template_name, context, context_instance=RequestContext(request))
+
+
+@login_required
+@has_chair_role   
+def invitation_list(request, template_name='conference/invitation_list.html'):
+    conference = request.conference    
+    
+    invitations = Invitation.objects.filter(conference = conference)
+    
+    context = {
+        'invitation_list': invitations,
+        'conference': conference
+    }
+    return render_to_response(template_name, context, context_instance=RequestContext(request))
+    
+    
+    
