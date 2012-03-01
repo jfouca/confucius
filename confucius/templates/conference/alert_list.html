@@ -14,18 +14,43 @@
     <thead>
         <tr>
             <th>Title</th>
+            <th>Trigger</th>
+            <th>Recipients</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-        {% for alert in alert_list %}
-        <tr>
-            <td>{{ alert.title }}</td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="5">No alert has been set yet.</td>
-        </tr>
-        {% endfor %}
+            {% for alert in alerts_trigger %}
+                <tr>
+                    <td><b>{{alert.title}}</b></td>
+                    <td>{{alert.trigger_date|date:'SHORT_DATE_FORMAT'}}</td>
+                    <td>{{ alert.roles.all|join:', '}}</td>
+                    <td><center><a href="{% url 'alert' conference.pk alert.pk %}" class="btn">Edit the alert</a></center></td>
+                    <td><center><a href="{% url 'delete_alert' conference.pk alert.pk %}" class="btn btn-danger">Delete the alert</a></center></td>
+                </tr>
+            {% endfor %}
+            
+            {% for alert in alerts_reminder %}
+                <tr>
+                    <td><b>{{alert.title}}</b></td>
+                    <td>{{alert.reminder.name}} + {{alert.event.name}}</td>
+                    <td>{{ alert.roles.all|join:', '}}</td>
+                    <td><center><a href="{% url 'alert' conference.pk alert.pk %}" class="btn">Edit the alert</a></center></td>
+                    <td><center><a href="{% url 'delete_alert' conference.pk alert.pk %}" class="btn btn-danger">Delete the alert</a></center></td>
+                </tr>
+            {% endfor %}
+
+            {% for alert in alerts_action %}
+                <tr>
+                    <td><b>{{alert.title}}</b></td>
+                    <td>{{alert.action.name}}</td>
+                    <td>{{ alert.roles.all|join:', '}}</td>
+                    <td><center><a href="{% url 'alert' conference.pk alert.pk %}" class="btn">Edit the alert</a></center></td>
+                    <td><center><a href="{% url 'delete_alert' conference.pk alert.pk %}" class="btn btn-danger">Delete the alert</a></center></td>
+                </tr>
+            {% endfor %}
     </tbody>
 </table>
+<p><a href="{% url 'dashboard' %}" class="btn btn-large btn-danger">Return</a></p>
 {% endblock %}
