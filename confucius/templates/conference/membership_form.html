@@ -1,0 +1,25 @@
+{% extends 'base-in.html' %}
+{% load url from future %}
+
+{% block title %}{{ conference }}{% endblock %}
+
+{% block content_header %}
+<h1>{{ conference }}</h1>
+{% endblock %}
+
+{% block subtopbar %}
+{% endblock %}
+
+{% block content_main %}
+<form class="form-horizontal" method="post">{% csrf_token %}
+    {% include 'includes/form.html' %}
+    <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="Save">
+        <a href="{% url 'dashboard' %}" class="btn btn-danger">Return</a>
+    </div>
+    </fieldset>
+</form>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

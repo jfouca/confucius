@@ -1,0 +1,155 @@
+{% extends 'base-in.html' %}
+{% load url from future %}
+
+{% block title %}Account{% endblock %}
+
+{% block subtopbar %}{% endblock %}
+
+{% block content_header %}
+<h1>Account
+        <a href="{% url 'password_change' %}" class="btn btn-info">Change my password</a>
+        {% if not user.is_superuser %}
+            <a href="#" class="btn btn-danger" id="close_account">Close my account</a>
+        {% endif %}
+</h1>
+{% endblock %}
+
+{% block content_main %}
+<form id="form" class="form-horizontal" method="post">{% csrf_token %}
+    {% include 'includes/form.html' %}
+    {% include 'includes/account_form_dynamic_fields.html' with formset=email_formset %}
+    {% include 'includes/account_form_dynamic_fields.html' with formset=address_formset %}
+ 
+    <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="Save changes">
+    </div>
+</form>
+<div class="modal hide fade" id="close_account_modal">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>Are you sure that you want to close your account?</h3>
+    </div>
+    <div class="modal-body">
+        <p>Once your account is closed, only the platform administrator will be able to reopen it.</p>
+    </div>
+    <div class="modal-footer">
+        <a href="{% url 'close_account' %}" class="btn btn-large btn-danger">Yes, I am</a>
+        <a data-dismiss="modal" class="btn btn-large">No</a>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+	function updateElementIndex(element, prefix, formCount) {
+	    // regew to find the id in the ids
+		var id_regex = new RegExp('(' + prefix + '-\\d+)');
+		// we want to replace it
+		var replacement = prefix + '-' + formCount;
+		// in the for element
+		if ($(element).attr("for"))
+		    $(element).attr("for", $(element).attr("for").replace(id_regex, replacement));
+		// the ids
+		if (element.id)
+		    element.id = element.id.replace(id_regex, replacement);
+		// the the names
+		if (element.name)
+		    element.name = element.name.replace(id_regex, replacement);
+	}
+
+    function addForm(btn, prefix) {
+        // first let's check the previous field
+        if(!$(btn).parents('li').find("input[name$='value']").val()
+            && !$(btn).parents('li').find("textarea[name$='value']").val())
+            // nothing to add, just fill the empty field please
+            return false;
+    
+        // retrieve how many forms we have
+        var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+        // the new element added to the page
+        var row = $('#id_'+ prefix +'> .clone').clone(true).get(0);
+        
+        // we add it to the list
+        $(btn).parents('ul').append($(row));
+        // but we don't want to see it yet
+        $(row).hide();
+
+        // it's new!
+        $(row).toggleClass('new');
+        // this is not to clone
+        $(row).toggleClass('clone');
+        // and we only add from the last
+        $(row).prev().find('.add-' + prefix).toggleClass('hidden');
+        
+        // it's not yet confirmed if an email
+        //$(row).find('.confirmed').remove();
+        // we want to see the plus button
+        if($(row).find('.add-' + prefix).hasClass('hidden'))
+            $(row).find('.add-' + prefix).toggleClass('hidden');
+        // and the minus button
+        if($(row).find('.rm-' + prefix).hasClass('hidden'))
+            $(row).find('.rm-' + prefix).toggleClass('hidden');
+        // now we clear the email field
+        $(row).find("input[type=text][name$='value']").val('');
+        // or the textarea
+        $(row).find("textarea[name$='value']").val('');
+        
+        // let's update some ids
+        var tags = ["div", "label", "input"];
+        for (var i=0; i<tags.length; i++) {
+            $(row).find(tags[i]).each(function() {
+        	    updateElementIndex(this, prefix, formCount);
+            });
+        }
+        // we now have a new form
+        $('#id_' + prefix + '-TOTAL_FORMS').val(formCount + 1);
+        
+        // and the magic appends
+        $(row).fadeToggle("slow");
+        
+        return false;
+    }
+    
+    function deleteForm(btn, prefix) {
+        // sfx
+        $(btn).parents('li').fadeToggle('slow', function() {
+            // no item after?
+            if($(btn).parents('li').next().index()==-1)
+                // previous gets the plus button
+                $(btn).parents('li').prev().find('.add-' + prefix).toggleClass('hidden');
+
+            // if it's newly created
+            if($(btn).parents('li').hasClass('new')) {
+                // remove it
+                $(btn).parents('li').remove();
+                // medic! dead form!
+                var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+                // to the cemetery
+                $('#id_' + prefix + '-TOTAL_FORMS').val(formCount - 1);
+            } else {
+                // check it for deletion
+                $(btn).parents('li').find("input[type=checkbox][name$='DELETE']").attr('checked', true);
+                // we move it from the end of the list
+                $(btn).parents('ul').prepend($(btn).parents('li'));
+            }
+        });
+
+        return false;
+    }
+</script>
+<script>
+$(function () {
+    $('.add-{{email_formset.prefix }}').live('click', function() {
+	    return addForm(this, '{{ email_formset.prefix }}');
+    });
+    $('.rm-{{email_formset.prefix }}').live('click', function() {
+	    return deleteForm(this, '{{ email_formset.prefix }}');
+    });
+    $('.add-{{address_formset.prefix }}').live('click', function() {
+	    return addForm(this, '{{ address_formset.prefix }}');
+    });
+    $('.rm-{{address_formset.prefix }}').live('click', function() {
+	    return deleteForm(this, '{{ address_formset.prefix }}');
+    });
+});
+</script>
+{% endblock %}

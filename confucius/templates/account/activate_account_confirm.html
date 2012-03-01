@@ -1,0 +1,20 @@
+{% extends "base-out.html" %}
+{% load url from future %}
+
+{% block title %}Create Conference{% endblock %}
+
+{% block content %}
+    <h1> Account Creation </h1>
+<br>
+
+<form method="post" action="">
+{% csrf_token %}
+    {% if error_message %}
+    <div class="alert alert-error">{{error_message}}</div>
+    {% else %}
+    <div>Your account has been succesfully activated.</div>
+    {% endif %}
+<br>
+</form>
+
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "base-in.html" %}
+{% load url from future %}
+
+{% load extra %}
+
+{% block title %}Conference "{{ conference.title }}"{% endblock %}
+{% block brand %}Conference "{{ conference.title }}"  
+
+{% if not conference.is_open %}
+(closed)
+{% endif %}
+
+{% endblock %}
+
+{% block subtopbar %}
+<div class="span12 db-top">
+    <div class="db-top-inner-min">
+        <i class="icon-calendar icon-white"></i> Start date {{ conference.start_date|date:'SHORT_DATE_FORMAT' }} | 
+        <i class="icon-info-sign icon-white"></i> Submissions end date {{ conference.submissions_end_date|date:'SHORT_DATE_FORMAT' }} | 
+        <i class="icon-exclamation-sign icon-white"></i> Reviews end date {{ conference.reviews_end_date|date:'SHORT_DATE_FORMAT' }}
+    </div>
+</div>
+{% endblock %}
+
+{% block content_main %}
+    <h1> Reviewer Invitation </h1>
+<br>
+
+<h3>Current Invitation</h3>
+    <table class="table table-striped">
+        <tr>
+            <th>eMail address</th>
+            <th>Invitation Status</th>
+            <th></th>
+        </tr>
+        {% for invitation in invitation_list.all %}
+        <tr>
+            <td><b>{{invitation.email_addr}}</b></td>
+            {% if invitation.status == "W" %}
+                <td>Waiting for response</td>
+            {% else %}
+                <td>Refused</td>
+            {% endif %}
+        </tr>
+        {% empty %}
+            <tr><td colspan="4">There is no invitation sended yet</td></tr>
+        {% endfor %}
+    </table>
+    
+<br/>
+
+<h3>Send an invitation to be reviewer</h3>
+    <div> Please enter the email address to send the reviewer invitation request</div>
+    <form method="post" action="">
+    {% csrf_token %}
+        {% if error %}
+        <div class="alert alert-error">
+        {{error}}
+        </div>
+        {% endif %}
+
+	    {% include 'includes/form.html' with big='True' %}
+        <button type="submit" class="btn btn-primary">Send Invitation</button>
+    </form>
+
+{% endblock %}

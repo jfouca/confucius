@@ -1,0 +1,55 @@
+{% load extra %}
+
+{% include 'includes/form_errors.html' with form=formset %}
+
+{{ formset.management_form }}
+
+<ul class="unstyled" id="id_{{ formset.prefix }}">
+    {% for form in formset %}
+       <li class="{% if forloop.first %}clone{% endif %}">
+            {% include 'includes/form_errors.html' with form=form %}
+            
+            {% for field in form.hidden_fields %}
+                {{ field }}
+            {% endfor %}
+       
+           <div id="id_{{ form.prefix }}">
+                {% for field in form.visible_fields %}
+                    <div class="control-group {% if field.errors %}error{% endif %}{% if first %}first{% endif %}{% ifequal field|type 'checkbox' %}hidden{% endifequal %}" id="control_id_{{ field.html_name }}">
+                        <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}
+                            {% if form.confirmed.value %}
+                                <a href="#" class="confirmed" rel="tooltip" title="This email has been confirmed"><i class="icon icon-ok"></i></a>
+                            {% endif %}
+                        </label>
+                        
+                        <div class="controls">
+                            {% ifequal field|type 'email' %}
+                                <div class="input-prepend">
+                                    <span class="add-on">
+                                        <i class="icon icon-envelope"></i>
+                                    </span>
+                                    {{ field|medium }}
+                                    <span class="help-inline">
+                                        <a href="#" class="rm-{{ formset.prefix }}{% if forloop.parentloop.first %} hidden{% endif %}"><i class="icon-minus"></i></a>
+                                        {% if forloop.parentloop.first or forloop.parentloop.last %}<a href="#" class="add-{{ formset.prefix }}{% if forloop.parentloop.first and not forloop.parentloop.last %} hidden{% endif %}"><i class="icon-plus"></i></a>{% endif %}
+                                    </span>
+                                </div>
+                            {% endifequal %}
+                            {% ifequal field|type 'textarea' %}
+                                {{ field|textarea }}
+                                <span class="help-inline">
+                                        <a href="#" class="rm-{{ formset.prefix }}{% if forloop.parentloop.first %} hidden{% endif %}"><i class="icon-minus"></i></a>
+                                        {% if forloop.parentloop.first or forloop.parentloop.last %}<a href="#" class="add-{{ formset.prefix }}{% if forloop.parentloop.first and not forloop.parentloop.last %} hidden{% endif %}"><i class="icon-plus"></i></a>{% endif %}
+                                </span>
+                           {% endifequal %}
+                           {% ifequal field|type 'checkbox' %}
+                                {% include 'includes/fields/checkbox.html' with field=field %}
+                           {% endifequal %}
+                            <p class="help-block">{{ field.errors|first }} {{ field.help_text }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+       </li>
+    {% endfor %}
+</ul>

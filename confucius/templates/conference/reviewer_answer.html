@@ -1,0 +1,29 @@
+{% extends "base-in.html" %}
+{% load url from future %}
+
+{% block title %}Reviewer Invitation{% endblock %}
+
+{% block content_main %}
+    <h1>Reviewer Invitation</h1>
+<br>
+
+<form method="post" action="">
+{% csrf_token %}
+    {% if error_message %}
+    <div class="alert alert-error">{{error_message}}</div>
+    {% else %}
+    <div>Do you want to be reviewer for the conference : {{title}}<br/><br/>
+    If you want please check your domain skill in the following list :<br/><br/></div>
+    {% if ValidationError %}
+        <div class="alert alert-error">{{ValidationError}}</div>
+    {% endif %}
+    {% include 'includes/form.html' %}
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary" value="Accept" name="Accept">Yes I want</button>
+        <button type="submit" class="btn btn-danger" value="Refuse" name="Refuse">No I dont want</button>
+    </div>
+    {% endif %}
+<br>
+</form>
+
+{% endblock %}

@@ -1,0 +1,146 @@
+/*
+CSS Style for Confucius Project
+*/
+
+body {
+    padding-top: 40px;
+}
+
+.hidden {
+    display: none;
+}
+.visible {
+    display: block;
+}
+
+.content-header {
+    padding-left: 0;
+}
+
+.controls > input {
+    margin-top: 3px;
+}
+
+.controls-inputs {
+    display: block;
+    margin-top: 3px;
+}
+
+[id^="email-"] {
+    opacity: 1;
+}
+
+/* Navbar */
+
+.navbar-text {
+    margin: 0 5px;
+}
+
+.logo {
+    padding-left: 48px;
+    background: url("logo_mini.png") left center no-repeat;
+}
+
+/* Sidebar */
+
+.sidebar-nav, .sidebar-dates {
+    margin: 0;
+    background-color: #f8f8f8;
+    border-top: 0;
+    border-bottom: 3px solid lightgrey;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: inset 0 0 0 #000;
+    -moz-box-shadow: inset 0 0 0 #000;
+    box-shadow: inset 0 0 0 #000;
+}
+
+.sidebar-nav {
+    padding: 15px 0;
+}
+
+.sidebar-dates {
+    padding: 5px 0 15px 0;
+}
+
+.sidebar-dates ul li {
+    margin-top: 5px;
+    color: #888;
+}
+
+/* Content */
+
+.content {
+}
+
+.content .page-header {
+    border-right: 3px solid lightgrey;
+    border-left: 3px solid lightgrey;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: inset 0 0 0 #000;
+    -moz-box-shadow: inset 0 0 0 #000;
+    box-shadow: inset 0 0 0 #000;
+}
+
+.content-main {
+}
+
+.footer {
+    border-top: 1px solid lightgrey;
+    background-color: #f8f8f8;
+}
+
+.powered {
+    margin: 5px 0 0 5px;
+}
+
+/* toggle utils */
+
+.toggle-top h2 {
+    margin-bottom: 15px;
+    padding: 10px 15px 5px 5px;
+    border-top: 3px solid lightgrey;
+    background-color: #f8f8f8;
+}
+.toggle-div:hover {
+    cursor: pointer;
+}
+.toggle-buttons {
+    margin-bottom: 15px;
+    text-align: center;
+}
+.toggled {
+    padding-top: 15px;
+    border-top: 1px solid lightgrey;
+}
+.toggled h3 {
+    padding-left: 5px;
+}
+
+/* TextPander */
+
+.contentTextPander {
+    color:#0088CC;
+}
+
+.headline {
+    border: 1px solid #DDDDDD;
+    cursor: pointer;
+    font-family: georgia;
+    margin-top: -14px;
+    padding: 10px;
+}
+
+
+.headline:before {
+    color: #ffffff;
+}
+
+#messages {
+    position:absolute;
+    right:20px;
+    top:70px;
+}

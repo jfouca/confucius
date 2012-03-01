@@ -1,0 +1,55 @@
+{% extends "base-in.html" %}
+{% load url from future %}
+
+{% block title %}Read reviews{% endblock %}
+
+{% block content_header %}
+<h1>Reviews for submission: {{paper.title}}</h1><br/>
+{% endblock %}
+
+{% block content_main %}
+<h3>Submission details</h3>
+{% if paper.selection %}
+    <p><font color="red"><b>You have already made a decision for this paper.</b></font></p>
+{% endif %}
+<p>Title : {{paper.title}}</p>
+<p>Conference : {{conference.title}}</p>
+<p>Domains : {{paper.domains.all|join:', '}}</p>
+<p>Language : {{paper.title}}</p>
+<p><a href="{{paper.document.url}}" class="btn btn-primary">Download the paper</a></p>
+
+<br/><br/>
+
+
+<h2>Reviews</h2>
+{% for review in reviews %}
+    <h3>{{review.title}}</h3>
+    <p>{{review.detailed_commentary}}</p>
+    {% if review.commentary_for_president %}
+        <b>Commentary for the president (not seen by the submitter and authors):</b><br/>
+        <p>{{review.commentary_for_president}}</p>
+    {% endif %}
+    <b>Overall evaluation: </b>{{review.overall_evaluation}}<br/>
+    <b>Reviewer confidence: </b>{{review.reviewer_confidence}}<br/>
+    <br/>
+{% endfor %}
+
+<form id="form" class="form-horizontal" method="post">
+    {% csrf_token %}
+
+    <div class="form-actions">
+        <p>
+            <b>Do you want to select this paper for the conference ?</b>
+            {% if paper.selection %}
+                <br/>Warning: You have already made a decision for this paper.
+            {% endif %}
+        </p>
+        
+        <a href="{% url 'paper_selection_list' conference.pk %}" class="btn">Make the decision later</a>
+        <input type="submit" name="select_paper" class="btn btn-primary" value="SELECT this paper"/>
+        <input type="submit" name="dont_select_paper" class="btn btn-danger" value="DON'T SELECT this paper"/>
+    </div>
+</form>
+
+{% endblock %}
+

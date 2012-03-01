@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load url from future %}
+
+{% block title %}{{ conference }}{% endblock %}
+
+{% block base_content %}
+<div class="container well">
+    <h2>Account creation for Confucius</h2>
+    <br/>
+    <form class="form-horizontal" method="post" enctype="multipart/form-data">{% csrf_token %}
+        {% include 'includes/form.html' %}
+        {% include 'includes/form.html' with form=extra_form %}
+        <div class="form-actions">
+            <input type="submit" class="btn btn-large btn-primary" value="Send">
+        </div>
+    </form>
+</div>
+{% endblock %}

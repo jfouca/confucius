@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load url from future %}
+{% load extra %}
+
+{% block topbar %}
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="brand">
+                {% block brand %}
+                    {% if conference %}
+                        Conference "{{ conference.title }}"  {% if not conference.is_open %}(closed){% endif %}
+                    {% else %}
+                        Confucius
+                    {% endif %}
+                {% endblock %}
+            </a>
+            <div class="nav-collapse">
+                <div class="pull-right logo"> 
+                    <ul class="nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user icon-white"></i>  {{ user.first_name }} {{ user.last_name }} <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{% url 'account' %}">Edit my account</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{% url 'logout' %}">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block base_content %}
+<div class="container">
+    <div class="row" role="main">
+        {% block sidebar %}
+        <div class="span2">
+            <div class="row">
+                <div class="span2">
+                    <div class="well sidebar-nav">
+                        <ul class="nav nav-list">
+                            <li class="nav-header {{ 'dashboard'|active:request }}"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                            {% block subnav %}{% endblock %}
+                            <li class="nav-header {{ 'list'|active:request }}"><a href="{% url 'membership_list' %}">Conferences</a></li>
+                            <li class="nav-header {{ 'account'|active:request }}"><a href="{% url 'account' %}">Account</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span2 db-top">
+                    {% block subtopbar %}
+                        <div class="well sidebar-dates">
+                            <ul class="nav nav-list">
+                                <li>Conference: {{ conference.start_date|date:'SHORT_DATE_FORMAT' }}</li>
+                                <li>Submissions end: {{ conference.submissions_end_date|date:'SHORT_DATE_FORMAT' }}</li>
+                                <li>Reviews end: {{ conference.reviews_end_date|date:'SHORT_DATE_FORMAT' }}</li>
+                           </ul>
+                        </div>
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+
+        {% block content %}
+        <div class="span10 content">
+            <div class="row">
+                 <div class="span10">
+                    <header class="well page-header">
+                        {% block content_header %}{% endblock %}
+                    </header>
+                </div>
+            </div>
+            <div class="row">
+                 <div class="span10 content-main" >
+                    {% block content_main %}{% endblock %}
+                </div>
+            </div>
+            <div class="row">
+                <footer class="span10 footer">
+                    <div class="powered">Proudly powered by <a href="http://confuciusproject.com/">Confucius</a></div>
+                </footer>
+            </div>
+            {% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}

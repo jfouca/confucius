@@ -1,0 +1,35 @@
+{% extends 'base-in.html' %}
+{% load url from future %}
+
+{% block title %}Conference {% endblock %}
+
+{% block subtopbar %}{% endblock %}
+
+{% block content_header %}
+<h1>Invitations</h1>
+{% endblock %}
+
+{% block content_main %}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Roles</th>
+            <th>Decision</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for invitation in invitation_list %}
+        <tr>
+            <td>{{ invitation.user }}</td>
+            <td>{% for role in invitation.roles.all %}<span class="label">{{ role }}</span>{% endfor %}</td>
+            <td>{{ invitation.get_decision_display }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No invitation has been sent yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

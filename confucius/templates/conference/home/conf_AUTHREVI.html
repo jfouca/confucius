@@ -1,0 +1,37 @@
+{% extends "base-in.html" %}
+{% load url from future %}
+
+{% block title %}Home conference{% endblock %}
+
+{% block content_header %}
+{% endblock %}
+
+{% block content_main %}
+
+<h1>Dashboard (
+{% for role in roles %}
+    {% filter lower %}
+        {% if forloop.last%}
+            {{role}}
+        {% else %}
+            {{role}} and
+        {% endif %} 
+    {% endfilter %}
+{% endfor %}
+)
+</h1>
+<br/>
+
+{% for role in myroles %}
+    {% if "AUTH" in role.code %}
+        <h3>Last submissions</h3>
+        <br/>
+    {% endif %}
+
+    {% if "REVI" in role.code %}
+        <h3>Last evaluations</h3>
+        <br/>
+    {% endif %}
+{% endfor %}
+
+{% endblock %}

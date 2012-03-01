@@ -1,0 +1,9 @@
+{% include 'includes/form_errors.html' with form=formset %}
+
+<div id="id_{{ formset.prefix }}">
+    {{ formset.management_form }}
+
+    {% for form in formset %}
+        {% include 'includes/form.html' with prefix=formset.prefix confirmed=form.confirmed %}
+    {% endfor %}
+</div>

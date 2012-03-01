@@ -1,0 +1,248 @@
+{% extends 'base-in.html' %}
+{% load url from future %}
+
+{% block title %}Assignments {% endblock %}
+
+{% block brand %}Conference "{{ conference.title }}"{% endblock %}
+
+{% block content_header %}<h1>Assignments</h1>{% endblock %}
+
+{% block content_main %}
+{% include 'includes/assignments.html' %}
+{% endblock %}
+
+{% block script %}
+<script src="{{ STATIC_URL }}jquery.selectoptionsort.js"></script>
+<script src="{{ STATIC_URL }}jquery.ajaxsend.js"></script>
+
+
+<script>
+Array.prototype.remove = function(v){
+	var val = this;
+	for (var i=0, j=this.length; i<j; i++){
+		if ($.trim(val[i].value)==v){
+			this.splice(i, 1);
+			break;			
+		}					
+	}	
+}
+
+var opts = [];
+var tab = [];
+
+$(document).ready(function() {
+    $('.toggle-div').click(function() {
+        var toggle_div = $(this);
+        var $toggle = $(this).next().find('.toggle');
+        $toggle.slideToggle(function() {
+            $toggle.toggleClass('hidden');
+            $toggle.toggleClass('visible');
+              
+            var $icon = toggle_div.find('.icon');
+            $icon.toggleClass('icon-chevron-up')
+            $icon.toggleClass('icon-chevron-down');
+
+            // Displays all the reviewers not yet assigned to this paper for this conference in the select input
+            updateReviewerList(toggle_div);
+        });
+
+        return false;
+        }
+    )},
+    
+    // When a click on the "Remove" button is captured, we remove the reviewer from the table and add an option in the select input
+    deleteAssignmentRow(),
+        
+    // When a click is captured on the auto-assign button, lauch the modal frame and execute the algorithm
+    updateAssignmentsTables(),
+        
+    // When a click on a select option is captured, remove the option form the list, and add the reviewer to the table
+    auto_assign(),
+        
+    add_reviewer_after_keypress()
+);
+
+function updateReviewerList(paper) {
+    var paperid = paper.attr('id');
+    console.log(paperid);
+    $.post("{% url 'updateReviewerList' conference.pk %}", { 
+        paper_id: paperid,
+        }, function(data) {
+            opts.splice(0, opts.length);
+            tab.splice(0, tab.length);
+            $("#reviewers_list_"+paperid).find('option').remove();
+            $.each(data,function(index, value) {
+                $("#reviewers_list_"+paperid).append("<option id=\""+value[0]+"\">"+value[1]+"</option>");
+                 opts.push({value: value[0], text: value[1]});
+                 tab.push(value[1]);
+            });
+        }
+    );
+    
+    $.post("{% url 'refreshAssignationNumber' conference.pk %}", { 
+        paper_id: paperid,
+    }, function(data) {
+            $.each(data,function(index,value){
+                $("td#paper_count_"+value[0]).text(value[1]);
+            });
+        }
+    );
+   
+    $("#reviewers_list_"+paperid).filterByText(true);
+
+}
+
+function deleteAssignmentRow() {
+    $('a.assignment').live('click',function(e) {
+        var my_button = $(this)
+        var assign_id = $(this).attr("id");
+        var substri = assign_id.split('--table_');
+        var paperid = parseInt(substri[1]);
+        var start = substri[0];
+        var toRemove = 'remove_';
+        var end = start.replace(toRemove,'');
+
+        
+        $.post("{% url 'deleteAssignmentRow' conference.pk %}", {
+                'end': end,
+            },
+            function(data) {
+                my_button.parent().parent().remove();
+                $("select#reviewers_list_"+paperid).append("<option id=\""+data[0]+"\">"+data[1]+"</option>");
+                opts.push({value: data[0], text: data[1]});
+
+                var res = parseInt($("td#assignments_"+paperid).text());
+                $("td#assignments_"+paperid).text(res-1);                    
+            }
+        );
+    });
+}
+
+function updateAssignmentsTables() {
+	$("select.selectAdd").click(function(){
+	    var val = $(this).attr("id");
+	    var clicked = $(".multiSelect option:selected");
+	    var value = clicked.val(); 
+        var toRemove = 'reviewers_list_';
+        var end = val.replace(toRemove,'');
+	    var table = $(document).find("table#table_"+end);
+		if (val!=null){
+
+            $.post("{% url 'updateAssignmentsTables' conference.pk %}", { 
+                paper_id : end,
+                reviewer_id : $(clicked).attr("id")
+            },
+                function(data) {
+                    $.each(data,function(index, value) {
+                        table.append("<tr><td>"+value[2]+"</td><td>"+value[3]+"</td><td>"+value[5]+"</td><td id=\"paper_count_"+value[0]+"\">"+value[4]+"</td><td><a href=\"javascript:void(0)\" class=\"btn btn-danger assignment\" id=\"remove_"+value[0]+"--table_"+end+"\">Remove</a></td></tr>");
+                    });
+                    var res = parseInt($("td#assignments_"+end).text());
+                    $("td#assignments_"+end).text(res+1);
+                    clicked.remove();
+                    opts.remove($(clicked).attr("id"));
+                }
+            );
+			
+		}
+	});
+}
+
+function auto_assign() {
+	$('#auto_assignment').click(function(){
+	    var by_paper = $("#avg_assi_by_paper").val();
+	    if( by_paper == '' ) {
+	        by_paper = 0;
+	    }
+	    var by_reviewer = $("#avg_assi_by_reviewer").val();
+	    if( by_reviewer == '' ) {
+	        by_reviewer = 0;
+	    }
+        $('#toggle_modal_loading').modal({
+            keyboard: false
+        }).show();
+        $.post("{% url 'auto_assignment' conference.pk %}", {
+                'by_paper':by_paper,
+                'by_reviewer':by_reviewer,
+            },
+            function(data) {
+                $('#toggle_modal_loading').modal('hide');
+                window.location.reload();
+            }
+        );
+
+        return false;
+	});
+}
+
+function add_reviewer_after_keypress(){
+	$('.span3').keypress(function(event, val){
+		var keycode = (event.keyCode ? event.keyCode : event.which);
+		var value = this.value;
+		if(keycode == '13'){
+			var valBis;
+			var text;
+
+			var val = $(this).parent().parent().find('select').attr("id");
+			var toRemove = 'reviewers_list_';
+            var end = val.replace(toRemove,'');
+	        var table = $(document).find("table#table_"+end);
+			
+			for (var i=0, j=opts.length; i<j; i++){
+				text = opts[i].text.toLowerCase();
+				valBis = value.toLowerCase();
+				if (text==valBis){
+                    $.post("{% url 'updateAssignmentsTables' conference.pk %}", { 
+                        paper_id : end,
+                        reviewer_id : opts[i].value
+                    },
+                    function(data) {
+                        $.each(data,function(index, value) {
+                            table.append("<tr><td>"+value[2]+"</td><td>"+value[3]+"</td><td>"+value[5]+"</td><td id=\"paper_count_"+value[0]+"\">"+value[4]+"</td><td><a href=\"javascript:void(0)\" class=\"btn btn-danger assignment\" id=\"remove_"+value[0]+"--table_"+end+"\">Remove</a></td></tr>");
+                        });
+                        var res = parseInt($("td#assignments_"+end).text());
+                        $("td#assignments_"+end).text(res+1);
+                        opts.remove(val);
+                    }
+                    );
+					opts.remove(opts[i].value);
+					$(this).val("");
+					return false;
+				}
+			}
+			return false;
+		}
+	});
+}
+    
+	$(function() {
+		$("select.selectAdd").selectOptionSort();
+	}); 
+
+	jQuery.fn.filterByText = function() {
+	    return this.each(function() {
+		var select = this;
+		var textbox = $(this).parent().find('input').first();
+
+        //var textbox = $(this).parent().parent().find('input[id=textbox]');
+
+		$(select).data('opts', opts);
+
+		$(textbox).bind('change keyup', function() {
+		    var opts = $(select).empty().data('opts');
+		    var search = $.trim($(this).val());
+		    var regex = new RegExp(search,"gi");
+
+		    $.each(opts, function(i) {
+		        var option = opts[i];
+		        if(option.text.match(regex) !== null) {
+		            $(select).append(
+		                $("<option id=\""+option.value+"\">").text(option.text).val(option.text)
+		            );
+		        }
+		    });
+		});
+
+	    });
+	};
+</script>
+{% endblock %}

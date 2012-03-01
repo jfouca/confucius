@@ -1,0 +1,47 @@
+{% load extra %}
+
+{% include 'includes/form_errors.html' with form=form %}
+
+{% for field in form.hidden_fields %}
+    {{ field }}
+{% endfor %}
+
+{% for field in form.visible_fields %}
+<div class="control-group {% if field.errors %}error{% endif %}{% if first %}first{% endif %}" id="control_id_{{ field.html_name }}">
+    <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}
+        {% if confirmed %}
+            <a href="#" class="confirmed" rel="tooltip" title="This email has been confirmed"><i class="icon icon-ok"></i></a>
+        {% endif %}
+    </label>
+    <div class="controls">
+        {% block controls %}
+        {% ifequal field|type 'date' %}
+            {% include 'includes/fields/input_prepend.html' with icon='calendar' field=field|calendar %}
+        {% endifequal %}
+        {% ifequal field|type 'password' %}
+            {% include 'includes/fields/input_prepend.html' with icon='lock' field=field|medium %}
+        {% endifequal %}
+        {% ifequal field|type 'text' %}
+            {% include 'includes/fields/input_prepend.html' with icon='pencil' field=field|medium %}
+        {% endifequal%}
+        {% ifequal field|type 'email' %}
+            {% include 'includes/fields/input_prepend.html' with icon='envelope' field=field|medium %}
+        {% endifequal %}
+        {% ifequal field|type 'textarea' %}
+	    {% if big == 'True' %}
+	             {% include 'includes/fields/textarea.html' with field=field|bigtextarea %}
+                {% else %}
+		     {% include 'includes/fields/textarea.html' with field=field|textarea %}
+	    {% endif %}
+        {% endifequal %}
+        {% if field|type == 'select' or field|type == 'selectm' %}
+            {{ field }}
+        {% endif %}
+        {% ifequal field|type 'checkbox' %}
+            {% include 'includes/fields/checkbox.html' with field=field %}
+        {% endifequal %}
+        {% endblock %}
+        <p class="help-block">{{ field.help_text }}</p>
+    </div>
+</div>
+{% endfor %}

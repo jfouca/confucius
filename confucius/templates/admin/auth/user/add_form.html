@@ -1,0 +1,13 @@
+{% extends "admin/change_form.html" %}
+
+{% block form_top %}
+  {% if not is_popup %}
+  <p>First, enter an email and password. Then, you'll be able to edit more user options.</p>
+  {% else %}
+  <p>Enter an email and password.</p>
+  {% endif %}
+{% endblock %}
+
+{% block after_field_sets %}
+<script>document.getElementById('id_email').focus();</script>
+{% endblock %}
