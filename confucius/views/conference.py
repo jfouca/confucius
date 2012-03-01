@@ -102,6 +102,7 @@ def dashboard(request, template_name='conference/dashboard.html'):
 
     conference = request.conference
     membership = request.membership
+    
 
     alerts_trigger = Alert.objects.filter(conference=conference.pk, reminder__isnull=True, action__isnull=True)
     alerts_reminder = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, action__isnull=True)
@@ -176,6 +177,7 @@ def conference_invite(request, template_name='conference/invitation_form.html'):
 
     context = {
         'form': form,
+        'conference': request.conference,
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))

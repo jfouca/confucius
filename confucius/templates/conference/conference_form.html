@@ -13,6 +13,7 @@
     <div class="form-actions">
         <input type="submit" class="btn btn-primary" value="Update configuration">
         {% include 'includes/conference_toggle.html' %}
+        <a href="{% url 'dashboard' %}" class="btn btn-danger">Return</a>
     </div>
 </form>
 {% endblock %}
