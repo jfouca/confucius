@@ -12,7 +12,8 @@ class PaperForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(PaperForm, self).__init__(*args, **kwargs)
-
+        
+        self.fields['domains'].help_text = ""
         self.fields['domains'].queryset = Domain.objects.filter(conferences__pk=self.instance.conference_id)
 
     def save(self, commit=True):
@@ -23,3 +24,17 @@ class PaperForm(forms.ModelForm):
         membership.set_last_accessed()
 
         return paper
+        
+        
+    def clean(self):
+        cleaned_data = super(PaperForm, self).clean()   
+
+        instance = super(PaperForm, self).save(commit=False)
+        conference = instance.conference
+
+        if conference.are_submissions_over:
+            raise forms.ValidationError('The Submissions are over for now...')
+            
+
+        return cleaned_data
+        

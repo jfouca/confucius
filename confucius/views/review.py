@@ -54,10 +54,16 @@ def auto_assignment(request):
         # Get datas
         conference = request.conference
         role = Role.objects.get(code="R")
-        papers_list = Paper.objects.filter(conference=conference)
-        papers_list = papers_list.annotate(domains_nb=Count('domains')).order_by("-domains_nb")
-        max_assi_per_papers = int(request.POST.get('by_paper'));
-        max_assi_per_reviewers = int(request.POST.get('by_reviewer'));
+        papers_list = Paper.objects.filter(conference=conference).annotate(domains_nb=Count('domains')).order_by("-domains_nb")
+        memberships_list = Membership.objects.filter(conference=conference, roles=role)
+        max_assi_per_papers = int(request.POST.get('by_paper'))
+        max_assi_per_reviewers = int(request.POST.get('by_reviewer'))
+        
+        # Default values
+        if max_assi_per_papers <= 0:
+            max_assi_per_papers = 3
+        if max_assi_per_reviewers <= 0:
+            max_assi_per_reviewers = (papers_list.count()*max_assi_per_papers / memberships_list.count())+1
         
         if papers_list.count() <= 0 :
             return HttpResponse(status=403)
@@ -141,6 +147,7 @@ def submit_review(request, pk_assignment, template_name='review/review_form.html
         'form': form,
         'instance': review,
         'assignment': assignment,
+        'conference':request.conference,
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))

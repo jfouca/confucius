@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_GET, require_http_methods
 
 from confucius.decorators import has_chair_role, has_role
-from confucius.forms import MembershipForm, SendEmailToUsersForm
+from confucius.forms import ConferenceForm, MembershipForm, SendEmailToUsersForm
 from confucius.models import Alert, Assignment, Conference, Invitation, Membership, Paper, Role
 
 
@@ -64,11 +64,11 @@ def membership(request, conference_pk, template_name='conference/membership_form
 @has_chair_role
 @csrf_protect
 def conference_edit(request, template_name='conference/conference_form.html'):
-    form_class = modelform_factory(Conference, exclude=('members', 'is_open'))
-    form = form_class(instance=request.conference)
+    
+    form = ConferenceForm(instance=request.conference)
 
     if 'POST' == request.method:
-        form = form_class(request.POST, instance=request.conference)
+        form = ConferenceForm(request.POST, instance=request.conference)
 
         if form.is_valid():
             request.conference = form.save()
@@ -102,6 +102,7 @@ def dashboard(request, template_name='conference/dashboard.html'):
 
     conference = request.conference
     membership = request.membership
+    
 
     alerts_trigger = Alert.objects.filter(conference=conference.pk, reminder__isnull=True, action__isnull=True)
     alerts_reminder = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, action__isnull=True)
@@ -149,7 +150,9 @@ def conference_invitation(request, key, decision, template_name='conference/invi
         membership = Membership.objects.create(user=invitation.user, conference=invitation.conference)
 
     membership.roles.clear()
-    membership.roles.add(invitation.roles.all())
+    for role in invitation.roles.all():
+                membership.roles.add(role)
+    membership.save()
 
     messages.success(request, u'You are now participating in the conference "%s"' % invitation.conference)
     return redirect('dashboard', conference_pk=invitation.conference.pk)
@@ -174,6 +177,7 @@ def conference_invite(request, template_name='conference/invitation_form.html'):
 
     context = {
         'form': form,
+        'conference': request.conference,
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))
@@ -226,8 +230,13 @@ def signup(request, key, template_name='registration/signup_form.html'):
             invitation.accept()
             user = authenticate(username=invitation.user.email, password=form.cleaned_data.get('password1'))
             login(request, user)
+            # Add roles
+            membership = Membership.objects.get(user=invitation.user, conference=invitation.conference)
+            for role in invitation.roles.all():
+                membership.roles.add(role)
+            membership.save()
             messages.success(request, u'Congratulations! Welcome to the conference.')
-            return redirect('dashboard')
+            return redirect('dashboard', invitation.conference.pk)
 
     context = {
         'form': form,

@@ -32,5 +32,17 @@ class ReviewForm(forms.ModelForm):
         review.save()
         return review
         
+    def clean(self):
+        cleaned_data = super(ReviewForm, self).clean()   
+
+        instance = super(ReviewForm, self).save(commit=False)
+        
+        conference = instance.assignment.all()[0].conference
+
+        if conference.are_reviews_over:
+            raise forms.ValidationError('The Reviews are over for now...')
+
+        return cleaned_data
+        
 
 
