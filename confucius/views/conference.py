@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_GET, require_http_methods
 
 from confucius.decorators import has_chair_role, has_role
-from confucius.forms import MembershipForm, SendEmailToUsersForm
+from confucius.forms import ConferenceForm, MembershipForm, SendEmailToUsersForm
 from confucius.models import Alert, Assignment, Conference, Invitation, Membership, Paper, Role
 
 
@@ -64,11 +64,11 @@ def membership(request, conference_pk, template_name='conference/membership_form
 @has_chair_role
 @csrf_protect
 def conference_edit(request, template_name='conference/conference_form.html'):
-    form_class = modelform_factory(Conference, exclude=('members', 'is_open'))
-    form = form_class(instance=request.conference)
+    
+    form = ConferenceForm(instance=request.conference)
 
     if 'POST' == request.method:
-        form = form_class(request.POST, instance=request.conference)
+        form = ConferenceForm(request.POST, instance=request.conference)
 
         if form.is_valid():
             request.conference = form.save()
