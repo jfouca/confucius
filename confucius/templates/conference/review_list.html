@@ -1,31 +1,48 @@
 {% extends 'base-in.html' %}
 {% load url from future %}
 
-{% block title %}Conference {% endblock %}
+{% block title %}My Reviews {% endblock %}
 
 {% block subtopbar %}{% endblock %}
 
 {% block content_header %}
-<h1>Reviews</h1>
+<h1>My Reviews</h1>
 {% endblock %}
 
 {% block content_main %}
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>Title</th>
+            <th>Paper title</th>
+            <th>Is done ?</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-        {% for review in review_list %}
+        {% for assignment in user_assignments.all %}
         <tr>
-            <td>{{ Review.title }}</td>
+            <td><b>{{assignment.paper.title}}</b></td>
+            <td>{{assignment.is_done}}</td>
+            <td><center>
+                {% if conference.are_reviews_over %}
+                    {% include 'includes/reviews_over_button.html' %}
+                {% else %}
+                    <a href="{% url 'submit_review' conference.pk assignment.pk %}" class="btn
+                        {% if assignment.is_done %} 
+                            ">Edit review 
+                        {% else %} 
+                            btn-info"><b>Submit review</b> 
+                        {% endif %}
+                    </a>                            
+                {% endif %}
+
+            </center></td>
+        
         </tr>
         {% empty %}
-        <tr>
-            <td colspan="5">No review has been sent yet.</td>
-        </tr>
+            <tr><td colspan="4">You haven't receive an assignment for this conference.</td></tr>
         {% endfor %}
     </tbody>
 </table>
+<p><a href="{% url 'dashboard' %}" class="btn btn-large btn-danger">Return</a></p>
 {% endblock %}

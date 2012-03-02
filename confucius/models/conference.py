@@ -40,7 +40,7 @@ class Conference(ConfuciusModel):
     members = models.ManyToManyField(User, through='Membership')
     domains = models.ManyToManyField('Domain', related_name='conferences')
     access_key = models.CharField(max_length=8)
-
+    
     def __unicode__(self):
         return self.title
 
@@ -63,6 +63,8 @@ class Conference(ConfuciusModel):
     def are_reviews_over(self):
         return True if datetime.now().date() > self.reviews_end_date else False
         
+    def is_started(self):
+        return True if datetime.now().date() > self.start_date else False
 
 
 class Domain(ConfuciusModel):
