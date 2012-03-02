@@ -1,8 +1,12 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm as AuthUserCreationForm
+from django.contrib.auth.forms import UserCreationForm as AuthUserCreationForm, AuthenticationForm as AuthAuthenticationForm
 from django.forms.models import inlineformset_factory
 
 from confucius.models import Activation, Address, Email, Language, User
+
+
+class AuthenticationForm(AuthAuthenticationForm):
+    username = forms.CharField(label=u'Email')
 
 
 class EmailForm(forms.ModelForm):

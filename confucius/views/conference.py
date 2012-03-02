@@ -1,7 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
-from django.forms.models import modelform_factory
 from django.shortcuts import get_object_or_404, redirect, render_to_response
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
@@ -64,7 +63,6 @@ def membership(request, conference_pk, template_name='conference/membership_form
 @has_chair_role
 @csrf_protect
 def conference_edit(request, template_name='conference/conference_form.html'):
-    
     form = ConferenceForm(instance=request.conference)
 
     if 'POST' == request.method:
@@ -102,7 +100,6 @@ def dashboard(request, template_name='conference/dashboard.html'):
 
     conference = request.conference
     membership = request.membership
-    
 
     alerts_trigger = Alert.objects.filter(conference=conference.pk, reminder__isnull=True, action__isnull=True)
     alerts_reminder = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, action__isnull=True)
@@ -208,7 +205,7 @@ def signup(request, key, template_name='registration/signup_form.html'):
     invitation = get_object_or_404(Invitation, key=key)
 
     try:
-        invitation.roles.get(Q(code='R') | Q(code='C'))
+        invitation.roles.filter(Q(code='R') | Q(code='C'))
         instance = Membership(**{'conference': invitation.conference, 'user': invitation.user})
         extra_form_class = MembershipForm
     except:
@@ -232,6 +229,7 @@ def signup(request, key, template_name='registration/signup_form.html'):
             login(request, user)
             # Add roles
             membership = Membership.objects.get(user=invitation.user, conference=invitation.conference)
+
             for role in invitation.roles.all():
                 membership.roles.add(role)
             membership.save()
@@ -284,44 +282,43 @@ def send_email_to_users(request, template_name='conference/send_email_to_users.h
     return render_to_response(template_name, context, context_instance=RequestContext(request))
 
 
-@login_required    
+@login_required
 @has_submitter_role
 def paper_list(request, template_name='conference/paper_list.html'):
-    conference = request.conference    
-    
-    papers = Paper.objects.filter(conference = conference, submitter = request.user)
-    
+    conference = request.conference
+
+    papers = Paper.objects.filter(conference=conference, submitter=request.user)
+
     context = {
         'paper_list': papers,
         'conference': conference
     }
     return render_to_response(template_name, context, context_instance=RequestContext(request))
-    
-    
+
+
 @login_required
-@has_reviewer_role  
+@has_reviewer_role
 def review_list(request, template_name='conference/review_list.html'):
-    conference = request.conference    
-    
+    conference = request.conference
+
     user_assignments = Assignment.objects.filter(conference=conference, reviewer=request.user, is_assigned=True)
-    
-    
+
     context = {
         'user_assignments': user_assignments,
         'conference': conference
     }
     return render_to_response(template_name, context, context_instance=RequestContext(request))
-    
+
 
 @login_required
-@has_chair_role   
+@has_chair_role
 def alert_list(request, template_name='conference/alert_list.html'):
-    conference = request.conference    
-    
+    conference = request.conference
+
     alerts_trigger = Alert.objects.filter(conference=request.conference, reminder__isnull=True, action__isnull=True)
     alerts_reminder = Alert.objects.filter(conference=request.conference, trigger_date__isnull=True, action__isnull=True)
     alerts_action = Alert.objects.filter(conference=request.conference, trigger_date__isnull=True, reminder__isnull=True)
-    
+
     context = {
         'alerts_trigger': alerts_trigger,
         'alerts_reminder': alerts_reminder,
@@ -332,17 +329,14 @@ def alert_list(request, template_name='conference/alert_list.html'):
 
 
 @login_required
-@has_chair_role   
+@has_chair_role
 def invitation_list(request, template_name='conference/invitation_list.html'):
-    conference = request.conference    
-    
-    invitations = Invitation.objects.filter(conference = conference)
-    
+    conference = request.conference
+
+    invitations = Invitation.objects.filter(conference=conference)
+
     context = {
         'invitation_list': invitations,
         'conference': conference
     }
     return render_to_response(template_name, context, context_instance=RequestContext(request))
-    
-    
-    

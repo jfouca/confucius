@@ -2,6 +2,7 @@ from django.conf.urls.defaults import patterns, url
 
 # confucius views
 urlpatterns = patterns('confucius.views',
+    url(r'^login/$', 'login', name='login'),
     url(r'^$', 'account', name='account'),
     url(r'^languages/', 'languages', name='languages'),
     url(r'^confirm-email/(?P<activation_key>[0-9a-f]+)/$', 'confirm_email', name='confirm_email'),
@@ -11,7 +12,6 @@ urlpatterns = patterns('confucius.views',
 
 # django.contrib.auth views
 urlpatterns += patterns('django.contrib.auth.views',
-    url(r'^login/$', 'login', name='login'),
     url(r'^logout/$', 'logout', name='logout'),
     url(r'^password-reset/$', 'password_reset', name='password_reset'),
     url(r'^password-reset-done/$', 'password_reset_done', name='password_reset_done'),

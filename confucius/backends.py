@@ -1,4 +1,5 @@
 from confucius.models import User
+from confucius.utils import email_to_username
 
 
 class AccountBackend(object):
@@ -8,7 +9,7 @@ class AccountBackend(object):
 
     def authenticate(self, username=None, password=None):
         try:
-            user = User.objects.get(email=username)
+            user = User.objects.get(username=email_to_username(username))
             if user.is_active and user.check_password(password):
                 return user
         except User.DoesNotExist:
