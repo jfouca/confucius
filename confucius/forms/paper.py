@@ -1,8 +1,11 @@
 from django import forms
 from confucius.models import Domain, Membership, Paper, Role
+from datetime import datetime
 
 
 class PaperForm(forms.ModelForm):
+
+    
     class Meta:
         fields = ('title', 'description', 'file', 'co_authors', 'language', 'domains')
         model = Paper
@@ -29,10 +32,10 @@ class PaperForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super(PaperForm, self).clean()   
 
-        instance = super(PaperForm, self).save(commit=False)
+        instance = self.instance
         conference = instance.conference
-
-        if conference.are_submissions_over:
+        
+        if conference.are_submissions_over == True:
             raise forms.ValidationError('The Submissions are over for now...')
             
 
