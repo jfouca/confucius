@@ -9,6 +9,10 @@ class EmailForm(forms.ModelForm):
     class Meta:
         model = Email
         fields = ('value', 'main', 'confirmed')
+        widgets = {
+            'main': forms.HiddenInput,
+            'confirmed': forms.HiddenInput,
+        }
 
     def save(self, commit=True):
         email = super(EmailForm, self).save(commit=False)
@@ -100,7 +104,7 @@ class UserForm(forms.ModelForm):
 
 
 class EmailFormSet(inlineformset_factory(User, Email)):
-    extra = 0
+    extra = 1
     form = EmailForm
     has_main = False
 
@@ -131,7 +135,7 @@ class EmailFormSet(inlineformset_factory(User, Email)):
 
 
 class AddressFormSet(inlineformset_factory(User, Address)):
-    extra = 0
+    extra = 1
 
     class Meta:
         model = Email

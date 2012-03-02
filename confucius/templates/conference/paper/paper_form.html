@@ -10,7 +10,7 @@
     {% else %}
         Submit paper
     {% endif %}
-</h1><br/>
+</h1>
 {% endblock %}
 
 {% block content_main %}
@@ -23,7 +23,7 @@
         {% if conference.are_submissions_over %}
             {% include 'includes/submissions_over_button.html' %}
         {% else %}
-            <input type="submit" class="btn btn-primary" value="{% if instance %} Update paper {% else %} Submit paper {% endif %}"/>
+            <input type="submit" class="btn btn-primary" value="{% if instance %}Update paper{% else %}Submit paper{% endif %}"/>
         {% endif%}
             <a href="{% url 'dashboard' %}" class="btn btn-danger">Return</a>
     </div>

@@ -16,18 +16,50 @@
 
 {% block content_main %}
 <form id="form" class="form-horizontal" method="post">{% csrf_token %}
-    {{ form.id }}
-    {% with field=form.first_name %}
-        {% include 'includes/control_group.html' %}
-    {% endwith %}
-    {% with field=form.last_name %}
-        {% include 'includes/control_group.html' %}
-    {% endwith %}
-    {% with field=form.languages %}
-        {% include 'includes/control_group_languages.html' %}
-    {% endwith %}
-    {{ email_formset }}
-    {{ address_formset }}
+    <div class="control-group{% if form.first_name.errors %} error{% endif %}" id="control_id_{{ form.first_name.html_name }}">
+        <label class="control-label" for="id_{{ form.first_name.html_name }}">{{ form.first_name.label }}</label>
+        <div class="controls">
+            <div class="input-prepend">
+                <span class="add-on">
+                    <i class="icon icon-pencil"></i>
+                </span>
+                <input name="{{ form.first_name.html_name }}" value="{{ form.first_name.value }}" class="input-medium" maxlength="30" type="text" id="id_{{ form.first_name.html_name }}">
+                <span class="help-inline">{{ form.first_name.errors|first }}</span>
+            </div>
+            <p class="help-block"></p>
+        </div>
+    </div>
+    <div class="control-group{% if form.last_name.errors %} error{% endif %}" id="control_id_{{ form.last_name.html_name }}">
+        <label class="control-label" for="id_{{ form.last_name.html_name }}">{{ form.last_name.label }}</label>
+        <div class="controls">
+            <div class="input-prepend">
+                <span class="add-on">
+                    <i class="icon icon-pencil"></i>
+                </span>
+                <input name="{{ form.last_name.html_name }}" value="{{ form.last_name.value }}" class="input-medium" maxlength="30" type="text" id="id_{{ form.last_name.html_name }}">
+                <span class="help-inline">{{ form.last_name.errors|first }}</span>
+            </div>
+            <p class="help-block"></p>
+        </div>
+    </div>
+    <div class="control-group{% if form.languages.errors %} error{% endif %}" id="control_group_{{ form.languages.html_name }}">
+        <label class="control-label" for="id_{{ form.languages.html_name }}">{{ form.languages.label }}</label>
+        <div class="controls" id="controls_{{ form.languages.html_name }}">
+            <div class="input-prepend">
+            <span class="add-on">
+                <i class="icon icon-pencil"></i>
+            </span>
+                <input id="id_languages" class="input-large">
+                <span class="help-inline">{{ form.languages.errors|first }}</span>
+            </div>
+            <p class="help-block">{{ form.languages.help_text }}</p>
+            {% for language in form.languages.field.initial %}
+                <span class="label" id="language_{{ language.id|add:'-1' }}">{{ language }} ×<input type="hidden" name="languages" value="{{ language.id }}"></span>
+            {% endfor %}
+        </div>
+    </div>
+    {% include 'includes/email_formset.html' %}
+    {% include 'includes/address_formset.html' %}
     <div class="form-actions">
         <input type="submit" class="btn btn-primary" value="Save changes">
     </div>
@@ -57,13 +89,14 @@
 {% block script %}
 <script>
     $(function () {
-        //$('#form').on('submit', function() { return false; });
-        $.getJSON('{% url 'languages' %}', function(data) {
+        var $form = $('#form');
+
+        function autocomplete_languages() {
             var $id_languages = $("#id_languages");
             
             function updateSource($input) {
-                var tab = data.slice(0);
-                $('span[id^=language_]').each(function() {
+                var tab = $form.data('languages').slice(0);
+                $('span[id^=language_]', '#controls_languages').each(function() {
                     var name = $(this).text().split(' ')[0];
                     tab.splice(tab.indexOf(name), 1);
                 });
@@ -71,31 +104,47 @@
             }
 
             $('#controls_languages span.label').live('click', function() {
-                $(this).hide('slow', function() { $(this).remove(); });
+                $(this).hide('slow', function() { $(this).remove(); $form.trigger('change'); });
             });
 
-            $id_languages.autocomplete({ source: data, autoFocus: true, minLength: 0 })
+            $id_languages.autocomplete({ source: $form.data('languages'), autoFocus: true, minLength: 0 })
             .on('autocompletesearch', function() {  updateSource($(this)); })
             .on('autocompleteselect', function(e, ui) {
                 var name = ui.item.value;
-                var language_id = data.indexOf(name);
+                var language_id = $form.data('languages').indexOf(name);
                 var id = 'language_' + language_id;
 
-                $('#' + id).addClass('label-info');
+                $('#' + id).show('slow');
                 if (!$('#' + id).length) {
-                    $('<span>')
-                        .addClass('label label-info')
-                        .attr('id', id)
-                        .appendTo($('#controls_languages'))
-                        .text(ui.item.value)
-                        .after(' ')
-                        .append(' ×')
-                        .append($('<input>').attr('type', 'hidden').attr('name', 'languages').val(language_id + 1));
+                    $('<span>').addClass('label')
+                    .attr('id', id)
+                    .appendTo($('#controls_languages'))
+                    .text(ui.item.value)
+                    .after(' ')
+                    .append(' ×')
+                    .append($('<input>').attr('type', 'hidden').attr('name', 'languages').val(language_id + 1));
                 }
-                $('#' + id).switchClass('label-info', '', 1000);
+                $('#' + id).show('slow', function() { $form.trigger('change'); });
                 $(this).val('');
                 return false;
+            })
+            .on('change', function() { return false; });
+        }
+
+        $form.on('submit', function() { return false; })
+        .on('change', function(e) {
+            $(e.target).next().append('<i class="icon-refresh">');
+            $(this).load('{% url 'account' %} #form > *', $(this).serializeArray(), function () {
+                $control_group = $('#control_id_' + e.target.name);
+                if (!$control_group.hasClass('error')) {
+                    $('#' + e.target.id).next().html('<span class="label label-success">saved!</span>');
+                }
+                autocomplete_languages();
             });
+        });
+        $.getJSON('{% url 'languages' %}', function(languages) {
+            $form.data('languages', languages);
+            autocomplete_languages();
         });
     });
 </script>

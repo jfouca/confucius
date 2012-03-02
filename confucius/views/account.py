@@ -23,10 +23,16 @@ def account(request, template='account/account_form.html'):
         form = UserForm(request.POST, instance=request.user)
         address_formset = AddressFormSet(request.POST, instance=request.user)
         email_formset = EmailFormSet(request.POST, instance=request.user)
+        error = False
 
         for f in (form, address_formset, email_formset):
             if f.is_valid():
                 f.save()
+            else:
+                error = True
+
+        if not error:
+            return redirect('account')
 
     context = {
         'address_formset': address_formset,
@@ -117,4 +123,4 @@ def languages(request):
     from django.http import HttpResponse
     from confucius.models import Language
 
-    return HttpResponse(json.dumps([unicode(l) for l in Language.objects.all().order_by('name')]), 'application/json')
+    return HttpResponse(json.dumps([unicode(l) for l in Language.objects.all().order_by('pk')]), 'application/json')

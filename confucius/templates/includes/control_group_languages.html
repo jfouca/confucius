@@ -6,7 +6,7 @@
         {% include 'includes/fields/input_prepend.html' %}
         <p class="help-block">{{ field.help_text }}</p>
         {% for language in field.field.initial %}
-            <span class="label" id="language_{{ language.id }}">{{ language }} ×<input type="hidden" name="languages" value="{{ language.id }}"></span>
+            <span class="label" id="language_{{ language.id|add:'-1' }}">{{ language }} ×<input type="hidden" name="languages" value="{{ language.id }}"></span>
         {% endfor %}
     </div>
 </div>

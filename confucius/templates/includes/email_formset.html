@@ -1,0 +1,25 @@
+{% include 'includes/form_errors.html' with form=email_formset %}
+{% load extra %}
+
+{{ email_formset.management_form }}
+
+<div class="control-group{% if formset.errors %} error{% endif %}" id="control_group_emails">
+    <label class="control-label">Emails</label>
+    <div class="controls" id="controls_emails">
+        {% for form in email_formset %}
+{% for field in form.hidden_fields %}
+    {{ field }}
+{% endfor %}
+            {% with field=form.value %}
+                <div class="input-prepend">
+                    <span class="add-on">
+                        <i class="icon icon-{{ field|icon }}"></i>
+                    </span>
+                    <input class="input-large" type="{{ type|default:'text' }}" id="id_{{ field.html_name }}" {% ifnotequal field|type 'multiple_choice' %}name="{{ field.html_name }}" value="{{ field.value|default:'' }}"{% endifnotequal %} placeholder="{{ field.label }}">
+                    <span class="help-inline">{% if field.errors %}{{ field.errors|first }}{% else %}{{ field.help_text }}{% endif %}</span>
+                </div>
+            {% endwith %}
+        {% endfor %}
+        <p class="help-block"></p>
+    </div>
+</div>
