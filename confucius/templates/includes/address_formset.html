@@ -11,9 +11,9 @@
                 {% for field in form.hidden_fields %}
                     {{ field }}
                 {% endfor %}
-                <p>
+                <p id="addresses-{{ forloop.counter0 }}">
                 <textarea class="input-large" id="id_{{ field.html_name }}" {% ifnotequal field|type 'multiple_choice' %}name="{{ field.html_name }}" {% endifnotequal %} placeholder="{{ field.label }}">{{ field.value|default:'' }}</textarea>
-                <span class="help-inline">{% if field.errors %}{{ field.errors|first }}{% else %}{{ field.help_text }}{% endif %}</span>
+                <span class="help-inline">{% if not forloop.first and not forloop.last %}<a href="#addresses-{{ forloop.counter0 }}" class="delete_address"><i class="icon-remove"></i></a>{% endif %}{% if field.errors %}{{ field.errors|first }}{% else %}{{ field.help_text }}{% endif %}</span>
                 </p>
             {% endwith %}
         {% endfor %}

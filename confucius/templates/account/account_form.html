@@ -60,9 +60,6 @@
     </div>
     {% include 'includes/email_formset.html' %}
     {% include 'includes/address_formset.html' %}
-    <div class="form-actions">
-        <input type="submit" class="btn btn-primary" value="Save changes">
-    </div>
 </form>
 <div class="modal hide fade" id="close_account_modal">
     <div class="modal-header">
@@ -104,7 +101,7 @@
             }
 
             $('#controls_languages span.label').live('click', function() {
-                $(this).hide('slow', function() { $(this).remove(); $form.trigger('change'); });
+                $(this).hide('fast', function() { $(this).remove(); $form.trigger('change'); });
             });
 
             $id_languages.autocomplete({ source: $form.data('languages'), autoFocus: true, minLength: 0 })
@@ -131,20 +128,42 @@
             .on('change', function() { return false; });
         }
 
+        function delete_emails() {
+            $('a.delete_email').on('click', function() {
+                $form.append($('<input>').attr('type', 'hidden').val(1).attr('name', $(this).attr('href').substring(1) + '-DELETE'));
+                $($(this).attr('href')).hide('fast');
+                $form.trigger('change');
+                return false;
+            });
+        }
+
+        function delete_addresses() {
+            $('a.delete_address').on('click', function() {
+                $form.append($('<input>').attr('type', 'hidden').val(1).attr('name', $(this).attr('href').substring(1) + '-DELETE'));
+                $($(this).attr('href')).hide('fast');
+                $form.trigger('change');
+                return false;
+            });
+        }
+
         $form.on('submit', function() { return false; })
         .on('change', function(e) {
             $(e.target).next().append('<i class="icon-refresh">');
             $(this).load('{% url 'account' %} #form > *', $(this).serializeArray(), function () {
                 $control_group = $('#control_id_' + e.target.name);
-                if (!$control_group.hasClass('error')) {
+                if (!$control_group.hasClass('error') && !$('#control_group_emails')) {
                     $('#' + e.target.id).next().html('<span class="label label-success">saved!</span>');
                 }
                 autocomplete_languages();
+                delete_emails();
+                delete_addresses();
             });
         });
         $.getJSON('{% url 'languages' %}', function(languages) {
             $form.data('languages', languages);
             autocomplete_languages();
+            delete_emails();
+            delete_addresses();
         });
     });
 </script>
