@@ -58,13 +58,17 @@ class Conference(ConfuciusModel):
         super(Conference, self).save(*args, **kwargs)
         
     def are_submissions_over(self):
-        return True if datetime.now().date() > self.submissions_end_date else False
+        print "kikou"
+        print datetime.now().date()
+        print self.submissions_end_date
+        print datetime.now().date() > self.submissions_end_date
+        return datetime.now().date() > self.submissions_end_date
         
     def are_reviews_over(self):
-        return True if datetime.now().date() > self.reviews_end_date else False
+        return datetime.now().date() > self.reviews_end_date
         
     def is_started(self):
-        return True if datetime.now().date() > self.start_date else False
+        return datetime.now().date() > self.start_date
 
 
 class Domain(ConfuciusModel):
