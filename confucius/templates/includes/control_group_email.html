@@ -1,0 +1,17 @@
+{% load extra %}
+
+<div class="control-group{% if form.errors %} error{% endif %}" id="control_group_emails">
+    <label class="control-label" for="id_{{ form.value.html_name }}">Emails <a href="#" id="add_email" title="Add email"><i class="icon-plus"></i></a></label>
+    <div class="controls" id="controls_{{ form.value.html_name }}">
+        {{ form.confirmed }}
+        {{ form.main }}
+        {% with field=form.value %}
+        {% if form.confirmed.value %}
+        {% include 'includes/fields/input_prepend.html' %}
+        {% else %}
+        {% include 'includes/fields/input_prepend_readonly.html' %}
+        {% endif %}
+        {% endwith %}
+        <p class="help-block">{{ form.value.help_text }}</p>
+    </div>
+</div>

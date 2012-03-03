@@ -14,7 +14,7 @@ body {
 }
 
 .content-header {
-  padding-left: 0;
+    padding-left: 0;
 }
 
 .controls > input {
@@ -30,11 +30,6 @@ body {
     opacity: 1;
 }
 
-.ui-datepicker {
-    border: 1px solid #aaa;
-    background: #fff;
-}
-
 /* Navbar */
 
 .navbar-text {
@@ -45,15 +40,34 @@ body {
     padding-left: 48px;
     background: url("logo_mini.png") left center no-repeat;
 }
-    
 
 /* Sidebar */
 
-.sidebar-nav {
+.sidebar-nav, .sidebar-dates {
     margin: 0;
-    padding: 15px 12px;
-    background-color: #f5f5f5;
+    background-color: #f8f8f8;
+    border-top: 3px solid lightgrey;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: inset 0 0 0 #000;
+    -moz-box-shadow: inset 0 0 0 #000;
+    box-shadow: inset 0 0 0 #000;
+}
 
+.sidebar-nav {
+    margin-top:18px;
+    padding: 15px 0;
+}
+
+.sidebar-dates {
+    padding: 5px 0 15px 0;
+    border-bottom: 3px solid lightgrey;
+}
+
+.sidebar-dates ul li {
+    margin-top: 5px;
+    color: #888;
 }
 
 /* Content */
@@ -61,36 +75,51 @@ body {
 .content {
 }
 
-.content-header {
+.content .page-header {
+    border-right: 3px solid lightgrey;
+    border-left: 3px solid lightgrey;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: inset 0 0 0 #000;
+    -moz-box-shadow: inset 0 0 0 #000;
+    box-shadow: inset 0 0 0 #000;
 }
-
 
 .content-main {
 }
 
 .footer {
     border-top: 1px solid lightgrey;
+    background-color: #f8f8f8;
 }
 
-/* Dashboard */
-
-.db-top {
-    display:block;
-    color: #222;
-    background-color: #f0f0f0;
-    border-radius: 0px 0px 4px 4px;
-    -moz-border-radius: 0px 0px 4px 4px;
-    -webkit-border-radius: 0px 0px 4px 4px;
+.powered {
+    margin: 5px 0 0 5px;
 }
 
-.db-top-inner {
-    margin: 10px 15px 15px 15px;
-}
+/* toggle utils */
 
-.db-top-inner-min {
-    margin: 2px 15px 2px 15px;
+.toggle-top h2 {
+    margin-bottom: 15px;
+    padding: 10px 15px 5px 5px;
+    border-top: 3px solid lightgrey;
+    background-color: #f8f8f8;
 }
-
+.toggle-div:hover {
+    cursor: pointer;
+}
+.toggle-buttons {
+    margin-bottom: 15px;
+    text-align: center;
+}
+.toggled {
+    padding-top: 15px;
+    border-top: 1px solid lightgrey;
+}
+.toggled h3 {
+    padding-left: 5px;
+}
 
 /* TextPander */
 

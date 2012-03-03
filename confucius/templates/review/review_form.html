@@ -26,15 +26,20 @@
 <form id="form" class="form-horizontal" method="post">
     {% csrf_token %}
 
-    {{form}}
+    {% include 'includes/form.html' %}
 
     <div class="form-actions">
-        {% if not assignment.is_done %}
-            <input type="submit" name="save_and_continue" class="btn" value="Save review and continue later"/>
-            <input type="submit" name="save_and_submit" class="btn btn-primary" value="Save and submit review"/>
+        {% if conference.are_reviews_over %}
+            {% include 'includes/reviews_over_button.html' %}
         {% else %}
-            <input type="submit" name="save" class="btn btn-primary" value="Update review"/>
-        {% endif %}
+            {% if not assignment.is_done %}
+                <input type="submit" name="save_and_continue" class="btn" value="Save review and continue later"/>
+                <input type="submit" name="save_and_submit" class="btn btn-primary" value="Save and submit review"/>
+            {% else %}
+                <input type="submit" name="save" class="btn btn-primary" value="Update review"/>
+            {% endif %}
+        {% endif %} 
+        <a href="{% url 'dashboard' %}" class="btn btn-danger">Return</a>
     </div>
     
 </form>

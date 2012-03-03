@@ -5,10 +5,10 @@ from confucius.models import Alert, Conference, Domain, Email, Invitation, Membe
 
 
 class AlertForm(forms.ModelForm):
-    conference = forms.ModelChoiceField(queryset=Conference.objects.all(), widget=forms.HiddenInput())
 
     class Meta:
         model = Alert
+        exclude = ('conference')
 
     def clean(self):
         cleaned_data = super(AlertForm, self).clean()
@@ -37,7 +37,27 @@ class AlertForm(forms.ModelForm):
 class ConferenceForm(forms.ModelForm):
     class Meta:
         model = Conference
-        exclude = ('members', 'is_open')
+        exclude = ('members', 'is_open', 'access_key', 'has_finalize_paper_selections')
+
+    def clean(self):
+        cleaned_data = super(ConferenceForm, self).clean()
+
+        start_date = cleaned_data['start_date']
+        start_review = cleaned_data['reviews_start_date']
+        end_review = cleaned_data['reviews_end_date']
+        start_sub = cleaned_data['submissions_start_date']
+        end_sub = cleaned_data['submissions_end_date']
+
+        if end_sub < start_sub:
+            raise forms.ValidationError('Submissions end date precedes Submissions start date in time')
+        if start_review < end_sub:
+            raise forms.ValidationError('Reviews start date precedes Submissions end date in time')
+        if end_review < start_review:
+            raise forms.ValidationError('Reviews end date precedes Reviews start date in time')
+        if start_date < end_review:
+            raise forms.ValidationError('Conference start date precedes Reviews end date in time')
+
+        return cleaned_data
 
 
 class InvitationForm(forms.ModelForm):
@@ -50,11 +70,19 @@ class InvitationForm(forms.ModelForm):
             'roles': forms.CheckboxSelectMultiple(),
         }
 
+    def __init__(self, *args, **kwargs):
+        super(InvitationForm, self).__init__(*args, **kwargs)
+        self.fields['roles'].help_text = ""
+
     def clean(self):
         from hashlib import sha256
         from confucius.utils import email_to_username, random_string
 
         cleaned_data = super(InvitationForm, self).clean()
+
+        if any(self.errors):
+            return cleaned_data
+
         email = None
         membership = None
 
@@ -68,7 +96,7 @@ class InvitationForm(forms.ModelForm):
             raise forms.ValidationError(u'This user has already that role in the Conference.')
 
         if email is None:
-            user = User.objects.create(email=self.cleaned_data['email'], username=email_to_username(self.cleaned_data['email']), is_active=False)
+            user = User.objects.create(email=cleaned_data['email'], username=email_to_username(cleaned_data['email']), is_active=False)
             Email.objects.create(value=user.email, main=True, user=user)
         else:
             user = email.user
@@ -116,6 +144,7 @@ class MembershipForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(MembershipForm, self).__init__(*args, **kwargs)
 
+        self.fields['domains'].help_text = ""
         self.fields['domains'].queryset = Domain.objects.filter(conferences__pk=self.instance.conference_id)
 
 

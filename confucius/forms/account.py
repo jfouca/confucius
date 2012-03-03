@@ -1,14 +1,22 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm as AuthUserCreationForm
+from django.contrib.auth.forms import UserCreationForm as AuthUserCreationForm, AuthenticationForm as AuthAuthenticationForm
 from django.forms.models import inlineformset_factory
 
 from confucius.models import Activation, Address, Email, Language, User
+
+
+class AuthenticationForm(AuthAuthenticationForm):
+    username = forms.CharField(label=u'Email')
 
 
 class EmailForm(forms.ModelForm):
     class Meta:
         model = Email
         fields = ('value', 'main', 'confirmed')
+        widgets = {
+            'main': forms.HiddenInput,
+            'confirmed': forms.HiddenInput,
+        }
 
     def save(self, commit=True):
         email = super(EmailForm, self).save(commit=False)
@@ -93,16 +101,14 @@ class UserForm(forms.ModelForm):
     def save(self, commit=True):
         user = super(UserForm, self).save(commit)
 
-        if commit:
-            user.save()
-            user.languages.clear()
-            user.languages.add(*self.cleaned_data.get('languages'))
+        user.languages.clear()
+        user.languages.add(*self.cleaned_data.get('languages'))
 
         return user
 
 
 class EmailFormSet(inlineformset_factory(User, Email)):
-    extra = 0
+    extra = 1
     form = EmailForm
     has_main = False
 
@@ -133,7 +139,7 @@ class EmailFormSet(inlineformset_factory(User, Email)):
 
 
 class AddressFormSet(inlineformset_factory(User, Address)):
-    extra = 0
+    extra = 1
 
     class Meta:
         model = Email

@@ -16,13 +16,50 @@
 
 {% block content_main %}
 <form id="form" class="form-horizontal" method="post">{% csrf_token %}
-    {% include 'includes/form.html' %}
-    {% include 'includes/account_form_dynamic_fields.html' with formset=email_formset %}
-    {% include 'includes/account_form_dynamic_fields.html' with formset=address_formset %}
- 
-    <div class="form-actions">
-        <input type="submit" class="btn btn-primary" value="Save changes">
+    <div class="control-group{% if form.first_name.errors %} error{% endif %}" id="control_id_{{ form.first_name.html_name }}">
+        <label class="control-label" for="id_{{ form.first_name.html_name }}">{{ form.first_name.label }}</label>
+        <div class="controls">
+            <div class="input-prepend">
+                <span class="add-on">
+                    <i class="icon icon-pencil"></i>
+                </span>
+                <input name="{{ form.first_name.html_name }}" value="{{ form.first_name.value }}" class="input-medium" maxlength="30" type="text" id="id_{{ form.first_name.html_name }}">
+                <span class="help-inline">{{ form.first_name.errors|first }}</span>
+            </div>
+            <p class="help-block"></p>
+        </div>
     </div>
+    <div class="control-group{% if form.last_name.errors %} error{% endif %}" id="control_id_{{ form.last_name.html_name }}">
+        <label class="control-label" for="id_{{ form.last_name.html_name }}">{{ form.last_name.label }}</label>
+        <div class="controls">
+            <div class="input-prepend">
+                <span class="add-on">
+                    <i class="icon icon-pencil"></i>
+                </span>
+                <input name="{{ form.last_name.html_name }}" value="{{ form.last_name.value }}" class="input-medium" maxlength="30" type="text" id="id_{{ form.last_name.html_name }}">
+                <span class="help-inline">{{ form.last_name.errors|first }}</span>
+            </div>
+            <p class="help-block"></p>
+        </div>
+    </div>
+    <div class="control-group{% if form.languages.errors %} error{% endif %}" id="control_group_{{ form.languages.html_name }}">
+        <label class="control-label" for="id_{{ form.languages.html_name }}">{{ form.languages.label }}</label>
+        <div class="controls" id="controls_{{ form.languages.html_name }}">
+            <div class="input-prepend">
+            <span class="add-on">
+                <i class="icon icon-pencil"></i>
+            </span>
+                <input id="id_languages" class="input-large">
+                <span class="help-inline">{{ form.languages.errors|first }}</span>
+            </div>
+            <p class="help-block">{{ form.languages.help_text }}</p>
+            {% for language in form.languages.field.initial %}
+                <span class="label" id="language_{{ language.id|add:'-1' }}">{{ language }} ×<input type="hidden" name="languages" value="{{ language.id }}"></span>
+            {% endfor %}
+        </div>
+    </div>
+    {% include 'includes/email_formset.html' %}
+    {% include 'includes/address_formset.html' %}
 </form>
 <div class="modal hide fade" id="close_account_modal">
     <div class="modal-header">
@@ -38,118 +75,96 @@
     </div>
 </div>
 {% endblock %}
+
+{% block style %}
+<style>
+    div.control-group span.label:hover {
+        cursor:pointer;
+    }
+</style>
+{% endblock %}
 {% block script %}
 <script>
-	function updateElementIndex(element, prefix, formCount) {
-	    // regew to find the id in the ids
-		var id_regex = new RegExp('(' + prefix + '-\\d+)');
-		// we want to replace it
-		var replacement = prefix + '-' + formCount;
-		// in the for element
-		if ($(element).attr("for"))
-		    $(element).attr("for", $(element).attr("for").replace(id_regex, replacement));
-		// the ids
-		if (element.id)
-		    element.id = element.id.replace(id_regex, replacement);
-		// the the names
-		if (element.name)
-		    element.name = element.name.replace(id_regex, replacement);
-	}
+    $(function () {
+        var $form = $('#form');
 
-    function addForm(btn, prefix) {
-        // first let's check the previous field
-        if(!$(btn).parents('li').find("input[name$='value']").val()
-            && !$(btn).parents('li').find("textarea[name$='value']").val())
-            // nothing to add, just fill the empty field please
-            return false;
-    
-        // retrieve how many forms we have
-        var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
-        // the new element added to the page
-        var row = $('#id_'+ prefix +'> .clone').clone(true).get(0);
-        
-        // we add it to the list
-        $(btn).parents('ul').append($(row));
-        // but we don't want to see it yet
-        $(row).hide();
+        function autocomplete_languages() {
+            var $id_languages = $("#id_languages");
+            
+            function updateSource($input) {
+                var tab = $form.data('languages').slice(0);
+                $('span[id^=language_]', '#controls_languages').each(function() {
+                    var name = $(this).text().split(' ')[0];
+                    tab.splice(tab.indexOf(name), 1);
+                });
+                $input.autocomplete('option', 'source', tab);
+            }
 
-        // it's new!
-        $(row).toggleClass('new');
-        // this is not to clone
-        $(row).toggleClass('clone');
-        // and we only add from the last
-        $(row).prev().find('.add-' + prefix).toggleClass('hidden');
-        
-        // it's not yet confirmed if an email
-        //$(row).find('.confirmed').remove();
-        // we want to see the plus button
-        if($(row).find('.add-' + prefix).hasClass('hidden'))
-            $(row).find('.add-' + prefix).toggleClass('hidden');
-        // and the minus button
-        if($(row).find('.rm-' + prefix).hasClass('hidden'))
-            $(row).find('.rm-' + prefix).toggleClass('hidden');
-        // now we clear the email field
-        $(row).find("input[type=text][name$='value']").val('');
-        // or the textarea
-        $(row).find("textarea[name$='value']").val('');
-        
-        // let's update some ids
-        var tags = ["div", "label", "input"];
-        for (var i=0; i<tags.length; i++) {
-            $(row).find(tags[i]).each(function() {
-        	    updateElementIndex(this, prefix, formCount);
+            $('#controls_languages span.label').live('click', function() {
+                $(this).hide('fast', function() { $(this).remove(); $form.trigger('change'); });
+            });
+
+            $id_languages.autocomplete({ source: $form.data('languages'), autoFocus: true, minLength: 0 })
+            .on('autocompletesearch', function() {  updateSource($(this)); })
+            .on('autocompleteselect', function(e, ui) {
+                var name = ui.item.value;
+                var language_id = $form.data('languages').indexOf(name);
+                var id = 'language_' + language_id;
+
+                $('#' + id).show('slow');
+                if (!$('#' + id).length) {
+                    $('<span>').addClass('label')
+                    .attr('id', id)
+                    .appendTo($('#controls_languages'))
+                    .text(ui.item.value)
+                    .after(' ')
+                    .append(' ×')
+                    .append($('<input>').attr('type', 'hidden').attr('name', 'languages').val(language_id + 1));
+                }
+                $('#' + id).show('slow', function() { $form.trigger('change'); });
+                $(this).val('');
+                return false;
+            })
+            .on('change', function() { return false; });
+        }
+
+        function delete_emails() {
+            $('a.delete_email').on('click', function() {
+                $form.append($('<input>').attr('type', 'hidden').val(1).attr('name', $(this).attr('href').substring(1) + '-DELETE'));
+                $($(this).attr('href')).hide('fast');
+                $form.trigger('change');
+                return false;
             });
         }
-        // we now have a new form
-        $('#id_' + prefix + '-TOTAL_FORMS').val(formCount + 1);
-        
-        // and the magic appends
-        $(row).fadeToggle("slow");
-        
-        return false;
-    }
-    
-    function deleteForm(btn, prefix) {
-        // sfx
-        $(btn).parents('li').fadeToggle('slow', function() {
-            // no item after?
-            if($(btn).parents('li').next().index()==-1)
-                // previous gets the plus button
-                $(btn).parents('li').prev().find('.add-' + prefix).toggleClass('hidden');
 
-            // if it's newly created
-            if($(btn).parents('li').hasClass('new')) {
-                // remove it
-                $(btn).parents('li').remove();
-                // medic! dead form!
-                var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
-                // to the cemetery
-                $('#id_' + prefix + '-TOTAL_FORMS').val(formCount - 1);
-            } else {
-                // check it for deletion
-                $(btn).parents('li').find("input[type=checkbox][name$='DELETE']").attr('checked', true);
-                // we move it from the end of the list
-                $(btn).parents('ul').prepend($(btn).parents('li'));
-            }
+        function delete_addresses() {
+            $('a.delete_address').on('click', function() {
+                $form.append($('<input>').attr('type', 'hidden').val(1).attr('name', $(this).attr('href').substring(1) + '-DELETE'));
+                $($(this).attr('href')).hide('fast');
+                $form.trigger('change');
+                return false;
+            });
+        }
+
+        $form.on('submit', function() { return false; })
+        .on('change', function(e) {
+            $(e.target).next().append('<i class="icon-refresh">');
+            $(this).load('{% url 'account' %} #form > *', $(this).serializeArray(), function () {
+                $control_group = $('#control_id_' + e.target.name);
+                if (!$control_group.hasClass('error') && !$('#control_group_emails')) {
+                    $('#' + e.target.id).next().html('<span class="label label-success">saved!</span>');
+                }
+                autocomplete_languages();
+                delete_emails();
+                delete_addresses();
+            });
         });
-
-        return false;
-    }
-</script>
-<script>
-$(function () {
-    $('.add-{{email_formset.prefix }}').live('click', function() {
-	    return addForm(this, '{{ email_formset.prefix }}');
+        $.getJSON('{% url 'languages' %}', function(languages) {
+            $form.data('languages', languages);
+            autocomplete_languages();
+            delete_emails();
+            delete_addresses();
+        });
     });
-    $('.rm-{{email_formset.prefix }}').live('click', function() {
-	    return deleteForm(this, '{{ email_formset.prefix }}');
-    });
-    $('.add-{{address_formset.prefix }}').live('click', function() {
-	    return addForm(this, '{{ address_formset.prefix }}');
-    });
-    $('.rm-{{address_formset.prefix }}').live('click', function() {
-	    return deleteForm(this, '{{ address_formset.prefix }}');
-    });
-});
 </script>
 {% endblock %}

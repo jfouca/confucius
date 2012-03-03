@@ -1,0 +1,9 @@
+{% load extra %}
+
+<div class="input-prepend">
+    <span class="add-on">
+        <i class="icon icon-{{ field|icon }}"></i>
+    </span>
+    <input readonly="readonly" class="input-large" type="{{ type|default:'text' }}" id="id_{{ field.html_name }}" {% ifnotequal field|type 'multiple_choice' %}name="{{ field.html_name }}" value="{{ field.value }}"{% endifnotequal %} placeholder="{{ field.label }}">
+    <span class="help-inline">Not yet confirmed.</span>
+</div>

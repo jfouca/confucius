@@ -1,12 +1,7 @@
 from django import template
 
+
 register = template.Library()
-
-
-@register.filter
-def no_time_left(date):
-    """for icon in subtopbar"""
-    pass
 
 
 @register.filter
@@ -17,7 +12,22 @@ def active(name, request):
 
 
 @register.filter
+def icon(field):
+    try:
+        if type(field) == 'password':
+            return 'lock'
+        if type(field) in ('text', 'date', 'select', 'selectm'):
+            return 'pencil'
+        if type(field) == 'email':
+            return 'envelope'
+    except:
+        pass
+
+
+@register.filter
 def type(field):
+    if field.field.widget.__class__.__name__ is 'TextInput':
+        return 'text'
     if field.field.widget.__class__.__name__ is 'Select':
         return 'select'
     if field.field.widget.__class__.__name__ is 'SelectMultiple':
@@ -28,11 +38,16 @@ def type(field):
         return 'textarea'
     if field.field.widget.__class__.__name__ is 'PasswordInput':
         return 'password'
+    if field.field.widget.__class__.__name__ is 'CheckboxSelectMultiple':
+        return 'cbselectm'
+    if field.field.widget.__class__.__name__ is 'FileInput' \
+        or field.field.widget.__class__.__name__ is 'ClearableFileInput':
+        return 'file'
     if field.field.__class__.__name__ is 'DateField':
         return 'date'
     if field.field.__class__.__name__ is 'EmailField':
         return 'email'
-    return 'text'
+    return 'default'
 
 
 @register.filter
@@ -54,11 +69,17 @@ def large(field):
 def textarea(field):
     return field.as_widget(attrs={'class': 'input-large', 'rows': '3'})
 
+
 @register.filter
 def bigtextarea(field):
     return field.as_widget(attrs={'class': 'input-xxlarge', 'rows': '6'})
 
+
+@register.filter
+def cbselectm(field):
+    return field.as_widget(attrs={'class': 'unstyled'})
+
+
 @register.filter
 def calendar(field):
     return field.as_widget(attrs={'class': 'input-small datepicker'})
-

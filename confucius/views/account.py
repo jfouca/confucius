@@ -23,10 +23,16 @@ def account(request, template='account/account_form.html'):
         form = UserForm(request.POST, instance=request.user)
         address_formset = AddressFormSet(request.POST, instance=request.user)
         email_formset = EmailFormSet(request.POST, instance=request.user)
+        error = False
 
         for f in (form, address_formset, email_formset):
             if f.is_valid():
                 f.save()
+            else:
+                error = True
+
+        if not error:
+            return redirect('account')
 
     context = {
         'address_formset': address_formset,
@@ -108,3 +114,22 @@ def password_change(request, template_name='account/password_change_form.html'):
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))
+
+
+@require_GET
+@login_required
+def languages(request):
+    import json
+    from django.http import HttpResponse
+    from confucius.models import Language
+
+    return HttpResponse(json.dumps([unicode(l) for l in Language.objects.all().order_by('pk')]), 'application/json')
+
+
+@require_http_methods(['GET', 'POST'])
+@csrf_protect
+def login(request):
+    from django.contrib.auth.views import login as auth_login
+    from confucius.forms import AuthenticationForm
+
+    return auth_login(request, authentication_form=AuthenticationForm)

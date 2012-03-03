@@ -1,5 +1,5 @@
 from django.db import models
-
+from datetime import datetime
 from confucius.models import ConfuciusModel, User
 
 
@@ -40,7 +40,7 @@ class Conference(ConfuciusModel):
     members = models.ManyToManyField(User, through='Membership')
     domains = models.ManyToManyField('Domain', related_name='conferences')
     access_key = models.CharField(max_length=8)
-
+    
     def __unicode__(self):
         return self.title
 
@@ -56,6 +56,15 @@ class Conference(ConfuciusModel):
             self.access_key = random_string(8)
 
         super(Conference, self).save(*args, **kwargs)
+        
+    def are_submissions_over(self):
+        return datetime.now().date() > self.submissions_end_date
+        
+    def are_reviews_over(self):
+        return datetime.now().date() > self.reviews_end_date
+        
+    def is_started(self):
+        return datetime.now().date() > self.start_date
 
 
 class Domain(ConfuciusModel):

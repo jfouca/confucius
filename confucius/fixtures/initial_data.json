@@ -1133,7 +1133,7 @@
         "pk": 1,
         "model": "auth.user",
         "fields": {
-            "username": "blu",
+            "username": "ImwWgX1aPDcyH53WzyR1YaycVNI=",
             "first_name": "Blu",
             "last_name": "Ulb",
             "is_active": true,
@@ -1151,7 +1151,7 @@
         "pk": 2,
         "model": "auth.user",
         "fields": {
-            "username": "red",
+            "username": "rw3rMn99c+x2ItqQEF0rQaGE38ro=",
             "first_name": "Red",
             "last_name": "Der",
             "is_active": true,
@@ -1169,7 +1169,7 @@
         "pk": 3,
         "model": "auth.user",
         "fields": {
-            "username": "green",
+            "username": "zBeWyEyAOBkDlxypXdBgVOqYEIQ=",
             "first_name": "Green",
             "last_name": "Neeg",
             "is_active": true,
