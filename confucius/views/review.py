@@ -1,14 +1,12 @@
 import simplejson
-import time
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core import serializers
 from django.http import HttpResponse
 from django.db.models import Count
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_GET, require_POST, require_http_methods
-from django.shortcuts import get_object_or_404, redirect, render_to_response
+from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
 
 
@@ -30,8 +28,7 @@ def finalize_assignment(request):
     for assignment in assignments:
         assignment.is_assigned = True
         assignment.save()
-    
-    
+
     reviewers_list = list(set([assignment.reviewer.email for assignment in assignments]))
     template = loader.get_template('review/assignment_email.html')
     context = {
@@ -39,10 +36,10 @@ def finalize_assignment(request):
             'conference': conference,
     }
     send_mail('You have received papers to reviews for the conference "%s"' % conference, template.render(Context(context)), None, reviewers_list)
-    
+
     return redirect('dashboard')
-        
-        
+
+
 @require_POST
 @login_required
 @has_chair_role
@@ -50,7 +47,7 @@ def finalize_assignment(request):
 def auto_assignment(request):
     if request.is_ajax():
         #start_time = time.time()*1000
-    
+
         # Get datas
         conference = request.conference
         role = Role.objects.get(code="R")
@@ -58,31 +55,29 @@ def auto_assignment(request):
         memberships_list = Membership.objects.filter(conference=conference, roles=role)
         max_assi_per_papers = int(request.POST.get('by_paper'))
         max_assi_per_reviewers = int(request.POST.get('by_reviewer'))
-        
+
         # Default values
         if max_assi_per_papers <= 0:
             max_assi_per_papers = 3
         if max_assi_per_reviewers <= 0:
-            max_assi_per_reviewers = (papers_list.count()*max_assi_per_papers / memberships_list.count())+1
-        
-        if papers_list.count() <= 0 :
+            max_assi_per_reviewers = (papers_list.count() * max_assi_per_papers / memberships_list.count()) + 1
+
+        if papers_list.count() <= 0:
             return HttpResponse(status=403)
-        
-        
+
         # Clear assignments
         Assignment.objects.filter(conference=conference, is_assigned=False).delete()
-        
+
         # Assignment per paper
         for paper in papers_list:
             paper_domains = paper.domains.all()
             set_paper_domains = set(paper_domains)
-            
+
             # Get reviewers (via memberships) who can be assigned for this paper
             memberships_list = Membership.objects.filter(conference=conference, roles=role, domains__in=paper_domains, user__languages=paper.language)
             memberships_list = memberships_list.annotate(assi_nb=Count('user__assignments')).annotate(domains_nb=Count('domains'))
             memberships_list = memberships_list.filter(assi_nb__lt=max_assi_per_reviewers).order_by("assi_nb", "domains_nb")
-            
-            
+
             # Reviewers, who have all the required skills for the paper, have the priority to be assigned.
             # Reviewers priority
             others_reviewers = []
@@ -90,37 +85,35 @@ def auto_assignment(request):
             for membership in memberships_list:
                 if paper.submitter == membership.user:
                     continue
-                    
+
                 if nb_assi >= max_assi_per_papers:
                     break
-                        
+
                 if set_paper_domains <= set(membership.domains.all()):
                     assignment, created = Assignment.objects.get_or_create(paper=paper, reviewer=membership.user, conference=conference)
                     if created == True:
                         assignment.save()
                         nb_assi += 1
                 else:
-                    others_reviewers.append(membership.user)           
-            
+                    others_reviewers.append(membership.user)
+
             # Need more reviewers ? Use the "others" list !
             for reviewer in others_reviewers:
                 if nb_assi >= max_assi_per_papers:
                     break
-                
+
                 assignment, created = Assignment.objects.get_or_create(paper=paper, reviewer=reviewer, conference=conference)
                 if created == True:
                     assignment.save()
                     nb_assi += 1
-        
-        
+
         #end_time = time.time()*1000
         #print str(end_time - start_time)
-        
-        
+
         # Response
         return HttpResponse(status=202)
-        
-        
+
+
 @require_http_methods(['GET', 'POST'])
 @login_required
 @has_reviewer_role
@@ -147,7 +140,7 @@ def submit_review(request, pk_assignment, template_name='review/review_form.html
         'form': form,
         'instance': review,
         'assignment': assignment,
-        'conference':request.conference,
+        'conference': request.conference,
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))
@@ -208,7 +201,7 @@ def read_reviews(request, pk_paper, template_name='review/read_reviews.html'):
 @has_chair_role
 def finalize_selection(request):
     conference = request.conference
-    
+
     # Check papers
     papers = Paper.objects.filter(conference=conference)
     isError = False
@@ -220,7 +213,7 @@ def finalize_selection(request):
     except:
         isError = True
         pass
-    
+
     if isError == True:
         messages.warning(request, u"You can't finalize papers selection while all papers haven't be reviewed or selected.")
         return redirect('paper_selection_list', conference.pk)
@@ -231,7 +224,7 @@ def finalize_selection(request):
 
         conference.has_finalize_paper_selections = True
         conference.save()
-    
+
         messages.warning(request, u"Papers selection have been finalized.")
         return redirect('dashboard', conference.pk)
 
@@ -243,72 +236,75 @@ def assignments(request):
     conference = request.conference
     papers = Paper.objects.filter(conference=conference)
     role = Role.objects.get(name="Reviewer")
-    memberships_list = Membership.objects.filter(roles=role,conference=conference)
+    memberships_list = Membership.objects.filter(roles=role, conference=conference)
     reviewers = [membership.user for membership in memberships_list]
     domains = conference.domains
-    
+
     context = {
-        'conference':conference,
-        'papers':papers,
-        'reviewers':reviewers,
-        'domains':domains,
-        'memberships_list':memberships_list
+        'conference': conference,
+        'papers': papers,
+        'reviewers': reviewers,
+        'domains': domains,
+        'memberships_list': memberships_list
     }
-    
+
     return render_to_response('review/assignments.html', context, context_instance=RequestContext(request))
+
 
 @require_POST
 @login_required
 @has_chair_role
 @csrf_protect
 def updateReviewerList(request):
+
 #tests whether it is a GET or POST ajax request, and treat it
     if request.is_ajax():
         conference = request.conference
         paper_id = request.POST.get('paper_id')
         paper = Paper.objects.get(pk=paper_id)
-        
+
         role = Role.objects.get(name="Reviewer")
-        memberships_list = Membership.objects.filter(roles=role,conference=conference).exclude(user__assignments__paper=paper)
-        reviewers = [(membership.user.pk, membership.user.last_name+" "+membership.user.first_name+" ("+", ".join([domain.name for domain in membership.domains.all()])+") - ("+", ".join([language.name for language in membership.user.languages.all()])+")") for membership in memberships_list]
-        
+        memberships_list = Membership.objects.filter(roles=role, conference=conference).exclude(user__assignments__paper=paper)
+        reviewers = [(membership.user.pk, membership.user.last_name + " " + membership.user.first_name + " (" + ", ".join([domain.name for domain in membership.domains.all()]) + ") - (" + ", ".join([language.name for language in membership.user.languages.all()]) + ")") for membership in memberships_list]
+
         data = simplejson.dumps(reviewers)
         return HttpResponse(data, mimetype="application/json")
     # If you want to prevent non XHR calls
     else:
         return HttpResponse(status=400)
 
-@require_POST   
+
+@require_POST
 @login_required
 @has_chair_role
 @csrf_protect
-def updateAssignmentsTables(request):      
+def updateAssignmentsTables(request):
 #tests whether it is a GET or POST ajax request, and treat it
-    if request.is_ajax():     
+    if request.is_ajax():
         conference = request.conference
         paper_id = request.POST.get('paper_id')
         reviewer_id = request.POST.get('reviewer_id')
-        
+
         reviewer = User.objects.get(pk=reviewer_id)
         paper = Paper.objects.get(pk=paper_id)
         role = Role.objects.get(name="Reviewer")
-        membership = Membership.objects.get(roles=role, user=reviewer, conference=conference)                 
+        membership = Membership.objects.get(roles=role, user=reviewer, conference=conference)
         conference = membership.conference
-        
-                    
-        assignment = Assignment.objects.create(paper=paper,reviewer=reviewer, conference=conference)
+
+        assignment = Assignment.objects.create(paper=paper, reviewer=reviewer, conference=conference)
         assignment.save()
-        
-        membership = Membership.objects.get(roles=role,conference=conference,user=reviewer)
-        email = Email.objects.get(user=reviewer,main=True)
-        
-        datas = [(assignment.pk, membership.user.pk, email.value, ", ".join([domain.name for domain in membership.domains.all()]), assignment.get_papers().count(), ", ".join([language.name for language in reviewer.languages.all()]) )]
-        
+
+        membership = Membership.objects.get(roles=role, conference=conference, user=reviewer)
+        email = Email.objects.get(user=reviewer, main=True)
+
+        datas = [(assignment.pk, membership.user.pk, email.value, ", ".join([domain.name for domain in membership.domains.all()]), assignment.get_papers().count(), ", ".join([language.name for language in reviewer.languages.all()]))]
+
         data = simplejson.dumps(datas)
         return HttpResponse(data, mimetype="application/json")
     # If you want to prevent non XHR calls
     else:
         return HttpResponse(status=400)
+
 
 @require_POST
 @login_required
@@ -321,12 +317,12 @@ def deleteAssignmentRow(request):
         assignment = Assignment.objects.get(pk=assignment_pk)
         reviewer_to_delete = assignment.reviewer
         assignment.delete()
-        
+
         role = Role.objects.get(name="Reviewer")
-        membership = Membership.objects.get(roles=role,conference=request.conference,user=reviewer_to_delete)
-         
-        reviewer_info = [reviewer_to_delete.pk, reviewer_to_delete.last_name+" "+reviewer_to_delete.first_name+" ("+", ".join([domain.name for domain in membership.domains.all()])+") - ("+", ".join([language.name for language in reviewer_to_delete.languages.all()])+")"]        
-        
+        membership = Membership.objects.get(roles=role, conference=request.conference, user=reviewer_to_delete)
+
+        reviewer_info = [reviewer_to_delete.pk, reviewer_to_delete.last_name + " " + reviewer_to_delete.first_name + " (" + ", ".join([domain.name for domain in membership.domains.all()]) + ") - (" + ", ".join([language.name for language in reviewer_to_delete.languages.all()]) + ")"]
+
         data = simplejson.dumps(reviewer_info)
         return HttpResponse(data, mimetype="application/json")
     # If you want to prevent non XHR calls
@@ -334,21 +330,19 @@ def deleteAssignmentRow(request):
         return HttpResponse(status=400)
 
 
-@require_POST        
+@require_POST
 @login_required
 @has_chair_role
-@csrf_protect        
+@csrf_protect
 def refreshAssignationNumber(request):
     if request.is_ajax():
-        conference = request.conference
         paper_id = request.POST.get('paper_id')
         paper = Paper.objects.get(pk=paper_id)
         assignments = paper.assignments.all()
-        numbers = [( assignment.pk, assignment.get_papers().count()) for assignment in assignments]
-        
+        numbers = [(assignment.pk, assignment.get_papers().count()) for assignment in assignments]
+
         data = simplejson.dumps(numbers)
         return HttpResponse(data, mimetype="application/json")
     # If you want to prevent non XHR calls
     else:
         return HttpResponse(status=400)
-        
