@@ -19,9 +19,10 @@ class Assignment(ConfuciusModel):
 
     def get_papers(self):
         return Assignment.objects.filter(conference=self.conference, reviewer=self.reviewer)
-        
+
     def get_domains(self):
         return Membership.objects.get(conference=self.conference, user=self.reviewer).domains
+
 
 class Review(ConfuciusModel):
     title = models.CharField(max_length=50)
