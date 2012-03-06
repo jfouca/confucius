@@ -174,46 +174,7 @@ function auto_assign() {
 	});
 }
 
-function add_reviewer_after_keypress(){
-	$('.span3').keypress(function(event, val){
-		var keycode = (event.keyCode ? event.keyCode : event.which);
-		var value = this.value;
-		if(keycode == '13'){
-			var valBis;
-			var text;
-
-			var val = $(this).parent().parent().find('select').attr("id");
-			var toRemove = 'reviewers_list_';
-            var end = val.replace(toRemove,'');
-	        var table = $(document).find("table#table_"+end);
-			
-			for (var i=0, j=opts.length; i<j; i++){
-				text = opts[i].text.toLowerCase();
-				valBis = value.toLowerCase();
-				if (text==valBis){
-                    $.post("{% url 'updateAssignmentsTables' conference.pk %}", { 
-                        paper_id : end,
-                        reviewer_id : opts[i].value
-                    },
-                    function(data) {
-                        $.each(data,function(index, value) {
-                            table.append("<tr><td>"+value[2]+"</td><td>"+value[3]+"</td><td>"+value[5]+"</td><td id=\"paper_count_"+value[0]+"\">"+value[4]+"</td><td><a href=\"javascript:void(0)\" class=\"btn btn-danger assignment\" id=\"remove_"+value[0]+"--table_"+end+"\">Remove</a></td></tr>");
-                        });
-                        var res = parseInt($("td#assignments_"+end).text());
-                        $("td#assignments_"+end).text(res+1);
-                        opts.remove(val);
-                    }
-                    );
-					opts.remove(opts[i].value);
-					$(this).val("");
-					return false;
-				}
-			}
-			return false;
-		}
-	});
-}
-    
+   
 	$(function() {
 		$("select.selectAdd").selectOptionSort();
 	}); 
