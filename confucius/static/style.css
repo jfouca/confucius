@@ -72,10 +72,22 @@ body {
 
 /* Content */
 
+.role {
+    line-height: auto;
+}
+
+.data-actions {
+    display: block;
+}
+
+.v-hidden {
+    visibility:hidden;
+}
+
 .content {
 }
 
-.content .page-header {
+.content > .page-header {
     border-right: 3px solid lightgrey;
     border-left: 3px solid lightgrey;
     -webkit-border-radius: 0;
@@ -84,6 +96,11 @@ body {
     -webkit-box-shadow: inset 0 0 0 #000;
     -moz-box-shadow: inset 0 0 0 #000;
     box-shadow: inset 0 0 0 #000;
+}
+
+.page-header .conf-link {
+    display: block;
+    margin-top: 5px;
 }
 
 .content-main {
