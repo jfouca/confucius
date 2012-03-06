@@ -9,12 +9,15 @@
 
 
 {% block content_main %}
-<p>
-<div class="alert alert-error ">
-    <h4 class="alert-heading">Warning!</h4>
-    <p>There are still no assigned papers. Please have a look to it before performing your selection.</p>
-</div>
-</p>
+{% if papers_not_assigned.count > 0 %}
+    <p>
+    <div class="alert alert-error ">
+        <h4 class="alert-heading">Warning!</h4>
+        <p>There are still no assigned papers. Please have a look to it before performing your selection.</p>
+    </div>
+    </p>
+{% endif %}
+
 <p>
 <div class="accordion-group">
   <div class="accordion-heading">
@@ -31,34 +34,48 @@
 </p>
 
 <p>
-<h3>Papers</h3>
+
+<p>
+<div class="row">
+    <div class="span1"><h3>Papers</h3> </div>
+    <div class="span1"><span class="btn btn-info hide" id="select-btn">Select</span></div>
+    <div class="span2"><span class="btn btn-danger hide" id="deselect-btn">De-select</span></div>
+</div>
+</p>
 <table class="table table-striped">
     <tr>
-        <th></th>
+        <th><input type="checkbox" name="selectAll" id="selectAll" class="selectAll"></th>
         <th>Title</th>
         <th>Number of reviews</th>
         <th>Overall Evaluation</th>
         <th>Standard deviation</th>
-        <th>Actions</th>
     </tr>
+<form method="post" id="frmPaper" name="frmPaper" >
 {% for paper in papers_assigned.all %}
     <tr>
-        <td></td>
+        <td> <input type="checkbox" class="paper" name="{{paper.pk}}" id="{{paper.pk}}"></td>
         <td> {{ paper.title }} </td>
         <td> {{ paper.assignments.count }} </td>
-        <td> {{ paper.get_mark }} % </td>
-        <td>
-            {% if not paper.is_ambigous %}
-                <span class="label label-success"><i class="icon-ok-sign icon-white" /></span>
-            {% else %}
-                <span class="label label-important"><i class="icon-remove-sign icon-white" /></span>
+        <td> 
+            {% if paper.get_mark == -1 %} No mark yet 
+            {% else %} {{ paper.get_mark }} %
             {% endif %}
         </td>
-        <td> Actions </td>
+        <td>
+            {% if not paper.is_ambigous %}
+                <span class="label label-success"><i class="icon-ok-sign icon-white"></i></span>
+            {% else %}
+                <span class="label label-important"><i class="icon-remove-sign icon-white"></i></span>
+            {% endif %}
+        </td>
 {% endfor %}
+</form>
 </table>
-</p>
 
+</p>
+<br/>
+
+{% if papers_not_assigned.count > 0 %}
 <p>
     <h3>Papers not assigned</h3>
     <table class="table table-striped">
@@ -71,20 +88,69 @@
                 <td><b>{{paper.title}}</b></td>
                 <td>{{paper.last_update_date|date:"m/d/y"}}</td>
             </tr>
-        {% empty %}
-            <tr><td colspan="2">All papers have been assigned.</td></tr>
         {% endfor %}
     </table>
 </p>
+{% endif %}
  
- {% for paper in papers_not_assigned.all %}
-    {{paper.title}} -- {{paper.get_mark}}
- {% endfor %}
-
 {% endblock %}
 
 {% block script %}
 <script>
-$(".collapse").collapse('hide');
+
+
+$(document).ready(
+    
+    // Hide items
+    hideItems(),
+    
+    
+    selectAllEvent(),
+    
+    checkPaper()
+    
+        
+);
+
+function hideItems() {
+    $(".collapse").collapse('hide');
+}
+
+
+function selectAllEvent(){
+    $('#selectAll').click(function() {
+        var checked_status = this.checked;
+        toggleSelectionButtons();
+        toggleCheckboxes(checked_status);
+        //more things
+    });
+}
+
+function toggleSelectionButtons() {
+    $("#select-btn").toggleClass("hide");
+    $("#deselect-btn").toggleClass("hide");
+}
+
+function checkPaper() {
+    $('.paper').live("click",function() {
+        if(jQuery('input[class="paper"]:checked').length == 0) { 
+            $('#selectAll').attr('checked', false);
+            toggleSelectionButtons();
+        }
+        
+        if(jQuery('input[class="paper"]:checked').length > 0 && !$('input[id="selectAll"]').is(':checked') ) { 
+            $('#selectAll').attr('checked', true);
+            toggleSelectionButtons();
+        }
+        
+    });
+}
+
+function toggleCheckboxes(is_selectAll_checked) {
+    $('.paper').each(function(){
+        this.checked = is_selectAll_checked;
+    });
+} 
+
 </script>
 {% endblock %}

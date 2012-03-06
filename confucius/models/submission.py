@@ -27,7 +27,7 @@ class Paper(ConfuciusModel):
         try :
             average = self.stat_average(marks_list)
         except Exception as inst:
-            average = -1
+            return -1
         return int((average*100) / 7)
         
     def is_ambigous(self):
