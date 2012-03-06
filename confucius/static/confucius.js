@@ -9,5 +9,9 @@ $(function() {
         $(this).next().modal('show');
         return false;
     });
+    $('.assignments_finalize').click(function() {
+        $(this).next().modal('show');
+        return false;
+    });
     $('.tooltip-show').tooltip();
 });

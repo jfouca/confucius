@@ -66,6 +66,9 @@ def auto_assignment(request):
         # Clear assignments
         Assignment.objects.filter(conference=conference, is_assigned=False).delete()
 
+        # Errors
+        all_papers_are_assigned = True
+
         # Assignment per paper
         for paper in papers_list:
             paper_domains = paper.domains.all()
@@ -86,7 +89,7 @@ def auto_assignment(request):
 
                 if nb_assi >= max_assi_per_papers:
                     break
-
+                
                 if set_paper_domains <= set(membership.domains.all()):
                     assignment, created = Assignment.objects.get_or_create(paper=paper, reviewer=membership.user, conference=conference)
                     if created == True:
@@ -104,9 +107,17 @@ def auto_assignment(request):
                 if created == True:
                     assignment.save()
                     nb_assi += 1
+                    
+            if paper.assignments.count() == 0:
+                all_papers_are_assigned = False                   
 
         # Response
-        return HttpResponse(status=202)
+        if not all_papers_are_assigned:
+            return_code = "1"
+        else:
+            return_code = "0"
+            
+        return HttpResponse(return_code)
 
 
 @require_http_methods(['GET', 'POST'])
@@ -227,6 +238,14 @@ def finalize_selection(request):
 @login_required
 @has_chair_role
 @csrf_protect
+def clean_assignments(request):
+    Assignment.objects.filter(conference=request.conference, is_assigned=False).delete()
+    return redirect('assignments', request.conference.pk)
+
+
+@login_required
+@has_chair_role
+@csrf_protect
 def assignments(request):
     conference = request.conference
     papers = Paper.objects.filter(conference=conference)
@@ -235,12 +254,18 @@ def assignments(request):
     reviewers = [membership.user for membership in memberships_list]
     domains = conference.domains
 
+    if request.GET.__contains__('automatic_assignment_code'):
+        code = request.GET.get('automatic_assignment_code')
+    else:
+        code = -1
+    
     context = {
         'conference': conference,
         'papers': papers,
         'reviewers': reviewers,
         'domains': domains,
-        'memberships_list': memberships_list
+        'memberships_list': memberships_list,
+        'automatic_assignment_code': int(code),
     }
 
     return render_to_response('review/assignments.html', context, context_instance=RequestContext(request))

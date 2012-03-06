@@ -121,7 +121,7 @@ function deleteAssignmentRow() {
                 var tdassi = $("td#assignments_"+paperid)
                 var notassignedvalue = $(tdassi).attr("not_assigned_value") - 1;
                 var assignedvalue = $(tdassi).attr("assigned_value");
-                var dataoriginaltitle="Assignments not finalized: "+notassignedvalue+"<br/>Assignments finalized: "+assignedvalue;
+                var dataoriginaltitle="Assignments not finalized: "+notassignedvalue+"</br>Assignments finalized: "+assignedvalue;
                 $(tdassi).attr("not_assigned_value", notassignedvalue);
                 $(tdassi).attr("data-original-title", dataoriginaltitle);
                 
@@ -138,6 +138,7 @@ function updateAssignmentsTables() {
         var toRemove = 'reviewers_list_';
         var end = val.replace(toRemove,'');
 	    var table = $(document).find("table#table_"+end);
+	    
 		if (val!=null){
 
             $.post("{% url 'updateAssignmentsTables' conference.pk %}", { 
@@ -154,7 +155,7 @@ function updateAssignmentsTables() {
                     var tdassi = $("td#assignments_"+end)
                     var notassignedvalue = parseInt($(tdassi).attr("not_assigned_value")) + 1;
                     var assignedvalue = $(tdassi).attr("assigned_value");
-                    var dataoriginaltitle="Assignments not finalized: "+notassignedvalue+"<br/>Assignments finalized: "+assignedvalue;
+                    var dataoriginaltitle="Assignments not finalized: "+notassignedvalue+"</br>Assignments finalized: "+assignedvalue;
                     $(tdassi).attr("not_assigned_value", notassignedvalue);
                     $(tdassi).attr("data-original-title", dataoriginaltitle);
                     
@@ -186,7 +187,7 @@ function auto_assign() {
             },
             function(data) {
                 $('#toggle_modal_loading').modal('hide');
-                window.location.reload();
+                window.location = "?automatic_assignment_code="+data
             }
         );
 
