@@ -46,8 +46,6 @@ def finalize_assignment(request):
 @csrf_protect
 def auto_assignment(request):
     if request.is_ajax():
-        #start_time = time.time()*1000
-
         # Get datas
         conference = request.conference
         role = Role.objects.get(code="R")
@@ -106,9 +104,6 @@ def auto_assignment(request):
                 if created == True:
                     assignment.save()
                     nb_assi += 1
-
-        #end_time = time.time()*1000
-        #print str(end_time - start_time)
 
         # Response
         return HttpResponse(status=202)

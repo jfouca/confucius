@@ -20,3 +20,10 @@ class Paper(ConfuciusModel):
 
     def __unicode__(self):
         return self.title
+        
+    def get_assigned_assignments_count(self):
+        return len([assignment for assignment in self.assignments.all() if assignment.is_assigned == True])
+    
+    def get_not_assigned_assignments_count(self):
+        return len([assignment for assignment in self.assignments.all() if assignment.is_assigned == False])
+    

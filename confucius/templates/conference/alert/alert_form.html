@@ -33,7 +33,9 @@
         {% else %} 
             <input type="submit" class="btn btn-primary" value="Create">
         {% endif %}
-        <a href="{% url 'dashboard' %}" class="btn btn-danger">Return</a>
+        <a href="{% url 'dashboard' %}" class="btn btn-info">
+            <i class="icon-share-alt icon-white"></i> To dashboard
+        </a>
     </div>
     </fieldset>
 </form>
