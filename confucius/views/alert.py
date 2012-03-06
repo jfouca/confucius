@@ -33,8 +33,8 @@ def alert(request, alert_pk=None, template_name='conference/alert/alert_form.htm
 
     context = {
         'form': form,
-        'alert':instance,
-        'conference':request.conference
+        'alert': instance,
+        'conference': request.conference
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))
