@@ -291,15 +291,7 @@ $(document).ready(
         var $icon = $(this).prev('.toggle-top').find('.icon');
         $icon.toggleClass('icon-chevron-up')
         $icon.toggleClass('icon-chevron-down');
-    }),
-    $('.row-actions').mouseenter(function() {
-            $(this).find('.data-actions').toggleClass('v-hidden');
-        }
-    ),
-    $('.row-actions').mouseleave(function() {
-            $(this).find('.data-actions').toggleClass('v-hidden');
-        }
-    )
+    })
 ); 
 </script>
 {% endblock %}

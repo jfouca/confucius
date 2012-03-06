@@ -10,46 +10,28 @@
 {% endblock %}
 
 {% block content_main %}
-<table class="table table-bordered">
-    <thead>
+<table class="table table-striped table-bordered">
+    <tbody>
         <tr>
             <th>Title</th>
             <th>Trigger</th>
             <th>Recipients</th>
-            <th></th>
-            <th></th>
         </tr>
-    </thead>
-    <tbody>
-            {% for alert in alerts_trigger %}
-                <tr>
-                    <td><b>{{alert.title}}</b></td>
-                    <td>{{alert.trigger_date|date:'SHORT_DATE_FORMAT'}}</td>
-                    <td>{{ alert.roles.all|join:', '}}</td>
-                    <td><center><a href="{% url 'alert' conference.pk alert.pk %}" class="btn">Edit the alert</a></center></td>
-                    <td><center><a href="{% url 'delete_alert' conference.pk alert.pk %}" class="btn btn-danger">Delete the alert</a></center></td>
-                </tr>
-            {% endfor %}
-            
-            {% for alert in alerts_reminder %}
-                <tr>
-                    <td><b>{{alert.title}}</b></td>
-                    <td>{{alert.reminder.name}} + {{alert.event.name}}</td>
-                    <td>{{ alert.roles.all|join:', '}}</td>
-                    <td><center><a href="{% url 'alert' conference.pk alert.pk %}" class="btn">Edit the alert</a></center></td>
-                    <td><center><a href="{% url 'delete_alert' conference.pk alert.pk %}" class="btn btn-danger">Delete the alert</a></center></td>
-                </tr>
-            {% endfor %}
+        {% if not alerts_trigget and not alerts_reminder and not alerts_action %}
+            <tr><td colspan=4>No alert for this conference.</td></tr>
+        {% endif %}
 
-            {% for alert in alerts_action %}
-                <tr>
-                    <td><b>{{alert.title}}</b></td>
-                    <td>{{alert.action.name}}</td>
-                    <td>{{ alert.roles.all|join:', '}}</td>
-                    <td><center><a href="{% url 'alert' conference.pk alert.pk %}" class="btn">Edit the alert</a></center></td>
-                    <td><center><a href="{% url 'delete_alert' conference.pk alert.pk %}" class="btn btn-danger">Delete the alert</a></center></td>
-                </tr>
-            {% endfor %}
+        {% for alert in alerts_trigger %}
+            {% include 'includes/alerts_list.html' with alert=alert %}
+        {% endfor %}
+
+        {% for alert in alerts_reminder %}
+            {% include 'includes/alerts_list.html' with alert=alert %}
+        {% endfor %}
+
+        {% for alert in alerts_action %}
+            {% include 'includes/alerts_list.html' with alert=alert %}
+        {% endfor %}
     </tbody>
 </table>
 <p><a href="{% url 'dashboard' %}" class="btn btn-info">
