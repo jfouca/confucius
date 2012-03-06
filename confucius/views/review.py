@@ -1,6 +1,5 @@
 import simplejson
 import time
-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
@@ -141,6 +140,7 @@ def submit_review(request, pk_assignment, template_name='review/review_form.html
                 assignment.is_done = True
 
             assignment.save()
+            messages.success(request, u'The review has been successfully added')
             return redirect('dashboard')
 
     context = {
@@ -358,10 +358,19 @@ def refreshAssignationNumber(request):
 def updateSelectedStatus(request):
     if request.is_ajax():
         conference = request.conference
-        papers_id = request.POST.get('papers_id')
+        papers_id = simplejson.loads(request.POST.get('papers_id'))
         selected_status = request.POST.get('action')
-        
         print papers_id
+        for p_id in papers_id:
+            print p_id
+            paper = Paper.objects.get(pk=p_id)
+            try:
+                paper_selection = PaperSelection.objects.get(paper=paper,conference=conference)
+            except :
+                paper_selection = PaperSelection.objects.create(paper=paper,conference=conference)
+                
+            paper_selection.is_selected = True if selected_status == "select" else False
+            paper_selection.save();
         
         return HttpResponse("Success")
     # If you want to prevent non XHR calls

@@ -13,17 +13,36 @@
     background-color:transparent;
 }
 tr.paper-selected, tr.paper-selected:hover td{
-    background-color:#a6f487;
+    background-color:#ccf9ce;
 }
 
 tr.paper-deselected, tr.paper-deselected:hover td{
-    background-color:#f46868;
+    background-color:#f9cccc;
 }
 </style>
 {% endblock %}
 
 
 {% block content_main %}
+<div class="modal hide fade" id="toggle_modal_warning">
+    <div class="modal-header">
+        <h3>Warning !</h3>
+    </div>
+    <div class="modal-body">
+        <p><center><strong></strong></center></p>
+    </div>
+</div>
+
+<div class="modal hide fade" id="toggle_modal_confirmation">
+    <div class="modal-header">
+        <h3>Confirmation</h3>
+    </div>
+    <div class="modal-body">
+        <p><center><strong></strong></center></p>
+    </div>
+</div>
+
+
 {% if papers_not_assigned.count > 0 %}
     <p>
     <div class="alert alert-error ">
@@ -53,8 +72,9 @@ tr.paper-deselected, tr.paper-deselected:hover td{
 <p>
 <div class="row">
     <div class="span1"><h3>Papers</h3> </div>
-    <div class="span1"><span class="btn btn-info hide" id="select-btn">Select</span></div>
-    <div class="span2"><span class="btn btn-danger hide" id="deselect-btn">De-select</span></div>
+    <div class="span1"><span class="btn hide" id="select-btn">Select</span></div>
+    <div class="span4"><span class="btn hide" id="deselect-btn">Reject</span></div>
+    <div class="span2"><span class="btn" id="finalize">Finalize</span></div>
 </div>
 </p>
 <table class="table">
@@ -136,7 +156,9 @@ $(document).ready(
     
     selectAction(),
     
-    deselectAction()
+    deselectAction(),
+    
+    finalizeAction()
         
 );
 
@@ -227,6 +249,23 @@ function deselectAction() {
         );
     });
 }
+
+function finalizeAction(){
+    $('#finalize').live("click",function() {
+        {% if papers_not_assigned.count > 0 %}
+            $('#toggle_modal_warning').modal({
+                keyboard: false
+            }).show();
+        {% else %}
+            $('#toggle_modal_confirmation').modal({
+                keyboard: false
+            }).show();        
+        {% endif %}
+    });
+}
+
+
+
 
 </script>
 {% endblock %}
