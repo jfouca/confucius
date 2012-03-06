@@ -27,9 +27,6 @@
                 {{ message }}
             </div>
             {% endfor %}
-            <script>
-                $(function() {$('#messages').alert();});
-            </script>
         {% endif %}
         {% block base_content %}{% endblock %}
         <script src="{{ STATIC_URL }}jquery.js"></script>

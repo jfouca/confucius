@@ -162,3 +162,9 @@ body {
     right:20px;
     top:70px;
 }
+
+.isResizable {
+    resize: both;
+    min-width: 120px;
+    min-height: 40px;
+}

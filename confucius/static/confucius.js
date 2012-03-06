@@ -10,6 +10,10 @@ $(document).ready(
             $(this).next().modal('show');
             return false;
         });
+        $('.assignments_finalize').click(function() {
+            $(this).next().modal('show');
+            return false;
+        });
         $('.tooltip-show').tooltip();
         $('.row-actions').mouseenter(function() {
                 $(this).find('.data-actions').toggleClass('v-hidden');
@@ -18,6 +22,12 @@ $(document).ready(
         $('.row-actions').mouseleave(function() {
                 $(this).find('.data-actions').toggleClass('v-hidden');
             }
-        );
+        )
+        
+        $('#messages').delay(10000);
+        $('#messages').fadeTo(2000, 0, function() {
+            $('#messages').remove();
+        });
+        
     })
 );

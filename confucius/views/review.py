@@ -89,7 +89,7 @@ def auto_assignment(request):
 
                 if nb_assi >= max_assi_per_papers:
                     break
-                
+
                 if set_paper_domains <= set(membership.domains.all()):
                     assignment, created = Assignment.objects.get_or_create(paper=paper, reviewer=membership.user, conference=conference)
                     if created == True:
@@ -107,16 +107,16 @@ def auto_assignment(request):
                 if created == True:
                     assignment.save()
                     nb_assi += 1
-                    
+
             if paper.assignments.count() == 0:
-                all_papers_are_assigned = False                   
+                all_papers_are_assigned = False
 
         # Response
         if not all_papers_are_assigned:
             return_code = "1"
         else:
             return_code = "0"
-            
+
         return HttpResponse(return_code)
 
 
@@ -258,7 +258,7 @@ def assignments(request):
         code = request.GET.get('automatic_assignment_code')
     else:
         code = -1
-    
+
     context = {
         'conference': conference,
         'papers': papers,
