@@ -1,0 +1,90 @@
+{% extends 'base-in.html' %}
+{% load url from future %}
+
+{% block title %}Paper selection{% endblock %}
+
+{% block content_header %}
+<h1>Paper selection</h1>
+{% endblock %}
+
+
+{% block content_main %}
+<p>
+<div class="alert alert-error ">
+    <h4 class="alert-heading">Warning!</h4>
+    <p>There are still no assigned papers. Please have a look to it before performing your selection.</p>
+</div>
+</p>
+<p>
+<div class="accordion-group">
+  <div class="accordion-heading">
+    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
+      Get more information about "Standard Deviation"...
+    </a>
+  </div>
+  <div id="collapseOne" class="accordion-body collapse">
+    <div class="accordion-inner">
+      "This represents how much variation or dispertion exists from the average. <br/><br/>A low standard deviation indicates that the data points tend to be very close to the mean, whereas high standard deviation indicates that the data points are spread out over a large range of values. <br/><br/>In order to show you that value in a clean way, we will use flag colors. <br/> <br/>Green means close data points, whereas red means speard out points"
+    </div>
+  </div>
+</div>
+</p>
+
+<p>
+<h3>Papers</h3>
+<table class="table table-striped">
+    <tr>
+        <th></th>
+        <th>Title</th>
+        <th>Number of reviews</th>
+        <th>Overall Evaluation</th>
+        <th>Standard deviation</th>
+        <th>Actions</th>
+    </tr>
+{% for paper in papers_assigned.all %}
+    <tr>
+        <td></td>
+        <td> {{ paper.title }} </td>
+        <td> {{ paper.assignments.count }} </td>
+        <td> {{ paper.get_mark }} % </td>
+        <td>
+            {% if not paper.is_ambigous %}
+                <span class="label label-success"><i class="icon-ok-sign icon-white" /></span>
+            {% else %}
+                <span class="label label-important"><i class="icon-remove-sign icon-white" /></span>
+            {% endif %}
+        </td>
+        <td> Actions </td>
+{% endfor %}
+</table>
+</p>
+
+<p>
+    <h3>Papers not assigned</h3>
+    <table class="table table-striped">
+        <tr>
+            <th>Paper title</th>
+            <th>Last update date</th>
+        </tr>
+        {% for paper in papers_not_assigned %}
+            <tr>
+                <td><b>{{paper.title}}</b></td>
+                <td>{{paper.last_update_date|date:"m/d/y"}}</td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="2">All papers have been assigned.</td></tr>
+        {% endfor %}
+    </table>
+</p>
+ 
+ {% for paper in papers_not_assigned.all %}
+    {{paper.title}} -- {{paper.get_mark}}
+ {% endfor %}
+
+{% endblock %}
+
+{% block script %}
+<script>
+$(".collapse").collapse('hide');
+</script>
+{% endblock %}

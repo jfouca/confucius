@@ -156,17 +156,15 @@ def submit_review(request, pk_assignment, template_name='review/review_form.html
 @require_GET
 @login_required
 @has_chair_role
-def paper_selection_list(request, template_name='review/paper_selection_list.html'):
+def paper_selection_list(request, template_name='review/paper_selection.html'):
     conference = request.conference
 
-    papers_not_assigned = Paper.objects.filter(conference=conference, assignments__isnull=True)
-    assignments_without_reviews = Assignment.objects.filter(paper__conference=conference, is_done=False)
-    papers_ready = Paper.objects.filter(conference=conference, assignments__is_done=True)
+    papers_not_assigned = Paper.objects.filter(conference=conference, assignments__isnull=True).distinct("paper")
+    papers_ready = Paper.objects.filter(conference=conference, assignments__isnull=False).distinct("paper")
 
     context = {
         'papers_not_assigned': papers_not_assigned,
-        'assignments_without_reviews': assignments_without_reviews,
-        'papers_ready': papers_ready,
+        'papers_assigned': papers_ready,
         'conference': conference,
     }
 
