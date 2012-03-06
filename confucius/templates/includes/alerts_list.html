@@ -4,8 +4,8 @@
     <td>
         <b>{{ alert.title }}</b>
         <span class="data-actions v-hidden"> 
-            <a href="{% url 'alert' conference.pk alert.pk %}">Edit</a> |
-            <a href="{% url 'delete_alert' conference.pk alert.pk %}">Delete</a>
+            <a href="{% url 'alert' conference.pk alert.pk %}" class="btn btn-mini">Edit</a>
+            <a href="{% url 'delete_alert' conference.pk alert.pk %}" class="btn btn-mini">Delete</a>
         </span>
     </td>
     <td>{{ alert.trigger_date|date:'SHORT_DATE_FORMAT' }}</td>
