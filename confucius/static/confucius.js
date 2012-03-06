@@ -9,4 +9,5 @@ $(function() {
         $(this).next().modal('show');
         return false;
     });
+    $('.tooltip-show').tooltip();
 });

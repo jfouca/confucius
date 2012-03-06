@@ -36,7 +36,7 @@
                             <div class="pull-right">
                                 <a id="auto_assignment" href="javascript:void(0)" class="btn btn-info" >Automatic</a>
                                 <a href="{% url finalize_assignment conference.pk %}" class="btn btn-primary" >Finalize</a>
-                                <a href="{% url dashboard %}" class="btn btn-danger" >Return</a>
+                                <a href="{% url dashboard %}" class="btn btn-danger">Return</a>
                             </div>
                         </div>
                     </div>
@@ -48,6 +48,7 @@
 
 <div class="row">
     <div class="span10">
+        <p><img src="#" class="icon-info-sign"/> Drag your mouse over this icon below for more information.</p>
         <table class="table table-bordered" id="datas">
             <thead>
                 <tr>
@@ -69,7 +70,15 @@
                     <td>
                         {{paper.domains.all|join:', '}}
                     </td>
-                    <td id="assignments_{{paper.pk}}">{{paper.assignments.all.count}}</td>
+                    <td id="assignments_{{paper.pk}}" 
+                        not_assigned_value="{{paper.get_not_assigned_assignments_count}}"
+                        assigned_value="{{paper.get_assigned_assignments_count}}"
+                        data-original-title="Assignments not finalized: {{paper.get_not_assigned_assignments_count}}<br/>
+                                                Assignments finalized: {{paper.get_assigned_assignments_count}}" 
+                        class="tooltip-show">
+                            <span id="value">{{paper.assignments.all.count}}</span>
+                            <img src="#" class="icon-info-sign"/>
+                    </td>
                     <td>{{paper.language}}</td>
                     <td><i class="pull-right icon icon-chevron-down"></i></td>
                 </tr>
@@ -79,20 +88,22 @@
                         <div class="toggle hidden">
                             <table class="table table-striped reviewers" id="table_{{paper.pk}}">
                                 <tr>
-                                    <th>Reviewer</th>
-                                    <th>Domains</th>
-                                    <th>Languages</th>
-                                    <th>Assignation number</th>
-                                    <th></th>
+                                    <th width="25%">Reviewer</th>
+                                    <th width="30%">Domains</th>
+                                    <th width="20%">Languages</th>
+                                    <th width="10%">Assignation number</th>
+                                    <th width="15%"></th>
                                 </tr>
                                 {% for assignment in paper.assignments.all %}
-                                    <tr>
-                                        <td>{{assignment.reviewer}}</td>
-                                        <td>{{assignment.get_domains.all|join:', '}}</td>
-                                        <td>{{assignment.reviewer.languages.all|join:', '}}</td>
-                                        <td id="paper_count_{{assignment.pk}}" >{{assignment.get_papers.count}}</td>
-                                        <td><a href="javascript:void(0)" class="btn btn-danger assignment" id="remove_{{assignment.pk}}--table_{{ paper.pk }}">Remove</th></td>
-                                    </tr>
+                                    {% if not assignment.is_assigned %}
+                                        <tr>
+                                            <td>{{assignment.reviewer}}</td>
+                                            <td>{{assignment.get_domains.all|join:', '}}</td>
+                                            <td>{{assignment.reviewer.languages.all|join:', '}}</td>
+                                            <td id="paper_count_{{assignment.pk}}" >{{assignment.get_papers.count}}</td>
+                                            <td><a href="javascript:void(0)" class="btn btn-danger assignment" id="remove_{{assignment.pk}}--table_{{ paper.pk }}">Remove</th></td>
+                                        </tr>
+                                    {% endif %}
                                 {% endfor %}
                             </table>
                         

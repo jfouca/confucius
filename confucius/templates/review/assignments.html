@@ -101,7 +101,11 @@ function deleteAssignmentRow() {
         var start = substri[0];
         var toRemove = 'remove_';
         var end = start.replace(toRemove,'');
-
+        
+        // For slow computer
+        var cls = my_button.attr("class")+" disabled";
+        my_button.attr("class", cls);
+        my_button.html("Removing...");
         
         $.post("{% url 'deleteAssignmentRow' conference.pk %}", {
                 'end': end,
@@ -112,7 +116,15 @@ function deleteAssignmentRow() {
                 opts.push({value: data[0], text: data[1]});
 
                 var res = parseInt($("td#assignments_"+paperid).text());
-                $("td#assignments_"+paperid).text(res-1);                    
+                $("td#assignments_"+paperid).find("#value").text(res-1);
+                
+                var tdassi = $("td#assignments_"+paperid)
+                var notassignedvalue = $(tdassi).attr("not_assigned_value") - 1;
+                var assignedvalue = $(tdassi).attr("assigned_value");
+                var dataoriginaltitle="Assignments not finalized: "+notassignedvalue+"<br/>Assignments finalized: "+assignedvalue;
+                $(tdassi).attr("not_assigned_value", notassignedvalue);
+                $(tdassi).attr("data-original-title", dataoriginaltitle);
+                
             }
         );
     });
@@ -137,7 +149,15 @@ function updateAssignmentsTables() {
                         table.append("<tr><td>"+value[2]+"</td><td>"+value[3]+"</td><td>"+value[5]+"</td><td id=\"paper_count_"+value[0]+"\">"+value[4]+"</td><td><a href=\"javascript:void(0)\" class=\"btn btn-danger assignment\" id=\"remove_"+value[0]+"--table_"+end+"\">Remove</a></td></tr>");
                     });
                     var res = parseInt($("td#assignments_"+end).text());
-                    $("td#assignments_"+end).text(res+1);
+                    $("td#assignments_"+end).find("#value").text(res+1);
+                    
+                    var tdassi = $("td#assignments_"+end)
+                    var notassignedvalue = parseInt($(tdassi).attr("not_assigned_value")) + 1;
+                    var assignedvalue = $(tdassi).attr("assigned_value");
+                    var dataoriginaltitle="Assignments not finalized: "+notassignedvalue+"<br/>Assignments finalized: "+assignedvalue;
+                    $(tdassi).attr("not_assigned_value", notassignedvalue);
+                    $(tdassi).attr("data-original-title", dataoriginaltitle);
+                    
                     clicked.remove();
                     opts.remove($(clicked).attr("id"));
                 }
