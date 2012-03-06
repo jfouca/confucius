@@ -1,4 +1,4 @@
-    
+
 <div class="modal hide fade" id="toggle_modal_loading">
     <div class="modal-header">
         <h3>Automatic review assignment is currently in progress</h3>
@@ -17,6 +17,7 @@
                 <div class="controls">
                     <div class="row">
                         <div class="span3">
+                            <b>Maximum by paper:</b>
                             <div class="input-prepend">
                                 <span class="add-on">
                                     <i class="icon icon-pencil"></i>
@@ -25,6 +26,7 @@
                             </div>
                         </div>
                         <div class="span3">
+                            <b>Maximum by reviewer:</b>
                             <div class="input-prepend">
                                 <span class="add-on">
                                     <i class="icon icon-pencil"></i>
@@ -33,13 +35,32 @@
                             </div>
                         </div>
                         <div class="span4">
-                            <div class="pull-right">
-                                <a id="auto_assignment" href="javascript:void(0)" class="btn btn-info" >Automatic</a>
-                                <a href="{% url finalize_assignment conference.pk %}" class="btn btn-primary" >Finalize</a>
-                                <a href="{% url dashboard %}" class="btn btn-info">
-                                    <i class="icon-share-alt icon-white"></i> To dashboard
-                                </a>
-                            </div>
+                            <br/>
+                            <a id="auto_assignment" href="javascript:void(0)" class="btn btn-info" >Automatic assignments</a>
+                        </div>
+                    </div>
+                    {% if automatic_assignment_code == 0 %}
+                        <div class="alert alert-block alert-success fade in">
+                            <h4 class="alert-heading">Automatic assignment successful</h4>
+                            <p>Please check below.</p>
+                        </div>  
+                    {% endif %}
+                    {% if automatic_assignment_code == 1 %}
+                        <div class="alert alert-block alert-error fade in">
+                            <h4 class="alert-heading">Automatic assignment error</h4>
+                            <p>Some papers are not assigned to a reviewer. Change settings (see above) or
+                            invite more skilled reviewers.</p>
+                        </div>  
+                    {% endif %}  
+
+                    <br/>
+                    <div class="row">
+                        <div class="span10">
+                            {% include 'includes/assignments_finalize.html' %}
+                            <a href="{% url clean_assignments conference.pk %}" class="btn btn-danger">Clean assignments</a>
+                            <a href="{% url dashboard %}" class="btn btn-info">
+                                <i class="icon-share-alt icon-white"></i> To dashboard
+                            </a>
                         </div>
                     </div>
                 </div>

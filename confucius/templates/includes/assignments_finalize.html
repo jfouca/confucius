@@ -1,0 +1,16 @@
+{% load url from future %}
+
+<button class="assignments_finalize btn btn-primary">Finalize assignments</button>
+<div class="modal hide fade toggle_modal">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>Finalize</h3>
+    </div>
+    <div class="modal-body">
+        <p>Are you sure that you want to finalize assignments ?</p>
+    </div>
+    <div class="modal-footer">
+        <a href="{% url 'finalize_assignment' conference.id %}" class="btn btn-large btn-primary">Yes, I am</a>
+        <a data-dismiss="modal" class="btn btn-large">No, forgive me</a>
+    </div>
+</div>
