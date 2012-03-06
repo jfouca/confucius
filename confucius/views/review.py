@@ -355,17 +355,15 @@ def refreshAssignationNumber(request):
 @login_required
 @has_chair_role
 @csrf_protect
-def refreshSelectedStatus(request):
+def updateSelectedStatus(request):
     if request.is_ajax():
         conference = request.conference
-        paper_id = request.POST.get('paper_id')
-        selected_status = request.POST.get('selected_status')
-        paper = Paper.objects.get(pk=paper_id)
-        assignments = paper.assignments.all()
-        numbers = [( assignment.pk, assignment.get_papers().count()) for assignment in assignments]
+        papers_id = request.POST.get('papers_id')
+        selected_status = request.POST.get('action')
         
-        data = simplejson.dumps(numbers)
-        return HttpResponse(data, mimetype="application/json")
+        print papers_id
+        
+        return HttpResponse("Success")
     # If you want to prevent non XHR calls
     else:
         return HttpResponse(status=400)   

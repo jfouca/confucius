@@ -65,7 +65,7 @@ tr.paper-deselected, tr.paper-deselected:hover td{
         <th>Overall Evaluation</th>
         <th>Standard deviation</th>
     </tr>
-<form method="post" id="frmPaper" name="frmPaper" >
+<form method="post" id="frmPaper" name="frmPaper" >{% csrf_token %}
 {% for paper in papers_assigned.all %}
     {% if paper.selection %} 
         {% if paper.selection.is_selected %}
@@ -76,8 +76,7 @@ tr.paper-deselected, tr.paper-deselected:hover td{
     {% else %}
         <tr>
     {% endif %}
-    <tr>
-        <td> <input type="checkbox" class="paper" name="{{paper.pk}}" id="{{paper.pk}}"></td>
+        <td> <input type="checkbox" class="paper" name="paper_{{paper.pk}}" id="{{paper.pk}}"></td>
         <td> {{ paper.title }} </td>
         <td> {{ paper.assignments.count }} </td>
         <td> 
@@ -121,6 +120,7 @@ tr.paper-deselected, tr.paper-deselected:hover td{
 {% endblock %}
 
 {% block script %}
+<script src="{{ STATIC_URL }}jquery.ajaxsend.js"></script>
 <script>
 
 
@@ -183,18 +183,48 @@ function toggleCheckboxes(is_selectAll_checked) {
 function selectAction() {
     $('#select-btn').live("click",function() {
         if(jQuery('input[class="paper"]:checked').length == 0) return;
+        var papers = new Array();
          $('.paper').each(function(){
-            alert("select");
+            if ($(this).is(':checked')) {
+                var i = parseInt($(this).attr("id"));
+                papers.push(i);
+                $(this).parent().parent().removeClass("paper-deselected");
+                $(this).parent().parent().addClass("paper-selected");
+                this.checked=false;
+            }
         });
+        $('#selectAll').attr('checked', false);
+        toggleSelectionButtons();
+        var myJSONText = JSON.stringify(papers);
+        $.post("{% url 'updateSelectedStatus' conference.pk %}", {
+            action : "select", 
+            papers_id: myJSONText,
+        }
+        );
     });
 }
 
 function deselectAction() {
     $('#deselect-btn').live("click",function() {
         if(jQuery('input[class="paper"]:checked').length == 0) return;
+        var papers = new Array();
          $('.paper').each(function(){
-            alert("deselect");
+            if ($(this).is(':checked')) {
+                var i = parseInt($(this).attr("id"));
+                papers.push(i);
+                $(this).parent().parent().removeClass("paper-selected");
+                $(this).parent().parent().addClass("paper-deselected"); 
+                this.checked=false;
+            }
         });
+        $('#selectAll').attr('checked', false);
+        toggleSelectionButtons();
+        var myJSONText = JSON.stringify(papers);
+        $.post("{% url 'updateSelectedStatus' conference.pk %}", {
+            action : "deselect", 
+            papers_id: myJSONText,
+        }
+        );
     });
 }
 
