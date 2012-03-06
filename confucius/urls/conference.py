@@ -1,7 +1,5 @@
 from django.conf.urls.defaults import patterns, include, url
-from django.views.generic import ListView, TemplateView
-
-from confucius.models import Alert, Invitation, Paper, Review
+from django.views.generic import TemplateView
 
 basepatterns = patterns('confucius.views',
     url(r'^dashboard/$', 'dashboard', name='dashboard'),

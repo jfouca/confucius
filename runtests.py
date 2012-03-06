@@ -23,5 +23,5 @@ if __name__ == '__main__':
     import sys
     from django.test.simple import DjangoTestSuiteRunner
     runner = DjangoTestSuiteRunner(verbosity=0)
-    failures = runner.run_tests(None)
+    failures = runner.run_tests(['confucius'])
     sys.exit(failures)
