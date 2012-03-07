@@ -10,6 +10,7 @@ class Assignment(ConfuciusModel):
     problem = models.TextField()
     is_assigned = models.BooleanField(default=False)
     is_done = models.BooleanField(default=False)
+    is_rejected = models.BooleanField(default=False)
     review = models.ForeignKey('Review', blank=True, null=True, related_name="assignment")
 
     class Meta(ConfuciusModel.Meta):

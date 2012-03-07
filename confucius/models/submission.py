@@ -33,7 +33,7 @@ class Paper(ConfuciusModel):
 
     def get_mark(self):
         assignments = self.assignments.all()
-        marks_list = [assignment.review.overall_evaluation for assignment in assignments if assignment.has_review() and assignment.is_done]
+        marks_list = [assignment.review.overall_evaluation for assignment in assignments if assignment.has_review() and assignment.is_done and not assignment.is_rejected]
         try :
             average = self.stat_average(marks_list)
         except Exception as inst:
@@ -49,7 +49,7 @@ class Paper(ConfuciusModel):
 
     def is_ambigous(self):
         assignments = self.assignments.all()
-        marks_list = [assignment.review.overall_evaluation for assignment in assignments if assignment.has_review() and assignment.is_done]
+        marks_list = [assignment.review.overall_evaluation for assignment in assignments if assignment.has_review() and assignment.is_done and not assignment.is_rejected]
         try :
             variance = self.stat_variance(marks_list)
         except Exception as inst:

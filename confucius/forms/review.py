@@ -3,7 +3,7 @@ from confucius.models import Review
 
 
 class ProblemForm(forms.Form):
-    problem = forms.CharField(label=u'Problem', help_text=u'Please indicate in a concise way the exact problem with the paper.',
+    problem = forms.CharField(label=u'Enter your explanation', help_text=u'Please indicate in a concise way the exact problem with the paper or the assignment.',
             min_length=12, widget=forms.Textarea(attrs={'class': 'input-xlarge'}))
 
 

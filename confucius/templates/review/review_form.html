@@ -11,7 +11,7 @@
     {% else %}
         Submit review
     {% endif %}
-</h1><br/>
+</h1>
 {% endblock %}
 
 {% block content_main %}
@@ -20,7 +20,6 @@
 <tbody>
     <tr>
         <th>Title</th>
-        <th>Conference</th>
         <th>Domains</th>
         <th>Language</th>
         <th>File</th>
@@ -28,11 +27,13 @@
     </tr>
     <tr>
         <td>{{assignment.paper.title}}</td>
-        <td>{{assignment.paper.conference.title}}</td>
         <td>{{assignment.paper.domains.all|join:', '}}</td>
-        <td>{{assignment.paper.title}}</td>
+        <td>{{assignment.paper.language}}</td>
         <td><a href="{{assignment.paper.file.url}}" class="btn"><i class="icon-download-alt"></i> Download</a></td>
-        <td><a href="{% url 'problem' conference.pk assignment.pk %}" class="btn"><i class="icon-exclamation-sign"></i> Problem</a></td>
+        <td>
+            <a href="{% url 'problem' conference.pk assignment.pk %}" class="btn"><i class="icon-exclamation-sign"></i> Problem</a>
+            <a href="{% url 'reject_assignment' conference.pk assignment.pk %}" class="btn"><i class="icon-remove-sign"></i> Reject assignment</a>
+        </td>
     </tr>
 </tbody>
 </table>

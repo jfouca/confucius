@@ -179,7 +179,7 @@ def submit_review(request, pk_assignment, template_name='review/review_form.html
 @require_http_methods(['GET', 'POST'])
 @login_required
 @has_reviewer_role
-def problem(request, assignment_pk, template_name='review/problem_form.html'):
+def problem(request, assignment_pk, is_reject=False, template_name='review/problem_form.html'):
     from confucius.forms import ProblemForm
 
     assignment = Assignment.objects.get(pk=assignment_pk, reviewer=request.user)
@@ -189,13 +189,20 @@ def problem(request, assignment_pk, template_name='review/problem_form.html'):
 
         if form.is_valid():
             assignment.problem = form.cleaned_data.get('problem')
+            msg = 'The chair of the conference has been notified of the problem.'
+            
+            if is_reject == True:
+                assignment.is_rejected = True
+                msg = 'You have rejected this assignment. The chair of the conference has been notified of the situation.'
+            
             assignment.save()
-            messages.success(request, 'The chair of the conference has been notified of the problem.')
+            
+            messages.success(request, msg)
             return redirect('dashboard')
     else:
         form = ProblemForm()
-
-    return render_to_response(template_name, {'form': form}, context_instance=RequestContext(request))
+    
+    return render_to_response(template_name, {'form': form, 'is_reject': is_reject, 'conference': request.conference, 'membership': request.membership}, context_instance=RequestContext(request))
 
 
 @require_GET
