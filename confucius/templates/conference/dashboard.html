@@ -117,20 +117,20 @@
                                 <th>Trigger</th>
                                 <th>Recipients</th>
                             </tr>
-                            {% if not alerts_trigget and not alerts_reminder and not alerts_action %}
+                            {% if not alerts_trigger and not alerts_reminder and not alerts_action %}
                                 <tr><td colspan=4>No alert for this conference.</td></tr>
                             {% endif %}
 
                             {% for alert in alerts_trigger %}
-                                {% include 'includes/alerts_list.html' with alert=alert %}
+                                {% include 'includes/alerts_list.html' with alert=alert trigger=alert.trigger_date|date:'SHORT_DATE_FORMAT' %}
                             {% endfor %}
 
                             {% for alert in alerts_reminder %}
-                                {% include 'includes/alerts_list.html' with alert=alert %}
+                                {% include 'includes/alerts_list.html' with alert=alert trigger=alert.reminder event=alert.event %}
                             {% endfor %}
 
                             {% for alert in alerts_action %}
-                                {% include 'includes/alerts_list.html' with alert=alert %}
+                                {% include 'includes/alerts_list.html' with alert=alert trigger=alert.action %}
                             {% endfor %}
                         </tbody>
                         </table>

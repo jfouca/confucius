@@ -23,20 +23,30 @@ def finalize_assignment(request):
     from django.contrib.sites.models import get_current_site
     from django.core.mail import send_mail
     from django.template import Context, loader
-
+    
     conference = request.conference
     assignments = Assignment.objects.filter(conference=conference, is_assigned=False)
+    
+    reviewers_list = list(set([assignment.reviewer.email for assignment in assignments]))
+    try:
+        send_mail('You have received papers to reviews for the conference "%s"' % conference, template.render(Context(context)), None, reviewers_list)
+        messages.success(request, u'You have successfully assign reviewers. An email has been sent to each of them with further instructions')
+    except:
+        messages.error(request, u'An error occured during the email sending process. Please contact the administrator.')
+        return redirect('dashboard')
+        
+
     for assignment in assignments:
         assignment.is_assigned = True
         assignment.save()
 
-    reviewers_list = list(set([assignment.reviewer.email for assignment in assignments]))
+    
     template = loader.get_template('review/assignment_email.html')
     context = {
             'domain': get_current_site(request).domain,
             'conference': conference,
     }
-    send_mail('You have received papers to reviews for the conference "%s"' % conference, template.render(Context(context)), None, reviewers_list)
+    
 
     return redirect('dashboard')
 
