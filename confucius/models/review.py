@@ -31,7 +31,7 @@ class Assignment(ConfuciusModel):
 
 
 class Review(ConfuciusModel):
-    title = models.CharField(max_length=50)
+    #title = models.CharField(max_length=50)
     detailed_commentary = models.TextField()
     commentary_for_president = models.TextField(blank=True)
     overall_evaluation = models.IntegerField()
