@@ -40,6 +40,7 @@ class Conference(ConfuciusModel):
     members = models.ManyToManyField(User, through='Membership')
     domains = models.ManyToManyField('Domain', related_name='conferences')
     access_key = models.CharField(max_length=8)
+    maximum_score = models.IntegerField(default=10)
 
     def __unicode__(self):
         return self.title

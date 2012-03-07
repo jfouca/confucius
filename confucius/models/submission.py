@@ -29,12 +29,14 @@ class Paper(ConfuciusModel):
         
     def get_mark(self):
         assignments = self.assignments.all()
-        marks_list = [assignment.review.overall_evaluation for assignment in assignments if assignment.has_review() ]
+        marks_list = [assignment.review.overall_evaluation for assignment in assignments if assignment.has_review() and assignment.is_done]
         try :
             average = self.stat_average(marks_list)
         except Exception as inst:
             return -1
-        return int((average*100) / 7)
+            
+        max_score = self.conference.maximum_score
+        return int((average*100) / max_score)
         
     def get_reviewed_percent(self):
         total = self.assignments.all().count()
@@ -46,13 +48,15 @@ class Paper(ConfuciusModel):
         
     def is_ambigous(self):
         assignments = self.assignments.all()
-        marks_list = [assignment.review.overall_evaluation for assignment in assignments if assignment.has_review() ]
+        marks_list = [assignment.review.overall_evaluation for assignment in assignments if assignment.has_review() and assignment.is_done]
         try :
             variance = self.stat_variance(marks_list)
         except Exception as inst:
             return -1
         ecart_type = math.sqrt( variance )
-        return ecart_type > 1.5
+        
+        ecart_type_max = self.conference.maximum_score/4
+        return ecart_type > ecart_type_max
         
     
     def stat_variance(self, sample) :

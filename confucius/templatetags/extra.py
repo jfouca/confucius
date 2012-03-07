@@ -83,3 +83,8 @@ def cbselectm(field):
 @register.filter
 def calendar(field):
     return field.as_widget(attrs={'class': 'input-small datepicker'})
+    
+
+@register.filter
+def get_range(value):
+  return range(value)

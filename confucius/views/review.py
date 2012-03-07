@@ -1,6 +1,6 @@
 import simplejson
 import time
-
+from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -130,11 +130,21 @@ def submit_review(request, pk_assignment, template_name='review/review_form.html
     review = assignment.review
     form = ReviewForm(instance=review)
 
+    if review is None:
+        initial_overall_evaluation = 0
+    else:
+        initial_overall_evaluation = review.overall_evaluation
+
     if request.method == 'POST':
+        error_flag = False
         form = ReviewForm(request.POST, instance=review)
+        note = int(request.POST.get('overall_evaluations'))
+
+        if note < 0 or note > request.conference.maximum_score:
+            raise forms.ValidationError('Score must be between 0 and '+str(request.conference.maximum_score))
 
         if form.is_valid():
-            review = form.save()
+            review = form.save(overall_evaluation=note)
             assignment.review = review
 
             if request.POST.__contains__('save_and_submit'):
@@ -143,12 +153,14 @@ def submit_review(request, pk_assignment, template_name='review/review_form.html
             assignment.save()
             messages.success(request, u'The review has been successfully added')
             return redirect('dashboard')
+            
 
     context = {
         'form': form,
         'instance': review,
         'assignment': assignment,
         'conference': request.conference,
+        'initial_overall_evaluation': initial_overall_evaluation
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))

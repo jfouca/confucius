@@ -2,6 +2,7 @@
 {% load url from future %}
 
 {% block title %}Review{% endblock %}
+{% load extra %}
 
 {% block content_header %}
 <h1>
@@ -27,6 +28,23 @@
 
     {% include 'includes/form.html' %}
 
+    <div class="control-group">
+        <label class="control-label">Overall evaluation:</label>
+        <div class="controls">
+            Rating: <span id="overall_evaluation-label"></span>
+            <div id="overall_evaluations_stars">
+                <select name="overall_evaluations_select" id="overall_evaluations_rate">
+                    {% for i in conference.maximum_score|get_range %}
+                        <option value="{{ i }}">{{ i }}/{{ conference.maximum_score }}</option>
+                    {% endfor %}
+                        <option value="{{conference.maximum_score}}">{{conference.maximum_score}}/{{conference.maximum_score}}</option>
+                </select>
+                <input type="hidden" name="overall_evaluations" id="overall_evaluations" value="{{initial_overall_evaluation}}"/>
+            </div>
+        </div>
+    </div>
+
+
     <div class="form-actions">
         {% if conference.are_reviews_over or conference.are_reviews_over %}
             {% include 'includes/reviews_over_button.html' %}
@@ -42,16 +60,23 @@
             <i class="icon-share-alt icon-white"></i> To dashboard
         </a>
     </div>
-    
 </form>
 
 
 {% endblock %}
 
 {% block script %}
+<script src="{{ STATIC_URL }}star/jquery.ui.stars.js"></script>
+<script src="{{ STATIC_URL }}star/jquery.ui.stars.min.js"></script>
 <script>
-    $(function() {
-        $("#overall_evaluation").stars();
+    $("#overall_evaluations_stars").stars({
+        captionEl: $("#overall_evaluation-label"),
+        inputType: "select",
+        callback: function(ui, type, value) {
+            $("#overall_evaluations").attr("value", value);
+        }
     });
+    
+    $("#overall_evaluations_stars").stars("select", {{initial_overall_evaluation}}); 
 </script>
 {% endblock %}
