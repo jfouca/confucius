@@ -12,6 +12,13 @@ def active(name, request):
 
 
 @register.filter
+def icon_active(name, request):
+    if name in request.path:
+        return 'icon-white'
+    return ''
+    
+
+@register.filter
 def icon(field):
     try:
         if type(field) == 'password':
