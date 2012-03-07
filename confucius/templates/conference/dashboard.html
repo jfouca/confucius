@@ -21,15 +21,6 @@
 </div>
 {% endblock %}
 
-{% if membership.has_chair_role %}
-    {% block subnav %}
-    <li><a href="{% url 'papers' conference.pk %}">Papers</a></li>
-    <li><a href="{% url 'reviews' conference.pk %}">Reviews</a></li>
-    <li><a href="{% url 'alerts' conference.pk %}">Alerts</a></li>
-    <li><a href="{% url 'invitations' conference.pk %}">Invitations</a></li>
-    {% endblock %}
-{% endif %}
-
 {% block content_main %}
 <!-- Chair part -->
 {% if membership.has_chair_role %}

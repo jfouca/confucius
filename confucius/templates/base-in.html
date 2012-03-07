@@ -44,7 +44,22 @@
                     <div class="well sidebar-nav">
                         <ul class="nav nav-list">
                             <li class="nav-header {{ 'dashboard'|active:request }}"><a href="{% url 'dashboard' %}">Dashboard</a></li>
-                            {% block subnav %}{% endblock %}
+                            {% block subnav %}
+                                {% if membership.has_submitter_role %}
+                                    <li class="{{'papers'|active:request}}">
+                                        <a href="{% url 'papers' conference.pk %}">Papers</a></li>
+                                {% endif %}
+                                {% if membership.has_reviewer_role %}
+                                    <li class="{{'reviews'|active:request}}">
+                                        <a href="{% url 'reviews' conference.pk %}">Reviews</a></li>
+                                {% endif %}
+                                {% if membership.has_chair_role %}
+                                    <li class="{{'alerts'|active:request}}">
+                                        <a href="{% url 'alerts' conference.pk %}">Alerts</a></li>
+                                    <li class="{{'invitations'|active:request}}">
+                                        <a href="{% url 'invitations' conference.pk %}">Invitations</a></li>
+                                {% endif %}
+                            {% endblock %}
                             <li class="nav-header {{ 'list'|active:request }}"><a href="{% url 'membership_list' %}">Conferences</a></li>
                         </ul>
                     </div>
