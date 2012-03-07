@@ -44,12 +44,16 @@
             {{ field }}
             <span class="help-inline">{{ field.errors|first }}</span>
         {% endifequal %}
+        {% ifequal field|type 'radio' %}
+            {{ field }}
+            <span class="help-inline">{{ field.errors|first }}</span>
+        {% endifequal %}
         {% ifequal field|type 'file' %}
             {{ field }}
             <span class="help-inline">{{ field.errors|first }}</span>
         {% endifequal %}
         {% ifequal field|type 'default' %}
-            {{ field }}<p>#</p>
+            {{ field }}
             <span class="help-inline">{{ field.errors|first }}</span>
         {% endifequal %}
         {% endblock %}

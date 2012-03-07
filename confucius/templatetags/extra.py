@@ -1,5 +1,5 @@
 from django import template
-
+from django.utils.safestring import mark_safe
 
 register = template.Library()
 
@@ -47,6 +47,8 @@ def type(field):
         return 'password'
     if field.field.widget.__class__.__name__ is 'CheckboxSelectMultiple':
         return 'cbselectm'
+    if field.field.widget.__class__.__name__ is 'RadioSelect':
+        return 'radio'
     if field.field.widget.__class__.__name__ is 'FileInput' \
         or field.field.widget.__class__.__name__ is 'ClearableFileInput':
         return 'file'
@@ -90,3 +92,4 @@ def cbselectm(field):
 @register.filter
 def calendar(field):
     return field.as_widget(attrs={'class': 'input-small datepicker'})
+
