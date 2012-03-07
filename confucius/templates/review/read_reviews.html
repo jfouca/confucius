@@ -4,13 +4,14 @@
 {% block title %}Read reviews{% endblock %}
 
 {% block content_header %}
-<h1>Reviews for submission: {{paper.title}}</h1>
+<h1>Reviews for: {{paper.title}}</h1>
 {% endblock %}
 
 {% block content_main %}
 {% if paper.selection %}
-    <div class="alert alert-error">You have already made a decision for this paper.<div>
+    <div class="alert alert-warning">You have already made a decision for this paper.</div>
 {% endif %}
+
 <table class="table">
 <tbody>
     <tr>
@@ -25,7 +26,7 @@
         <td>{{conference.title}}</td>
         <td>{{paper.domains.all|join:', '}}</td>
         <td>{{paper.title}}</td>
-        <td><a href="{{paper.file.url}}" class="btn"><i class="icon-download-alt"></i> Download the paper</a></td>
+        <td><a href="{{paper.file.url}}" class="btn"><i class="icon-download-alt"></i> Download</a></td>
     </tr>
 </tbody>
 </table>
