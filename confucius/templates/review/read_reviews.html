@@ -4,44 +4,62 @@
 {% block title %}Read reviews{% endblock %}
 
 {% block content_header %}
-<h1>Reviews for submission: {{paper.title}}</h1><br/>
+<h1>Reviews for: {{paper.title}}</h1>
 {% endblock %}
 
 {% block content_main %}
-<h3>Submission details</h3>
 {% if paper.selection %}
-    <p><font color="red"><b>You have already made a decision for this paper.</b></font></p>
+    <div class="alert alert-warning">You have already made a decision for this paper.</div>
 {% endif %}
-<p>Title : {{paper.title}}</p>
-<p>Conference : {{conference.title}}</p>
-<p>Domains : {{paper.domains.all|join:', '}}</p>
-<p>Language : {{paper.title}}</p>
-<p><a href="{{paper.file.url}}" class="btn btn-primary">Download the paper</a></p>
 
-<br/><br/>
-
+<table class="table">
+<tbody>
+    <tr>
+        <th>Title</th>
+        <th>Conference</th>
+        <th>Domains</th>
+        <th>Language</th>
+        <th>File</th>
+    </tr>
+    <tr>
+        <td>{{paper.title}}</td>
+        <td>{{conference.title}}</td>
+        <td>{{paper.domains.all|join:', '}}</td>
+        <td>{{paper.title}}</td>
+        <td><a href="{{paper.file.url}}" class="btn"><i class="icon-download-alt"></i> Download</a></td>
+    </tr>
+</tbody>
+</table>
 
 <h2>Reviews</h2>
-{% for review in reviews %}
-    <h3>{{review.title}}</h3>
-    <p>{{review.detailed_commentary}}</p>
-    {% if review.commentary_for_president %}
-        <b>Commentary for the president (not seen by the submitter and authors):</b><br/>
-        <p>{{review.commentary_for_president}}</p>
-    {% endif %}
-    <b>Overall evaluation: </b>{{review.overall_evaluation}}<br/>
-    <b>Reviewer confidence: </b>{{review.reviewer_confidence}}<br/>
-    <br/>
-{% endfor %}
+<table class="table table-bordered">
+<tbody>
+    <tr>
+        <th>Title</th>
+        <th>Conmentary</th>
+        <th>Commentary president</th>
+        <th>Overall evaluation</th>
+        <th>Reviewer confidence</th>
+    </tr>
+    {% for review in reviews %}
+    <tr>
+        <td>{{review.title}}</td>
+        <td>{{review.detailed_commentary}}</td>
+        <td>{{review.commentary_for_president}}</td>
+        <td>{{review.overall_evaluation}}</td>
+        <td>{{review.reviewer_confidence}}</td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
 
 <form id="form" class="form-horizontal" method="post">
     {% csrf_token %}
-
     <div class="form-actions">
         <p>
             <b>Do you want to select this paper for the conference ?</b>
             {% if paper.selection %}
-                <br/>Warning: You have already made a decision for this paper.
+                <br />Warning: You have already made a decision for this paper.
             {% endif %}
         </p>
         
@@ -50,6 +68,5 @@
         <input type="submit" name="dont_select_paper" class="btn btn-danger" value="DON'T SELECT this paper"/>
     </div>
 </form>
-
 {% endblock %}
 
