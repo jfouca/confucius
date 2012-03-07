@@ -1,0 +1,18 @@
+{% extends 'base-in.html' %}
+{% load url from future %}
+
+{% block title %}{% endblock %}
+
+{% block content_header %}
+{% endblock %}
+
+{% block content_main %}
+
+<form id="form" class="form-horizontal" method="post">{% csrf_token %}
+    {{ form }}
+    <div class="form-actions">
+        <input type="submit" class="btn" value="Notify Chair"/>
+        <a href="{% url 'dashboard' %}" class="btn btn-danger">Return</a>
+    </div>
+</form>
+{% endblock %}

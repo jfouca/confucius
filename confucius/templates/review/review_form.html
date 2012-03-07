@@ -20,8 +20,7 @@
 <p>Domains : {{assignment.paper.domains.all|join:', '}}</p>
 <p>Language : {{assignment.paper.title}}</p>
 <p><a href="{{assignment.paper.document.url}}" class="btn btn-primary">Download the paper</a></p>
-<br/>
-
+<p><a href="{% url 'problem' conference.pk assignment.pk %}" class="btn">Notify chair of a problem with this paper</a></p>
 
 <form id="form" class="form-horizontal" method="post">
     {% csrf_token %}

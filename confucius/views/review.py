@@ -146,6 +146,28 @@ def submit_review(request, pk_assignment, template_name='review/review_form.html
     return render_to_response(template_name, context, context_instance=RequestContext(request))
 
 
+@require_http_methods(['GET', 'POST'])
+@login_required
+@has_reviewer_role
+def problem(request, assignment_pk, template_name='review/problem_form.html'):
+    from confucius.forms import ProblemForm
+
+    assignment = Assignment.objects.get(pk=assignment_pk, reviewer=request.user)
+
+    if request.method == 'POST':
+        form = ProblemForm(request.POST)
+
+        if form.is_valid():
+            assignment.problem = form.cleaned_data.get('problem')
+            assignment.save()
+            messages.success(request, 'The chair of the conference has been notified of the problem.')
+            return redirect('dashboard')
+    else:
+        form = ProblemForm()
+
+    return render_to_response(template_name, {'form': form}, context_instance=RequestContext(request))
+
+
 @require_GET
 @login_required
 @has_chair_role

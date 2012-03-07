@@ -1,11 +1,12 @@
 from django.conf.urls.defaults import patterns, url
 
-urlpatterns = patterns('confucius.views',
+urlpatterns = patterns('confucius.views.review',
     url(r'^auto-assignment/$', 'auto_assignment', name='auto_assignment'),
     url(r'^finalize-assignment/$', 'finalize_assignment', name='finalize_assignment'),
     url(r'^submit/(?P<pk_assignment>\d+)$', 'submit_review', name="submit_review"),
     url(r'^paper-selection/$', 'paper_selection_list', name="paper_selection_list"),
     url(r'^read/(?P<pk_paper>\d+)$', 'read_reviews', name="read_reviews"),
+    url(r'^(?P<assignment_pk>\d+)/problem/$', 'problem', name='problem'),
     url(r'^finalize-selection/$', 'finalize_selection', name="finalize_selection"),
     url(r'^assignments/$', 'assignments', name="assignments"),
     url(r'^updateAssignmentsTables/$', 'updateAssignmentsTables', name="updateAssignmentsTables"),
