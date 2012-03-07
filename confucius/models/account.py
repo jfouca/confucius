@@ -95,7 +95,7 @@ class Address(ConfuciusModel):
 
 class Language(ConfuciusModel):
     users = models.ManyToManyField(User, related_name='languages')
-    code = models.CharField(max_length=5)
+    code = models.CharField(max_length=15)
     name = models.CharField(max_length=25)
 
     def __unicode__(self):

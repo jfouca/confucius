@@ -2,6 +2,7 @@ from django.db import models
 
 from confucius.models import Conference, ConfuciusModel, Domain, Language, User
 import math
+from confucius.extra import ContentTypeRestrictedFileField
 
 class Paper(ConfuciusModel):
     title = models.CharField(max_length=100, unique=True)
@@ -13,8 +14,11 @@ class Paper(ConfuciusModel):
     language = models.ForeignKey(Language)
     domains = models.ManyToManyField(Domain)
     conference = models.ForeignKey(Conference)
-    file = models.FileField(upload_to='papers')
-
+    file = ContentTypeRestrictedFileField(
+        upload_to='paper',
+        content_types=['application/pdf', 'application/msword' , 'application/postscript' , 'application/rtf', 'application/vnd.ms-powerpoint', 'image/jpeg', 'text/plain'],
+        max_upload_size=5242880
+    )
     class Meta(ConfuciusModel.Meta):
         unique_together = ('title', 'conference',)
 
