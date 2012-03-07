@@ -49,7 +49,7 @@ th.headerSortUp {
         <p>If you really want to ignore no assigned papers, push the "Finalize" button, "Close" otherwise</p>
     </div>
     <div class="modal-footer">
-        <a href="#" class="btn btn-primary">Finalize</a>
+        <a href="{% url 'finalize_selection' conference.pk %}" class="btn btn-primary">Finalize</a>
         <a href="#" class="btn" data-dismiss="modal">Close</a>
     </div>
 </div>
@@ -63,7 +63,7 @@ th.headerSortUp {
         <p>This means you won't be able to edit your selection later on</p>
     </div>
     <div class="modal-footer">
-        <a href="#" class="btn btn-primary">Ok, I want to Finalise my Selection</a>
+        <a href="{% url 'finalize_selection' conference.pk %}" class="btn btn-primary">Ok, I want to Finalise my Selection</a>
         <a href="#" class="btn" data-dismiss="modal">No, Return</a>
     </div>
 </div>

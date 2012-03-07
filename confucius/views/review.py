@@ -207,31 +207,15 @@ def read_reviews(request, pk_paper, template_name='review/read_reviews.html'):
 def finalize_selection(request):
     conference = request.conference
     
-    # Check papers
-    papers = Paper.objects.filter(conference=conference)
-    isError = False
-    try:
-        for paper in papers:
-            if not paper.selection:
-                isError = True
-                break
-    except:
-        isError = True
-        pass
-    
-    if isError == True:
-        messages.warning(request, u"You can't finalize papers selection while all papers haven't be reviewed or selected.")
-        return redirect('paper_selection_list', conference.pk)
-    else:
-        for paper_selection in conference.selections.all():
-            paper_selection.is_submit = True
-            paper_selection.save()
+    for paper_selection in conference.selections.all():
+        paper_selection.is_submit = True
+        paper_selection.save()
 
-        conference.has_finalize_paper_selections = True
-        conference.save()
-    
-        messages.warning(request, u"Papers selection have been finalized.")
-        return redirect('dashboard', conference.pk)
+    conference.has_finalize_paper_selections = True
+    conference.save()
+
+    messages.warning(request, u"Papers selection have been finalized.")
+    return redirect('dashboard', conference.pk)
 
 
 @login_required
