@@ -8,7 +8,7 @@ from django.views.decorators.http import require_GET, require_http_methods
 
 from confucius.decorators import has_chair_role, has_role, has_reviewer_role, has_submitter_role
 from confucius.forms import ConferenceForm, MembershipForm, SendEmailToUsersForm
-from confucius.models import Alert, Assignment, Conference, Invitation, Membership, Paper, Role
+from confucius.models import Alert, Assignment, Conference, Invitation, Membership, Paper, Role, User
 
 
 @require_GET
@@ -168,8 +168,12 @@ def conference_invite(request, template_name='conference/invitation_form.html'):
         form = InvitationForm(request.POST, instance=instance)
 
         if form.is_valid():
-            invitation = form.save(request)
-            messages.success(request, u'An invitation has been sent to "%s".' % invitation.user)
+            try:
+                invitation = form.save(request)
+                messages.success(request, u'An invitation has been sent to "%s".' % invitation.user)
+            except:
+                user = User.objects.get(email=form.cleaned_data['email']).delete()
+                messages.error(request, u'An error occured during the email sending process. Please contact the administrator.')
             return redirect('dashboard')
 
     context = {
