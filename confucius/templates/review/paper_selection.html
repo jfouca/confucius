@@ -19,6 +19,23 @@ tr.paper-selected, tr.paper-selected:hover td{
 tr.paper-deselected, tr.paper-deselected:hover td{
     background-color:#f9cccc;
 }
+
+th.header { 
+    background-image: url({{ STATIC_URL }}icon-chevron-right.png);     
+    cursor: pointer; 
+    font-weight: bold; 
+    background-repeat: no-repeat; 
+    background-position: center right; 
+    background-color:#e5eded;
+}
+
+th.headerSortDown { 
+    background-image: url({{ STATIC_URL }}icon-chevron-down.png); 
+} 
+
+th.headerSortUp { 
+    background-image: url({{ STATIC_URL }}icon-chevron-up.png); 
+}  
 </style>
 {% endblock %}
 
@@ -26,10 +43,14 @@ tr.paper-deselected, tr.paper-deselected:hover td{
 {% block content_main %}
 <div class="modal hide fade" id="toggle_modal_warning">
     <div class="modal-header">
-        <h3>Warning !</h3>
+        <h3>Warning ! There are still no assigned papers.</h3>
     </div>
     <div class="modal-body">
-        <p><center><strong></strong></center></p>
+        <p>If you really want to ignore no assigned papers, push the "Finalize" button, "Close" otherwise</p>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-primary">Finalize</a>
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
     </div>
 </div>
 
@@ -38,7 +59,12 @@ tr.paper-deselected, tr.paper-deselected:hover td{
         <h3>Confirmation</h3>
     </div>
     <div class="modal-body">
-        <p><center><strong></strong></center></p>
+        <p><strong><center>Do you really want to Finalize the Papers Selection for your Conference ?</center></strong></p>
+        <p>This means you won't be able to edit your selection later on</p>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-primary">Ok, I want to Finalise my Selection</a>
+        <a href="#" class="btn" data-dismiss="modal">No, Return</a>
     </div>
 </div>
 
@@ -77,14 +103,17 @@ tr.paper-deselected, tr.paper-deselected:hover td{
     <div class="span2"><span class="btn" id="finalize">Finalize</span></div>
 </div>
 </p>
-<table class="table">
+<table class="table tablesorter table-bordered" id="mySelectionTable">
+    <thead>
     <tr>
         <th><input type="checkbox" name="selectAll" id="selectAll" class="selectAll"></th>
-        <th>Title</th>
-        <th>Number of reviews</th>
-        <th>Overall Evaluation</th>
-        <th>Standard deviation</th>
+        <th>Title </th>
+        <th>Number of reviews </th>
+        <th>Overall Evaluation </th>
+        <th>Standard deviation </th>
     </tr>
+    </thead> 
+    <tbody>
 <form method="post" id="frmPaper" name="frmPaper" >{% csrf_token %}
 {% for paper in papers_assigned.all %}
     {% if paper.selection %} 
@@ -113,9 +142,9 @@ tr.paper-deselected, tr.paper-deselected:hover td{
         </td>
     </tr>
 {% endfor %}
+    </tbody>
 </form>
 </table>
-
 </p>
 <br/>
 
@@ -141,13 +170,14 @@ tr.paper-deselected, tr.paper-deselected:hover td{
 
 {% block script %}
 <script src="{{ STATIC_URL }}jquery.ajaxsend.js"></script>
+<script src="{{ STATIC_URL }}jquery.tablesorter.js"></script>
 <script>
 
 
 $(document).ready(
     
     // Hide items
-    hideItems(),
+    goodStart(),
     
     
     selectAllEvent(),
@@ -162,8 +192,23 @@ $(document).ready(
         
 );
 
-function hideItems() {
+function goodStart() {
     $(".collapse").collapse('hide');
+    $("#mySelectionTable").tablesorter({ 
+        // pass the headers argument and assing a object 
+        headers: { 
+            // assign the first column (we start counting zero) 
+            0: { 
+                // disable it by setting the property sorter to false 
+                sorter: false 
+            },
+            4: { 
+                // disable it by setting the property sorter to false 
+                sorter: false 
+            } 
+        } 
+    });
+    
 }
 
 
