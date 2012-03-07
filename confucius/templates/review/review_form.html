@@ -15,12 +15,26 @@
 
 {% block content_main %}
 
-<p>Title : {{assignment.paper.title}}</p>
-<p>Conference : {{assignment.paper.conference.title}}</p>
-<p>Domains : {{assignment.paper.domains.all|join:', '}}</p>
-<p>Language : {{assignment.paper.title}}</p>
-<p><a href="{{assignment.paper.file.url}}" class="btn btn-primary">Download the paper</a></p>
-<p><a href="{% url 'problem' conference.pk assignment.pk %}" class="btn">Notify chair of a problem with this paper</a></p>
+<table class="table">
+<tbody>
+    <tr>
+        <th>Title</th>
+        <th>Conference</th>
+        <th>Domains</th>
+        <th>Language</th>
+        <th>File</th>
+        <th>Notify chair</th>
+    </tr>
+    <tr>
+        <td>{{assignment.paper.title}}</td>
+        <td>{{assignment.paper.conference.title}}</td>
+        <td>{{assignment.paper.domains.all|join:', '}}</td>
+        <td>{{assignment.paper.title}}</td>
+        <td><a href="{{assignment.paper.file.url}}" class="btn"><i class="icon-download-alt"></i> Download</a></td>
+        <td><a href="{% url 'problem' conference.pk assignment.pk %}" class="btn"><i class="icon-exclamation-sign"></i> Problem</a></td>
+    </tr>
+</tbody>
+</table>
 
 <form id="form" class="form-horizontal" method="post">
     {% csrf_token %}
