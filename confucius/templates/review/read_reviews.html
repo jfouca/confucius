@@ -8,10 +8,27 @@
 {% endblock %}
 
 {% block content_main %}
-<h3>Submission details</h3>
 {% if paper.selection %}
-    <p><font color="red"><b>You have already made a decision for this paper.</b></font></p>
+<p>
+<div class="alert alert-error ">
+    <a class="close" data-dismiss="alert">×</a>
+    <h4 class="alert-heading">Warning!</h4>
+    <p>You have already made a decision for this paper.</p>
+</div>
+</p>
 {% endif %}
+<p>
+<div class="row">
+    <div class="span2"><h3>Submission details</h3> </div>
+    <div class="span2">
+        <a href="{% url 'paper_selection_list' conference.pk %}" class="btn btn-info">
+                <i class="icon-share-alt icon-white"></i> Return
+        </a>
+    </div>
+</div>
+</p>
+
+
 <p>Title : {{paper.title}}</p>
 <p>Conference : {{conference.title}}</p>
 <p>Domains : {{paper.domains.all|join:', '}}</p>
