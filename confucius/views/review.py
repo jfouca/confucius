@@ -1,4 +1,5 @@
 import simplejson
+import time
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -140,6 +141,7 @@ def submit_review(request, pk_assignment, template_name='review/review_form.html
                 assignment.is_done = True
 
             assignment.save()
+            messages.success(request, u'The review has been successfully added')
             return redirect('dashboard')
 
     context = {
@@ -155,17 +157,15 @@ def submit_review(request, pk_assignment, template_name='review/review_form.html
 @require_GET
 @login_required
 @has_chair_role
-def paper_selection_list(request, template_name='review/paper_selection_list.html'):
+def paper_selection_list(request, template_name='review/paper_selection.html'):
     conference = request.conference
 
-    papers_not_assigned = Paper.objects.filter(conference=conference, assignments__isnull=True)
-    assignments_without_reviews = Assignment.objects.filter(paper__conference=conference, is_done=False)
-    papers_ready = Paper.objects.filter(conference=conference, assignments__is_done=True)
+    papers_not_assigned = Paper.objects.filter(conference=conference, assignments__isnull=True).distinct("paper")
+    papers_ready = Paper.objects.filter(conference=conference, assignments__isnull=False).distinct("paper")
 
     context = {
         'papers_not_assigned': papers_not_assigned,
-        'assignments_without_reviews': assignments_without_reviews,
-        'papers_ready': papers_ready,
+        'papers_assigned': papers_ready,
         'conference': conference,
     }
 
@@ -207,32 +207,16 @@ def read_reviews(request, pk_paper, template_name='review/read_reviews.html'):
 @has_chair_role
 def finalize_selection(request):
     conference = request.conference
+    
+    for paper_selection in conference.selections.all():
+        paper_selection.is_submit = True
+        paper_selection.save()
 
-    # Check papers
-    papers = Paper.objects.filter(conference=conference)
-    isError = False
-    try:
-        for paper in papers:
-            if not paper.selection:
-                isError = True
-                break
-    except:
-        isError = True
-        pass
+    conference.has_finalize_paper_selections = True
+    conference.save()
 
-    if isError == True:
-        messages.warning(request, u"You can't finalize papers selection while all papers haven't be reviewed or selected.")
-        return redirect('paper_selection_list', conference.pk)
-    else:
-        for paper_selection in conference.selections.all():
-            paper_selection.is_submit = True
-            paper_selection.save()
-
-        conference.has_finalize_paper_selections = True
-        conference.save()
-
-        messages.warning(request, u"Papers selection have been finalized.")
-        return redirect('dashboard', conference.pk)
+    messages.warning(request, u"Papers selection have been finalized.")
+    return redirect('dashboard', conference.pk)
 
 
 @login_required
@@ -365,3 +349,30 @@ def refreshAssignationNumber(request):
     # If you want to prevent non XHR calls
     else:
         return HttpResponse(status=400)
+        
+        
+@require_POST        
+@login_required
+@has_chair_role
+@csrf_protect
+def updateSelectedStatus(request):
+    if request.is_ajax():
+        conference = request.conference
+        papers_id = simplejson.loads(request.POST.get('papers_id'))
+        selected_status = request.POST.get('action')
+        print papers_id
+        for p_id in papers_id:
+            print p_id
+            paper = Paper.objects.get(pk=p_id)
+            try:
+                paper_selection = PaperSelection.objects.get(paper=paper,conference=conference)
+            except :
+                paper_selection = PaperSelection.objects.create(paper=paper,conference=conference)
+                
+            paper_selection.is_selected = True if selected_status == "select" else False
+            paper_selection.save();
+        
+        return HttpResponse("Success")
+    # If you want to prevent non XHR calls
+    else:
+        return HttpResponse(status=400)   

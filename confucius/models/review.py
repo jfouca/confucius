@@ -22,6 +22,11 @@ class Assignment(ConfuciusModel):
 
     def get_domains(self):
         return Membership.objects.get(conference=self.conference, user=self.reviewer).domains
+        
+    def has_review(self):
+        if self.review is not None :
+            return True
+        return False
 
 
 class Review(ConfuciusModel):

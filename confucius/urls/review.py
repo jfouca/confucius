@@ -13,4 +13,5 @@ urlpatterns = patterns('confucius.views',
     url(r'^deleteAssignmentRow/$', 'deleteAssignmentRow', name="deleteAssignmentRow"),
     url(r'^refreshAssignationNumber/$', 'refreshAssignationNumber', name="refreshAssignationNumber"),
     url(r'^clean-assignments/$', 'clean_assignments', name='clean_assignments'),
+    url(r'^updateSelectedStatus/$', 'updateSelectedStatus', name="updateSelectedStatus"),
 )

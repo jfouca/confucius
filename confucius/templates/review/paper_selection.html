@@ -1,0 +1,316 @@
+{% extends 'base-in.html' %}
+{% load url from future %}
+
+{% block title %}Paper selection{% endblock %}
+
+{% block content_header %}
+<h1>Paper selection</h1>
+{% endblock %}
+
+{% block style %}
+<style>
+.table tbody tr:hover td, .table tbody tr:hover th {
+    background-color:transparent;
+}
+tr.paper-selected, tr.paper-selected:hover td{
+    background-color:#ccf9ce;
+}
+
+tr.paper-deselected, tr.paper-deselected:hover td{
+    background-color:#f9cccc;
+}
+
+th.header { 
+    background-image: url({{ STATIC_URL }}icon-chevron-right.png);     
+    cursor: pointer; 
+    font-weight: bold; 
+    background-repeat: no-repeat; 
+    background-position: center right; 
+    background-color:#e5eded;
+}
+
+th.headerSortDown { 
+    background-image: url({{ STATIC_URL }}icon-chevron-down.png); 
+} 
+
+th.headerSortUp { 
+    background-image: url({{ STATIC_URL }}icon-chevron-up.png); 
+}  
+</style>
+{% endblock %}
+
+
+{% block content_main %}
+<div class="modal hide fade" id="toggle_modal_warning">
+    <div class="modal-header">
+        <h3>Warning ! There are still no assigned papers.</h3>
+    </div>
+    <div class="modal-body">
+        <p>If you really want to ignore no assigned papers, push the "Finalize" button, "Close" otherwise</p>
+    </div>
+    <div class="modal-footer">
+        <a href="{% url 'finalize_selection' conference.pk %}" class="btn btn-primary">Finalize</a>
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+    </div>
+</div>
+
+<div class="modal hide fade" id="toggle_modal_confirmation">
+    <div class="modal-header">
+        <h3>Confirmation</h3>
+    </div>
+    <div class="modal-body">
+        <p><strong><center>Do you really want to Finalize the Papers Selection for your Conference ?</center></strong></p>
+        <p>This means you won't be able to edit your selection later on</p>
+    </div>
+    <div class="modal-footer">
+        <a href="{% url 'finalize_selection' conference.pk %}" class="btn btn-primary">Ok, I want to Finalise my Selection</a>
+        <a href="#" class="btn" data-dismiss="modal">No, Return</a>
+    </div>
+</div>
+
+
+{% if papers_not_assigned.count > 0 %}
+    <p>
+    <div class="alert alert-error ">
+        <h4 class="alert-heading">Warning!</h4>
+        <p>There are still no assigned papers. Please have a look to it before performing your selection.</p>
+    </div>
+    </p>
+{% endif %}
+
+<p>
+<div class="accordion-group">
+  <div class="accordion-heading">
+    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
+      Get more information about "Standard Deviation"...
+    </a>
+  </div>
+  <div id="collapseOne" class="accordion-body collapse">
+    <div class="accordion-inner">
+      "This represents how much variation or dispertion exists from the average. <br/><br/>A low standard deviation indicates that the data points tend to be very close to the mean, whereas high standard deviation indicates that the data points are spread out over a large range of values. <br/><br/>In order to show you that value in a clean way, we will use flag colors. <br/> <br/>Green means close data points, whereas red means speard out points"
+    </div>
+  </div>
+</div>
+</p>
+
+<p>
+
+<p>
+<div class="row">
+    <div class="span1"><h3>Papers</h3> </div>
+    <div class="span1"><span class="btn hide" id="select-btn">Select</span></div>
+    <div class="span4"><span class="btn hide" id="deselect-btn">Reject</span></div>
+    <div class="span2"><span class="btn" id="finalize">Finalize</span></div>
+</div>
+</p>
+<table class="table tablesorter table-bordered" id="mySelectionTable">
+    <thead>
+    <tr>
+        <th><input type="checkbox" name="selectAll" id="selectAll" class="selectAll"></th>
+        <th>Title </th>
+        <th>Number of reviews </th>
+        <th>Overall Evaluation </th>
+        <th>Standard deviation </th>
+    </tr>
+    </thead> 
+    <tbody>
+<form method="post" id="frmPaper" name="frmPaper" >{% csrf_token %}
+{% for paper in papers_assigned.all %}
+    {% if paper.selection %} 
+        {% if paper.selection.is_selected %}
+            <tr class="paper-selected">
+        {% else %}
+            <tr class="paper-deselected">
+        {% endif %}
+    {% else %}
+        <tr>
+    {% endif %}
+        <td> <input type="checkbox" class="paper" name="paper_{{paper.pk}}" id="{{paper.pk}}"></td>
+        <td> {{ paper.title }} </td>
+        <td> {{ paper.assignments.count }} </td>
+        <td> 
+            {% if paper.get_mark == -1 %} No mark yet 
+            {% else %} {{ paper.get_mark }} %
+            {% endif %}
+        </td>
+        <td>
+            {% if not paper.is_ambigous %}
+                <span class="label label-success"><i class="icon-ok-sign icon-white"></i></span>
+            {% else %}
+                <span class="label label-important"><i class="icon-remove-sign icon-white"></i></span>
+            {% endif %}
+        </td>
+    </tr>
+{% endfor %}
+    </tbody>
+</form>
+</table>
+</p>
+<br/>
+
+{% if papers_not_assigned.count > 0 %}
+<p>
+    <h3>Papers not assigned</h3>
+    <table class="table table-striped">
+        <tr>
+            <th>Paper title</th>
+            <th>Last update date</th>
+        </tr>
+        {% for paper in papers_not_assigned %}
+            <tr>
+                <td><b>{{paper.title}}</b></td>
+                <td>{{paper.last_update_date|date:"m/d/y"}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</p>
+{% endif %}
+ 
+{% endblock %}
+
+{% block script %}
+<script src="{{ STATIC_URL }}jquery.ajaxsend.js"></script>
+<script src="{{ STATIC_URL }}jquery.tablesorter.js"></script>
+<script>
+
+
+$(document).ready(
+    
+    // Hide items
+    goodStart(),
+    
+    
+    selectAllEvent(),
+    
+    checkPaper(),
+    
+    selectAction(),
+    
+    deselectAction(),
+    
+    finalizeAction()
+        
+);
+
+function goodStart() {
+    $(".collapse").collapse('hide');
+    $("#mySelectionTable").tablesorter({ 
+        // pass the headers argument and assing a object 
+        headers: { 
+            // assign the first column (we start counting zero) 
+            0: { 
+                // disable it by setting the property sorter to false 
+                sorter: false 
+            },
+            4: { 
+                // disable it by setting the property sorter to false 
+                sorter: false 
+            } 
+        } 
+    });
+    
+}
+
+
+function selectAllEvent(){
+    $('#selectAll').click(function() {
+        var checked_status = this.checked;
+        toggleSelectionButtons();
+        toggleCheckboxes(checked_status);
+        //more things
+    });
+}
+
+function toggleSelectionButtons() {
+    $("#select-btn").toggleClass("hide");
+    $("#deselect-btn").toggleClass("hide");
+}
+
+function checkPaper() {
+    $('.paper').live("click",function() {
+        if(jQuery('input[class="paper"]:checked').length == 0) { 
+            $('#selectAll').attr('checked', false);
+            toggleSelectionButtons();
+        }
+        
+        if(jQuery('input[class="paper"]:checked').length > 0 && !$('input[id="selectAll"]').is(':checked') ) { 
+            $('#selectAll').attr('checked', true);
+            toggleSelectionButtons();
+        }
+        
+    });
+}
+
+function toggleCheckboxes(is_selectAll_checked) {
+    $('.paper').each(function(){
+        this.checked = is_selectAll_checked;
+    });
+}
+
+function selectAction() {
+    $('#select-btn').live("click",function() {
+        if(jQuery('input[class="paper"]:checked').length == 0) return;
+        var papers = new Array();
+         $('.paper').each(function(){
+            if ($(this).is(':checked')) {
+                var i = parseInt($(this).attr("id"));
+                papers.push(i);
+                $(this).parent().parent().removeClass("paper-deselected");
+                $(this).parent().parent().addClass("paper-selected");
+                this.checked=false;
+            }
+        });
+        $('#selectAll').attr('checked', false);
+        toggleSelectionButtons();
+        var myJSONText = JSON.stringify(papers);
+        $.post("{% url 'updateSelectedStatus' conference.pk %}", {
+            action : "select", 
+            papers_id: myJSONText,
+        }
+        );
+    });
+}
+
+function deselectAction() {
+    $('#deselect-btn').live("click",function() {
+        if(jQuery('input[class="paper"]:checked').length == 0) return;
+        var papers = new Array();
+         $('.paper').each(function(){
+            if ($(this).is(':checked')) {
+                var i = parseInt($(this).attr("id"));
+                papers.push(i);
+                $(this).parent().parent().removeClass("paper-selected");
+                $(this).parent().parent().addClass("paper-deselected"); 
+                this.checked=false;
+            }
+        });
+        $('#selectAll').attr('checked', false);
+        toggleSelectionButtons();
+        var myJSONText = JSON.stringify(papers);
+        $.post("{% url 'updateSelectedStatus' conference.pk %}", {
+            action : "deselect", 
+            papers_id: myJSONText,
+        }
+        );
+    });
+}
+
+function finalizeAction(){
+    $('#finalize').live("click",function() {
+        {% if papers_not_assigned.count > 0 %}
+            $('#toggle_modal_warning').modal({
+                keyboard: false
+            }).show();
+        {% else %}
+            $('#toggle_modal_confirmation').modal({
+                keyboard: false
+            }).show();        
+        {% endif %}
+    });
+}
+
+
+
+
+</script>
+{% endblock %}

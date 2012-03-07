@@ -52,7 +52,11 @@
                             <div class="pull-right">
                                 <div class="btn-group">
                                     <a href="{% url 'assignments' conference.pk %}" class="btn">Assignments</a>
-                                    <a href="{% url 'paper_selection_list' conference.pk %}" class="btn">Paper selection</a>
+                                    {% if request.conference.has_finalize_paper_selections %}
+                                        <a href="#" class="btn btn-inverse disabled">Paper selection is finalized</a>
+                                    {% else %}
+                                        <a href="{% url 'paper_selection_list' conference.pk %}" class="btn">Paper selection</a>
+                                    {% endif %}
                                     <a href="{% url 'alert' conference.pk %}" class="btn">Create Alert</a>
                                 </div>
                                 <div class="btn-group">
