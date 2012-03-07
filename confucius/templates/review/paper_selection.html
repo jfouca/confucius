@@ -12,12 +12,12 @@
 .table tbody tr:hover td, .table tbody tr:hover th {
     background-color:transparent;
 }
-tr.paper-selected, tr.paper-selected:hover td{
-    background-color:#ccf9ce;
+tr.paper-select, tr.paper-select:hover td{
+    background-color:#eefbde;
 }
 
-tr.paper-deselected, tr.paper-deselected:hover td{
-    background-color:#f9cccc;
+tr.paper-deselect, tr.paper-deselect:hover td{
+    background-color:#fbeeee;
 }
 
 th.header { 
@@ -98,9 +98,14 @@ th.headerSortUp {
 <p>
 <div class="row">
     <div class="span1"><h3>Papers</h3> </div>
-    <div class="span1"><span class="btn hide" id="select-btn">Select</span></div>
-    <div class="span4"><span class="btn hide" id="deselect-btn">Reject</span></div>
-    <div class="span2"><span class="btn" id="finalize">Finalize</span></div>
+    <div class="span1"><span class="btn v-hidden" id="select-btn">Select</span></div>
+    <div class="span2"><span class="btn v-hidden" id="deselect-btn">Reject</span></div>
+    <div class="span4"><span class="btn" id="finalize">Finalize</span></div>
+    <div class="span2">
+        <a href="{% url 'dashboard' %}" class="btn btn-info">
+                <i class="icon-share-alt icon-white"></i> To dashboard
+        </a>
+    </div>
 </div>
 </p>
 <table class="table tablesorter table-bordered" id="mySelectionTable">
@@ -118,15 +123,20 @@ th.headerSortUp {
 {% for paper in papers_assigned.all %}
     {% if paper.selection %} 
         {% if paper.selection.is_selected %}
-            <tr class="paper-selected">
+            <tr class="paper-select row-actions">
         {% else %}
-            <tr class="paper-deselected">
+            <tr class="paper-deselect row-actions">
         {% endif %}
     {% else %}
-        <tr>
+        <tr class="row-actions">
     {% endif %}
         <td> <input type="checkbox" class="paper" name="paper_{{paper.pk}}" id="{{paper.pk}}"></td>
-        <td> {{ paper.title }} </td>
+        <td> {{ paper.title }} 
+            <span class="data-actions v-hidden"> 
+                <a href="#" class="btn btn-mini action_btn" id="select_{{paper.pk}}">Select</a>
+                <a href="#" class="btn btn-mini action_btn" id="deselect_{{paper.pk}}">Reject</a>
+            </span>
+        </td>
         <td> {{ paper.assignments.count }} </td>
         <td> 
             {% if paper.get_mark == -1 %} No mark yet 
@@ -164,6 +174,7 @@ th.headerSortUp {
         {% endfor %}
     </table>
 </p>
+
 {% endif %}
  
 {% endblock %}
@@ -188,7 +199,9 @@ $(document).ready(
     
     deselectAction(),
     
-    finalizeAction()
+    finalizeAction(),
+    
+    quickActions()
         
 );
 
@@ -222,8 +235,8 @@ function selectAllEvent(){
 }
 
 function toggleSelectionButtons() {
-    $("#select-btn").toggleClass("hide");
-    $("#deselect-btn").toggleClass("hide");
+    $("#select-btn").toggleClass("v-hidden");
+    $("#deselect-btn").toggleClass("v-hidden");
 }
 
 function checkPaper() {
@@ -255,8 +268,8 @@ function selectAction() {
             if ($(this).is(':checked')) {
                 var i = parseInt($(this).attr("id"));
                 papers.push(i);
-                $(this).parent().parent().removeClass("paper-deselected");
-                $(this).parent().parent().addClass("paper-selected");
+                $(this).parent().parent().removeClass("paper-deselect");
+                $(this).parent().parent().addClass("paper-select");
                 this.checked=false;
             }
         });
@@ -279,8 +292,8 @@ function deselectAction() {
             if ($(this).is(':checked')) {
                 var i = parseInt($(this).attr("id"));
                 papers.push(i);
-                $(this).parent().parent().removeClass("paper-selected");
-                $(this).parent().parent().addClass("paper-deselected"); 
+                $(this).parent().parent().removeClass("paper-select");
+                $(this).parent().parent().addClass("paper-deselect"); 
                 this.checked=false;
             }
         });
@@ -309,7 +322,32 @@ function finalizeAction(){
     });
 }
 
-
+function quickActions() {
+    $('.action_btn').live("click",function() {
+        
+        var start = $(this).attr("id");
+        var substri = start.split('_');
+        var paper_id = substri[1];
+        var action = substri[0];
+        var papers = new Array();
+        papers.push(parseInt(paper_id));
+        var myJSONText = JSON.stringify(papers);
+        
+        if(action == "deselect") {
+            $(this).parent().parent().parent().removeClass("paper-select");
+            $(this).parent().parent().parent().addClass("paper-deselect");
+        }
+        else {
+            $(this).parent().parent().parent().removeClass("paper-deselect");
+            $(this).parent().parent().parent().addClass("paper-select");
+        }
+        $.post("{% url 'updateSelectedStatus' conference.pk %}", {
+            action : action, 
+            papers_id: myJSONText,
+        }
+        );
+    });
+}
 
 
 </script>
