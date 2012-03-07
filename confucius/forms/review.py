@@ -37,6 +37,9 @@ class ReviewForm(forms.ModelForm):
         conference = instance.assignment.all()[0].conference
 
         if conference.are_reviews_over == True:
-            raise forms.ValidationError('The Reviews are over for now...')
+            raise forms.ValidationError('The Reviews are over for now.')
+            
+        if conference.are_reviews_notstarted == True:
+            raise forms.ValidationError('The Reviews are not started.')
 
         return cleaned_data

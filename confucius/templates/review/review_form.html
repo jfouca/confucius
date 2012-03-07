@@ -19,7 +19,7 @@
 <p>Conference : {{assignment.paper.conference.title}}</p>
 <p>Domains : {{assignment.paper.domains.all|join:', '}}</p>
 <p>Language : {{assignment.paper.title}}</p>
-<p><a href="{{assignment.paper.document.url}}" class="btn btn-primary">Download the paper</a></p>
+<p><a href="{{assignment.paper.file.url}}" class="btn btn-primary">Download the paper</a></p>
 <br/>
 
 
@@ -29,7 +29,7 @@
     {% include 'includes/form.html' %}
 
     <div class="form-actions">
-        {% if conference.are_reviews_over %}
+        {% if conference.are_reviews_over or conference.are_reviews_over %}
             {% include 'includes/reviews_over_button.html' %}
         {% else %}
             {% if not assignment.is_done %}

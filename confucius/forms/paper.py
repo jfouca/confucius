@@ -32,6 +32,9 @@ class PaperForm(forms.ModelForm):
         conference = instance.conference
 
         if conference.are_submissions_over == True:
-            raise forms.ValidationError('The Submissions are over for now...')
+            raise forms.ValidationError('The Submissions are over for now.')
+        
+        if conference.are_submissions_notstarted == True:
+            raise forms.ValidationError('The Submissions are not started.')
 
         return cleaned_data

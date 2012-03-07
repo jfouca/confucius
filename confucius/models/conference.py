@@ -60,6 +60,12 @@ class Conference(ConfuciusModel):
     def are_submissions_over(self):
         return datetime.now().date() > self.submissions_end_date
 
+    def are_submissions_notstarted(self):
+        return datetime.now().date() < self.submissions_start_date
+
+    def are_reviews_notstarted(self):
+        return datetime.now().date() < self.reviews_start_date
+
     def are_reviews_over(self):
         return datetime.now().date() > self.reviews_end_date
 
