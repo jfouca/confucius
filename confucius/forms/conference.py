@@ -2,6 +2,7 @@ from django import forms
 
 from confucius.forms import UserForm
 from confucius.models import Alert, Conference, Domain, Email, Invitation, Membership, User
+from datetime import datetime
 
 
 class AlertForm(forms.ModelForm):
@@ -35,13 +36,14 @@ class AlertForm(forms.ModelForm):
 
 
 class ConferenceForm(forms.ModelForm):
+    start_date = forms.DateField(label='Conference date')
+    
     class Meta:
         model = Conference
         exclude = ('members', 'is_open', 'access_key', 'has_finalize_paper_selections')
 
     def clean(self):
         cleaned_data = super(ConferenceForm, self).clean()
-
         start_date = cleaned_data['start_date']
         start_review = cleaned_data['reviews_start_date']
         end_review = cleaned_data['reviews_end_date']
