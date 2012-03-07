@@ -139,6 +139,9 @@ function updateAssignmentsTables() {
         var end = val.replace(toRemove,'');
 	    var table = $(document).find("table#table_"+end);
 	    
+	    if(end==undefined) return;
+	    if(id==undefined) return;
+	    
 	    // For slow computer
         clicked.remove();
         opts.remove(id);

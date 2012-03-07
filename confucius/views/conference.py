@@ -291,7 +291,8 @@ def paper_list(request, template_name='conference/paper_list.html'):
 
     context = {
         'paper_list': papers,
-        'conference': conference
+        'conference': conference,
+        'membership': request.membership
     }
     return render_to_response(template_name, context, context_instance=RequestContext(request))
 
@@ -305,7 +306,8 @@ def review_list(request, template_name='conference/review_list.html'):
 
     context = {
         'user_assignments': user_assignments,
-        'conference': conference
+        'conference': conference,
+        'membership': request.membership
     }
     return render_to_response(template_name, context, context_instance=RequestContext(request))
 
@@ -323,7 +325,8 @@ def alert_list(request, template_name='conference/alert_list.html'):
         'alerts_trigger': alerts_trigger,
         'alerts_reminder': alerts_reminder,
         'alerts_action': alerts_action,
-        'conference': conference
+        'conference': conference,
+        'membership': request.membership
     }
     return render_to_response(template_name, context, context_instance=RequestContext(request))
 
@@ -337,6 +340,7 @@ def invitation_list(request, template_name='conference/invitation_list.html'):
 
     context = {
         'invitation_list': invitations,
-        'conference': conference
+        'conference': conference,
+        'membership': request.membership
     }
     return render_to_response(template_name, context, context_instance=RequestContext(request))

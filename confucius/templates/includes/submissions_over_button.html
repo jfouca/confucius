@@ -1,1 +1,5 @@
-<a href="#" class="btn disabled">Submissions are over</a>
+<a href="#" class="btn disabled">
+    {% if conference.are_submissions_over %} Submissions are over 
+    {% else %} {% if conference.are_submissions_notstarted %} Submissions are not started
+    {% endif %} {% endif %} 
+</a>

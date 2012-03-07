@@ -1,1 +1,5 @@
-<a href="#" class="btn btn-inverse disabled">Reviews are over...</a>
+<a href="#" class="btn btn-inverse disabled">
+    {% if conference.are_reviews_over %} Reviews are over 
+    {% else %} {% if conference.are_reviews_notstarted %} Reviews are not started
+    {% endif %} {% endif %} 
+</a>
