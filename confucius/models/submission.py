@@ -36,6 +36,14 @@ class Paper(ConfuciusModel):
             return -1
         return int((average*100) / 7)
         
+    def get_reviewed_percent(self):
+        total = self.assignments.all().count()
+        value = self.assignments.filter(is_done=True).count()
+        print "total",total
+        print "value",value
+        print "res",value*100/total
+        return value*100/total
+        
     def is_ambigous(self):
         assignments = self.assignments.all()
         marks_list = [assignment.review.overall_evaluation for assignment in assignments if assignment.has_review() ]
