@@ -168,3 +168,25 @@ body {
     min-width: 120px;
     min-height: 40px;
 }
+
+/* progress bar */
+.progress-sdev {
+  height: 7px;
+}
+
+.progress-sdev .bar-sdev {
+    height: 7px;
+}
+
+.progress-warning .bar {
+  background-color:  #faa732;
+  background-image: -moz-linear-gradient(top, #faa732, #d18e30);
+  background-image: -ms-linear-gradient(top, #faa732, #d18e30);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#faa732), to(#d18e30));
+  background-image: -webkit-linear-gradient(top, #faa732, #d18e30);
+  background-image: -o-linear-gradient(top, #faa732, #d18e30);
+  background-image: linear-gradient(top, #faa732, #d18e30);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa732', endColorstr='#d18e30', GradientType=0);
+}
+
