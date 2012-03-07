@@ -20,15 +20,15 @@
         {% endif %}
 
         {% for alert in alerts_trigger %}
-            {% include 'includes/alerts_list.html' with alert=alert %}
+            {% include 'includes/alerts_list.html' with alert=alert trigger=alert.trigger_date|date:'SHORT_DATE_FORMAT' %}
         {% endfor %}
 
         {% for alert in alerts_reminder %}
-            {% include 'includes/alerts_list.html' with alert=alert %}
+            {% include 'includes/alerts_list.html' with alert=alert trigger=alert.reminder event=alert.event %}
         {% endfor %}
 
         {% for alert in alerts_action %}
-            {% include 'includes/alerts_list.html' with alert=alert %}
+            {% include 'includes/alerts_list.html' with alert=alert trigger=alert.action %}
         {% endfor %}
     </tbody>
 </table>
