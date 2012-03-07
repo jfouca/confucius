@@ -4,7 +4,7 @@ python:
   - "2.7"
 install:
   - pip install -r requirements.txt --use-mirrors
-  - pip install flake8
+  #- pip install flake8
 script:
-  - find confucius -name "[^_]*.py" | xargs flake8 --ignore="E501"
+  #- find confucius -name "[^_]*.py" | xargs flake8 --ignore="E501"
   - python runtests.py
