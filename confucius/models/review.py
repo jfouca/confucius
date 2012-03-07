@@ -7,6 +7,7 @@ class Assignment(ConfuciusModel):
     conference = models.ForeignKey(Conference, related_name="assignments")
     reviewer = models.ForeignKey(User, related_name="assignments")
     paper = models.ForeignKey('Paper', related_name="assignments")
+    problem = models.TextField()
     is_assigned = models.BooleanField(default=False)
     is_done = models.BooleanField(default=False)
     review = models.ForeignKey('Review', blank=True, null=True, related_name="assignment")

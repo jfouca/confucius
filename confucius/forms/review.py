@@ -2,6 +2,11 @@ from django import forms
 from confucius.models import Review
 
 
+class ProblemForm(forms.Form):
+    problem = forms.CharField(label=u'Problem', help_text=u'Please indicate in a concise way the exact problem with the paper.',
+            min_length=12, widget=forms.Textarea(attrs={'class': 'input-xlarge'}))
+
+
 class ReviewForm(forms.ModelForm):
     evaluation_choice = (('1', 'Strong reject'), ('2', 'Reject'), ('3', 'Weak reject'), ('4', 'Bordeline paper'), ('5', 'Weak accept'), ('6', 'Accept'), ('7', 'Strong accept'))
     overall_evaluation = forms.TypedChoiceField(coerce=int, choices=evaluation_choice, widget=forms.RadioSelect)
