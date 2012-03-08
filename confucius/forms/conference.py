@@ -147,6 +147,7 @@ class MembershipForm(forms.ModelForm):
         super(MembershipForm, self).__init__(*args, **kwargs)
 
         self.fields['domains'].help_text = ""
+        self.fields['domains'].label = ""
         self.fields['domains'].queryset = Domain.objects.filter(conferences__pk=self.instance.conference_id)
 
 
