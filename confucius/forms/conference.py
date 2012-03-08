@@ -10,7 +10,7 @@ class AlertForm(forms.ModelForm):
     class Meta:
         model = Alert
         exclude = ('conference')
-
+        
     def clean(self):
         cleaned_data = super(AlertForm, self).clean()
 
