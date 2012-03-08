@@ -54,37 +54,24 @@
                                     <a href="{% url 'invitations' request.conference.pk %}">Invitations</a></li>
                             {% endif %}
                             {% if request.membership.has_submitter_role %}
-                                {% if request.membership.has_chair_role %}
                                 <li class="nav-header"><i class="icon-file"></i> Papers</li>
                                 <li class="{{'/papers'|active:request}}">
                                     <a href="{% url 'papers' request.conference.pk %}">My papers</a></li>
-                                <li class="{{'/conference_papers'|active:request}}">
-                                    <a href="{% url 'conference_papers' request.conference.pk %}">All papers</a></li>
-                                {% else %}
-                                <li class="nav-header {{'papers'|active:request}}">
-                                    <a href="{% url 'papers' request.conference.pk %}">
-                                        <i class="icon-file {{'papers'|icon_active:request}}"></i> My papers
-                                    </a>
-                                </li>
+                                {% if request.membership.has_chair_role %}
+                                    <li class="{{'/conference_papers'|active:request}}">
+                                        <a href="{% url 'conference_papers' request.conference.pk %}">All papers</a></li>
                                 {% endif %}
                                 {% block papersnav %}{% endblock %}
                             {% endif %}
                             {% if request.membership.has_reviewer_role %}
-                                {% if request.membership.has_chair_role %}
                                 <li class="nav-header"><i class="icon-pencil"></i> Reviews</li>
                                 <li class="{{'/reviews'|active:request}}">
                                     <a href="{% url 'reviews' request.conference.pk %}">My reviews</a></li>
-                                <li class="{{'/conference_reviews'|active:request}}">
-                                    <a href="{% url 'conference_reviews' request.conference.pk %}">All reviews</a></li>
-                                {% else %}
-                                <li class="nav-header {{'reviews'|active:request}}">
-                                    <a href="{% url 'reviews' request.conference.pk %}">
-                                        <i class="icon-pencil {{'reviews'|icon_active:request}}"></i> My reviews
-                                    </a>
-                                </li>
+                                {% if request.membership.has_chair_role %}
+                                    <li class="{{'/conference_reviews'|active:request}}">
+                                        <a href="{% url 'conference_reviews' request.conference.pk %}">All reviews</a></li>
                                 {% endif %}
                                 {% block reviewsnav %}{% endblock %}
-                                <li>&nbsp;</li>
                             {% endif %}
                             <li class="nav-header {{ 'list'|active:request }}"><a href="{% url 'membership_list' %}"><i class="icon-th-list {{'list'|icon_active:request}}"></i> Conferences</a></li>
                         </ul>
