@@ -36,21 +36,33 @@ and selection processes typical of academic conferences.
 Requirements
 ------------
 
-Confucius requires Django 1.3+ (which itself requires Python 2.4+) and access to a RDBMS (such as MySQL, PostgreSQL or Oracle).
+Confucius requires Django 1.3+ (which itself requires Python 2.4+), access to a RDBMS (such as MySQL or PostgreSQL), and a
+web server (the simplest is to deploy it with Apache and mod\_wsgi).
 
 Installation on a Debian-based OS
 ------------
 
-TODO
+### Requirements installation
+
+    # aptitude install apache2 libapache2-mod-wsgi python-pip
+    # pip install -r requirements.txt --use-mirrors
+
+If your RDBMS is MySQL :
+
+    # aptitude install python-mysql
+
+If your RDBMS is PostgreSQL :
+
+    # aptitude install python-psycopg2
 
 
 Original developers
 -------------------
 
-[Nicolas Bazire](/nbazire)
-[Ana Maria Faighel](/anouchka)
-[Lucas Fernandes](/lferna05)
-[Jérémy Foucault](/jfouca)
-[Yann Gauche](/yanng)
-[Raphaël Germon](/rgermon)
-[Yann Lemaulf](/ylemaulf)
+- [Nicolas Bazire](/nbazire)
+- [Ana Maria Faighel](/anouchka)
+- [Lucas Fernandes](/lferna05)
+- [Jérémy Foucault](/jfouca)
+- [Yann Gauche](/yanng)
+- [Raphaël Germon](/rgermon)
+- [Yann Lemaulf](/ylemaulf)
