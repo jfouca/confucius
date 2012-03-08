@@ -43,13 +43,16 @@
                                 </div>
                                 <div class="btn-group">
                                     {% if membership.has_chair_role %}
-                                        <a class="btn" href="{% url 'conference_edit' conference.pk %}">Edit configuration</a>
+                                        <a class="btn" href="{% url 'conference_edit' conference.pk %}">
+                                            <i class="icon-edit"></i> Edit configuration</a>
                                     {% endif %}
                                     {% if membership.has_submitter_role %}
-                                        <a class="btn" href="{% url 'papers' conference.pk %}">My papers</a>
+                                        <a class="btn" href="{% url 'papers' conference.pk %}">
+                                            <i class="icon-file"></i> My papers</a>
                                     {% endif %}
                                     {% if membership.has_reviewer_role %}
-                                        <a class="btn" href="{% url 'reviews' conference.pk %}">My reviews</a>
+                                        <a class="btn" href="{% url 'reviews' conference.pk %}">
+                                            <i class="icon-pencil"></i> My reviews</a>
                                     {% endif %}
                                 </div>
                             </div>
