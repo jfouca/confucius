@@ -44,7 +44,7 @@
                                 <div class="btn-group">
                                     {% if membership.has_chair_role %}
                                         <a class="btn" href="{% url 'conference_edit' conference.pk %}">
-                                            <i class="icon-edit"></i> Edit configuration</a>
+                                            <i class="icon-edit"></i> Edit conference</a>
                                     {% endif %}
                                     {% if membership.has_submitter_role %}
                                         <a class="btn" href="{% url 'papers' conference.pk %}">

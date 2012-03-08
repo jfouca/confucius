@@ -46,17 +46,17 @@
                                     <a href="{% url 'assignments' conference.pk %}" class="btn">
                                         <i class="icon-list-alt"></i> Assignments</a>
                                     {% if request.conference.has_finalize_paper_selections %}
-                                        <a href="#" class="btn btn-inverse disabled">Paper selection is finalized</a>
+                                        <a href="javascript:void(0)" class="btn btn-inverse disabled">Paper selection is finalized</a>
                                     {% else %}
                                         <a href="{% url 'paper_selection_list' conference.pk %}" class="btn">
                                             <i class="icon-file"></i> Paper selection</a>
                                     {% endif %}
                                     <a href="{% url 'alert' conference.pk %}" class="btn">
-                                        <i class="icon-time"></i> Create Alert</a>
+                                        <i class="icon-time"></i> Create alert</a>
                                 </div>
                                 <div class="btn-group">
                                     <a href="{% url 'send_email_to_users' conference.pk %}" class="btn">
-                                        <i class="icon-envelope"></i> Send Emails to users</a>
+                                        <i class="icon-envelope"></i> Send emails to users</a>
 		                            <a href="{% url 'conference_invite' conference.pk %}" class="btn">
 		                                <i class="icon-gift"></i> Invite someone</a>
 	                            </div>
