@@ -13,13 +13,20 @@
 {% block content_main %}
 <form class="form-horizontal" method="post">{% csrf_token %}
     <div class="row">
-        <div class="offset1 span3">
-            <p>Choose your domains for this conference:</p>
+        <div class="span10">
+            <h3>You will join the conference {{ conference }} as a Submitter</h3>
         </div>
     </div>
+    <div class="row">
+        <div class="span10">
+            Choose your domains for this conference.
+        </div>
+    </div>
+    <br/>
     {% include 'includes/form.html' %}
     <div class="form-actions">
-        <button type="submit" class="btn"><i class="icon-ok"></i>  Accept the invitation</button>
+        <button type="submit" class="btn"><i class="icon-ok"></i> Join</button>
+        <a href="{% url 'dashboard' %}" class="btn"><i class="icon-remove"></i> Refuse</a>
     </div>
     </fieldset>
 </form>
