@@ -47,7 +47,7 @@
                                 <a href="{% url 'dashboard' %}"><i class="icon-home {{'dashboard'|icon_active:request}}"></i> Dashboard</a>
                             </li>
                             {% if request.membership.has_chair_role %}
-                                <li class="nav-header"><i class="icon-calendar"></i> Conference</li>
+                                <li class="nav-header"><i class="icon-comment"></i> Conference</li>
                                 <li class="{{'alerts'|active:request}}">
                                     <a href="{% url 'alerts' request.conference.pk %}">Alerts</a></li>
                                 <li class="{{'invitations'|active:request}}">
@@ -83,9 +83,32 @@
                     {% block subtopbar %}
                         <div class="well sidebar-dates">
                             <ul class="nav nav-list">
-                                <li>Conference: {{ conference.start_date|date:'SHORT_DATE_FORMAT' }}</li>
-                                <li>Submissions end: {{ conference.submissions_end_date|date:'SHORT_DATE_FORMAT' }}</li>
-                                <li>Reviews end: {{ conference.reviews_end_date|date:'SHORT_DATE_FORMAT' }}</li>
+                                <li>Conference
+                                    {% if conference.is_started %} <span class="label label-important"><br />are over</span><
+                                    {% else %} is:<br />
+                                        <span class="label label-info">{{ conference.start_date|date:'SHORT_DATE_FORMAT' }}</span>
+                                    {% endif %}
+                                </li>
+                                <li>Submissions
+                                    {% if conference.are_submissions_notstarted %} start:<br />
+                                        <span class="label label-info">{{ conference.submissions_start_date|date:'SHORT_DATE_FORMAT' }}</span>
+                                    {% else %}
+                                        {% if conference.are_submissions_over %} <span class="label label-important"><br />are over</span>
+                                        {% else %} end:<br />
+                                            <span class="label label-info">{{ conference.submissions_end_date|date:'SHORT_DATE_FORMAT' }}</span>
+                                        {% endif %}
+                                    {% endif %}
+                                </li>
+                                <li>Reviews
+                                    {% if conference.are_reviews_notstarted %} start:<br />
+                                        <span class="label label-info">{{ conference.reviews_start_date|date:'SHORT_DATE_FORMAT' }}</span>
+                                    {% else %}
+                                        {% if conference.are_reviews_over %} <span class="label label-important"><br />are over</span>
+                                        {% else %} end:<br />
+                                            <span class="label label-info">{{ conference.reviews_end_date|date:'SHORT_DATE_FORMAT' }}</span>
+                                        {% endif %}
+                                    {% endif %}
+                                </li>
                            </ul>
                         </div>
                     {% endblock %}
