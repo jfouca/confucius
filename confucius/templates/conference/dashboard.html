@@ -38,21 +38,27 @@
                     <div class="span10 toggle-buttons">
                         <div class="btn-toolbar">
                             <div class="pull-left">
-                                <a href="{% url 'conference_edit' conference.pk %}" class="btn" >Edit conference</a>
+                                <a href="{% url 'conference_edit' conference.pk %}" class="btn" >
+                                    <i class="icon-pencil"></i> Edit conference</a>
                             </div>
                             <div class="pull-right">
                                 <div class="btn-group">
-                                    <a href="{% url 'assignments' conference.pk %}" class="btn">Assignments</a>
+                                    <a href="{% url 'assignments' conference.pk %}" class="btn">
+                                        <i class="icon-list-alt"></i> Assignments</a>
                                     {% if request.conference.has_finalize_paper_selections %}
                                         <a href="#" class="btn btn-inverse disabled">Paper selection is finalized</a>
                                     {% else %}
-                                        <a href="{% url 'paper_selection_list' conference.pk %}" class="btn">Paper selection</a>
+                                        <a href="{% url 'paper_selection_list' conference.pk %}" class="btn">
+                                            <i class="icon-file"></i> Paper selection</a>
                                     {% endif %}
-                                    <a href="{% url 'alert' conference.pk %}" class="btn">Create Alert</a>
+                                    <a href="{% url 'alert' conference.pk %}" class="btn">
+                                        <i class="icon-time"></i> Create Alert</a>
                                 </div>
                                 <div class="btn-group">
-                                    <a href="{% url 'send_email_to_users' conference.pk %}" class="btn" >Send Emails to users</a>
-		                            <a href="{% url 'conference_invite' conference.pk %}" class="btn">Invite someone</a>
+                                    <a href="{% url 'send_email_to_users' conference.pk %}" class="btn">
+                                        <i class="icon-envelope"></i> Send Emails to users</a>
+		                            <a href="{% url 'conference_invite' conference.pk %}" class="btn">
+		                                <i class="icon-gift"></i> Invite someone</a>
 	                            </div>
                             </div>
                         </div>
@@ -163,7 +169,8 @@
                             {% else %} {% if conference.are_submissions_notstarted %}
                                 <a href="javascript:void(0)" class="btn disabled">Submissions are not started</a>
                             {% else %}
-                                <a href="{% url 'paper' membership.conference.pk %}" class="btn">Submit paper</a>
+                                <a href="{% url 'paper' membership.conference.pk %}" class="btn">
+                                    <i class="icon-file"></i> Submit paper</a>
                             {% endif %} {% endif %}
                         </div>
                     </div>
@@ -190,7 +197,7 @@
                                 {% else %} {% if conference.are_submissions_notstarted %}
                                     <a href="javascript:void(0)" class="btn btn-mini disabled">Submissions are not started</a>
                                 {% else %}
-                                    <a href="{% url 'paper' conference.pk paper.pk %}" class="btn btn-mini">Edit paper</a>
+                                    <a href="{% url 'paper' conference.pk paper.pk %}" class="btn btn-mini">Edit</a>
                                 {% endif %} {% endif %}
                             </span>
                         </td>
