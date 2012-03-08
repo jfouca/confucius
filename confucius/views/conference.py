@@ -269,7 +269,7 @@ def send_email_to_users(request, template_name='conference/send_email_to_users.h
             for receiver in receivers:
                 email = receiver.email
                 try:
-                    send_mail(title, content, 'no-reply-alerts@confucius.com', [unicode(email)], fail_silently=False)
+                    send_mail("[Confucius Message] "+title, content, unicode(request.user.email), [unicode(email)], fail_silently=False)
 
                 except:
                     messages.error(request, u'An error occured during the email sending process. The SMTP settings may be uncorrect, or the receiver(%s) email address may not exist\n' % str(email))
@@ -354,5 +354,31 @@ def invitation_list(request, template_name='conference/invitation_list.html'):
         'invitation_list': invitations,
         'conference': conference,
         'membership': request.membership
+    }
+    return render_to_response(template_name, context, context_instance=RequestContext(request))
+    
+    
+@login_required
+@has_chair_role
+def members_list(request, template_name='conference/members_list.html'):
+    conference = request.conference
+
+    role = Role.objects.get(name="Reviewer")
+    memberships_list = Membership.objects.filter(roles=role, conference=conference)
+    reviewers = [[membership.user, membership.domains] for membership in memberships_list]
+    
+    role = Role.objects.get(name="Submitter")
+    memberships_list = Membership.objects.filter(roles=role, conference=conference)
+    submitters = [[membership.user, membership.domains] for membership in memberships_list]
+    
+    role = Role.objects.get(name="Chair")
+    memberships_list = Membership.objects.filter(roles=role, conference=conference)
+    chairs = [[membership.user, membership.domains] for membership in memberships_list]
+    
+    context = {
+        'conference': conference,
+        'chairs': chairs,
+        'reviewers': reviewers,
+        'submitters': submitters
     }
     return render_to_response(template_name, context, context_instance=RequestContext(request))

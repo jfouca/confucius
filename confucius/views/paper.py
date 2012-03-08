@@ -33,6 +33,8 @@ def paper(request, paper_pk=None, template_name='conference/paper/paper_form.htm
             form.save()
             messages.success(request, u'The paper "%s" has been successfully %s.' % (instance, 'submitted' if paper_pk is None else 'updated'))
             return redirect('papers', request.conference.pk)
+        else:
+            messages.error(request, u'Errors occured while %s the paper.'% ('submitting' if paper_pk is None else 'updating'))
 
     context = {
         'form': form,

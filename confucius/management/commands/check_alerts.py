@@ -40,6 +40,6 @@ class Command(BaseCommand):
                     email = user.email
                     self.stdout.write(" ** envoi de mail a l adresse suivante: %s ** \n" % str(email))
                     try:
-                        send_mail(alert.title, alert.content, 'no-reply-alerts@confucius.com', [str(email)], fail_silently=False)
+                        send_mail("[Confucius Alert] "+alert.title, alert.content, 'no-reply-alerts@confucius.com', [str(email)], fail_silently=False)
                     except:
                         self.stderr.write("An error occured during the email sending process. The SMTP settings may be uncorrect, or the receiver(%s) email address may not exist\n" % str(email))
