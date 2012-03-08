@@ -46,9 +46,6 @@ def finalize_assignment(request):
         assignment.save()
 
     
-    
-    
-
     return redirect('dashboard')
 
 
@@ -163,7 +160,7 @@ def submit_review(request, pk_assignment, template_name='review/review_form.html
 
             assignment.save()
             messages.success(request, u'The review has been successfully added')
-            return redirect('dashboard')
+            return redirect('reviews', request.conference.pk)
             
 
     context = {

@@ -4,62 +4,59 @@
 {% block title %}My Reviews {% endblock %}
 
 {% block content_header %}
-<h1>My Reviews</h1>
+<h1>{% if is_conference_reviews %}All Reviews{% else %}My Reviews{% endif %}</h1>
 {% endblock %}
 
 {% block content_main %}
 <table class="table table-striped table-bordered">
-                <tbody>
-                    <tr>
-                        <th>Paper title</th>
-                        <th>Submitted</th>
-                        <th>Updated</th>
-                        <th>Status</th>
-                    </tr>
-                    {% for assignment in user_assignments.all %}
-                    <tr class="row-actions">
-                        <td>
-                            <b>{{assignment.paper.title}}</b>
-                            <span class="data-actions v-hidden">
-                                {% if assignment.is_rejected %}
-                                     <a href="javascript:void(0)"class="btn btn-mini disabled">Assignment is rejected</a>
-                                {% else %} {% if conference.are_reviews_over %}
-                                     <a href="javascript:void(0)"class="btn btn-mini disabled">Reviews are over</a>
-                                {% else %} {% if conference.are_reviews_notstarted %}
-                                     <a href="javascript:void(0)"class="btn btn-mini disabled">Reviews are not started</a>
-                                {% else %}
-                                     <a href="{% url 'submit_review' conference.pk assignment.pk %}" class="btn btn-mini">
-                                        {% if assignment.is_done %} 
-                                            Edit review 
-                                        {% else %} {% if assignment.review != None %}
-                                            Continue and submit review
-                                        {% else %}
-                                            Submit review
-                                        {% endif %} {% endif %}
-                                    </a>                 
-                                {% endif %} {% endif %} {% endif %}
-                            </span>
-                        </td>
-                        <td>{{assignment.paper.submission_date|date:'SHORT_DATE_FORMAT'}}</td>
-                        <td>{{assignment.paper.last_update_date|date:'SHORT_DATE_FORMAT'}}</td>
-                        <td>
-                            {% if assignment.is_rejected %}
-                                <span class="label">Rejected</span>
-                            {% else %} {% if assignment.review == None %}
-                                <span class="label label-important">Not started</span>
-                            {% else %} {% if not assignment.is_done %}
-                                <span class="label label-warning">In process</span>
+    <tbody>
+        <tr>
+            <th>Paper title</th>
+            <th>Submitted</th>
+            <th>Updated</th>
+            <th>Status</th>
+        </tr>
+        {% for assignment in user_assignments.all %}
+        <tr class="row-actions">
+            <td>
+                <b>{{assignment.paper.title}}</b>
+                <span class="data-actions v-hidden">
+                    {% if assignment.is_rejected %}
+                         <a href="javascript:void(0)"class="btn btn-mini disabled">Assignment is rejected</a>
+                    {% else %} {% if conference.are_reviews_over %}
+                         <a href="javascript:void(0)"class="btn btn-mini disabled">Reviews are over</a>
+                    {% else %} {% if conference.are_reviews_notstarted %}
+                         <a href="javascript:void(0)"class="btn btn-mini disabled">Reviews are not started</a>
+                    {% else %}
+                         <a href="{% url 'submit_review' conference.pk assignment.pk %}" class="btn btn-mini">
+                            {% if assignment.is_done %} 
+                                Edit review 
+                            {% else %} {% if assignment.review != None %}
+                                Continue and submit review
                             {% else %}
-                                <span class="label label-success">Done</span>
-                            {% endif %} {% endif %} {% endif %}
-                        </td>
-                    </tr>
-                    {% empty %}
-                        <tr><td colspan="4">You haven't receive an assignment for this conference.</td></tr>
-                    {% endfor %}
-                </tbody>
-                </table>
-<p><a href="{% url 'dashboard' %}" class="btn btn-info">
-    <i class="icon-share-alt icon-white"></i> To dashboard
-</a></p>
+                                Submit review
+                            {% endif %} {% endif %}
+                        </a>                 
+                    {% endif %} {% endif %} {% endif %}
+                </span>
+            </td>
+            <td>{{assignment.paper.submission_date|date:'SHORT_DATE_FORMAT'}}</td>
+            <td>{{assignment.paper.last_update_date|date:'SHORT_DATE_FORMAT'}}</td>
+            <td>
+                {% if assignment.is_rejected %}
+                    <span class="label">Rejected</span>
+                {% else %} {% if assignment.review == None %}
+                    <span class="label label-important">Not started</span>
+                {% else %} {% if not assignment.is_done %}
+                    <span class="label label-warning">In process</span>
+                {% else %}
+                    <span class="label label-success">Done</span>
+                {% endif %} {% endif %} {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+            <tr><td colspan="4">You haven't receive an assignment for this conference.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

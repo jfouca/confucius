@@ -32,11 +32,12 @@ def paper(request, paper_pk=None, template_name='conference/paper/paper_form.htm
         if form.is_valid():
             form.save()
             messages.success(request, u'The paper "%s" has been successfully %s.' % (instance, 'submitted' if paper_pk is None else 'updated'))
-            return redirect('dashboard')
+            return redirect('papers', request.conference.pk)
 
     context = {
         'form': form,
         'conference': request.conference,
+        'paper_pk': paper_pk
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))
