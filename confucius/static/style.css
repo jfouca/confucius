@@ -68,6 +68,7 @@ ul {
 }
 
 .sidebar-nav .nav-header {
+    color: #333;
     font-size: 13px;
     text-transform: capitalize;
 }
@@ -78,7 +79,7 @@ ul {
 
 .sidebar-dates ul li {
     margin-top: 5px;
-    color: #888;
+    color: #333;
 }
 
 /* Content */
