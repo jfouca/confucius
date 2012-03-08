@@ -23,13 +23,7 @@
         {% if conference.are_submissions_over or conference.are_submissions_notstarted %}
             {% include 'includes/submissions_over_button.html' %}
         {% else %}
-            <button type="submit" class="btn">
-                {% if paper_pk %}
-                    <i class="icon-pencil"></i> Update
-                {% else %}
-                    <i class="icon-file"></i> Submit
-                {% endif %}
-            </button>
+            <button type="submit" class="btn"><i class="icon-ok"></i> {% if instance %}Update{% else %}Submit{% endif %}</button>
         {% endif%}
         <a href="{% url 'papers' conference.pk %}" class="btn btn-info">
             <i class="icon-share-alt icon-white"></i> To papers
