@@ -21,7 +21,7 @@
                         <li class="dropdown">
                             <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">{{ user.first_name }} {{ user.last_name }} <b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="{% url 'account' %}"><i class="icon-user"></i> Edit my account</a></li>
+                                <li><a href="{% url 'account' %}"><i class="icon-user"></i> My account</a></li>
                                 <li class="divider"></li>
                                 <li><a href="{% url 'logout' %}"><i class="icon-off"></i> Logout</a></li>
                             </ul>
@@ -46,36 +46,38 @@
                             <li class="nav-header {{ 'dashboard'|active:request }}">
                                 <a href="{% url 'dashboard' %}"><i class="icon-home {{'dashboard'|icon_active:request}}"></i> Dashboard</a>
                             </li>
-                            {% if request.membership.has_chair_role %}
-                                <li class="nav-header"><i class="icon-comment"></i> Conference</li>
-                                <li class="{{'members'|active:request}}">
-                                    <a href="">Members</a></li>
-                                <li class="{{'update'|active:request}}">
-                                    <a href="{% url 'conference_edit' conference.pk %}">Edit</a></li>
-                                <li class="{{'alerts'|active:request}}">
-                                    <a href="{% url 'alerts' request.conference.pk %}">Alerts</a></li>
-                                <li class="{{'invitations'|active:request}}">
-                                    <a href="{% url 'invitations' request.conference.pk %}">Invitations</a></li>
-                            {% endif %}
-                            {% if request.membership.has_submitter_role %}
-                                <li class="nav-header"><i class="icon-file"></i> Papers</li>
-                                <li class="{{'/papers'|active:request}}">
-                                    <a href="{% url 'papers' request.conference.pk %}">My papers</a></li>
+                            {% if request.membership %}
                                 {% if request.membership.has_chair_role %}
-                                    <li class="{{'/conference_papers'|active:request}}">
-                                        <a href="{% url 'conference_papers' request.conference.pk %}">All papers</a></li>
+                                    <li class="nav-header"><i class="icon-comment"></i> Conference</li>
+                                    <li class="{{'members'|active:request}}">
+                                        <a href="">Members</a></li>
+                                    <li class="{{'update'|active:request}}">
+                                        <a href="{% url 'conference_edit' conference.pk %}">Edit</a></li>
+                                    <li class="{{'alerts'|active:request}}">
+                                        <a href="{% url 'alerts' request.conference.pk %}">Alerts</a></li>
+                                    <li class="{{'invitations'|active:request}}">
+                                        <a href="{% url 'invitations' request.conference.pk %}">Invitations</a></li>
                                 {% endif %}
-                                {% block papersnav %}{% endblock %}
-                            {% endif %}
-                            {% if request.membership.has_reviewer_role %}
-                                <li class="nav-header"><i class="icon-pencil"></i> Reviews</li>
-                                <li class="{{'/reviews'|active:request}}">
-                                    <a href="{% url 'reviews' request.conference.pk %}">My reviews</a></li>
-                                {% if request.membership.has_chair_role %}
-                                    <li class="{{'/conference_reviews'|active:request}}">
-                                        <a href="{% url 'conference_reviews' request.conference.pk %}">All reviews</a></li>
+                                
+                                {% if request.membership.has_submitter_role %}
+                                    <li class="nav-header"><i class="icon-file"></i> Papers</li>
+                                    <li class="{{'/papers'|active:request}}">
+                                        <a href="{% url 'papers' request.conference.pk %}">My papers</a></li>
+                                    {% if request.membership.has_chair_role %}
+                                        <li class="{{'/conference_papers'|active:request}}">
+                                            <a href="{% url 'conference_papers' request.conference.pk %}">All papers</a></li>
+                                    {% endif %}
                                 {% endif %}
-                                {% block reviewsnav %}{% endblock %}
+                                
+                                {% if request.membership.has_reviewer_role %}
+                                    <li class="nav-header"><i class="icon-pencil"></i> Reviews</li>
+                                    <li class="{{'/reviews'|active:request}}">
+                                        <a href="{% url 'reviews' request.conference.pk %}">My reviews</a></li>
+                                    {% if request.membership.has_chair_role %}
+                                        <li class="{{'/conference_reviews'|active:request}}">
+                                            <a href="{% url 'conference_reviews' request.conference.pk %}">All reviews</a></li>
+                                    {% endif %}
+                                {% endif %}
                             {% endif %}
                             <li class="nav-header {{ 'list'|active:request }}"><a href="{% url 'membership_list' %}"><i class="icon-th-list {{'list'|icon_active:request}}"></i> Conferences</a></li>
                         </ul>
