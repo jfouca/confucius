@@ -30,9 +30,9 @@
                     {% else %}
                          <a href="{% url 'submit_review' conference.pk assignment.pk %}" class="btn btn-mini">
                             {% if assignment.is_done %} 
-                                Edit review 
+                                Edit previous review
                             {% else %} {% if assignment.review != None %}
-                                Continue and submit review
+                                Edit current review
                             {% else %}
                                 Submit review
                             {% endif %} {% endif %}

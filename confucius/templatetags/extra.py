@@ -6,7 +6,8 @@ register = template.Library()
 
 @register.filter
 def active(name, request):
-    if name in request.path:
+    """TODO: change that!"""
+    if name in request.path and 'papers' not in request.path:
         return 'active'
     return ''
 
