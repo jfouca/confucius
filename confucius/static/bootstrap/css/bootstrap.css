@@ -121,7 +121,7 @@ a:hover {
   text-decoration: underline;
 }
 .row {
-  margin-left: -10px;
+  margin-left: -15px;
   *zoom: 1;
 }
 .row:before, .row:after {
@@ -133,76 +133,76 @@ a:hover {
 }
 [class*="span"] {
   float: left;
-  margin-left: 10px;
+  margin-left: 15px;
 }
 .span1 {
-  width: 75px;
+  width: 70px;
 }
 .span2 {
-  width: 160px;
+  width: 155px;
 }
 .span3 {
-  width: 245px;
+  width: 240px;
 }
 .span4 {
-  width: 330px;
+  width: 325px;
 }
 .span5 {
-  width: 415px;
+  width: 410px;
 }
 .span6 {
-  width: 500px;
+  width: 495px;
 }
 .span7 {
-  width: 585px;
+  width: 580px;
 }
 .span8 {
-  width: 670px;
+  width: 665px;
 }
 .span9 {
-  width: 755px;
+  width: 750px;
 }
 .span10 {
-  width: 840px;
+  width: 835px;
 }
 .span11 {
-  width: 925px;
+  width: 920px;
 }
 .span12, .container {
-  width: 1010px;
+  width: 1005px;
 }
 .offset1 {
-  margin-left: 95px;
+  margin-left: 100px;
 }
 .offset2 {
-  margin-left: 180px;
+  margin-left: 185px;
 }
 .offset3 {
-  margin-left: 265px;
+  margin-left: 270px;
 }
 .offset4 {
-  margin-left: 350px;
+  margin-left: 355px;
 }
 .offset5 {
-  margin-left: 435px;
+  margin-left: 440px;
 }
 .offset6 {
-  margin-left: 520px;
+  margin-left: 525px;
 }
 .offset7 {
-  margin-left: 605px;
+  margin-left: 610px;
 }
 .offset8 {
-  margin-left: 690px;
+  margin-left: 695px;
 }
 .offset9 {
-  margin-left: 775px;
+  margin-left: 780px;
 }
 .offset10 {
-  margin-left: 860px;
+  margin-left: 865px;
 }
 .offset11 {
-  margin-left: 945px;
+  margin-left: 950px;
 }
 .row-fluid {
   width: 100%;
@@ -259,7 +259,7 @@ a:hover {
   width: 99.99999998999999%;
 }
 .container {
-  width: 1010px;
+  width: 1005px;
   margin-left: auto;
   margin-right: auto;
   *zoom: 1;
@@ -272,8 +272,8 @@ a:hover {
   clear: both;
 }
 .container-fluid {
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
   *zoom: 1;
 }
 .container-fluid:before, .container-fluid:after {
@@ -628,62 +628,62 @@ table {
 }
 table .span1 {
   float: none;
-  width: 59px;
+  width: 54px;
   margin-left: 0;
 }
 table .span2 {
   float: none;
-  width: 144px;
+  width: 139px;
   margin-left: 0;
 }
 table .span3 {
   float: none;
-  width: 229px;
+  width: 224px;
   margin-left: 0;
 }
 table .span4 {
   float: none;
-  width: 314px;
+  width: 309px;
   margin-left: 0;
 }
 table .span5 {
   float: none;
-  width: 399px;
+  width: 394px;
   margin-left: 0;
 }
 table .span6 {
   float: none;
-  width: 484px;
+  width: 479px;
   margin-left: 0;
 }
 table .span7 {
   float: none;
-  width: 569px;
+  width: 564px;
   margin-left: 0;
 }
 table .span8 {
   float: none;
-  width: 654px;
+  width: 649px;
   margin-left: 0;
 }
 table .span9 {
   float: none;
-  width: 739px;
+  width: 734px;
   margin-left: 0;
 }
 table .span10 {
   float: none;
-  width: 824px;
+  width: 819px;
   margin-left: 0;
 }
 table .span11 {
   float: none;
-  width: 909px;
+  width: 904px;
   margin-left: 0;
 }
 table .span12 {
   float: none;
-  width: 994px;
+  width: 989px;
   margin-left: 0;
 }
 form {
@@ -894,40 +894,40 @@ textarea[class*="span"],
   margin-left: 0;
 }
 input.span1, textarea.span1, .uneditable-input.span1 {
-  width: 65px;
+  width: 60px;
 }
 input.span2, textarea.span2, .uneditable-input.span2 {
-  width: 150px;
+  width: 145px;
 }
 input.span3, textarea.span3, .uneditable-input.span3 {
-  width: 235px;
+  width: 230px;
 }
 input.span4, textarea.span4, .uneditable-input.span4 {
-  width: 320px;
+  width: 315px;
 }
 input.span5, textarea.span5, .uneditable-input.span5 {
-  width: 405px;
+  width: 400px;
 }
 input.span6, textarea.span6, .uneditable-input.span6 {
-  width: 490px;
+  width: 485px;
 }
 input.span7, textarea.span7, .uneditable-input.span7 {
-  width: 575px;
+  width: 570px;
 }
 input.span8, textarea.span8, .uneditable-input.span8 {
-  width: 660px;
+  width: 655px;
 }
 input.span9, textarea.span9, .uneditable-input.span9 {
-  width: 745px;
+  width: 740px;
 }
 input.span10, textarea.span10, .uneditable-input.span10 {
-  width: 830px;
+  width: 825px;
 }
 input.span11, textarea.span11, .uneditable-input.span11 {
-  width: 915px;
+  width: 910px;
 }
 input.span12, textarea.span12, .uneditable-input.span12 {
-  width: 1000px;
+  width: 995px;
 }
 input[disabled],
 select[disabled],
@@ -2671,7 +2671,7 @@ button.btn.small, input[type="submit"].btn.small {
   float: left;
 }
 .thumbnails {
-  margin-left: -10px;
+  margin-left: -15px;
   list-style: none;
   *zoom: 1;
 }
@@ -2684,7 +2684,7 @@ button.btn.small, input[type="submit"].btn.small {
 }
 .thumbnails > li {
   float: left;
-  margin: 0 0 18px 10px;
+  margin: 0 0 18px 15px;
 }
 .thumbnail {
   display: block;
