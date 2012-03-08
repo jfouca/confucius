@@ -19,23 +19,6 @@ tr.paper-select, tr.paper-select:hover td{
 tr.paper-deselect, tr.paper-deselect:hover td{
     background-color:#fbeeee;
 }
-
-th.header { 
-    background-image: url({{ STATIC_URL }}icon-chevron-right.png);     
-    cursor: pointer; 
-    font-weight: bold; 
-    background-repeat: no-repeat; 
-    background-position: center right; 
-    background-color:#e5eded;
-}
-
-th.headerSortDown { 
-    background-image: url({{ STATIC_URL }}icon-chevron-down.png); 
-} 
-
-th.headerSortUp { 
-    background-image: url({{ STATIC_URL }}icon-chevron-up.png); 
-}  
 </style>
 {% endblock %}
 
@@ -108,7 +91,7 @@ th.headerSortUp {
     </div>
 </div>
 </p>
-<table class="table tablesorter table-bordered" id="mySelectionTable">
+<table class="table tablesorter table-bordered" id="table">
     <thead>
     <tr>
         <th><input type="checkbox" name="selectAll" id="selectAll" class="selectAll"></th>
@@ -146,10 +129,24 @@ th.headerSortUp {
                 {% endif %}
             {% endwith %}
         </td>
-        <td> 
-            {% if paper.get_mark == -1 %} No mark yet 
-            {% else %} {{ paper.get_mark }} %
+        <td>
+            {% with mark=paper.get_mark %}
+            {% if mark == -1 %}
+                Not yet reviewed.
+            {% else %}
+                {% if mark <= 30 %}
+                <div class="progress progress-danger">
+                {% endif %}
+                {% if mark > 30 and mark < 80 %}
+                <div class="progress progress-info">
+                {% endif %}
+                {% if mark >= 80 %}
+                <div class="progress progress-success">
+                {% endif %}
+                    <div class="bar" style="width:{{ mark }}%">{{ mark }}</div>
+                </div>
             {% endif %}
+            {% endwith %}
         </td>
         <td>
             {% if not paper.is_ambigous %}
@@ -215,21 +212,28 @@ $(document).ready(
 
 function goodStart() {
     $(".collapse").collapse('hide');
-    $("#mySelectionTable").tablesorter({ 
-        // pass the headers argument and assing a object 
-        headers: { 
-            // assign the first column (we start counting zero) 
-            0: { 
-                // disable it by setting the property sorter to false 
-                sorter: false 
-            },
-            4: { 
-                // disable it by setting the property sorter to false 
-                sorter: false 
-            } 
-        } 
+    $.fn.dataTableExt.oSort['num-html-asc'] = function(a, b) {
+            a = parseInt(a.replace( /<.*?>/g, "" ));
+            b = parseInt(b.replace( /<.*?>/g, "" ));
+            return ((a < b) ?  -1 : ((a > b) ? 1 : 0));
+    };
+    $.fn.dataTableExt.oSort['num-html-desc'] = function(a,b) {
+        a = parseInt(a.replace( /<.*?>/g, "" ));
+        b = parseInt(b.replace( /<.*?>/g, "" ));
+        return ((a < b) ?  1 : ((a > b) ? -1 : 0));
+    };
+    $('#table').dataTable({
+        sDom: "<'row'<'span5'l><'span5'f>r>t<'row'<'span5'i><'span5'p>>",
+        bStateSave: true,
+        sPaginationType: 'bootstrap',
+        oLanguage: {
+            sLengthMenu: '_MENU_ records per page'
+        },
+        aoColumnDefs: [
+            { bSortable: false, aTargets: [0] },
+            { sType: 'num-html', aTargets: [3] }
+        ]
     });
-    
 }
 
 
@@ -258,7 +262,7 @@ function checkPaper() {
             $('#selectAll').attr('checked', true);
             toggleSelectionButtons();
         }
-        
+        return false;
     });
 }
 
@@ -289,6 +293,7 @@ function selectAction() {
             papers_id: myJSONText,
         }
         );
+        return false;
     });
 }
 
@@ -313,6 +318,7 @@ function deselectAction() {
             papers_id: myJSONText,
         }
         );
+        return false;
     });
 }
 
@@ -354,6 +360,7 @@ function quickActions() {
             papers_id: myJSONText,
         }
         );
+        return false;
     });
 }
 
