@@ -9,7 +9,7 @@
             "is_active": true,
             "is_superuser": true,
             "is_staff": true,
-            "last_login": "2012-03-08 14:45:10",
+            "last_login": "2012-03-08 15:27:08",
             "groups": [],
             "user_permissions": [],
             "password": "sha1$99e22$c79827cf9b5e915d100e5b8755b6a551657889e8",
@@ -45,7 +45,7 @@
             "is_active": true,
             "is_superuser": true,
             "is_staff": true,
-            "last_login": "2012-02-20 21:05:11",
+            "last_login": "2012-03-08 15:28:20",
             "groups": [],
             "user_permissions": [],
             "password": "sha1$99e22$c79827cf9b5e915d100e5b8755b6a551657889e8",
@@ -63,7 +63,7 @@
             "is_active": true,
             "is_superuser": false,
             "is_staff": false,
-            "last_login": "2012-03-08 14:43:08",
+            "last_login": "2012-03-08 15:29:39",
             "groups": [],
             "user_permissions": [],
             "password": "sha1$88509$405a9105dcd9cb5d55664904c1de091552bf39f3",
@@ -81,7 +81,7 @@
             "is_active": true,
             "is_superuser": false,
             "is_staff": false,
-            "last_login": "2012-03-08 14:43:30",
+            "last_login": "2012-03-08 15:31:04",
             "groups": [],
             "user_permissions": [],
             "password": "sha1$91658$fce1996ac3efb8ce5587bbd38e2071f0bb4137b2",
@@ -99,7 +99,7 @@
             "is_active": true,
             "is_superuser": false,
             "is_staff": false,
-            "last_login": "2012-03-08 14:44:07",
+            "last_login": "2012-03-08 15:32:07",
             "groups": [],
             "user_permissions": [],
             "password": "sha1$6fb9d$dd2796d85d443ae728589326d201c53dbf4b34fb",
@@ -117,7 +117,7 @@
             "is_active": true,
             "is_superuser": false,
             "is_staff": false,
-            "last_login": "2012-03-08 14:44:47",
+            "last_login": "2012-03-08 15:32:23",
             "groups": [],
             "user_permissions": [],
             "password": "sha1$e0074$319721f41e2c1cc050450c1d14f7ffb494a5a6f6",
@@ -135,7 +135,7 @@
             "is_active": true,
             "is_superuser": false,
             "is_staff": false,
-            "last_login": "2012-03-08 14:45:53",
+            "last_login": "2012-03-08 15:33:32",
             "groups": [],
             "user_permissions": [],
             "password": "sha1$c7022$b8da0bea1700753cb8845350d385f8cc9160e57b",
@@ -1303,7 +1303,7 @@
                 2,
                 7
             ],
-            "last_accessed": false,
+            "last_accessed": true,
             "user": 3,
             "roles": [
                 2
@@ -1320,7 +1320,7 @@
                 2,
                 4
             ],
-            "last_accessed": false,
+            "last_accessed": true,
             "user": 4,
             "roles": [
                 2,
@@ -1339,7 +1339,7 @@
                 5,
                 6
             ],
-            "last_accessed": false,
+            "last_accessed": true,
             "user": 5,
             "roles": [
                 2
@@ -1355,7 +1355,7 @@
                 4,
                 6
             ],
-            "last_accessed": false,
+            "last_accessed": true,
             "user": 6,
             "roles": [
                 3
@@ -1372,7 +1372,7 @@
                 3,
                 6
             ],
-            "last_accessed": false,
+            "last_accessed": true,
             "user": 7,
             "roles": [
                 2,
@@ -1389,7 +1389,7 @@
                 2,
                 7
             ],
-            "last_accessed": false,
+            "last_accessed": true,
             "user": 8,
             "roles": [
                 2,
@@ -1736,8 +1736,8 @@
         "fields": {
             "conference": 1,
             "is_assigned": true,
-            "review": null,
-            "is_done": false,
+            "review": 2,
+            "is_done": true,
             "paper": 1,
             "is_rejected": false,
             "reviewer": 1,
@@ -1749,9 +1749,9 @@
         "model": "confucius.assignment",
         "fields": {
             "conference": 1,
-            "is_assigned": false,
-            "review": null,
-            "is_done": false,
+            "is_assigned": true,
+            "review": 12,
+            "is_done": true,
             "paper": 4,
             "is_rejected": false,
             "reviewer": 5,
@@ -1763,7 +1763,7 @@
         "model": "confucius.assignment",
         "fields": {
             "conference": 1,
-            "is_assigned": false,
+            "is_assigned": true,
             "review": null,
             "is_done": false,
             "paper": 4,
@@ -1777,7 +1777,7 @@
         "model": "confucius.assignment",
         "fields": {
             "conference": 1,
-            "is_assigned": false,
+            "is_assigned": true,
             "review": null,
             "is_done": false,
             "paper": 4,
@@ -1791,9 +1791,9 @@
         "model": "confucius.assignment",
         "fields": {
             "conference": 1,
-            "is_assigned": false,
-            "review": null,
-            "is_done": false,
+            "is_assigned": true,
+            "review": 4,
+            "is_done": true,
             "paper": 5,
             "is_rejected": false,
             "reviewer": 3,
@@ -1805,9 +1805,9 @@
         "model": "confucius.assignment",
         "fields": {
             "conference": 1,
-            "is_assigned": false,
-            "review": null,
-            "is_done": false,
+            "is_assigned": true,
+            "review": 7,
+            "is_done": true,
             "paper": 5,
             "is_rejected": false,
             "reviewer": 4,
@@ -1819,9 +1819,9 @@
         "model": "confucius.assignment",
         "fields": {
             "conference": 1,
-            "is_assigned": false,
-            "review": null,
-            "is_done": false,
+            "is_assigned": true,
+            "review": 1,
+            "is_done": true,
             "paper": 5,
             "is_rejected": false,
             "reviewer": 1,
@@ -1833,13 +1833,13 @@
         "model": "confucius.assignment",
         "fields": {
             "conference": 1,
-            "is_assigned": false,
+            "is_assigned": true,
             "review": null,
             "is_done": false,
             "paper": 6,
-            "is_rejected": false,
+            "is_rejected": true,
             "reviewer": 3,
-            "problem": ""
+            "problem": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
         }
     },
     {
@@ -1847,9 +1847,9 @@
         "model": "confucius.assignment",
         "fields": {
             "conference": 1,
-            "is_assigned": false,
-            "review": null,
-            "is_done": false,
+            "is_assigned": true,
+            "review": 13,
+            "is_done": true,
             "paper": 6,
             "is_rejected": false,
             "reviewer": 5,
@@ -1861,9 +1861,9 @@
         "model": "confucius.assignment",
         "fields": {
             "conference": 1,
-            "is_assigned": false,
-            "review": null,
-            "is_done": false,
+            "is_assigned": true,
+            "review": 19,
+            "is_done": true,
             "paper": 6,
             "is_rejected": false,
             "reviewer": 8,
@@ -1875,9 +1875,9 @@
         "model": "confucius.assignment",
         "fields": {
             "conference": 1,
-            "is_assigned": false,
-            "review": null,
-            "is_done": false,
+            "is_assigned": true,
+            "review": 5,
+            "is_done": true,
             "paper": 11,
             "is_rejected": false,
             "reviewer": 3,
@@ -1889,7 +1889,7 @@
         "model": "confucius.assignment",
         "fields": {
             "conference": 1,
-            "is_assigned": false,
+            "is_assigned": true,
             "review": null,
             "is_done": false,
             "paper": 11,
@@ -1903,7 +1903,7 @@
         "model": "confucius.assignment",
         "fields": {
             "conference": 1,
-            "is_assigned": false,
+            "is_assigned": true,
             "review": null,
             "is_done": false,
             "paper": 7,
@@ -1917,9 +1917,9 @@
         "model": "confucius.assignment",
         "fields": {
             "conference": 1,
-            "is_assigned": false,
-            "review": null,
-            "is_done": false,
+            "is_assigned": true,
+            "review": 8,
+            "is_done": true,
             "paper": 7,
             "is_rejected": false,
             "reviewer": 4,
@@ -1931,9 +1931,9 @@
         "model": "confucius.assignment",
         "fields": {
             "conference": 1,
-            "is_assigned": false,
-            "review": null,
-            "is_done": false,
+            "is_assigned": true,
+            "review": 3,
+            "is_done": true,
             "paper": 7,
             "is_rejected": false,
             "reviewer": 1,
@@ -1945,9 +1945,9 @@
         "model": "confucius.assignment",
         "fields": {
             "conference": 1,
-            "is_assigned": false,
-            "review": null,
-            "is_done": false,
+            "is_assigned": true,
+            "review": 14,
+            "is_done": true,
             "paper": 8,
             "is_rejected": false,
             "reviewer": 7,
@@ -1959,7 +1959,7 @@
         "model": "confucius.assignment",
         "fields": {
             "conference": 1,
-            "is_assigned": false,
+            "is_assigned": true,
             "review": null,
             "is_done": false,
             "paper": 8,
@@ -1973,9 +1973,9 @@
         "model": "confucius.assignment",
         "fields": {
             "conference": 1,
-            "is_assigned": false,
-            "review": null,
-            "is_done": false,
+            "is_assigned": true,
+            "review": 15,
+            "is_done": true,
             "paper": 9,
             "is_rejected": false,
             "reviewer": 7,
@@ -1987,9 +1987,9 @@
         "model": "confucius.assignment",
         "fields": {
             "conference": 1,
-            "is_assigned": false,
-            "review": null,
-            "is_done": false,
+            "is_assigned": true,
+            "review": 9,
+            "is_done": true,
             "paper": 10,
             "is_rejected": false,
             "reviewer": 4,
@@ -2001,9 +2001,9 @@
         "model": "confucius.assignment",
         "fields": {
             "conference": 1,
-            "is_assigned": false,
-            "review": null,
-            "is_done": false,
+            "is_assigned": true,
+            "review": 16,
+            "is_done": true,
             "paper": 10,
             "is_rejected": false,
             "reviewer": 7,
@@ -2015,13 +2015,320 @@
         "model": "confucius.assignment",
         "fields": {
             "conference": 1,
-            "is_assigned": false,
+            "is_assigned": true,
             "review": null,
             "is_done": false,
             "paper": 1,
-            "is_rejected": false,
+            "is_rejected": true,
             "reviewer": 5,
+            "problem": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
+        }
+    },
+    {
+        "pk": 22,
+        "model": "confucius.assignment",
+        "fields": {
+            "conference": 1,
+            "is_assigned": true,
+            "review": null,
+            "is_done": false,
+            "paper": 3,
+            "is_rejected": false,
+            "reviewer": 2,
             "problem": ""
+        }
+    },
+    {
+        "pk": 23,
+        "model": "confucius.assignment",
+        "fields": {
+            "conference": 1,
+            "is_assigned": true,
+            "review": 10,
+            "is_done": true,
+            "paper": 3,
+            "is_rejected": false,
+            "reviewer": 4,
+            "problem": ""
+        }
+    },
+    {
+        "pk": 24,
+        "model": "confucius.assignment",
+        "fields": {
+            "conference": 1,
+            "is_assigned": true,
+            "review": 17,
+            "is_done": true,
+            "paper": 3,
+            "is_rejected": false,
+            "reviewer": 7,
+            "problem": ""
+        }
+    },
+    {
+        "pk": 25,
+        "model": "confucius.assignment",
+        "fields": {
+            "conference": 1,
+            "is_assigned": true,
+            "review": 18,
+            "is_done": true,
+            "paper": 12,
+            "is_rejected": false,
+            "reviewer": 7,
+            "problem": ""
+        }
+    },
+    {
+        "pk": 26,
+        "model": "confucius.assignment",
+        "fields": {
+            "conference": 1,
+            "is_assigned": true,
+            "review": 11,
+            "is_done": true,
+            "paper": 12,
+            "is_rejected": false,
+            "reviewer": 4,
+            "problem": ""
+        }
+    },
+    {
+        "pk": 27,
+        "model": "confucius.assignment",
+        "fields": {
+            "conference": 1,
+            "is_assigned": true,
+            "review": null,
+            "is_done": false,
+            "paper": 12,
+            "is_rejected": true,
+            "reviewer": 1,
+            "problem": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
+        }
+    },
+    {
+        "pk": 28,
+        "model": "confucius.assignment",
+        "fields": {
+            "conference": 1,
+            "is_assigned": true,
+            "review": 6,
+            "is_done": true,
+            "paper": 2,
+            "is_rejected": false,
+            "reviewer": 3,
+            "problem": ""
+        }
+    },
+    {
+        "pk": 1,
+        "model": "confucius.review",
+        "fields": {
+            "overall_evaluation": 8,
+            "reviewer_confidence": 3,
+            "last_update_date": "2012-03-08",
+            "commentary_for_president": "eazeaz",
+            "detailed_commentary": "C'est de la merde"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "confucius.review",
+        "fields": {
+            "overall_evaluation": 4,
+            "reviewer_confidence": 4,
+            "last_update_date": "2012-03-08",
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
+        }
+    },
+    {
+        "pk": 3,
+        "model": "confucius.review",
+        "fields": {
+            "overall_evaluation": 10,
+            "reviewer_confidence": 4,
+            "last_update_date": "2012-03-08",
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
+        }
+    },
+    {
+        "pk": 4,
+        "model": "confucius.review",
+        "fields": {
+            "overall_evaluation": 6,
+            "reviewer_confidence": 2,
+            "last_update_date": "2012-03-08",
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
+        }
+    },
+    {
+        "pk": 5,
+        "model": "confucius.review",
+        "fields": {
+            "overall_evaluation": 9,
+            "reviewer_confidence": 5,
+            "last_update_date": "2012-03-08",
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
+        }
+    },
+    {
+        "pk": 6,
+        "model": "confucius.review",
+        "fields": {
+            "overall_evaluation": 10,
+            "reviewer_confidence": 1,
+            "last_update_date": "2012-03-08",
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
+        }
+    },
+    {
+        "pk": 7,
+        "model": "confucius.review",
+        "fields": {
+            "overall_evaluation": 7,
+            "reviewer_confidence": 4,
+            "last_update_date": "2012-03-08",
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
+        }
+    },
+    {
+        "pk": 8,
+        "model": "confucius.review",
+        "fields": {
+            "overall_evaluation": 1,
+            "reviewer_confidence": 5,
+            "last_update_date": "2012-03-08",
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
+        }
+    },
+    {
+        "pk": 9,
+        "model": "confucius.review",
+        "fields": {
+            "overall_evaluation": 4,
+            "reviewer_confidence": 3,
+            "last_update_date": "2012-03-08",
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
+        }
+    },
+    {
+        "pk": 10,
+        "model": "confucius.review",
+        "fields": {
+            "overall_evaluation": 9,
+            "reviewer_confidence": 3,
+            "last_update_date": "2012-03-08",
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
+        }
+    },
+    {
+        "pk": 11,
+        "model": "confucius.review",
+        "fields": {
+            "overall_evaluation": 3,
+            "reviewer_confidence": 3,
+            "last_update_date": "2012-03-08",
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
+        }
+    },
+    {
+        "pk": 12,
+        "model": "confucius.review",
+        "fields": {
+            "overall_evaluation": 5,
+            "reviewer_confidence": 4,
+            "last_update_date": "2012-03-08",
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
+        }
+    },
+    {
+        "pk": 13,
+        "model": "confucius.review",
+        "fields": {
+            "overall_evaluation": 6,
+            "reviewer_confidence": 3,
+            "last_update_date": "2012-03-08",
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
+        }
+    },
+    {
+        "pk": 14,
+        "model": "confucius.review",
+        "fields": {
+            "overall_evaluation": 8,
+            "reviewer_confidence": 5,
+            "last_update_date": "2012-03-08",
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
+        }
+    },
+    {
+        "pk": 15,
+        "model": "confucius.review",
+        "fields": {
+            "overall_evaluation": 4,
+            "reviewer_confidence": 3,
+            "last_update_date": "2012-03-08",
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
+        }
+    },
+    {
+        "pk": 16,
+        "model": "confucius.review",
+        "fields": {
+            "overall_evaluation": 8,
+            "reviewer_confidence": 4,
+            "last_update_date": "2012-03-08",
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
+        }
+    },
+    {
+        "pk": 17,
+        "model": "confucius.review",
+        "fields": {
+            "overall_evaluation": 1,
+            "reviewer_confidence": 5,
+            "last_update_date": "2012-03-08",
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
+        }
+    },
+    {
+        "pk": 18,
+        "model": "confucius.review",
+        "fields": {
+            "overall_evaluation": 1,
+            "reviewer_confidence": 4,
+            "last_update_date": "2012-03-08",
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
+        }
+    },
+    {
+        "pk": 19,
+        "model": "confucius.review",
+        "fields": {
+            "overall_evaluation": 2,
+            "reviewer_confidence": 4,
+            "last_update_date": "2012-03-08",
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
         }
     }
 ]
