@@ -26,9 +26,9 @@ function confucius() {
             $(this).find('[class^="icon"]').toggleClass('icon-white');
         }
     );
-    $('#messages').delay(10000);
-    $('#messages').fadeTo(2000, 0, function() {
-        $('#messages').remove();
+    $('.top-alert').delay(10000);
+    $('.top-alert').slideUp(function() {
+        $(this).remove();
     });
 };
 

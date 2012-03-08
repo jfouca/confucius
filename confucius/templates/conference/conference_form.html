@@ -11,7 +11,7 @@
 <form class="form-horizontal" method="post">{% csrf_token %}
     {% include 'includes/form.html' %}
     <div class="form-actions">
-        <button type="submit" class="btn"><i class="icon-pencil"></i> Update</button>
+        <button type="submit" class="btn"><i class="icon-ok"></i> Update</button>
         {% include 'includes/conference_toggle.html' %}
         <a href="{% url 'dashboard' %}" class="btn btn-info">
             <i class="icon-share-alt icon-white"></i> To dashboard

@@ -8,13 +8,13 @@
 <div class="modal hide fade toggle_modal">
     <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
-        <h3>{% if conference.is_open %}Closing{% else %}Opening{% endif %} "{{ conference.title }}"</h3>
+        <h3>{% if conference.is_open %}Closing{% else %}Opening{% endif %} conference</h3>
     </div>
     <div class="modal-body">
-        <p>Are you sure that you want to {% if conference.is_open %}close{% else %}open{% endif %} the conference "<strong>{{ conference.title }}</strong>"?</p>
+        <p>{% if conference.is_open %}Close{% else %}Open{% endif %} the conference "<strong>{{ conference.title }}</strong>"?</p>
     </div>
     <div class="modal-footer">
-        <a href="{% url 'conference_toggle' conference.id %}" class="btn btn-large btn-primary">Yes, I am</a>
-        <a data-dismiss="modal" class="btn btn-large">No, forgive me</a>
+        <a href="{% url 'conference_toggle' conference.id %}" class="btn btn-large btn-primary">Yes</a>
+        <a data-dismiss="modal" class="btn btn-large">No</a>
     </div>
 </div>

@@ -2,10 +2,6 @@
 CSS Style for Confucius Project
 */
 
-body {
-    padding-top: 40px;
-}
-
 ul {
     margin:0;
     padding:0;
@@ -37,6 +33,10 @@ ul {
 }
 
 /* Navbar */
+
+.navbar {
+    margin-bottom: 0;
+}
 
 .navbar-text {
     margin: 0 5px;
@@ -169,10 +169,8 @@ ul {
     color: #ffffff;
 }
 
-#messages {
-    position:absolute;
-    right:20px;
-    top:70px;
+.top-alert {
+    margin: 0;
 }
 
 .isResizable {
