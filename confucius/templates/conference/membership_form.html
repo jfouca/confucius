@@ -4,7 +4,7 @@
 {% block title %}{{ conference }}{% endblock %}
 
 {% block content_header %}
-<h1>{{ conference }}</h1>
+<h1>Welcome to the conference {{ conference }}</h1>
 {% endblock %}
 
 {% block subtopbar %}
@@ -12,12 +12,14 @@
 
 {% block content_main %}
 <form class="form-horizontal" method="post">{% csrf_token %}
+    <div class="row">
+        <div class="offset1 span3">
+            <p>Choose your domains for this conference:</p>
+        </div>
+    </div>
     {% include 'includes/form.html' %}
     <div class="form-actions">
-        <input type="submit" class="btn btn-primary" value="Save">
-        <a href="{% url 'dashboard' %}" class="btn btn-info">
-            <i class="icon-share-alt icon-white"></i> To dashboard
-        </a>
+        <button type="submit" class="btn"><i class="icon-ok"></i>  Accept the invitation</button>
     </div>
     </fieldset>
 </form>
