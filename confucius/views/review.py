@@ -410,9 +410,7 @@ def updateSelectedStatus(request):
         conference = request.conference
         papers_id = simplejson.loads(request.POST.get('papers_id'))
         selected_status = request.POST.get('action')
-        print papers_id
         for p_id in papers_id:
-            print p_id
             paper = Paper.objects.get(pk=p_id)
             try:
                 paper_selection = PaperSelection.objects.get(paper=paper,conference=conference)
