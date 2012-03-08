@@ -23,6 +23,13 @@ class User(AuthUser):
             pass
 
         return None
+        
+    def has_chair_role_in_any_conference(self):
+        memberships = self.memberships
+        for member in memberships.all():
+            if member.has_chair_role():
+                return True
+        return False
 
 
 class Activation(ConfuciusModel):

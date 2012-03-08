@@ -29,7 +29,7 @@ def alert(request, alert_pk=None, template_name='conference/alert/alert_form.htm
         if form.is_valid():
             form.save()
             messages.success(request, u'The alert "%s" has been successfully %s.' % (instance, 'created' if alert_pk is None else 'updated'))
-            return redirect('dashboard')
+            return redirect('alerts', request.conference.pk)
 
     context = {
         'form': form,
@@ -48,4 +48,4 @@ def delete_alert(request, alert_pk):
     alert.delete()
     messages.success(request, u'The alert "%s" has been successfully deleted.' % alert)
 
-    return redirect('dashboard')
+    return redirect('alerts', request.conference.pk)

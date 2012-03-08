@@ -35,16 +35,24 @@
                 {% if conference.is_open or membership.has_chair_role %}
                     <td colspan="5">
                         <div class="toggle hidden">
-                            <a class="btn btn-info" href="{% url 'dashboard' conference.pk %}"> Go to Dashboard </a>
-                            {% if membership.has_chair_role %}
-                                <a class="btn" href="{% url 'conference_edit' conference.pk %}">Edit configuration</a>
-                                <a class="btn" href="{% url 'alert' conference.pk %}">Create Alert</a>
-                                <a class="btn" href="{% url 'conference_invite' conference.pk %}">Invite someone</a>
-                                {% include 'includes/conference_toggle.html' %}
-                            {% endif %}
-                            {% if membership.has_reviewer_role %}
-                            {% endif %}
-                            <a class="btn" href="{% url 'paper' conference.pk %}">Submit paper</a>
+                            <div class="btn-toolbar">
+                                <div class="btn-group">
+                                    <a href="{% url 'dashboard' conference.pk %}" class="btn btn-info">
+                                        <i class="icon-share-alt icon-white"></i> To dashboard
+                                    </a>
+                                </div>
+                                <div class="btn-group">
+                                    {% if membership.has_chair_role %}
+                                        <a class="btn" href="{% url 'conference_edit' conference.pk %}">Edit configuration</a>
+                                    {% endif %}
+                                    {% if membership.has_submitter_role %}
+                                        <a class="btn" href="{% url 'papers' conference.pk %}">My papers</a>
+                                    {% endif %}
+                                    {% if membership.has_reviewer_role %}
+                                        <a class="btn" href="{% url 'reviews' conference.pk %}">My reviews</a>
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
                     </td>
                 {% endif %}

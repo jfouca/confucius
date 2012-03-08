@@ -4,19 +4,16 @@
 {% block title %}Conference {% endblock %}
 
 {% block content_header %}
-<h1>Invitations</h1>
-{% endblock %}
+<div class="row">
+    <div class="span3">
+        <h1>Invitations</h1>
+    </div>
+    <div class="span2">
+        <a href="{% url 'conference_invite' conference.pk %}" class="btn"><i class="icon-envelope"></i> Invite someone</a>
+    </div>
+</div>{% endblock %}
 
 {% block content_main %}
-<div class="row">
-    <div class="span10 toggle-buttons">
-        <div class="btn-toolbar">
-            <div class="pull-left">
-                <a href="{% url 'conference_invite' conference.pk %}" class="btn">Invite someone</a>
-            </div>
-        </div>
-    </div>
-</div>
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -29,7 +26,11 @@
         {% for invitation in invitation_list %}
         <tr>
             <td>{{ invitation.user }}</td>
-            <td>{% for role in invitation.roles.all %}<span class="label">{{ role }}</span>{% endfor %}</td>
+            <td>
+                {% for role in invitation.roles.all %}
+                    <span class="label">{{ role }}</span>
+                {% endfor %}
+            </td>
             <td>{{ invitation.get_decision_display }}</td>
         </tr>
         {% empty %}
@@ -39,7 +40,4 @@
         {% endfor %}
     </tbody>
 </table>
-<p><a href="{% url 'dashboard' %}" class="btn btn-info">
-    <i class="icon-share-alt icon-white"></i> To dashboard
-</a></p>
 {% endblock %}
