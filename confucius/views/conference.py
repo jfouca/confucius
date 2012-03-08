@@ -299,7 +299,8 @@ def paper_list(request, get_all=False, template_name='conference/paper_list.html
     context = {
         'paper_list': papers,
         'conference': conference,
-        'membership': request.membership
+        'membership': request.membership,
+        'is_conference_papers': get_all
     }
     return render_to_response(template_name, context, context_instance=RequestContext(request))
 
@@ -317,7 +318,8 @@ def review_list(request, get_all=False, template_name='conference/review_list.ht
     context = {
         'user_assignments': user_assignments,
         'conference': conference,
-        'membership': request.membership
+        'membership': request.membership,
+        'is_conference_reviews': get_all
     }
     return render_to_response(template_name, context, context_instance=RequestContext(request))
 

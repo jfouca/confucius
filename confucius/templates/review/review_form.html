@@ -65,14 +65,14 @@
             {% include 'includes/reviews_over_button.html' %}
         {% else %}
             {% if not assignment.is_done %}
-                <input type="submit" name="save_and_continue" class="btn" value="Save review and continue later"/>
-                <input type="submit" name="save_and_submit" class="btn btn-primary" value="Save and submit review"/>
+                <button type="submit" name="save_and_continue" class="btn"><i class="icon-time"></i> Continue later</button>
+                <button type="submit" name="save_and_submit" class="btn"><i class="icon-file"></i> Submit</button>
             {% else %}
-                <input type="submit" name="save" class="btn btn-primary" value="Update review"/>
+                <button type="submit" name="save" class="btn"><i class="icon-pencil"></i> Update</button>
             {% endif %}
         {% endif %} 
-        <a href="{% url 'dashboard' %}" class="btn btn-info">
-            <i class="icon-share-alt icon-white"></i> To dashboard
+        <a href="{% url 'reviews' conference.pk %}" class="btn btn-info">
+            <i class="icon-share-alt icon-white"></i> To reviews
         </a>
     </div>
 </form>

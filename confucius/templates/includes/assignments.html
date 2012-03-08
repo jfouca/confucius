@@ -36,7 +36,8 @@
                         </div>
                         <div class="span4">
                             <br/>
-                            <a id="auto_assignment" href="javascript:void(0)" class="btn btn-info" >Automatic assignments</a>
+                            <a id="auto_assignment" href="javascript:void(0)" class="btn">
+                                <i class="icon-refresh"></i> Automatic</a>
                         </div>
                     </div>
                     {% if automatic_assignment_code == 0 %}
@@ -57,7 +58,8 @@
                     <div class="row">
                         <div class="span10">
                             {% include 'includes/assignments_finalize.html' %}
-                            <a href="{% url clean_assignments conference.pk %}" class="btn btn-danger">Clean assignments</a>
+                            <a href="{% url clean_assignments conference.pk %}" class="btn">
+                                <i class="icon-remove"></i> Remove all</a>
                             <a href="{% url dashboard %}" class="btn btn-info">
                                 <i class="icon-share-alt icon-white"></i> To dashboard
                             </a>
@@ -124,7 +126,7 @@
                                             <td>{{assignment.get_domains.all|join:', '}}</td>
                                             <td>{{assignment.reviewer.languages.all|join:', '}}</td>
                                             <td id="paper_count_{{assignment.pk}}" >{{assignment.get_papers.count}}</td>
-                                            <td><a href="javascript:void(0)" class="btn btn-danger assignment" id="remove_{{assignment.pk}}--table_{{ paper.pk }}">Remove</th></td>
+                                            <td><a href="javascript:void(0)" class="btn assignment" id="remove_{{assignment.pk}}--table_{{ paper.pk }}"><i class="icon-trash"></i> Remove</th></td>
                                         </tr>
                                     {% endif %}
                                 {% endfor %}

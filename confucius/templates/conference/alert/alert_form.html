@@ -29,7 +29,7 @@
     {% include 'includes/form.html' %}
     <div class="form-actions">
         {% if alert.pk %}
-            <button type="submit" class="btn"><i class="icon-ok"></i> Save</button> 
+            <button type="submit" class="btn"><i class="icon-pencil"></i> Update</button> 
             <a href="{% url 'delete_alert' conference.pk alert.pk %}" class="btn"><i class="icon-trash"></i> Delete</a>
         {% else %} 
             <button type="submit" class="btn"><i class="icon-file"></i> Create alert</button>
@@ -48,7 +48,6 @@ $(document).ready(function() {}, toggleEvents()
 );
 
 function toggleEvents() {
-
     $('#id_trigger_date, #id_action, #id_reminder, #id_event').closest('div.control-group').hide();
     
     {% if alert.reminder or alert.event %}

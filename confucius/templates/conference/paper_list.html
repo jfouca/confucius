@@ -4,7 +4,20 @@
 {% block title %}My Papers {% endblock %}
 
 {% block content_header %}
-<h1>My Papers</h1>
+<div class="row">
+    <div class="span3">
+        <h1>{% if is_conference_papers %}All Papers{% else %}My Papers{% endif %}</h1>
+    </div>
+    <div class="span2">
+        {% if conference.are_submissions_over %}
+            <a href="javascript:void(0)" class="btn disabled">Submissions are over</a>
+        {% else %} {% if conference.are_submissions_notstarted %}
+            <a href="javascript:void(0)" class="btn disabled">Submissions are not started</a>
+        {% else %}
+            <a href="{% url 'paper' membership.conference.pk %}" class="btn"><i class="icon-file"></i> Submit paper</a>
+        {% endif %} {% endif %}
+    </div>
+</div>
 {% endblock %}
 
 {% block content_main %}
@@ -43,7 +56,4 @@
         {% endfor %}
     </tbody>
 </table>
-<p><a href="{% url 'dashboard' %}" class="btn btn-info">
-    <i class="icon-share-alt icon-white"></i> To dashboard
-</a></p>
 {% endblock %}

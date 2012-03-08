@@ -155,7 +155,7 @@ function updateAssignmentsTables() {
             },
                 function(data) {
                     $.each(data,function(index, value) {
-                        $('#'+name_row).replaceWith("<tr><td>"+value[2]+"</td><td>"+value[3]+"</td><td>"+value[5]+"</td><td id=\"paper_count_"+value[0]+"\">"+value[4]+"</td><td><a href=\"javascript:void(0)\" class=\"btn btn-danger assignment\" id=\"remove_"+value[0]+"--table_"+end+"\">Remove</a></td></tr>");
+                        $('#'+name_row).replaceWith("<tr><td>"+value[2]+"</td><td>"+value[3]+"</td><td>"+value[5]+"</td><td id=\"paper_count_"+value[0]+"\">"+value[4]+"</td><td><a href=\"javascript:void(0)\" class=\"btn assignment\" id=\"remove_"+value[0]+"--table_"+end+"\"><i class='icon-trash'></i> Remove</a></td></tr>");
                     });
                     var res = parseInt($("td#assignments_"+end).text());
                     $("td#assignments_"+end).find("#value").text(res+1);

@@ -1,9 +1,9 @@
 {% load url from future %}
 
 {% if conference.is_open %}
-    <button class="toggle_conference btn btn-danger">Close the conference</button>
+    <button class="toggle_conference btn"><i class="icon-eye-close"></i> Close the conference</button>
 {% else %}
-    <button class="toggle_conference btn btn-success">Open the conference</button>
+    <button class="toggle_conference btn"><i class="icon-eye-open"></i> Open the conference</button>
 {% endif %}
 <div class="modal hide fade toggle_modal">
     <div class="modal-header">
