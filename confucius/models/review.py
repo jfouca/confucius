@@ -1,6 +1,9 @@
 from datetime import datetime
 from django.db import models
-from confucius.models import ConfuciusModel, User, Conference, Membership
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
+from confucius.models.conference import my_send_mail
+from confucius.models import Alert, ConfuciusModel, User, Conference, Membership
 
 
 class Assignment(ConfuciusModel):
@@ -44,6 +47,9 @@ class Review(ConfuciusModel):
     def save(self, *args, **kwargs):
         self.last_update_date = datetime.now()
         super(Review, self).save(*args, **kwargs)
+        
+    def get_assignment(self):
+        return self.assignment.all()[0]
 
 
 class PaperSelection(ConfuciusModel):
@@ -51,3 +57,12 @@ class PaperSelection(ConfuciusModel):
     conference = models.ForeignKey('Conference', related_name="selections")
     is_selected = models.BooleanField(default=False)
     is_submit = models.BooleanField(default=False)
+    
+@receiver(pre_save, sender=Assignment, dispatch_uid="Assignment_identifier")
+def my_review_handler(sender, instance, **kwargs):
+    if instance.pk is None or instance.is_done == False:
+        return
+    conference = instance.conference
+    alerts = Alert.objects.filter( action=3, conference = conference )
+    for alert in alerts:
+        my_send_mail(alert,conference)
