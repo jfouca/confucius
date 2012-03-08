@@ -10,9 +10,15 @@
 {% block content_main %}
 
 <form id="form" class="form-horizontal" method="post">{% csrf_token %}
-    {{ form }}
+    {% include 'includes/form.html' with big='True' %}
     <div class="form-actions">
-        <input type="submit" class="btn" value="{% if is_reject %} Reject assignment {% else %} Notify chair {% endif %}"/>
+        <button type="submit" class="btn">
+            {% if is_reject %}
+                <i class="icon-remove-sign"></i> Reject 
+            {% else %}
+                <i class="icon-envelope"></i> Send 
+            {% endif %}
+        </button>
         <a href="{% url 'dashboard' %}" class="btn btn-info">
             <i class="icon-share-alt icon-white"></i> To dashboard
         </a>

@@ -5,37 +5,61 @@
 {% load extra %}
 
 {% block content_header %}
-<h1>
-    {% if instance %}
-        Edit review
-    {% else %}
-        Submit review
-    {% endif %}
-</h1>
+<div class="row">
+    <div class="span3">
+        <h1>{% if instance %}Edit review{% else %}Submit review{% endif %}</h1>
+    </div>
+</div>
 {% endblock %}
 
 {% block content_main %}
 
-<table class="table">
-<tbody>
-    <tr>
-        <th>Title</th>
-        <th>Domains</th>
-        <th>Language</th>
-        <th>File</th>
-        <th>Notify chair</th>
-    </tr>
-    <tr>
-        <td>{{assignment.paper.title}}</td>
-        <td>{{assignment.paper.domains.all|join:', '}}</td>
-        <td>{{assignment.paper.language}}</td>
-        <td><a href="{{assignment.paper.file.url}}" class="btn"><i class="icon-download-alt"></i> Download</a></td>
-        <td>
-            <a href="{% url 'problem' conference.pk assignment.pk %}" class="btn"><i class="icon-exclamation-sign"></i> Problem</a>
-            <a href="{% url 'reject_assignment' conference.pk assignment.pk %}" class="btn"><i class="icon-remove-sign"></i> Reject assignment</a>
-        </td>
-    </tr>
-</tbody>
+<div class="alert alert-info">
+    {% if not assignment.is_done %}
+        <p>If you encounter an issue with this paper or you can't review this document, please click on the dedicated button:</p>
+    {% else %}
+        <p>If you encounter an issue with this paper, please click on the following button:</p>
+    {% endif %}
+    
+    <a href="{% url 'problem' conference.pk assignment.pk %}" class="btn">
+        <i class="icon-exclamation-sign"></i> Notify problem</a>
+    
+    {% if not assignment.is_done %}
+        <a href="{% url 'reject_assignment' conference.pk assignment.pk %}" class="btn">
+            <i class="icon-remove-sign"></i> Reject assignment</a>
+    {% endif %}
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Domains</th>
+            <th>Language</th>
+            <th>File</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{assignment.paper.title}}</td>
+            <td>{{assignment.paper.domains.all|join:', '}}</td>
+            <td>{{assignment.paper.language}}</td>
+            <td><a href="{{assignment.paper.file.url}}" class="btn"><i class="icon-download-alt"></i> Download</a></td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Paper description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{assignment.paper.description}}</td>
+        </tr>
+    </tbody>
 </table>
 
 <form id="form" class="form-horizontal" method="post">
@@ -58,17 +82,15 @@
             </div>
         </div>
     </div>
-
-
     <div class="form-actions">
         {% if conference.are_reviews_over or conference.are_reviews_over %}
             {% include 'includes/reviews_over_button.html' %}
         {% else %}
             {% if not assignment.is_done %}
                 <button type="submit" name="save_and_continue" class="btn"><i class="icon-time"></i> Continue later</button>
-                <button type="submit" name="save_and_submit" class="btn"><i class="icon-file"></i> Submit</button>
+                <button type="submit" name="save_and_submit" class="btn"><i class="icon-ok"></i> Submit</button>
             {% else %}
-                <button type="submit" name="save" class="btn"><i class="icon-pencil"></i> Update</button>
+                <button type="submit" name="save" class="btn"><i class="icon-ok"></i> Update</button>
             {% endif %}
         {% endif %} 
         <a href="{% url 'reviews' conference.pk %}" class="btn btn-info">
