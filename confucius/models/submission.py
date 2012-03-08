@@ -1,6 +1,8 @@
 from django.db import models
-
-from confucius.models import Conference, ConfuciusModel, Domain, Language, User
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
+from confucius.models import Alert, Conference, ConfuciusModel, Domain, Language, User
+from confucius.models.conference import my_send_mail
 import math
 from confucius.extra import ContentTypeRestrictedFileField
 
@@ -72,3 +74,12 @@ class Paper(ConfuciusModel):
         if len(sample) < 1:
             raise Exception('Sample length is not valid')
         return float(sum(sample)) / len(sample)
+        
+@receiver(pre_save, sender=Paper, dispatch_uid="Paper_identifier")
+def my_paper_handler(sender, instance, **kwargs):
+    conference = instance.conference
+    if instance.pk is not None:
+        return
+    alerts = Alert.objects.filter( action=4, conference = conference )
+    for alert in alerts:
+        my_send_mail(alert,conference)
