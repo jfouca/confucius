@@ -155,10 +155,10 @@ def my_send_mail(alert, conference):
 
 class MessageTemplate(ConfuciusModel):
     RECEIVER_CHOICES = (
-        ('J', 'Action Alert - User joined the Conference'),
-        ('L', 'Action Alert - User left the Conference'),
-        ('P', 'Action Alert - Paper is submitted for the Conference'),
-        ('R', 'Action Alert - Review is added for the Conference'),
+        ('J', 'New User joined the Conference'),
+        ('L', 'User left the Conference'),
+        ('P', 'New paper has been submitted'),
+        ('R', 'Review has been submitted'),
         ('S', 'Send Mail - Selected submitters'),
     )
     title = models.CharField(max_length=100, default=None)
