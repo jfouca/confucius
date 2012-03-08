@@ -1439,56 +1439,6 @@
     }, 
     {
         "pk": 1, 
-        "model": "confucius.messagetemplate", 
-        "fields": {
-            "content": "You added an alert action to be warned whenever a new user join the Conference.\r\n\r\nThis concerns : ", 
-            "conference": 1, 
-            "receiver": "J", 
-            "title": "User joined the conference - "
-        }
-    }, 
-    {
-        "pk": 2, 
-        "model": "confucius.messagetemplate", 
-        "fields": {
-            "content": "You added an alert action to be warned whenever a new user leave the Conference.\r\n\r\nThis concerns : ", 
-            "conference": 1, 
-            "receiver": "L", 
-            "title": "User left the Conference - "
-        }
-    }, 
-    {
-        "pk": 3, 
-        "model": "confucius.messagetemplate", 
-        "fields": {
-            "content": "You added an alert action to be warned whenever a new paper is submitted for the Conference.\r\n\r\nThis concerns : ", 
-            "conference": 1, 
-            "receiver": "P", 
-            "title": "Paper has been submitted for the Conference -"
-        }
-    }, 
-    {
-        "pk": 4, 
-        "model": "confucius.messagetemplate", 
-        "fields": {
-            "content": "You added an alert action to be warned whenever a new review is submitted for the Conference.\r\n\r\nThis concerns : ", 
-            "conference": 1, 
-            "receiver": "R", 
-            "title": "Review has been added for the Conference -"
-        }
-    }, 
-    {
-        "pk": 5, 
-        "model": "confucius.messagetemplate", 
-        "fields": {
-            "content": "Congratulations,\r\n\r\nYour paper has been selected for the conference", 
-            "conference": 1, 
-            "receiver": "S", 
-            "title": "Your Paper has been Selected"
-        }
-    }, 
-    {
-        "pk": 1, 
         "model": "confucius.reminder", 
         "fields": {
             "name": "1 Month before", 
