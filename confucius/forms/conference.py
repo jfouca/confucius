@@ -40,7 +40,7 @@ class ConferenceForm(forms.ModelForm):
     
     class Meta:
         model = Conference
-        exclude = ('members', 'is_open', 'access_key', 'has_finalize_paper_selections')
+        exclude = ('members', 'is_open', 'access_key', 'has_finalize_paper_selections', 'maximum_score')
 
     def clean(self):
         cleaned_data = super(ConferenceForm, self).clean()

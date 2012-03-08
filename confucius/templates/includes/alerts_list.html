@@ -10,7 +10,7 @@
             </div>
         </span>
     </td>
-    <td>{{ alert.trigger_date|date:'SHORT_DATE_FORMAT' }}</td>
+    <td>{{ trigger }} {{event}}</td>
     <td>
         {% for role in alert.roles.all %}
             <span class="label">{{ role }}</span>

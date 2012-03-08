@@ -1,6 +1,6 @@
 import simplejson
 import time
-
+from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -23,20 +23,30 @@ def finalize_assignment(request):
     from django.contrib.sites.models import get_current_site
     from django.core.mail import send_mail
     from django.template import Context, loader
-
+    
     conference = request.conference
     assignments = Assignment.objects.filter(conference=conference, is_assigned=False)
+    
+    reviewers_list = list(set([assignment.reviewer.email for assignment in assignments]))
+    try:
+        send_mail('You have received papers to reviews for the conference "%s"' % conference, template.render(Context(context)), None, reviewers_list)
+        messages.success(request, u'You have successfully assign reviewers. An email has been sent to each of them with further instructions')
+    except:
+        messages.error(request, u'An error occured during the email sending process. Please contact the administrator.')
+        return redirect('dashboard')
+        
+
     for assignment in assignments:
         assignment.is_assigned = True
         assignment.save()
 
-    reviewers_list = list(set([assignment.reviewer.email for assignment in assignments]))
+    
     template = loader.get_template('review/assignment_email.html')
     context = {
             'domain': get_current_site(request).domain,
             'conference': conference,
     }
-    send_mail('You have received papers to reviews for the conference "%s"' % conference, template.render(Context(context)), None, reviewers_list)
+    
 
     return redirect('dashboard')
 
@@ -130,11 +140,21 @@ def submit_review(request, pk_assignment, template_name='review/review_form.html
     review = assignment.review
     form = ReviewForm(instance=review)
 
+    if review is None:
+        initial_overall_evaluation = 0
+    else:
+        initial_overall_evaluation = review.overall_evaluation
+
     if request.method == 'POST':
+        error_flag = False
         form = ReviewForm(request.POST, instance=review)
+        note = int(request.POST.get('overall_evaluations'))
+
+        if note < 0 or note > request.conference.maximum_score:
+            raise forms.ValidationError('Score must be between 0 and '+str(request.conference.maximum_score))
 
         if form.is_valid():
-            review = form.save()
+            review = form.save(overall_evaluation=note)
             assignment.review = review
 
             if request.POST.__contains__('save_and_submit'):
@@ -143,12 +163,14 @@ def submit_review(request, pk_assignment, template_name='review/review_form.html
             assignment.save()
             messages.success(request, u'The review has been successfully added')
             return redirect('dashboard')
+            
 
     context = {
         'form': form,
         'instance': review,
         'assignment': assignment,
         'conference': request.conference,
+        'initial_overall_evaluation': initial_overall_evaluation
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))
@@ -157,7 +179,7 @@ def submit_review(request, pk_assignment, template_name='review/review_form.html
 @require_http_methods(['GET', 'POST'])
 @login_required
 @has_reviewer_role
-def problem(request, assignment_pk, template_name='review/problem_form.html'):
+def problem(request, assignment_pk, is_reject=False, template_name='review/problem_form.html'):
     from confucius.forms import ProblemForm
 
     assignment = Assignment.objects.get(pk=assignment_pk, reviewer=request.user)
@@ -167,13 +189,20 @@ def problem(request, assignment_pk, template_name='review/problem_form.html'):
 
         if form.is_valid():
             assignment.problem = form.cleaned_data.get('problem')
+            msg = 'The chair of the conference has been notified of the problem.'
+            
+            if is_reject == True:
+                assignment.is_rejected = True
+                msg = 'You have rejected this assignment. The chair of the conference has been notified of the situation.'
+            
             assignment.save()
-            messages.success(request, 'The chair of the conference has been notified of the problem.')
+            
+            messages.success(request, msg)
             return redirect('dashboard')
     else:
         form = ProblemForm()
-
-    return render_to_response(template_name, {'form': form}, context_instance=RequestContext(request))
+    
+    return render_to_response(template_name, {'form': form, 'is_reject': is_reject, 'conference': request.conference, 'membership': request.membership}, context_instance=RequestContext(request))
 
 
 @require_GET

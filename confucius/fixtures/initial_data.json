@@ -1,6 +1,60 @@
 [
     {
         "pk": 1,
+        "model": "auth.user",
+        "fields": {
+            "username": "ImwWgX1aPDcyH53WzyR1YaycVNI=",
+            "first_name": "Blu",
+            "last_name": "Ulb",
+            "is_active": true,
+            "is_superuser": true,
+            "is_staff": true,
+            "last_login": "2012-02-24 21:44:25",
+            "groups": [],
+            "user_permissions": [],
+            "password": "sha1$99e22$c79827cf9b5e915d100e5b8755b6a551657889e8",
+            "email": "blu@blu.com",
+            "date_joined": "2012-02-20 21:05:11"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "auth.user",
+        "fields": {
+            "username": "rw3rMn99c+x2ItqQEF0rQaGE38ro=",
+            "first_name": "Red",
+            "last_name": "Der",
+            "is_active": true,
+            "is_superuser": true,
+            "is_staff": true,
+            "last_login": "2012-02-20 21:05:11",
+            "groups": [],
+            "user_permissions": [],
+            "password": "sha1$99e22$c79827cf9b5e915d100e5b8755b6a551657889e8",
+            "email": "red@red.com",
+            "date_joined": "2012-02-20 21:05:11"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "auth.user",
+        "fields": {
+            "username": "zBeWyEyAOBkDlxypXdBgVOqYEIQ=",
+            "first_name": "Green",
+            "last_name": "Neeg",
+            "is_active": true,
+            "is_superuser": true,
+            "is_staff": true,
+            "last_login": "2012-02-20 21:05:11",
+            "groups": [],
+            "user_permissions": [],
+            "password": "sha1$99e22$c79827cf9b5e915d100e5b8755b6a551657889e8",
+            "email": "green@green.com",
+            "date_joined": "2012-02-20 21:05:11"
+        }
+    },
+    {
+        "pk": 1,
         "model": "confucius.email",
         "fields": {
             "main": true,
@@ -1127,60 +1181,6 @@
             "change_message": "Changed roles for membership \"Membership object\".",
             "user": 1,
             "content_type": 6
-        }
-    },
-    {
-        "pk": 1,
-        "model": "auth.user",
-        "fields": {
-            "username": "ImwWgX1aPDcyH53WzyR1YaycVNI=",
-            "first_name": "Blu",
-            "last_name": "Ulb",
-            "is_active": true,
-            "is_superuser": true,
-            "is_staff": true,
-            "last_login": "2012-02-24 21:44:25",
-            "groups": [],
-            "user_permissions": [],
-            "password": "sha1$99e22$c79827cf9b5e915d100e5b8755b6a551657889e8",
-            "email": "blu@blu.com",
-            "date_joined": "2012-02-20 21:05:11"
-        }
-    },
-    {
-        "pk": 2,
-        "model": "auth.user",
-        "fields": {
-            "username": "rw3rMn99c+x2ItqQEF0rQaGE38ro=",
-            "first_name": "Red",
-            "last_name": "Der",
-            "is_active": true,
-            "is_superuser": true,
-            "is_staff": true,
-            "last_login": "2012-02-20 21:05:11",
-            "groups": [],
-            "user_permissions": [],
-            "password": "sha1$99e22$c79827cf9b5e915d100e5b8755b6a551657889e8",
-            "email": "red@red.com",
-            "date_joined": "2012-02-20 21:05:11"
-        }
-    },
-    {
-        "pk": 3,
-        "model": "auth.user",
-        "fields": {
-            "username": "zBeWyEyAOBkDlxypXdBgVOqYEIQ=",
-            "first_name": "Green",
-            "last_name": "Neeg",
-            "is_active": true,
-            "is_superuser": true,
-            "is_staff": true,
-            "last_login": "2012-02-20 21:05:11",
-            "groups": [],
-            "user_permissions": [],
-            "password": "sha1$99e22$c79827cf9b5e915d100e5b8755b6a551657889e8",
-            "email": "green@green.com",
-            "date_joined": "2012-02-20 21:05:11"
         }
     }
 ]

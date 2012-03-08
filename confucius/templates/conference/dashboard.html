@@ -117,20 +117,20 @@
                                 <th>Trigger</th>
                                 <th>Recipients</th>
                             </tr>
-                            {% if not alerts_trigget and not alerts_reminder and not alerts_action %}
+                            {% if not alerts_trigger and not alerts_reminder and not alerts_action %}
                                 <tr><td colspan=4>No alert for this conference.</td></tr>
                             {% endif %}
 
                             {% for alert in alerts_trigger %}
-                                {% include 'includes/alerts_list.html' with alert=alert %}
+                                {% include 'includes/alerts_list.html' with alert=alert trigger=alert.trigger_date|date:'SHORT_DATE_FORMAT' %}
                             {% endfor %}
 
                             {% for alert in alerts_reminder %}
-                                {% include 'includes/alerts_list.html' with alert=alert %}
+                                {% include 'includes/alerts_list.html' with alert=alert trigger=alert.reminder event=alert.event %}
                             {% endfor %}
 
                             {% for alert in alerts_action %}
-                                {% include 'includes/alerts_list.html' with alert=alert %}
+                                {% include 'includes/alerts_list.html' with alert=alert trigger=alert.action %}
                             {% endfor %}
                         </tbody>
                         </table>
@@ -236,32 +236,38 @@
                     <tr class="row-actions">
                         <td>
                             <b>{{assignment.paper.title}}</b>
-                            <span class="data-actions v-hidden"> 
-                            {% if conference.are_reviews_over %}
-                                 <a href="javascript:void(0)"class="btn btn-mini disabled">Reviews are over</a>
-                            {% else %} {% if conference.are_reviews_notstarted %}
-                                 <a href="javascript:void(0)"class="btn btn-mini disabled">Reviews are not started</a>
-                            {% else %}
-                                 <a href="{% url 'submit_review' conference.pk assignment.pk %}" class="btn btn-mini">
-                                    {% if assignment.is_done %} 
-                                        Edit review 
-                                    {% else %} 
-                                        Submit review
-                                    {% endif %}
-                                </a>                 
-                            {% endif %} {% endif %}
+                            <span class="data-actions v-hidden">
+                                {% if assignment.is_rejected %}
+                                     <a href="javascript:void(0)"class="btn btn-mini disabled">Assignment is rejected</a>
+                                {% else %} {% if conference.are_reviews_over %}
+                                     <a href="javascript:void(0)"class="btn btn-mini disabled">Reviews are over</a>
+                                {% else %} {% if conference.are_reviews_notstarted %}
+                                     <a href="javascript:void(0)"class="btn btn-mini disabled">Reviews are not started</a>
+                                {% else %}
+                                     <a href="{% url 'submit_review' conference.pk assignment.pk %}" class="btn btn-mini">
+                                        {% if assignment.is_done %} 
+                                            Edit review 
+                                        {% else %} {% if assignment.review != None %}
+                                            Continue and submit review
+                                        {% else %}
+                                            Submit review
+                                        {% endif %} {% endif %}
+                                    </a>                 
+                                {% endif %} {% endif %} {% endif %}
                             </span>
                         </td>
                         <td>{{assignment.paper.submission_date|date:'SHORT_DATE_FORMAT'}}</td>
                         <td>{{assignment.paper.last_update_date|date:'SHORT_DATE_FORMAT'}}</td>
                         <td>
-                            {% if assignment.review == None %}
+                            {% if assignment.is_rejected %}
+                                <span class="label">Rejected</span>
+                            {% else %} {% if assignment.review == None %}
                                 <span class="label label-important">Not started</span>
                             {% else %} {% if not assignment.is_done %}
                                 <span class="label label-warning">In process</span>
                             {% else %}
                                 <span class="label label-success">Done</span>
-                            {% endif %} {% endif %}
+                            {% endif %} {% endif %} {% endif %}
                         </td>
                     </tr>
                     {% empty %}

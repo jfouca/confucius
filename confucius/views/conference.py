@@ -8,7 +8,7 @@ from django.views.decorators.http import require_GET, require_http_methods
 
 from confucius.decorators import has_chair_role, has_role, has_reviewer_role, has_submitter_role
 from confucius.forms import ConferenceForm, MembershipForm, SendEmailToUsersForm
-from confucius.models import Alert, Assignment, Conference, Invitation, Membership, Paper, Role
+from confucius.models import Alert, Assignment, Conference, Invitation, Membership, Paper, Role, User
 
 
 @require_GET
@@ -168,8 +168,12 @@ def conference_invite(request, template_name='conference/invitation_form.html'):
         form = InvitationForm(request.POST, instance=instance)
 
         if form.is_valid():
-            invitation = form.save(request)
-            messages.success(request, u'An invitation has been sent to "%s".' % invitation.user)
+            try:
+                invitation = form.save(request)
+                messages.success(request, u'An invitation has been sent to "%s".' % invitation.user)
+            except:
+                user = User.objects.get(email=form.cleaned_data['email']).delete()
+                messages.error(request, u'An error occured during the email sending process. Please contact the administrator.')
             return redirect('dashboard')
 
     context = {
@@ -284,11 +288,14 @@ def send_email_to_users(request, template_name='conference/send_email_to_users.h
 
 @login_required
 @has_submitter_role
-def paper_list(request, template_name='conference/paper_list.html'):
+def paper_list(request, get_all=False, template_name='conference/paper_list.html'):
     conference = request.conference
 
-    papers = Paper.objects.filter(conference=conference, submitter=request.user)
-
+    if get_all == False:
+        papers = Paper.objects.filter(conference=conference, submitter=request.user)
+    else:    
+        papers = Paper.objects.filter(conference=conference)
+        
     context = {
         'paper_list': papers,
         'conference': conference,
@@ -299,11 +306,14 @@ def paper_list(request, template_name='conference/paper_list.html'):
 
 @login_required
 @has_reviewer_role
-def review_list(request, template_name='conference/review_list.html'):
+def review_list(request, get_all=False, template_name='conference/review_list.html'):
     conference = request.conference
 
-    user_assignments = Assignment.objects.filter(conference=conference, reviewer=request.user, is_assigned=True)
-
+    if get_all == False:
+        user_assignments = Assignment.objects.filter(conference=conference, reviewer=request.user, is_assigned=True)
+    else:
+        user_assignments = Assignment.objects.filter(conference=conference, is_assigned=True)
+    
     context = {
         'user_assignments': user_assignments,
         'conference': conference,
