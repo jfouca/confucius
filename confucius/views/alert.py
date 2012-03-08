@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, redirect, render_to_response
 from django.template import RequestContext
 
 from confucius.decorators import has_chair_role
-from confucius.models import Alert
+from confucius.models import Alert, Role
 
 
 @require_http_methods(['GET', 'POST'])
@@ -34,7 +34,9 @@ def alert(request, alert_pk=None, template_name='conference/alert/alert_form.htm
     context = {
         'form': form,
         'alert': instance,
-        'conference': request.conference
+        'conference': request.conference,
+        'roles':Role.objects.all(),
+        'role_action':Role.objects.get(code='C')
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))
