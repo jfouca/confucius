@@ -154,9 +154,17 @@ def my_send_mail(alert, conference):
             
 
 class MessageTemplate(ConfuciusModel):
+    RECEIVER_CHOICES = (
+        ('J', 'Action Alert - User joined the Conference'),
+        ('L', 'Action Alert - User left the Conference'),
+        ('P', 'Action Alert - Paper is submitted for the Conference'),
+        ('R', 'Action Alert - Review is added for the Conference'),
+        ('S', 'Send Mail - Selected submitters'),
+    )
     title = models.CharField(max_length=100, default=None)
     content = models.TextField(default=None)
-    conference = models.ForeignKey(Conference)
+    conference = models.ForeignKey(Conference, related_name="messages_templates")
+    receiver = models.CharField(max_length=1, choices=RECEIVER_CHOICES)
 
     class Meta(ConfuciusModel.Meta):
         unique_together = ('title', 'conference')
