@@ -36,7 +36,7 @@
 <table class="table table-bordered">
 <tbody>
     <tr>
-        <th>Title</th>
+        <th>Reviewer</th>
         <th>Conmentary</th>
         <th>Commentary president</th>
         <th>Overall evaluation</th>
@@ -44,11 +44,11 @@
     </tr>
     {% for review in reviews %}
     <tr>
-        <td>{{review.title}}</td>
+        <td>{{review.get_assignment.reviewer}}</td>
         <td>{{review.detailed_commentary}}</td>
         <td>{{review.commentary_for_president}}</td>
-        <td>{{review.overall_evaluation}}</td>
-        <td>{{review.reviewer_confidence}}</td>
+        <td>{{review.overall_evaluation}} / {{conference.maximum_score}}</td>
+        <td>{{review.reviewer_confidence}} / 5</td>
     </tr>
     {% endfor %}
 </tbody>

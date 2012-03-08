@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, redirect, render_to_response
 from django.template import RequestContext
 
 from confucius.decorators import has_chair_role
-from confucius.models import Alert, Role
+from confucius.models import Alert, MessageTemplate, Role
 
 
 @require_http_methods(['GET', 'POST'])
@@ -14,6 +14,7 @@ from confucius.models import Alert, Role
 @has_chair_role
 @csrf_protect
 def alert(request, alert_pk=None, template_name='conference/alert/alert_form.html'):
+    import json
     from confucius.forms import AlertForm
 
     instance = Alert(**{'conference_id': request.conference.pk})
@@ -30,15 +31,15 @@ def alert(request, alert_pk=None, template_name='conference/alert/alert_form.htm
             form.save()
             messages.success(request, u'The alert "%s" has been successfully %s.' % (instance, 'created' if alert_pk is None else 'updated'))
             return redirect('alerts', request.conference.pk)
-
+    
     context = {
         'form': form,
         'alert': instance,
         'conference': request.conference,
         'roles':Role.objects.all(),
-        'role_action':Role.objects.get(code='C')
+        'role_action':Role.objects.get(code='C'),
     }
-
+    
     return render_to_response(template_name, context, context_instance=RequestContext(request))
 
 

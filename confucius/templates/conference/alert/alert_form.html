@@ -82,6 +82,33 @@ function toggleEvents() {
         $('#id_action').closest('div.control-group').show('slow');
         refreshRolesAction();
     });
+    
+    $("#id_action").change(function() {
+        var val = $(this).val() || 0;
+        var templates = [
+            { 
+                title: '', 
+                content: ''
+            },
+            {
+                title: 'User joined the conference - ',
+                content: 'You added an alert action to be warned whenever a new user join the Conference.\r\n\r\n'
+            },
+            {
+                title: 'User left the Conference - ', 
+                content: 'You added an alert action to be warned whenever a new user leave the Conference.\r\n\r\n'
+            }, 
+            {
+                title: 'Review has been added for the Conference -', 
+                content: 'You added an alert action to be warned whenever a new review is submitted for the Conference.\r\n\r\n'
+            }, 
+            {   title: 'Paper has been submitted for the Conference -', 
+                content: 'You added an alert action to be warned whenever a new paper is submitted for the Conference.\r\n\r\n'
+            }
+        ];
+        $('#id_content').text(templates[val].content);
+        $('#id_title').val(templates[val].title+"{{conference}}");
+    });
 }
 
 function refreshRolesAction() {

@@ -1,2333 +1,2333 @@
 [
     {
-        "pk": 1,
-        "model": "auth.user",
+        "pk": 1, 
+        "model": "auth.user", 
         "fields": {
-            "username": "ImwWgX1aPDcyH53WzyR1YaycVNI=",
-            "first_name": "Blu",
-            "last_name": "Ulb",
-            "is_active": true,
-            "is_superuser": true,
-            "is_staff": true,
-            "last_login": "2012-03-08 15:27:08",
-            "groups": [],
-            "user_permissions": [],
-            "password": "sha1$99e22$c79827cf9b5e915d100e5b8755b6a551657889e8",
-            "email": "blu@blu.com",
+            "username": "ImwWgX1aPDcyH53WzyR1YaycVNI=", 
+            "first_name": "Blu", 
+            "last_name": "Ulb", 
+            "is_active": true, 
+            "is_superuser": true, 
+            "is_staff": true, 
+            "last_login": "2012-03-08 15:37:00", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$99e22$c79827cf9b5e915d100e5b8755b6a551657889e8", 
+            "email": "blu@blu.com", 
             "date_joined": "2012-02-20 21:05:11"
         }
-    },
+    }, 
     {
-        "pk": 2,
-        "model": "auth.user",
+        "pk": 2, 
+        "model": "auth.user", 
         "fields": {
-            "username": "rw3rMn99c+x2ItqQEF0rQaGE38ro=",
-            "first_name": "Red",
-            "last_name": "Der",
-            "is_active": true,
-            "is_superuser": true,
-            "is_staff": true,
-            "last_login": "2012-02-20 21:05:11",
-            "groups": [],
-            "user_permissions": [],
-            "password": "sha1$99e22$c79827cf9b5e915d100e5b8755b6a551657889e8",
-            "email": "red@red.com",
+            "username": "rw3rMn99c+x2ItqQEF0rQaGE38ro=", 
+            "first_name": "Red", 
+            "last_name": "Der", 
+            "is_active": true, 
+            "is_superuser": true, 
+            "is_staff": true, 
+            "last_login": "2012-02-20 21:05:11", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$99e22$c79827cf9b5e915d100e5b8755b6a551657889e8", 
+            "email": "red@red.com", 
             "date_joined": "2012-02-20 21:05:11"
         }
-    },
+    }, 
     {
-        "pk": 3,
-        "model": "auth.user",
+        "pk": 3, 
+        "model": "auth.user", 
         "fields": {
-            "username": "zBeWyEyAOBkDlxypXdBgVOqYEIQ=",
-            "first_name": "Green",
-            "last_name": "Neeg",
-            "is_active": true,
-            "is_superuser": true,
-            "is_staff": true,
-            "last_login": "2012-03-08 15:28:20",
-            "groups": [],
-            "user_permissions": [],
-            "password": "sha1$99e22$c79827cf9b5e915d100e5b8755b6a551657889e8",
-            "email": "green@green.com",
+            "username": "zBeWyEyAOBkDlxypXdBgVOqYEIQ=", 
+            "first_name": "Green", 
+            "last_name": "Neeg", 
+            "is_active": true, 
+            "is_superuser": true, 
+            "is_staff": true, 
+            "last_login": "2012-03-08 15:28:20", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$99e22$c79827cf9b5e915d100e5b8755b6a551657889e8", 
+            "email": "green@green.com", 
             "date_joined": "2012-02-20 21:05:11"
         }
-    },
+    }, 
     {
-        "pk": 4,
-        "model": "auth.user",
+        "pk": 4, 
+        "model": "auth.user", 
         "fields": {
-            "username": "q2xi4Kq5UMPtusZcQGKmOTE55KY=",
-            "first_name": "User1",
-            "last_name": "Last1",
-            "is_active": true,
-            "is_superuser": false,
-            "is_staff": false,
-            "last_login": "2012-03-08 15:29:39",
-            "groups": [],
-            "user_permissions": [],
-            "password": "sha1$88509$405a9105dcd9cb5d55664904c1de091552bf39f3",
-            "email": "user1@gmail.cum",
+            "username": "q2xi4Kq5UMPtusZcQGKmOTE55KY=", 
+            "first_name": "User1", 
+            "last_name": "Last1", 
+            "is_active": true, 
+            "is_superuser": false, 
+            "is_staff": false, 
+            "last_login": "2012-03-08 15:29:39", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$88509$405a9105dcd9cb5d55664904c1de091552bf39f3", 
+            "email": "user1@gmail.cum", 
             "date_joined": "2012-03-08 14:43:08"
         }
-    },
+    }, 
     {
-        "pk": 5,
-        "model": "auth.user",
+        "pk": 5, 
+        "model": "auth.user", 
         "fields": {
-            "username": "bbXj097kAu65gD0hL9IV2Ch49eI=",
-            "first_name": "user2",
-            "last_name": "last2",
-            "is_active": true,
-            "is_superuser": false,
-            "is_staff": false,
-            "last_login": "2012-03-08 15:31:04",
-            "groups": [],
-            "user_permissions": [],
-            "password": "sha1$91658$fce1996ac3efb8ce5587bbd38e2071f0bb4137b2",
-            "email": "user2@gmail.cum",
+            "username": "bbXj097kAu65gD0hL9IV2Ch49eI=", 
+            "first_name": "user2", 
+            "last_name": "last2", 
+            "is_active": true, 
+            "is_superuser": false, 
+            "is_staff": false, 
+            "last_login": "2012-03-08 15:31:04", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$91658$fce1996ac3efb8ce5587bbd38e2071f0bb4137b2", 
+            "email": "user2@gmail.cum", 
             "date_joined": "2012-03-08 14:43:30"
         }
-    },
+    }, 
     {
-        "pk": 6,
-        "model": "auth.user",
+        "pk": 6, 
+        "model": "auth.user", 
         "fields": {
-            "username": "M7CWckN+9f2bJJf1G7N3Tl3qW3w=",
-            "first_name": "user3",
-            "last_name": "last3",
-            "is_active": true,
-            "is_superuser": false,
-            "is_staff": false,
-            "last_login": "2012-03-08 15:32:07",
-            "groups": [],
-            "user_permissions": [],
-            "password": "sha1$6fb9d$dd2796d85d443ae728589326d201c53dbf4b34fb",
-            "email": "user3@gmail.cum",
+            "username": "M7CWckN+9f2bJJf1G7N3Tl3qW3w=", 
+            "first_name": "user3", 
+            "last_name": "last3", 
+            "is_active": true, 
+            "is_superuser": false, 
+            "is_staff": false, 
+            "last_login": "2012-03-08 15:32:07", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$6fb9d$dd2796d85d443ae728589326d201c53dbf4b34fb", 
+            "email": "user3@gmail.cum", 
             "date_joined": "2012-03-08 14:44:07"
         }
-    },
+    }, 
     {
-        "pk": 7,
-        "model": "auth.user",
+        "pk": 7, 
+        "model": "auth.user", 
         "fields": {
-            "username": "5c3bcNPGCzpT7XeqjDxjlOZPOqw=",
-            "first_name": "user4",
-            "last_name": "last4",
-            "is_active": true,
-            "is_superuser": false,
-            "is_staff": false,
-            "last_login": "2012-03-08 15:32:23",
-            "groups": [],
-            "user_permissions": [],
-            "password": "sha1$e0074$319721f41e2c1cc050450c1d14f7ffb494a5a6f6",
-            "email": "user4@gmail.cum",
+            "username": "5c3bcNPGCzpT7XeqjDxjlOZPOqw=", 
+            "first_name": "user4", 
+            "last_name": "last4", 
+            "is_active": true, 
+            "is_superuser": false, 
+            "is_staff": false, 
+            "last_login": "2012-03-08 15:32:23", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$e0074$319721f41e2c1cc050450c1d14f7ffb494a5a6f6", 
+            "email": "user4@gmail.cum", 
             "date_joined": "2012-03-08 14:44:47"
         }
-    },
+    }, 
     {
-        "pk": 8,
-        "model": "auth.user",
+        "pk": 8, 
+        "model": "auth.user", 
         "fields": {
-            "username": "m4Kq3Gz+8WWulit66Yo4aaZnJyk=",
-            "first_name": "user5",
-            "last_name": "last5",
-            "is_active": true,
-            "is_superuser": false,
-            "is_staff": false,
-            "last_login": "2012-03-08 15:33:32",
-            "groups": [],
-            "user_permissions": [],
-            "password": "sha1$c7022$b8da0bea1700753cb8845350d385f8cc9160e57b",
-            "email": "user5@gmail.cum",
+            "username": "m4Kq3Gz+8WWulit66Yo4aaZnJyk=", 
+            "first_name": "user5", 
+            "last_name": "last5", 
+            "is_active": true, 
+            "is_superuser": false, 
+            "is_staff": false, 
+            "last_login": "2012-03-08 15:33:32", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$c7022$b8da0bea1700753cb8845350d385f8cc9160e57b", 
+            "email": "user5@gmail.cum", 
             "date_joined": "2012-03-08 14:45:53"
         }
-    },
+    }, 
     {
-        "pk": 9,
-        "model": "auth.user",
+        "pk": 9, 
+        "model": "auth.user", 
         "fields": {
-            "username": "N3mrDWF1x5LKkdxtd0nRTGFOGp4=",
-            "first_name": "user6",
-            "last_name": "last6",
-            "is_active": true,
-            "is_superuser": false,
-            "is_staff": false,
-            "last_login": "2012-03-08 14:47:22",
-            "groups": [],
-            "user_permissions": [],
-            "password": "sha1$3ce61$c1eea7c8b4a09a405d1a9ca4d26e62582eac72d2",
-            "email": "user6@gmail.cum",
+            "username": "N3mrDWF1x5LKkdxtd0nRTGFOGp4=", 
+            "first_name": "user6", 
+            "last_name": "last6", 
+            "is_active": true, 
+            "is_superuser": false, 
+            "is_staff": false, 
+            "last_login": "2012-03-08 14:47:22", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$3ce61$c1eea7c8b4a09a405d1a9ca4d26e62582eac72d2", 
+            "email": "user6@gmail.cum", 
             "date_joined": "2012-03-08 14:47:22"
         }
-    },
+    }, 
     {
-        "pk": 10,
-        "model": "auth.user",
+        "pk": 10, 
+        "model": "auth.user", 
         "fields": {
-            "username": "5QBgctj7w4V/kWjYLwmHJNBXEkg=",
-            "first_name": "plop1",
-            "last_name": "last2",
-            "is_active": true,
-            "is_superuser": false,
-            "is_staff": false,
-            "last_login": "2012-03-08 14:52:59",
-            "groups": [],
-            "user_permissions": [],
-            "password": "sha1$cb2c9$f3111f3f850dc55e20d9240c2ecb724517da23c0",
-            "email": "plop1@gmail.com",
+            "username": "5QBgctj7w4V/kWjYLwmHJNBXEkg=", 
+            "first_name": "plop1", 
+            "last_name": "last2", 
+            "is_active": true, 
+            "is_superuser": false, 
+            "is_staff": false, 
+            "last_login": "2012-03-08 14:52:59", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$cb2c9$f3111f3f850dc55e20d9240c2ecb724517da23c0", 
+            "email": "plop1@gmail.com", 
             "date_joined": "2012-03-08 14:52:59"
         }
-    },
+    }, 
     {
-        "pk": 11,
-        "model": "auth.user",
+        "pk": 11, 
+        "model": "auth.user", 
         "fields": {
-            "username": "NmWcoSbdy3Bf084dBApIRnbjTPI=",
-            "first_name": "plop2",
-            "last_name": "plop2",
-            "is_active": true,
-            "is_superuser": false,
-            "is_staff": false,
-            "last_login": "2012-03-08 14:53:55",
-            "groups": [],
-            "user_permissions": [],
-            "password": "sha1$41380$b1efc3704646ad67c81b4794ddc97ceb1af6f69c",
-            "email": "plop2@gmail.cum",
+            "username": "NmWcoSbdy3Bf084dBApIRnbjTPI=", 
+            "first_name": "plop2", 
+            "last_name": "plop2", 
+            "is_active": true, 
+            "is_superuser": false, 
+            "is_staff": false, 
+            "last_login": "2012-03-08 14:53:55", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$41380$b1efc3704646ad67c81b4794ddc97ceb1af6f69c", 
+            "email": "plop2@gmail.cum", 
             "date_joined": "2012-03-08 14:53:55"
         }
-    },
+    }, 
     {
-        "pk": 1,
-        "model": "confucius.email",
+        "pk": 1, 
+        "model": "confucius.email", 
         "fields": {
-            "confirmed": true,
-            "main": true,
-            "user": 1,
+            "confirmed": true, 
+            "main": true, 
+            "user": 1, 
             "value": "blu@blu.com"
         }
-    },
+    }, 
     {
-        "pk": 2,
-        "model": "confucius.email",
+        "pk": 2, 
+        "model": "confucius.email", 
         "fields": {
-            "confirmed": true,
-            "main": true,
-            "user": 2,
+            "confirmed": true, 
+            "main": true, 
+            "user": 2, 
             "value": "red@red.com"
         }
-    },
+    }, 
     {
-        "pk": 3,
-        "model": "confucius.email",
+        "pk": 3, 
+        "model": "confucius.email", 
         "fields": {
-            "confirmed": true,
-            "main": true,
-            "user": 3,
+            "confirmed": true, 
+            "main": true, 
+            "user": 3, 
             "value": "green@green.com"
         }
-    },
+    }, 
     {
-        "pk": 4,
-        "model": "confucius.email",
+        "pk": 4, 
+        "model": "confucius.email", 
         "fields": {
-            "confirmed": false,
-            "main": true,
-            "user": 4,
+            "confirmed": false, 
+            "main": true, 
+            "user": 4, 
             "value": "user1@gmail.cum"
         }
-    },
+    }, 
     {
-        "pk": 5,
-        "model": "confucius.email",
+        "pk": 5, 
+        "model": "confucius.email", 
         "fields": {
-            "confirmed": false,
-            "main": true,
-            "user": 5,
+            "confirmed": false, 
+            "main": true, 
+            "user": 5, 
             "value": "user2@gmail.cum"
         }
-    },
+    }, 
     {
-        "pk": 6,
-        "model": "confucius.email",
+        "pk": 6, 
+        "model": "confucius.email", 
         "fields": {
-            "confirmed": false,
-            "main": true,
-            "user": 6,
+            "confirmed": false, 
+            "main": true, 
+            "user": 6, 
             "value": "user3@gmail.cum"
         }
-    },
+    }, 
     {
-        "pk": 7,
-        "model": "confucius.email",
+        "pk": 7, 
+        "model": "confucius.email", 
         "fields": {
-            "confirmed": false,
-            "main": true,
-            "user": 7,
+            "confirmed": false, 
+            "main": true, 
+            "user": 7, 
             "value": "user4@gmail.cum"
         }
-    },
+    }, 
     {
-        "pk": 8,
-        "model": "confucius.email",
+        "pk": 8, 
+        "model": "confucius.email", 
         "fields": {
-            "confirmed": false,
-            "main": true,
-            "user": 8,
+            "confirmed": false, 
+            "main": true, 
+            "user": 8, 
             "value": "user5@gmail.cum"
         }
-    },
+    }, 
     {
-        "pk": 9,
-        "model": "confucius.email",
+        "pk": 9, 
+        "model": "confucius.email", 
         "fields": {
-            "confirmed": false,
-            "main": true,
-            "user": 9,
+            "confirmed": false, 
+            "main": true, 
+            "user": 9, 
             "value": "user6@gmail.cum"
         }
-    },
+    }, 
     {
-        "pk": 10,
-        "model": "confucius.email",
+        "pk": 10, 
+        "model": "confucius.email", 
         "fields": {
-            "confirmed": false,
-            "main": true,
-            "user": 10,
+            "confirmed": false, 
+            "main": true, 
+            "user": 10, 
             "value": "plop1@gmail.com"
         }
-    },
+    }, 
     {
-        "pk": 11,
-        "model": "confucius.email",
+        "pk": 11, 
+        "model": "confucius.email", 
         "fields": {
-            "confirmed": false,
-            "main": true,
-            "user": 11,
+            "confirmed": false, 
+            "main": true, 
+            "user": 11, 
             "value": "plop2@gmail.cum"
         }
-    },
+    }, 
     {
-        "pk": 1,
-        "model": "confucius.language",
+        "pk": 1, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "ar",
-            "name": "Arabic",
+            "code": "ar", 
+            "name": "Arabic", 
             "users": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6,
-                7,
-                8,
-                9,
-                10,
+                1, 
+                2, 
+                3, 
+                4, 
+                5, 
+                6, 
+                7, 
+                8, 
+                9, 
+                10, 
                 11
             ]
         }
-    },
+    }, 
     {
-        "pk": 2,
-        "model": "confucius.language",
+        "pk": 2, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "az",
-            "name": "Azerbaijani",
+            "code": "az", 
+            "name": "Azerbaijani", 
             "users": [
-                1,
-                2,
-                4,
-                5,
-                6,
-                7,
-                8,
-                9,
+                1, 
+                2, 
+                4, 
+                5, 
+                6, 
+                7, 
+                8, 
+                9, 
                 10
             ]
         }
-    },
+    }, 
     {
-        "pk": 3,
-        "model": "confucius.language",
+        "pk": 3, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "bg",
-            "name": "Bulgarian",
+            "code": "bg", 
+            "name": "Bulgarian", 
             "users": [
-                1,
-                4,
-                5,
-                6,
-                7,
+                1, 
+                4, 
+                5, 
+                6, 
+                7, 
                 8
             ]
         }
-    },
+    }, 
     {
-        "pk": 4,
-        "model": "confucius.language",
+        "pk": 4, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "bn",
-            "name": "Bengali",
+            "code": "bn", 
+            "name": "Bengali", 
             "users": [
                 2
             ]
         }
-    },
+    }, 
     {
-        "pk": 5,
-        "model": "confucius.language",
+        "pk": 5, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "bs",
-            "name": "Bosnian",
+            "code": "bs", 
+            "name": "Bosnian", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 6,
-        "model": "confucius.language",
+        "pk": 6, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "ca",
-            "name": "Catalan",
+            "code": "ca", 
+            "name": "Catalan", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 7,
-        "model": "confucius.language",
+        "pk": 7, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "cs",
-            "name": "Czech",
+            "code": "cs", 
+            "name": "Czech", 
             "users": [
-                2,
+                2, 
                 3
             ]
         }
-    },
+    }, 
     {
-        "pk": 8,
-        "model": "confucius.language",
+        "pk": 8, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "cy",
-            "name": "Welsh",
+            "code": "cy", 
+            "name": "Welsh", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 9,
-        "model": "confucius.language",
+        "pk": 9, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "da",
-            "name": "Danish",
+            "code": "da", 
+            "name": "Danish", 
             "users": [
                 3
             ]
         }
-    },
+    }, 
     {
-        "pk": 10,
-        "model": "confucius.language",
+        "pk": 10, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "de",
-            "name": "German",
+            "code": "de", 
+            "name": "German", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 11,
-        "model": "confucius.language",
+        "pk": 11, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "el",
-            "name": "Greek",
+            "code": "el", 
+            "name": "Greek", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 12,
-        "model": "confucius.language",
+        "pk": 12, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "en",
-            "name": "English",
+            "code": "en", 
+            "name": "English", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 13,
-        "model": "confucius.language",
+        "pk": 13, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "en-gb",
-            "name": "British English",
+            "code": "en-gb", 
+            "name": "British English", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 14,
-        "model": "confucius.language",
+        "pk": 14, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "es",
-            "name": "Spanish",
+            "code": "es", 
+            "name": "Spanish", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 15,
-        "model": "confucius.language",
+        "pk": 15, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "es-ar",
-            "name": "Argentinian Spanish",
+            "code": "es-ar", 
+            "name": "Argentinian Spanish", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 16,
-        "model": "confucius.language",
+        "pk": 16, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "es-mx",
-            "name": "Mexican Spanish",
+            "code": "es-mx", 
+            "name": "Mexican Spanish", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 17,
-        "model": "confucius.language",
+        "pk": 17, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "es-ni",
-            "name": "Nicaraguan Spanish",
+            "code": "es-ni", 
+            "name": "Nicaraguan Spanish", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 18,
-        "model": "confucius.language",
+        "pk": 18, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "et",
-            "name": "Estonian",
+            "code": "et", 
+            "name": "Estonian", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 19,
-        "model": "confucius.language",
+        "pk": 19, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "eu",
-            "name": "Basque",
+            "code": "eu", 
+            "name": "Basque", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 20,
-        "model": "confucius.language",
+        "pk": 20, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "fa",
-            "name": "Persian",
+            "code": "fa", 
+            "name": "Persian", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 21,
-        "model": "confucius.language",
+        "pk": 21, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "fi",
-            "name": "Finnish",
+            "code": "fi", 
+            "name": "Finnish", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 22,
-        "model": "confucius.language",
+        "pk": 22, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "fr",
-            "name": "French",
+            "code": "fr", 
+            "name": "French", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 23,
-        "model": "confucius.language",
+        "pk": 23, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "fy-nl",
-            "name": "Frisian",
+            "code": "fy-nl", 
+            "name": "Frisian", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 24,
-        "model": "confucius.language",
+        "pk": 24, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "ga",
-            "name": "Irish",
+            "code": "ga", 
+            "name": "Irish", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 25,
-        "model": "confucius.language",
+        "pk": 25, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "gl",
-            "name": "Galician",
+            "code": "gl", 
+            "name": "Galician", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 26,
-        "model": "confucius.language",
+        "pk": 26, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "he",
-            "name": "Hebrew",
+            "code": "he", 
+            "name": "Hebrew", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 27,
-        "model": "confucius.language",
+        "pk": 27, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "hi",
-            "name": "Hindi",
+            "code": "hi", 
+            "name": "Hindi", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 28,
-        "model": "confucius.language",
+        "pk": 28, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "hr",
-            "name": "Croatian",
+            "code": "hr", 
+            "name": "Croatian", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 29,
-        "model": "confucius.language",
+        "pk": 29, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "hu",
-            "name": "Hungarian",
+            "code": "hu", 
+            "name": "Hungarian", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 30,
-        "model": "confucius.language",
+        "pk": 30, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "id",
-            "name": "Indonesian",
+            "code": "id", 
+            "name": "Indonesian", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 31,
-        "model": "confucius.language",
+        "pk": 31, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "is",
-            "name": "Icelandic",
+            "code": "is", 
+            "name": "Icelandic", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 32,
-        "model": "confucius.language",
+        "pk": 32, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "it",
-            "name": "Italian",
+            "code": "it", 
+            "name": "Italian", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 33,
-        "model": "confucius.language",
+        "pk": 33, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "ja",
-            "name": "Japanese",
+            "code": "ja", 
+            "name": "Japanese", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 34,
-        "model": "confucius.language",
+        "pk": 34, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "ka",
-            "name": "Georgian",
+            "code": "ka", 
+            "name": "Georgian", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 35,
-        "model": "confucius.language",
+        "pk": 35, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "km",
-            "name": "Khmer",
+            "code": "km", 
+            "name": "Khmer", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 36,
-        "model": "confucius.language",
+        "pk": 36, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "kn",
-            "name": "Kannada",
+            "code": "kn", 
+            "name": "Kannada", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 37,
-        "model": "confucius.language",
+        "pk": 37, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "ko",
-            "name": "Korean",
+            "code": "ko", 
+            "name": "Korean", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 38,
-        "model": "confucius.language",
+        "pk": 38, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "lt",
-            "name": "Lithuanian",
+            "code": "lt", 
+            "name": "Lithuanian", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 39,
-        "model": "confucius.language",
+        "pk": 39, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "lv",
-            "name": "Latvian",
+            "code": "lv", 
+            "name": "Latvian", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 40,
-        "model": "confucius.language",
+        "pk": 40, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "mk",
-            "name": "Macedonian",
+            "code": "mk", 
+            "name": "Macedonian", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 41,
-        "model": "confucius.language",
+        "pk": 41, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "ml",
-            "name": "Malayalam",
+            "code": "ml", 
+            "name": "Malayalam", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 42,
-        "model": "confucius.language",
+        "pk": 42, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "mn",
-            "name": "Mongolian",
+            "code": "mn", 
+            "name": "Mongolian", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 43,
-        "model": "confucius.language",
+        "pk": 43, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "nb",
-            "name": "Norwegian Bokmal",
+            "code": "nb", 
+            "name": "Norwegian Bokmal", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 44,
-        "model": "confucius.language",
+        "pk": 44, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "nl",
-            "name": "Dutch",
+            "code": "nl", 
+            "name": "Dutch", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 45,
-        "model": "confucius.language",
+        "pk": 45, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "nn",
-            "name": "Norwegian Nynorsk",
+            "code": "nn", 
+            "name": "Norwegian Nynorsk", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 46,
-        "model": "confucius.language",
+        "pk": 46, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "no",
-            "name": "Norwegian",
+            "code": "no", 
+            "name": "Norwegian", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 47,
-        "model": "confucius.language",
+        "pk": 47, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "pa",
-            "name": "Punjabi",
+            "code": "pa", 
+            "name": "Punjabi", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 48,
-        "model": "confucius.language",
+        "pk": 48, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "pl",
-            "name": "Polish",
+            "code": "pl", 
+            "name": "Polish", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 49,
-        "model": "confucius.language",
+        "pk": 49, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "pt",
-            "name": "Portuguese",
+            "code": "pt", 
+            "name": "Portuguese", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 50,
-        "model": "confucius.language",
+        "pk": 50, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "pt-br",
-            "name": "Brazilian Portuguese",
+            "code": "pt-br", 
+            "name": "Brazilian Portuguese", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 51,
-        "model": "confucius.language",
+        "pk": 51, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "ro",
-            "name": "Romanian",
+            "code": "ro", 
+            "name": "Romanian", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 52,
-        "model": "confucius.language",
+        "pk": 52, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "ru",
-            "name": "Russian",
+            "code": "ru", 
+            "name": "Russian", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 53,
-        "model": "confucius.language",
+        "pk": 53, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "sk",
-            "name": "Slovak",
+            "code": "sk", 
+            "name": "Slovak", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 54,
-        "model": "confucius.language",
+        "pk": 54, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "sl",
-            "name": "Slovenian",
+            "code": "sl", 
+            "name": "Slovenian", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 55,
-        "model": "confucius.language",
+        "pk": 55, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "sq",
-            "name": "Albanian",
+            "code": "sq", 
+            "name": "Albanian", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 56,
-        "model": "confucius.language",
+        "pk": 56, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "sr",
-            "name": "Serbian",
+            "code": "sr", 
+            "name": "Serbian", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 57,
-        "model": "confucius.language",
+        "pk": 57, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "sr-latn",
-            "name": "Serbian Latin",
+            "code": "sr-latn", 
+            "name": "Serbian Latin", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 58,
-        "model": "confucius.language",
+        "pk": 58, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "sv",
-            "name": "Swedish",
+            "code": "sv", 
+            "name": "Swedish", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 59,
-        "model": "confucius.language",
+        "pk": 59, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "ta",
-            "name": "Tamil",
+            "code": "ta", 
+            "name": "Tamil", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 60,
-        "model": "confucius.language",
+        "pk": 60, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "te",
-            "name": "Telugu",
+            "code": "te", 
+            "name": "Telugu", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 61,
-        "model": "confucius.language",
+        "pk": 61, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "th",
-            "name": "Thai",
+            "code": "th", 
+            "name": "Thai", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 62,
-        "model": "confucius.language",
+        "pk": 62, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "tr",
-            "name": "Turkish",
+            "code": "tr", 
+            "name": "Turkish", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 63,
-        "model": "confucius.language",
+        "pk": 63, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "uk",
-            "name": "Ukrainian",
+            "code": "uk", 
+            "name": "Ukrainian", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 64,
-        "model": "confucius.language",
+        "pk": 64, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "ur",
-            "name": "Urdu",
+            "code": "ur", 
+            "name": "Urdu", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 65,
-        "model": "confucius.language",
+        "pk": 65, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "vi",
-            "name": "Vietnamese",
+            "code": "vi", 
+            "name": "Vietnamese", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 66,
-        "model": "confucius.language",
+        "pk": 66, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "zh-cn",
-            "name": "Simplified Chinese",
+            "code": "zh-cn", 
+            "name": "Simplified Chinese", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 67,
-        "model": "confucius.language",
+        "pk": 67, 
+        "model": "confucius.language", 
         "fields": {
-            "code": "zh-tw",
-            "name": "Traditional Chinese",
+            "code": "zh-tw", 
+            "name": "Traditional Chinese", 
             "users": []
         }
-    },
+    }, 
     {
-        "pk": 1,
-        "model": "confucius.action",
+        "pk": 1, 
+        "model": "confucius.action", 
         "fields": {
             "name": "New User joined the Conference"
         }
-    },
+    }, 
     {
-        "pk": 2,
-        "model": "confucius.action",
+        "pk": 2, 
+        "model": "confucius.action", 
         "fields": {
-            "name": "New User left the Conference"
+            "name": "User left the Conference"
         }
-    },
+    }, 
     {
-        "pk": 3,
-        "model": "confucius.action",
+        "pk": 3, 
+        "model": "confucius.action", 
         "fields": {
-            "name": "User has add a review"
+            "name": "Review has been submitted"
         }
-    },
+    }, 
     {
-        "pk": 4,
-        "model": "confucius.action",
+        "pk": 4, 
+        "model": "confucius.action", 
         "fields": {
-            "name": "User has add a paper"
+            "name": "New paper has been submitted"
         }
-    },
+    }, 
     {
-        "pk": 1,
-        "model": "confucius.alert",
+        "pk": 1, 
+        "model": "confucius.alert", 
         "fields": {
-            "conference": 1,
+            "conference": 1, 
             "roles": [
                 2
-            ],
-            "title": "Premiere Alerte",
-            "content": "test trigger date",
-            "action": null,
-            "reminder": null,
-            "trigger_date": "2012-02-23",
+            ], 
+            "title": "Premiere Alerte", 
+            "content": "test trigger date", 
+            "action": null, 
+            "reminder": null, 
+            "trigger_date": "2012-02-23", 
             "event": null
         }
-    },
+    }, 
     {
-        "pk": 2,
-        "model": "confucius.alert",
+        "pk": 2, 
+        "model": "confucius.alert", 
         "fields": {
-            "conference": 1,
+            "conference": 1, 
             "roles": [
                 1
-            ],
-            "title": "Heeeey",
-            "content": "test reminder",
-            "action": null,
-            "reminder": 4,
-            "trigger_date": null,
+            ], 
+            "title": "Heeeey", 
+            "content": "test reminder", 
+            "action": null, 
+            "reminder": 4, 
+            "trigger_date": null, 
             "event": 6
         }
-    },
+    }, 
     {
-        "pk": 3,
-        "model": "confucius.alert",
+        "pk": 3, 
+        "model": "confucius.alert", 
         "fields": {
-            "conference": 1,
+            "conference": 1, 
             "roles": [
                 1
-            ],
-            "title": "Troiseme Alert",
-            "content": "Avec une putain d'action",
-            "action": 4,
-            "reminder": null,
-            "trigger_date": null,
+            ], 
+            "title": "Troiseme Alert", 
+            "content": "Avec une putain d'action", 
+            "action": 4, 
+            "reminder": null, 
+            "trigger_date": null, 
             "event": null
         }
-    },
+    }, 
     {
-        "pk": 1,
-        "model": "confucius.conference",
+        "pk": 1, 
+        "model": "confucius.conference", 
         "fields": {
-            "access_key": "siOBNhFK",
-            "title": "Les castors mutants",
-            "reviews_end_date": "2012-03-31",
-            "submissions_start_date": "2012-02-17",
-            "submissions_end_date": "2012-03-07",
-            "has_finalize_paper_selections": false,
-            "url": "http://www.univ-mlv.fr/",
-            "is_open": true,
-            "maximum_score": 10,
-            "reviews_start_date": "2012-03-08",
+            "access_key": "siOBNhFK", 
+            "title": "Les castors mutants", 
+            "reviews_end_date": "2012-03-31", 
+            "submissions_start_date": "2012-02-17", 
+            "submissions_end_date": "2012-03-07", 
+            "has_finalize_paper_selections": false, 
+            "url": "http://www.univ-mlv.fr/", 
+            "is_open": true, 
+            "maximum_score": 10, 
+            "reviews_start_date": "2012-03-08", 
             "domains": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                6,
+                1, 
+                2, 
+                3, 
+                4, 
+                5, 
+                6, 
                 7
-            ],
+            ], 
             "start_date": "2012-06-22"
         }
-    },
+    }, 
     {
-        "pk": 2,
-        "model": "confucius.conference",
+        "pk": 2, 
+        "model": "confucius.conference", 
         "fields": {
-            "access_key": "mwoIHxj4",
-            "title": "Dimmu Borgir",
-            "reviews_end_date": "2012-04-20",
-            "submissions_start_date": "2012-02-09",
-            "submissions_end_date": "2012-03-12",
-            "has_finalize_paper_selections": false,
-            "url": "",
-            "is_open": true,
-            "maximum_score": 10,
-            "reviews_start_date": "2012-03-15",
+            "access_key": "mwoIHxj4", 
+            "title": "Dimmu Borgir", 
+            "reviews_end_date": "2012-04-20", 
+            "submissions_start_date": "2012-02-09", 
+            "submissions_end_date": "2012-03-12", 
+            "has_finalize_paper_selections": false, 
+            "url": "", 
+            "is_open": true, 
+            "maximum_score": 10, 
+            "reviews_start_date": "2012-03-15", 
             "domains": [
                 3
-            ],
+            ], 
             "start_date": "2012-07-18"
         }
-    },
+    }, 
     {
-        "pk": 3,
-        "model": "confucius.conference",
+        "pk": 3, 
+        "model": "confucius.conference", 
         "fields": {
-            "access_key": "m08V60SB",
-            "title": "les loutres anorexiques",
-            "reviews_end_date": "2012-03-31",
-            "submissions_start_date": "2012-02-17",
-            "submissions_end_date": "2012-03-06",
-            "has_finalize_paper_selections": false,
-            "url": "",
-            "is_open": false,
-            "maximum_score": 10,
-            "reviews_start_date": "2012-03-08",
+            "access_key": "m08V60SB", 
+            "title": "les loutres anorexiques", 
+            "reviews_end_date": "2012-03-31", 
+            "submissions_start_date": "2012-02-17", 
+            "submissions_end_date": "2012-03-06", 
+            "has_finalize_paper_selections": false, 
+            "url": "", 
+            "is_open": false, 
+            "maximum_score": 10, 
+            "reviews_start_date": "2012-03-08", 
             "domains": [
-                1,
-                2,
-                5,
-                6,
+                1, 
+                2, 
+                5, 
+                6, 
                 7
-            ],
+            ], 
             "start_date": "2012-06-15"
         }
-    },
+    }, 
     {
-        "pk": 4,
-        "model": "confucius.conference",
+        "pk": 4, 
+        "model": "confucius.conference", 
         "fields": {
-            "access_key": "DD5YoH7R",
-            "title": "Mauvaise conference",
-            "reviews_end_date": "2012-02-17",
-            "submissions_start_date": "2012-02-17",
-            "submissions_end_date": "2012-02-17",
-            "has_finalize_paper_selections": false,
-            "url": "",
-            "is_open": false,
-            "maximum_score": 10,
-            "reviews_start_date": "2012-02-17",
+            "access_key": "DD5YoH7R", 
+            "title": "Mauvaise conference", 
+            "reviews_end_date": "2012-02-17", 
+            "submissions_start_date": "2012-02-17", 
+            "submissions_end_date": "2012-02-17", 
+            "has_finalize_paper_selections": false, 
+            "url": "", 
+            "is_open": false, 
+            "maximum_score": 10, 
+            "reviews_start_date": "2012-02-17", 
             "domains": [
                 2
-            ],
+            ], 
             "start_date": "2011-12-23"
         }
-    },
+    }, 
     {
-        "pk": 1,
-        "model": "confucius.domain",
+        "pk": 1, 
+        "model": "confucius.domain", 
         "fields": {
             "name": "Red domain"
         }
-    },
+    }, 
     {
-        "pk": 2,
-        "model": "confucius.domain",
+        "pk": 2, 
+        "model": "confucius.domain", 
         "fields": {
             "name": "Blu domain"
         }
-    },
+    }, 
     {
-        "pk": 3,
-        "model": "confucius.domain",
+        "pk": 3, 
+        "model": "confucius.domain", 
         "fields": {
             "name": "Green domain"
         }
-    },
+    }, 
     {
-        "pk": 4,
-        "model": "confucius.domain",
+        "pk": 4, 
+        "model": "confucius.domain", 
         "fields": {
             "name": "Sciences"
         }
-    },
+    }, 
     {
-        "pk": 5,
-        "model": "confucius.domain",
+        "pk": 5, 
+        "model": "confucius.domain", 
         "fields": {
             "name": "Politique"
         }
-    },
+    }, 
     {
-        "pk": 6,
-        "model": "confucius.domain",
+        "pk": 6, 
+        "model": "confucius.domain", 
         "fields": {
             "name": "Mathematique"
         }
-    },
+    }, 
     {
-        "pk": 7,
-        "model": "confucius.domain",
+        "pk": 7, 
+        "model": "confucius.domain", 
         "fields": {
             "name": "G\u00e9ographie"
         }
-    },
+    }, 
     {
-        "pk": 8,
-        "model": "confucius.domain",
+        "pk": 8, 
+        "model": "confucius.domain", 
         "fields": {
             "name": "Domain 6"
         }
-    },
+    }, 
     {
-        "pk": 9,
-        "model": "confucius.domain",
+        "pk": 9, 
+        "model": "confucius.domain", 
         "fields": {
             "name": "anglais"
         }
-    },
+    }, 
     {
-        "pk": 10,
-        "model": "confucius.domain",
+        "pk": 10, 
+        "model": "confucius.domain", 
         "fields": {
             "name": "java"
         }
-    },
+    }, 
     {
-        "pk": 11,
-        "model": "confucius.domain",
+        "pk": 11, 
+        "model": "confucius.domain", 
         "fields": {
             "name": "algo"
         }
-    },
+    }, 
     {
-        "pk": 1,
-        "model": "confucius.event",
+        "pk": 1, 
+        "model": "confucius.event", 
         "fields": {
             "name": "start_date"
         }
-    },
+    }, 
     {
-        "pk": 3,
-        "model": "confucius.event",
+        "pk": 3, 
+        "model": "confucius.event", 
         "fields": {
             "name": "submissions_start_date"
         }
-    },
+    }, 
     {
-        "pk": 4,
-        "model": "confucius.event",
+        "pk": 4, 
+        "model": "confucius.event", 
         "fields": {
             "name": "submissions_end_date"
         }
-    },
+    }, 
     {
-        "pk": 5,
-        "model": "confucius.event",
+        "pk": 5, 
+        "model": "confucius.event", 
         "fields": {
             "name": "reviews_start_date"
         }
-    },
+    }, 
     {
-        "pk": 6,
-        "model": "confucius.event",
+        "pk": 6, 
+        "model": "confucius.event", 
         "fields": {
             "name": "reviews_end_date"
         }
-    },
+    }, 
     {
-        "pk": 1,
-        "model": "confucius.membership",
+        "pk": 1, 
+        "model": "confucius.membership", 
         "fields": {
-            "conference": 1,
+            "conference": 1, 
             "domains": [
-                1,
-                2,
+                1, 
+                2, 
                 3
-            ],
-            "last_accessed": true,
-            "user": 1,
+            ], 
+            "last_accessed": true, 
+            "user": 1, 
             "roles": [
-                1,
-                2,
+                1, 
+                2, 
                 3
             ]
         }
-    },
+    }, 
     {
-        "pk": 2,
-        "model": "confucius.membership",
+        "pk": 2, 
+        "model": "confucius.membership", 
         "fields": {
-            "conference": 2,
+            "conference": 2, 
             "domains": [
                 3
-            ],
-            "last_accessed": false,
-            "user": 1,
+            ], 
+            "last_accessed": false, 
+            "user": 1, 
             "roles": [
-                2,
+                2, 
                 3
             ]
         }
-    },
+    }, 
     {
-        "pk": 3,
-        "model": "confucius.membership",
+        "pk": 3, 
+        "model": "confucius.membership", 
         "fields": {
-            "conference": 4,
+            "conference": 4, 
             "domains": [
                 2
-            ],
-            "last_accessed": false,
-            "user": 1,
+            ], 
+            "last_accessed": false, 
+            "user": 1, 
             "roles": [
                 3
             ]
         }
-    },
+    }, 
     {
-        "pk": 4,
-        "model": "confucius.membership",
+        "pk": 4, 
+        "model": "confucius.membership", 
         "fields": {
-            "conference": 1,
+            "conference": 1, 
             "domains": [
-                2,
-                3,
-                4,
+                2, 
+                3, 
+                4, 
                 6
-            ],
-            "last_accessed": false,
-            "user": 2,
+            ], 
+            "last_accessed": false, 
+            "user": 2, 
             "roles": [
-                2,
+                2, 
                 3
             ]
         }
-    },
+    }, 
     {
-        "pk": 5,
-        "model": "confucius.membership",
+        "pk": 5, 
+        "model": "confucius.membership", 
         "fields": {
-            "conference": 1,
+            "conference": 1, 
             "domains": [
-                1,
-                2,
+                1, 
+                2, 
                 7
-            ],
-            "last_accessed": true,
-            "user": 3,
+            ], 
+            "last_accessed": true, 
+            "user": 3, 
             "roles": [
                 2
             ]
         }
-    },
+    }, 
     {
-        "pk": 6,
-        "model": "confucius.membership",
+        "pk": 6, 
+        "model": "confucius.membership", 
         "fields": {
-            "conference": 1,
+            "conference": 1, 
             "domains": [
-                1,
-                2,
+                1, 
+                2, 
                 4
-            ],
-            "last_accessed": true,
-            "user": 4,
+            ], 
+            "last_accessed": true, 
+            "user": 4, 
             "roles": [
-                2,
+                2, 
                 3
             ]
         }
-    },
+    }, 
     {
-        "pk": 7,
-        "model": "confucius.membership",
+        "pk": 7, 
+        "model": "confucius.membership", 
         "fields": {
-            "conference": 1,
+            "conference": 1, 
             "domains": [
-                1,
-                2,
-                5,
+                1, 
+                2, 
+                5, 
                 6
-            ],
-            "last_accessed": true,
-            "user": 5,
+            ], 
+            "last_accessed": true, 
+            "user": 5, 
             "roles": [
                 2
             ]
         }
-    },
+    }, 
     {
-        "pk": 8,
-        "model": "confucius.membership",
+        "pk": 8, 
+        "model": "confucius.membership", 
         "fields": {
-            "conference": 1,
+            "conference": 1, 
             "domains": [
-                4,
+                4, 
                 6
-            ],
-            "last_accessed": true,
-            "user": 6,
+            ], 
+            "last_accessed": true, 
+            "user": 6, 
             "roles": [
                 3
             ]
         }
-    },
+    }, 
     {
-        "pk": 9,
-        "model": "confucius.membership",
+        "pk": 9, 
+        "model": "confucius.membership", 
         "fields": {
-            "conference": 1,
+            "conference": 1, 
             "domains": [
-                1,
-                3,
+                1, 
+                3, 
                 6
-            ],
-            "last_accessed": true,
-            "user": 7,
+            ], 
+            "last_accessed": true, 
+            "user": 7, 
             "roles": [
-                2,
+                2, 
                 3
             ]
         }
-    },
+    }, 
     {
-        "pk": 10,
-        "model": "confucius.membership",
+        "pk": 10, 
+        "model": "confucius.membership", 
         "fields": {
-            "conference": 1,
+            "conference": 1, 
             "domains": [
-                2,
+                2, 
                 7
-            ],
-            "last_accessed": true,
-            "user": 8,
+            ], 
+            "last_accessed": true, 
+            "user": 8, 
             "roles": [
-                2,
+                2, 
                 3
             ]
         }
-    },
+    }, 
     {
-        "pk": 11,
-        "model": "confucius.membership",
+        "pk": 11, 
+        "model": "confucius.membership", 
         "fields": {
-            "conference": 1,
+            "conference": 1, 
             "domains": [
-                2,
-                4,
+                2, 
+                4, 
                 5
-            ],
-            "last_accessed": false,
-            "user": 9,
+            ], 
+            "last_accessed": false, 
+            "user": 9, 
             "roles": [
                 3
             ]
         }
-    },
+    }, 
     {
-        "pk": 12,
-        "model": "confucius.membership",
+        "pk": 12, 
+        "model": "confucius.membership", 
         "fields": {
-            "conference": 3,
+            "conference": 3, 
             "domains": [
-                1,
-                2,
-                3,
-                4,
-                5,
-                8,
-                9,
-                10,
+                1, 
+                2, 
+                3, 
+                4, 
+                5, 
+                8, 
+                9, 
+                10, 
                 11
-            ],
-            "last_accessed": false,
-            "user": 1,
+            ], 
+            "last_accessed": false, 
+            "user": 1, 
             "roles": [
                 3
             ]
         }
-    },
+    }, 
     {
-        "pk": 1,
-        "model": "confucius.reminder",
+        "pk": 1, 
+        "model": "confucius.reminder", 
         "fields": {
-            "name": "1 Month before",
+            "name": "1 Month before", 
             "value": 30
         }
-    },
+    }, 
     {
-        "pk": 2,
-        "model": "confucius.reminder",
+        "pk": 2, 
+        "model": "confucius.reminder", 
         "fields": {
-            "name": "2 weeks before",
+            "name": "2 weeks before", 
             "value": 15
         }
-    },
+    }, 
     {
-        "pk": 3,
-        "model": "confucius.reminder",
+        "pk": 3, 
+        "model": "confucius.reminder", 
         "fields": {
-            "name": "One week before",
+            "name": "One week before", 
             "value": 7
         }
-    },
+    }, 
     {
-        "pk": 4,
-        "model": "confucius.reminder",
+        "pk": 4, 
+        "model": "confucius.reminder", 
         "fields": {
-            "name": "One day before",
+            "name": "One day before", 
             "value": 1
         }
-    },
+    }, 
     {
-        "pk": 5,
-        "model": "confucius.reminder",
+        "pk": 5, 
+        "model": "confucius.reminder", 
         "fields": {
-            "name": "2 Months before",
+            "name": "2 Months before", 
             "value": 60
         }
-    },
+    }, 
     {
-        "pk": 1,
-        "model": "confucius.role",
+        "pk": 1, 
+        "model": "confucius.role", 
         "fields": {
-            "code": "C",
+            "code": "C", 
             "name": "Chair"
         }
-    },
+    }, 
     {
-        "pk": 2,
-        "model": "confucius.role",
+        "pk": 2, 
+        "model": "confucius.role", 
         "fields": {
-            "code": "R",
+            "code": "R", 
             "name": "Reviewer"
         }
-    },
+    }, 
     {
-        "pk": 3,
-        "model": "confucius.role",
+        "pk": 3, 
+        "model": "confucius.role", 
         "fields": {
-            "code": "S",
+            "code": "S", 
             "name": "Submitter"
         }
-    },
+    }, 
     {
-        "pk": 1,
-        "model": "confucius.paper",
+        "pk": 1, 
+        "model": "confucius.paper", 
         "fields": {
-            "submission_date": "2012-02-20",
-            "conference": 1,
-            "description": "blu blu blu",
-            "language": 1,
-            "title": "Un papier",
-            "co_authors": "a@a.a",
-            "file": "papers/test_32.txt",
-            "last_update_date": "2012-02-29",
-            "submitter": 1,
+            "submission_date": "2012-02-20", 
+            "conference": 1, 
+            "description": "blu blu blu", 
+            "language": 1, 
+            "title": "Un papier", 
+            "co_authors": "a@a.a", 
+            "file": "papers/test_32.txt", 
+            "last_update_date": "2012-02-29", 
+            "submitter": 1, 
             "domains": [
                 1
             ]
         }
-    },
+    }, 
     {
-        "pk": 2,
-        "model": "confucius.paper",
+        "pk": 2, 
+        "model": "confucius.paper", 
         "fields": {
-            "submission_date": "2012-02-20",
-            "conference": 1,
-            "description": "red red red",
-            "language": 3,
-            "title": "Autre papier",
-            "co_authors": "azeazezqefsg",
-            "file": "papers/test_33.txt",
-            "last_update_date": "2012-02-29",
-            "submitter": 1,
+            "submission_date": "2012-02-20", 
+            "conference": 1, 
+            "description": "red red red", 
+            "language": 3, 
+            "title": "Autre papier", 
+            "co_authors": "azeazezqefsg", 
+            "file": "papers/test_33.txt", 
+            "last_update_date": "2012-02-29", 
+            "submitter": 1, 
             "domains": [
                 1
             ]
         }
-    },
+    }, 
     {
-        "pk": 3,
-        "model": "confucius.paper",
+        "pk": 3, 
+        "model": "confucius.paper", 
         "fields": {
-            "submission_date": "2012-02-24",
-            "conference": 1,
-            "description": "green green green",
-            "language": 7,
-            "title": "jjujuju",
-            "co_authors": "azdsfsdg",
-            "file": "papers/test_34.txt",
-            "last_update_date": "2012-02-29",
-            "submitter": 1,
+            "submission_date": "2012-02-24", 
+            "conference": 1, 
+            "description": "green green green", 
+            "language": 7, 
+            "title": "jjujuju", 
+            "co_authors": "azdsfsdg", 
+            "file": "papers/test_34.txt", 
+            "last_update_date": "2012-02-29", 
+            "submitter": 1, 
             "domains": [
                 1
             ]
         }
-    },
+    }, 
     {
-        "pk": 4,
-        "model": "confucius.paper",
+        "pk": 4, 
+        "model": "confucius.paper", 
         "fields": {
-            "submission_date": "2012-03-08",
-            "conference": 1,
-            "description": "Description papier 1",
-            "language": 1,
-            "title": "Papier 1",
-            "co_authors": "",
-            "file": "paper/PulseAudio.txt",
-            "last_update_date": "2012-03-08",
-            "submitter": 4,
+            "submission_date": "2012-03-08", 
+            "conference": 1, 
+            "description": "Description papier 1", 
+            "language": 1, 
+            "title": "Papier 1", 
+            "co_authors": "", 
+            "file": "paper/PulseAudio.txt", 
+            "last_update_date": "2012-03-08", 
+            "submitter": 4, 
             "domains": [
-                1,
-                2,
+                1, 
+                2, 
                 6
             ]
         }
-    },
+    }, 
     {
-        "pk": 5,
-        "model": "confucius.paper",
+        "pk": 5, 
+        "model": "confucius.paper", 
         "fields": {
-            "submission_date": "2012-03-08",
-            "conference": 1,
-            "description": "Description papier 2",
-            "language": 1,
-            "title": "Papier 2",
-            "co_authors": "",
-            "file": "paper/PulseAudio_1.txt",
-            "last_update_date": "2012-03-08",
-            "submitter": 5,
+            "submission_date": "2012-03-08", 
+            "conference": 1, 
+            "description": "Description papier 2", 
+            "language": 1, 
+            "title": "Papier 2", 
+            "co_authors": "", 
+            "file": "paper/PulseAudio_1.txt", 
+            "last_update_date": "2012-03-08", 
+            "submitter": 5, 
             "domains": [
-                2,
-                4,
+                2, 
+                4, 
                 5
             ]
         }
-    },
+    }, 
     {
-        "pk": 6,
-        "model": "confucius.paper",
+        "pk": 6, 
+        "model": "confucius.paper", 
         "fields": {
-            "submission_date": "2012-03-08",
-            "conference": 1,
-            "description": "Description papier 3",
-            "language": 1,
-            "title": "Papier 3",
-            "co_authors": "",
-            "file": "paper/PulseAudio_2.txt",
-            "last_update_date": "2012-03-08",
-            "submitter": 6,
+            "submission_date": "2012-03-08", 
+            "conference": 1, 
+            "description": "Description papier 3", 
+            "language": 1, 
+            "title": "Papier 3", 
+            "co_authors": "", 
+            "file": "paper/PulseAudio_2.txt", 
+            "last_update_date": "2012-03-08", 
+            "submitter": 6, 
             "domains": [
-                2,
-                4,
+                2, 
+                4, 
                 8
             ]
         }
-    },
+    }, 
     {
-        "pk": 7,
-        "model": "confucius.paper",
+        "pk": 7, 
+        "model": "confucius.paper", 
         "fields": {
-            "submission_date": "2012-03-08",
-            "conference": 1,
-            "description": "Description 4",
-            "language": 1,
-            "title": "Paper 4",
-            "co_authors": "",
-            "file": "paper/PulseAudio_3.txt",
-            "last_update_date": "2012-03-08",
-            "submitter": 7,
+            "submission_date": "2012-03-08", 
+            "conference": 1, 
+            "description": "Description 4", 
+            "language": 1, 
+            "title": "Paper 4", 
+            "co_authors": "", 
+            "file": "paper/PulseAudio_3.txt", 
+            "last_update_date": "2012-03-08", 
+            "submitter": 7, 
             "domains": [
-                2,
+                2, 
                 6
             ]
         }
-    },
+    }, 
     {
-        "pk": 8,
-        "model": "confucius.paper",
+        "pk": 8, 
+        "model": "confucius.paper", 
         "fields": {
-            "submission_date": "2012-03-08",
-            "conference": 1,
-            "description": "description 5",
-            "language": 1,
-            "title": "Papier 5",
-            "co_authors": "",
-            "file": "paper/PulseAudio_4.txt",
-            "last_update_date": "2012-03-08",
-            "submitter": 8,
+            "submission_date": "2012-03-08", 
+            "conference": 1, 
+            "description": "description 5", 
+            "language": 1, 
+            "title": "Papier 5", 
+            "co_authors": "", 
+            "file": "paper/PulseAudio_4.txt", 
+            "last_update_date": "2012-03-08", 
+            "submitter": 8, 
             "domains": [
-                5,
+                5, 
                 6
             ]
         }
-    },
+    }, 
     {
-        "pk": 9,
-        "model": "confucius.paper",
+        "pk": 9, 
+        "model": "confucius.paper", 
         "fields": {
-            "submission_date": "2012-03-08",
-            "conference": 1,
-            "description": "description 6",
-            "language": 1,
-            "title": "Papier 6",
-            "co_authors": "",
-            "file": "paper/PulseAudio_5.txt",
-            "last_update_date": "2012-03-08",
-            "submitter": 9,
+            "submission_date": "2012-03-08", 
+            "conference": 1, 
+            "description": "description 6", 
+            "language": 1, 
+            "title": "Papier 6", 
+            "co_authors": "", 
+            "file": "paper/PulseAudio_5.txt", 
+            "last_update_date": "2012-03-08", 
+            "submitter": 9, 
             "domains": [
-                5,
+                5, 
                 6
             ]
         }
-    },
+    }, 
     {
-        "pk": 10,
-        "model": "confucius.paper",
+        "pk": 10, 
+        "model": "confucius.paper", 
         "fields": {
-            "submission_date": "2012-03-08",
-            "conference": 1,
-            "description": "descriptin 7",
-            "language": 1,
-            "title": "paper 7",
-            "co_authors": "",
-            "file": "paper/PulseAudio_6.txt",
-            "last_update_date": "2012-03-08",
-            "submitter": 6,
+            "submission_date": "2012-03-08", 
+            "conference": 1, 
+            "description": "descriptin 7", 
+            "language": 1, 
+            "title": "paper 7", 
+            "co_authors": "", 
+            "file": "paper/PulseAudio_6.txt", 
+            "last_update_date": "2012-03-08", 
+            "submitter": 6, 
             "domains": [
-                2,
+                2, 
                 6
             ]
         }
-    },
+    }, 
     {
-        "pk": 11,
-        "model": "confucius.paper",
+        "pk": 11, 
+        "model": "confucius.paper", 
         "fields": {
-            "submission_date": "2012-03-08",
-            "conference": 1,
-            "description": "description 8",
-            "language": 1,
-            "title": "Papier 8",
-            "co_authors": "",
-            "file": "paper/PulseAudio_7.txt",
-            "last_update_date": "2012-03-08",
-            "submitter": 10,
+            "submission_date": "2012-03-08", 
+            "conference": 1, 
+            "description": "description 8", 
+            "language": 1, 
+            "title": "Papier 8", 
+            "co_authors": "", 
+            "file": "paper/PulseAudio_7.txt", 
+            "last_update_date": "2012-03-08", 
+            "submitter": 10, 
             "domains": [
-                7,
-                9,
+                7, 
+                9, 
                 10
             ]
         }
-    },
+    }, 
     {
-        "pk": 12,
-        "model": "confucius.paper",
+        "pk": 12, 
+        "model": "confucius.paper", 
         "fields": {
-            "submission_date": "2012-03-08",
-            "conference": 1,
-            "description": "description OKJ",
-            "language": 1,
-            "title": "plop 2",
-            "co_authors": "",
-            "file": "paper/PulseAudio_8.txt",
-            "last_update_date": "2012-03-08",
-            "submitter": 11,
+            "submission_date": "2012-03-08", 
+            "conference": 1, 
+            "description": "description OKJ", 
+            "language": 1, 
+            "title": "plop 2", 
+            "co_authors": "", 
+            "file": "paper/PulseAudio_8.txt", 
+            "last_update_date": "2012-03-08", 
+            "submitter": 11, 
             "domains": [
-                4,
+                4, 
                 11
             ]
         }
-    },
+    }, 
     {
-        "pk": 1,
-        "model": "confucius.assignment",
+        "pk": 1, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": 2,
-            "is_done": true,
-            "paper": 1,
-            "is_rejected": false,
-            "reviewer": 1,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": 2, 
+            "is_done": true, 
+            "paper": 1, 
+            "is_rejected": false, 
+            "reviewer": 1, 
             "problem": ""
         }
-    },
+    }, 
     {
-        "pk": 2,
-        "model": "confucius.assignment",
+        "pk": 2, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": 12,
-            "is_done": true,
-            "paper": 4,
-            "is_rejected": false,
-            "reviewer": 5,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": 12, 
+            "is_done": true, 
+            "paper": 4, 
+            "is_rejected": false, 
+            "reviewer": 5, 
             "problem": ""
         }
-    },
+    }, 
     {
-        "pk": 3,
-        "model": "confucius.assignment",
+        "pk": 3, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": null,
-            "is_done": false,
-            "paper": 4,
-            "is_rejected": false,
-            "reviewer": 8,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": null, 
+            "is_done": false, 
+            "paper": 4, 
+            "is_rejected": false, 
+            "reviewer": 8, 
             "problem": ""
         }
-    },
+    }, 
     {
-        "pk": 4,
-        "model": "confucius.assignment",
+        "pk": 4, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": null,
-            "is_done": false,
-            "paper": 4,
-            "is_rejected": false,
-            "reviewer": 2,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": null, 
+            "is_done": false, 
+            "paper": 4, 
+            "is_rejected": false, 
+            "reviewer": 2, 
             "problem": ""
         }
-    },
+    }, 
     {
-        "pk": 5,
-        "model": "confucius.assignment",
+        "pk": 5, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": 4,
-            "is_done": true,
-            "paper": 5,
-            "is_rejected": false,
-            "reviewer": 3,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": 4, 
+            "is_done": true, 
+            "paper": 5, 
+            "is_rejected": false, 
+            "reviewer": 3, 
             "problem": ""
         }
-    },
+    }, 
     {
-        "pk": 6,
-        "model": "confucius.assignment",
+        "pk": 6, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": 7,
-            "is_done": true,
-            "paper": 5,
-            "is_rejected": false,
-            "reviewer": 4,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": 7, 
+            "is_done": true, 
+            "paper": 5, 
+            "is_rejected": false, 
+            "reviewer": 4, 
             "problem": ""
         }
-    },
+    }, 
     {
-        "pk": 7,
-        "model": "confucius.assignment",
+        "pk": 7, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": 1,
-            "is_done": true,
-            "paper": 5,
-            "is_rejected": false,
-            "reviewer": 1,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": 1, 
+            "is_done": true, 
+            "paper": 5, 
+            "is_rejected": false, 
+            "reviewer": 1, 
             "problem": ""
         }
-    },
+    }, 
     {
-        "pk": 8,
-        "model": "confucius.assignment",
+        "pk": 8, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": null,
-            "is_done": false,
-            "paper": 6,
-            "is_rejected": true,
-            "reviewer": 3,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": null, 
+            "is_done": false, 
+            "paper": 6, 
+            "is_rejected": true, 
+            "reviewer": 3, 
             "problem": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
         }
-    },
+    }, 
     {
-        "pk": 9,
-        "model": "confucius.assignment",
+        "pk": 9, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": 13,
-            "is_done": true,
-            "paper": 6,
-            "is_rejected": false,
-            "reviewer": 5,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": 13, 
+            "is_done": true, 
+            "paper": 6, 
+            "is_rejected": false, 
+            "reviewer": 5, 
             "problem": ""
         }
-    },
+    }, 
     {
-        "pk": 10,
-        "model": "confucius.assignment",
+        "pk": 10, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": 19,
-            "is_done": true,
-            "paper": 6,
-            "is_rejected": false,
-            "reviewer": 8,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": 19, 
+            "is_done": true, 
+            "paper": 6, 
+            "is_rejected": false, 
+            "reviewer": 8, 
             "problem": ""
         }
-    },
+    }, 
     {
-        "pk": 11,
-        "model": "confucius.assignment",
+        "pk": 11, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": 5,
-            "is_done": true,
-            "paper": 11,
-            "is_rejected": false,
-            "reviewer": 3,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": 5, 
+            "is_done": true, 
+            "paper": 11, 
+            "is_rejected": false, 
+            "reviewer": 3, 
             "problem": ""
         }
-    },
+    }, 
     {
-        "pk": 12,
-        "model": "confucius.assignment",
+        "pk": 12, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": null,
-            "is_done": false,
-            "paper": 11,
-            "is_rejected": false,
-            "reviewer": 8,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": null, 
+            "is_done": false, 
+            "paper": 11, 
+            "is_rejected": false, 
+            "reviewer": 8, 
             "problem": ""
         }
-    },
+    }, 
     {
-        "pk": 13,
-        "model": "confucius.assignment",
+        "pk": 13, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": null,
-            "is_done": false,
-            "paper": 7,
-            "is_rejected": false,
-            "reviewer": 2,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": null, 
+            "is_done": false, 
+            "paper": 7, 
+            "is_rejected": false, 
+            "reviewer": 2, 
             "problem": ""
         }
-    },
+    }, 
     {
-        "pk": 14,
-        "model": "confucius.assignment",
+        "pk": 14, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": 8,
-            "is_done": true,
-            "paper": 7,
-            "is_rejected": false,
-            "reviewer": 4,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": 8, 
+            "is_done": true, 
+            "paper": 7, 
+            "is_rejected": false, 
+            "reviewer": 4, 
             "problem": ""
         }
-    },
+    }, 
     {
-        "pk": 15,
-        "model": "confucius.assignment",
+        "pk": 15, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": 3,
-            "is_done": true,
-            "paper": 7,
-            "is_rejected": false,
-            "reviewer": 1,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": 3, 
+            "is_done": true, 
+            "paper": 7, 
+            "is_rejected": false, 
+            "reviewer": 1, 
             "problem": ""
         }
-    },
+    }, 
     {
-        "pk": 16,
-        "model": "confucius.assignment",
+        "pk": 16, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": 14,
-            "is_done": true,
-            "paper": 8,
-            "is_rejected": false,
-            "reviewer": 7,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": 14, 
+            "is_done": true, 
+            "paper": 8, 
+            "is_rejected": false, 
+            "reviewer": 7, 
             "problem": ""
         }
-    },
+    }, 
     {
-        "pk": 17,
-        "model": "confucius.assignment",
+        "pk": 17, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": null,
-            "is_done": false,
-            "paper": 8,
-            "is_rejected": false,
-            "reviewer": 2,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": null, 
+            "is_done": false, 
+            "paper": 8, 
+            "is_rejected": false, 
+            "reviewer": 2, 
             "problem": ""
         }
-    },
+    }, 
     {
-        "pk": 18,
-        "model": "confucius.assignment",
+        "pk": 18, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": 15,
-            "is_done": true,
-            "paper": 9,
-            "is_rejected": false,
-            "reviewer": 7,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": 15, 
+            "is_done": true, 
+            "paper": 9, 
+            "is_rejected": false, 
+            "reviewer": 7, 
             "problem": ""
         }
-    },
+    }, 
     {
-        "pk": 19,
-        "model": "confucius.assignment",
+        "pk": 19, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": 9,
-            "is_done": true,
-            "paper": 10,
-            "is_rejected": false,
-            "reviewer": 4,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": 9, 
+            "is_done": true, 
+            "paper": 10, 
+            "is_rejected": false, 
+            "reviewer": 4, 
             "problem": ""
         }
-    },
+    }, 
     {
-        "pk": 20,
-        "model": "confucius.assignment",
+        "pk": 20, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": 16,
-            "is_done": true,
-            "paper": 10,
-            "is_rejected": false,
-            "reviewer": 7,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": 16, 
+            "is_done": true, 
+            "paper": 10, 
+            "is_rejected": false, 
+            "reviewer": 7, 
             "problem": ""
         }
-    },
+    }, 
     {
-        "pk": 21,
-        "model": "confucius.assignment",
+        "pk": 21, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": null,
-            "is_done": false,
-            "paper": 1,
-            "is_rejected": true,
-            "reviewer": 5,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": null, 
+            "is_done": false, 
+            "paper": 1, 
+            "is_rejected": true, 
+            "reviewer": 5, 
             "problem": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
         }
-    },
+    }, 
     {
-        "pk": 22,
-        "model": "confucius.assignment",
+        "pk": 22, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": null,
-            "is_done": false,
-            "paper": 3,
-            "is_rejected": false,
-            "reviewer": 2,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": null, 
+            "is_done": false, 
+            "paper": 3, 
+            "is_rejected": false, 
+            "reviewer": 2, 
             "problem": ""
         }
-    },
+    }, 
     {
-        "pk": 23,
-        "model": "confucius.assignment",
+        "pk": 23, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": 10,
-            "is_done": true,
-            "paper": 3,
-            "is_rejected": false,
-            "reviewer": 4,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": 10, 
+            "is_done": true, 
+            "paper": 3, 
+            "is_rejected": false, 
+            "reviewer": 4, 
             "problem": ""
         }
-    },
+    }, 
     {
-        "pk": 24,
-        "model": "confucius.assignment",
+        "pk": 24, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": 17,
-            "is_done": true,
-            "paper": 3,
-            "is_rejected": false,
-            "reviewer": 7,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": 17, 
+            "is_done": true, 
+            "paper": 3, 
+            "is_rejected": false, 
+            "reviewer": 7, 
             "problem": ""
         }
-    },
+    }, 
     {
-        "pk": 25,
-        "model": "confucius.assignment",
+        "pk": 25, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": 18,
-            "is_done": true,
-            "paper": 12,
-            "is_rejected": false,
-            "reviewer": 7,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": 18, 
+            "is_done": true, 
+            "paper": 12, 
+            "is_rejected": false, 
+            "reviewer": 7, 
             "problem": ""
         }
-    },
+    }, 
     {
-        "pk": 26,
-        "model": "confucius.assignment",
+        "pk": 26, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": 11,
-            "is_done": true,
-            "paper": 12,
-            "is_rejected": false,
-            "reviewer": 4,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": 11, 
+            "is_done": true, 
+            "paper": 12, 
+            "is_rejected": false, 
+            "reviewer": 4, 
             "problem": ""
         }
-    },
+    }, 
     {
-        "pk": 27,
-        "model": "confucius.assignment",
+        "pk": 27, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": null,
-            "is_done": false,
-            "paper": 12,
-            "is_rejected": true,
-            "reviewer": 1,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": null, 
+            "is_done": false, 
+            "paper": 12, 
+            "is_rejected": true, 
+            "reviewer": 1, 
             "problem": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
         }
-    },
+    }, 
     {
-        "pk": 28,
-        "model": "confucius.assignment",
+        "pk": 28, 
+        "model": "confucius.assignment", 
         "fields": {
-            "conference": 1,
-            "is_assigned": true,
-            "review": 6,
-            "is_done": true,
-            "paper": 2,
-            "is_rejected": false,
-            "reviewer": 3,
+            "conference": 1, 
+            "is_assigned": true, 
+            "review": 6, 
+            "is_done": true, 
+            "paper": 2, 
+            "is_rejected": false, 
+            "reviewer": 3, 
             "problem": ""
         }
-    },
+    }, 
     {
-        "pk": 1,
-        "model": "confucius.review",
+        "pk": 1, 
+        "model": "confucius.review", 
         "fields": {
-            "overall_evaluation": 8,
-            "reviewer_confidence": 3,
-            "last_update_date": "2012-03-08",
-            "commentary_for_president": "eazeaz",
+            "overall_evaluation": 8, 
+            "reviewer_confidence": 3, 
+            "last_update_date": "2012-03-08", 
+            "commentary_for_president": "eazeaz", 
             "detailed_commentary": "C'est de la merde"
         }
-    },
+    }, 
     {
-        "pk": 2,
-        "model": "confucius.review",
+        "pk": 2, 
+        "model": "confucius.review", 
         "fields": {
-            "overall_evaluation": 4,
-            "reviewer_confidence": 4,
-            "last_update_date": "2012-03-08",
-            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "overall_evaluation": 4, 
+            "reviewer_confidence": 4, 
+            "last_update_date": "2012-03-08", 
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.", 
             "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
         }
-    },
+    }, 
     {
-        "pk": 3,
-        "model": "confucius.review",
+        "pk": 3, 
+        "model": "confucius.review", 
         "fields": {
-            "overall_evaluation": 10,
-            "reviewer_confidence": 4,
-            "last_update_date": "2012-03-08",
-            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "overall_evaluation": 10, 
+            "reviewer_confidence": 4, 
+            "last_update_date": "2012-03-08", 
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.", 
             "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
         }
-    },
+    }, 
     {
-        "pk": 4,
-        "model": "confucius.review",
+        "pk": 4, 
+        "model": "confucius.review", 
         "fields": {
-            "overall_evaluation": 6,
-            "reviewer_confidence": 2,
-            "last_update_date": "2012-03-08",
-            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "overall_evaluation": 6, 
+            "reviewer_confidence": 2, 
+            "last_update_date": "2012-03-08", 
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.", 
             "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
         }
-    },
+    }, 
     {
-        "pk": 5,
-        "model": "confucius.review",
+        "pk": 5, 
+        "model": "confucius.review", 
         "fields": {
-            "overall_evaluation": 9,
-            "reviewer_confidence": 5,
-            "last_update_date": "2012-03-08",
-            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "overall_evaluation": 9, 
+            "reviewer_confidence": 5, 
+            "last_update_date": "2012-03-08", 
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.", 
             "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
         }
-    },
+    }, 
     {
-        "pk": 6,
-        "model": "confucius.review",
+        "pk": 6, 
+        "model": "confucius.review", 
         "fields": {
-            "overall_evaluation": 10,
-            "reviewer_confidence": 1,
-            "last_update_date": "2012-03-08",
-            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "overall_evaluation": 10, 
+            "reviewer_confidence": 1, 
+            "last_update_date": "2012-03-08", 
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.", 
             "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
         }
-    },
+    }, 
     {
-        "pk": 7,
-        "model": "confucius.review",
+        "pk": 7, 
+        "model": "confucius.review", 
         "fields": {
-            "overall_evaluation": 7,
-            "reviewer_confidence": 4,
-            "last_update_date": "2012-03-08",
-            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "overall_evaluation": 7, 
+            "reviewer_confidence": 4, 
+            "last_update_date": "2012-03-08", 
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.", 
             "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
         }
-    },
+    }, 
     {
-        "pk": 8,
-        "model": "confucius.review",
+        "pk": 8, 
+        "model": "confucius.review", 
         "fields": {
-            "overall_evaluation": 1,
-            "reviewer_confidence": 5,
-            "last_update_date": "2012-03-08",
-            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "overall_evaluation": 1, 
+            "reviewer_confidence": 5, 
+            "last_update_date": "2012-03-08", 
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.", 
             "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
         }
-    },
+    }, 
     {
-        "pk": 9,
-        "model": "confucius.review",
+        "pk": 9, 
+        "model": "confucius.review", 
         "fields": {
-            "overall_evaluation": 4,
-            "reviewer_confidence": 3,
-            "last_update_date": "2012-03-08",
-            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "overall_evaluation": 4, 
+            "reviewer_confidence": 3, 
+            "last_update_date": "2012-03-08", 
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.", 
             "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
         }
-    },
+    }, 
     {
-        "pk": 10,
-        "model": "confucius.review",
+        "pk": 10, 
+        "model": "confucius.review", 
         "fields": {
-            "overall_evaluation": 9,
-            "reviewer_confidence": 3,
-            "last_update_date": "2012-03-08",
-            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "overall_evaluation": 9, 
+            "reviewer_confidence": 3, 
+            "last_update_date": "2012-03-08", 
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.", 
             "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
         }
-    },
+    }, 
     {
-        "pk": 11,
-        "model": "confucius.review",
+        "pk": 11, 
+        "model": "confucius.review", 
         "fields": {
-            "overall_evaluation": 3,
-            "reviewer_confidence": 3,
-            "last_update_date": "2012-03-08",
-            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "overall_evaluation": 3, 
+            "reviewer_confidence": 3, 
+            "last_update_date": "2012-03-08", 
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.", 
             "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
         }
-    },
+    }, 
     {
-        "pk": 12,
-        "model": "confucius.review",
+        "pk": 12, 
+        "model": "confucius.review", 
         "fields": {
-            "overall_evaluation": 5,
-            "reviewer_confidence": 4,
-            "last_update_date": "2012-03-08",
-            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "overall_evaluation": 5, 
+            "reviewer_confidence": 4, 
+            "last_update_date": "2012-03-08", 
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.", 
             "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
         }
-    },
+    }, 
     {
-        "pk": 13,
-        "model": "confucius.review",
+        "pk": 13, 
+        "model": "confucius.review", 
         "fields": {
-            "overall_evaluation": 6,
-            "reviewer_confidence": 3,
-            "last_update_date": "2012-03-08",
-            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "overall_evaluation": 6, 
+            "reviewer_confidence": 3, 
+            "last_update_date": "2012-03-08", 
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.", 
             "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
         }
-    },
+    }, 
     {
-        "pk": 14,
-        "model": "confucius.review",
+        "pk": 14, 
+        "model": "confucius.review", 
         "fields": {
-            "overall_evaluation": 8,
-            "reviewer_confidence": 5,
-            "last_update_date": "2012-03-08",
-            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "overall_evaluation": 8, 
+            "reviewer_confidence": 5, 
+            "last_update_date": "2012-03-08", 
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.", 
             "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
         }
-    },
+    }, 
     {
-        "pk": 15,
-        "model": "confucius.review",
+        "pk": 15, 
+        "model": "confucius.review", 
         "fields": {
-            "overall_evaluation": 4,
-            "reviewer_confidence": 3,
-            "last_update_date": "2012-03-08",
-            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "overall_evaluation": 4, 
+            "reviewer_confidence": 3, 
+            "last_update_date": "2012-03-08", 
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.", 
             "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
         }
-    },
+    }, 
     {
-        "pk": 16,
-        "model": "confucius.review",
+        "pk": 16, 
+        "model": "confucius.review", 
         "fields": {
-            "overall_evaluation": 8,
-            "reviewer_confidence": 4,
-            "last_update_date": "2012-03-08",
-            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "overall_evaluation": 8, 
+            "reviewer_confidence": 4, 
+            "last_update_date": "2012-03-08", 
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.", 
             "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
         }
-    },
+    }, 
     {
-        "pk": 17,
-        "model": "confucius.review",
+        "pk": 17, 
+        "model": "confucius.review", 
         "fields": {
-            "overall_evaluation": 1,
-            "reviewer_confidence": 5,
-            "last_update_date": "2012-03-08",
-            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "overall_evaluation": 1, 
+            "reviewer_confidence": 5, 
+            "last_update_date": "2012-03-08", 
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.", 
             "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
         }
-    },
+    }, 
     {
-        "pk": 18,
-        "model": "confucius.review",
+        "pk": 18, 
+        "model": "confucius.review", 
         "fields": {
-            "overall_evaluation": 1,
-            "reviewer_confidence": 4,
-            "last_update_date": "2012-03-08",
-            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "overall_evaluation": 1, 
+            "reviewer_confidence": 4, 
+            "last_update_date": "2012-03-08", 
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.", 
             "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
         }
-    },
+    }, 
     {
-        "pk": 19,
-        "model": "confucius.review",
+        "pk": 19, 
+        "model": "confucius.review", 
         "fields": {
-            "overall_evaluation": 2,
-            "reviewer_confidence": 4,
-            "last_update_date": "2012-03-08",
-            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.",
+            "overall_evaluation": 2, 
+            "reviewer_confidence": 4, 
+            "last_update_date": "2012-03-08", 
+            "commentary_for_president": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums.", 
             "detailed_commentary": "Dictionnaires bilingues en ligne gratuits. Fran\u00e7ais-Anglais : plus de 270 000 traductions, et la r\u00e9ponse \u00e0 plus de 65 000 questions de traduction dans les forums."
         }
     }
