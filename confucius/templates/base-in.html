@@ -103,7 +103,7 @@
                                         <span class="label label-info">{{ conference.submissions_start_date|date:'SHORT_DATE_FORMAT' }}</span>
                                         <span class="date-title">Submissions start</span>
                                     {% else %}
-                                        {% if conference.are_submissions_over %}</span><span class="label label-important">{{ conference.submissions_start_date|date:'SHORT_DATE_FORMAT' }}</span>
+                                        {% if conference.are_submissions_over %}</span><span class="label label-important">{{ conference.submissions_end_date|date:'SHORT_DATE_FORMAT' }}</span>
                                             <span class="date-title">Submissions over</span>
                                         {% else %}
                                             <span class="label label-info">{{ conference.submissions_end_date|date:'SHORT_DATE_FORMAT' }}</span>
@@ -116,7 +116,7 @@
                                         <span class="label label-info">{{ conference.reviews_start_date|date:'SHORT_DATE_FORMAT' }}</span>
                                         <span class="date-title">Reviews start</span>
                                     {% else %}
-                                        {% if conference.are_reviews_over %}</span><span class="label label-important">{{ conference.reviews_start_date|date:'SHORT_DATE_FORMAT' }</span>
+                                        {% if conference.are_reviews_over %}</span><span class="label label-important">{{ conference.reviews_end_date|date:'SHORT_DATE_FORMAT' }</span>
                                             <span class="date-title">Reviews over</span>
                                         {% else %}
                                             <span class="label label-info">{{ conference.reviews_end_date|date:'SHORT_DATE_FORMAT' }}</span>
