@@ -148,7 +148,7 @@ def my_send_mail(alert, conference):
         memberships_list = Membership.objects.filter(roles=role, conference=conference).all()
         users_email = [unicode(membership.user.email) for membership in memberships_list]
         try:
-            send_mail(alert.title, alert.content, 'no-reply-alerts@confucius.com', users_email, fail_silently=False)
+            send_mail("[Confucius Alert] "+alert.title, alert.content, 'no-reply-alerts@confucius.com', users_email, fail_silently=False)
         except:
             print "Error occured during email sending process. Please check your SMTP settings"
             
