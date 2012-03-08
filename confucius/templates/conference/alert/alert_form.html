@@ -59,6 +59,7 @@ function toggleEvents() {
     {% if alert.action %}
         $('#id_action').closest('div.control-group').show();
         $('#action').click();
+        refreshRolesAction();
     {% endif %}
     
     {% if alert.trigger_date %}
@@ -70,16 +71,39 @@ function toggleEvents() {
     $('#reminder').on('click', function() {
         $('#id_trigger_date, #id_action').val('').closest('div.control-group').hide();
         $('#id_reminder, #id_event').closest('div.control-group').show('slow');
+        refreshRoles();
     });
     $('#trigger').on('click', function() {
         $('#id_reminder, #id_action, #id_event').val('').closest('div.control-group').hide();
         $('#id_trigger_date').closest('div.control-group').show('slow');
+        refreshRoles();
     });
     $('#action').on('click', function() {
         $('#id_trigger_date, #id_reminder, #id_event').val('').closest('div.control-group').hide();
         $('#id_action').closest('div.control-group').show('slow');
+        refreshRolesAction();
     });
 }
 
+function refreshRolesAction() {
+$('#id_roles')
+    .find('option')
+    .remove()
+    .end()
+    .append('<option value="{{role_action.pk}}" selected=\"selected\">{{role_action.name}}</option>')
+    ;
+}
+
+
+function refreshRoles() {
+$('#id_roles')
+    .find('option')
+    .remove()
+    .end()
+    {% for role in roles %}
+        .append('<option value="{{role.pk}}">{{role.name}}</option>')
+    {% endfor %}
+    ;
+}
 </script>
 {% endblock %}
