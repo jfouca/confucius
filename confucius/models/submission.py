@@ -14,12 +14,12 @@ class Paper(ConfuciusModel):
     language = models.ForeignKey(Language)
     domains = models.ManyToManyField(Domain)
     conference = models.ForeignKey(Conference)
-   # file = ContentTypeRestrictedFileField(
-  #      upload_to='paper',
-   #     content_types=['application/pdf', 'application/msword' , 'application/postscript' , 'application/rtf', 'application/vnd.ms-powerpoint', 'image/jpeg', 'text/plain'],
-  #      max_upload_size=5242880
-  #  )
-    file = models.FileField(upload_to='papers')
+    file = ContentTypeRestrictedFileField(
+       upload_to='paper',
+       content_types=['application/pdf', 'application/msword' , 'application/postscript' , 'application/rtf', 'application/vnd.ms-powerpoint', 'image/jpeg', 'text/plain'],
+       max_upload_size=5242880
+    )
+    #file = models.FileField(upload_to='papers')
     class Meta(ConfuciusModel.Meta):
         unique_together = ('title', 'conference',)
 
