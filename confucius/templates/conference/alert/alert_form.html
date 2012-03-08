@@ -29,12 +29,13 @@
     {% include 'includes/form.html' %}
     <div class="form-actions">
         {% if alert.pk %}
-            <input type="submit" class="btn btn-primary" value="Edit"> 
+            <button type="submit" class="btn"><i class="icon-ok"></i> Save</button> 
+            <a href="{% url 'delete_alert' conference.pk alert.pk %}" class="btn"><i class="icon-trash"></i> Delete</a>
         {% else %} 
-            <input type="submit" class="btn btn-primary" value="Create">
+            <button type="submit" class="btn"><i class="icon-file"></i> Create alert</button>
         {% endif %}
-        <a href="{% url 'dashboard' %}" class="btn btn-info">
-            <i class="icon-share-alt icon-white"></i> To dashboard
+        <a href="{% url 'alerts' conference.pk %}" class="btn btn-info">
+            <i class="icon-share-alt icon-white"></i> To alerts
         </a>
     </div>
     </fieldset>

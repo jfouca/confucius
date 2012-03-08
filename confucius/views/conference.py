@@ -174,7 +174,7 @@ def conference_invite(request, template_name='conference/invitation_form.html'):
             except:
                 user = User.objects.get(email=form.cleaned_data['email']).delete()
                 messages.error(request, u'An error occured during the email sending process. Please contact the administrator.')
-            return redirect('dashboard')
+            return redirect('invitations', request.conference.pk)
 
     context = {
         'form': form,
