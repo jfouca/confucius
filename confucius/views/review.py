@@ -26,11 +26,16 @@ def finalize_assignment(request):
     
     conference = request.conference
     assignments = Assignment.objects.filter(conference=conference, is_assigned=False)
+    template = loader.get_template('review/assignment_email.html')
+    context = {
+	'domain': get_current_site(request).domain,
+	'conference': conference,
+    }
     
     reviewers_list = list(set([assignment.reviewer.email for assignment in assignments]))
     try:
-        send_mail('You have received papers to reviews for the conference "%s"' % conference, template.render(Context(context)), None, reviewers_list)
-        messages.success(request, u'You have successfully assign reviewers. An email has been sent to each of them with further instructions')
+	send_mail('You have received papers to reviews for the conference "%s"' % conference, template.render(Context(context)), None, reviewers_list)
+	messages.success(request, u'You have successfully assign reviewers. An email has been sent to each of them with further instructions')
     except:
         messages.error(request, u'An error occured during the email sending process. Please contact the administrator.')
         return redirect('dashboard')
@@ -41,11 +46,7 @@ def finalize_assignment(request):
         assignment.save()
 
     
-    template = loader.get_template('review/assignment_email.html')
-    context = {
-            'domain': get_current_site(request).domain,
-            'conference': conference,
-    }
+    
     
 
     return redirect('dashboard')
