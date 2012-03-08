@@ -129,10 +129,24 @@ tr.paper-deselect, tr.paper-deselect:hover td{
                 {% endif %}
             {% endwith %}
         </td>
-        <td> 
-            {% if paper.get_mark == -1 %} No mark yet 
-            {% else %} {{ paper.get_mark }} %
+        <td>
+            {% with mark=paper.get_mark %}
+            {% if mark == -1 %}
+                Not yet reviewed.
+            {% else %}
+                {% if mark <= 30 %}
+                <div class="progress progress-danger">
+                {% endif %}
+                {% if mark > 30 and mark < 80 %}
+                <div class="progress progress-info">
+                {% endif %}
+                {% if mark >= 80 %}
+                <div class="progress progress-success">
+                {% endif %}
+                    <div class="bar" style="width:{{ mark }}%">{{ mark }}</div>
+                </div>
             {% endif %}
+            {% endwith %}
         </td>
         <td>
             {% if not paper.is_ambigous %}
@@ -248,7 +262,7 @@ function checkPaper() {
             $('#selectAll').attr('checked', true);
             toggleSelectionButtons();
         }
-        
+        return false;
     });
 }
 
@@ -279,6 +293,7 @@ function selectAction() {
             papers_id: myJSONText,
         }
         );
+        return false;
     });
 }
 
@@ -303,6 +318,7 @@ function deselectAction() {
             papers_id: myJSONText,
         }
         );
+        return false;
     });
 }
 
@@ -344,6 +360,7 @@ function quickActions() {
             papers_id: myJSONText,
         }
         );
+        return false;
     });
 }
 
