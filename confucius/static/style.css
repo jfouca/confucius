@@ -77,9 +77,82 @@ ul {
     padding: 5px 0 15px 0;
 }
 
+.sidebar-dates .date-title {
+    z-index: 5;
+    display: block;
+    position: relative;
+    top: -5px;
+    margin-left: 3px;
+    padding: 3px 5px;
+    border: 1px solid lightgrey;
+    border-top: 3px solid lightgrey;
+    background-color: #fff;
+
+}
+
+.sidebar-dates .label {
+    z-index: 10;
+    position: relative;
+} 
+
 .sidebar-dates ul li {
-    margin-top: 5px;
+    margin-top: 3px;
     color: #333;
+}
+
+/* Dashboard */
+
+.db-submissions {
+    display: block;
+    float: left;
+    width: 60%;
+    margin-right: 3%;
+}
+
+.db-reviews {
+    display: block;
+    float: left;
+    width: 37%;
+}
+
+/* accordion overriding */
+
+.accordion {
+    border-top: 1px solid lightgrey;
+}
+
+.accordion-heading {
+    background-color: #f5f5f5; 
+}
+
+.accordion-group {
+    margin: 0;
+    border-top: 2px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+/* navbar overriding */
+
+.navbar-inner {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+/* above navbar */
+
+.top-alert {
+    margin: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+.top-alert h4 {
+    text-align: center;
 }
 
 /* Content */
@@ -99,7 +172,7 @@ ul {
 .content {
 }
 
-.content > .page-header {
+.content .page-header {
     border-right: 3px solid lightgrey;
     border-left: 3px solid lightgrey;
     -webkit-border-radius: 0;
@@ -167,10 +240,6 @@ ul {
 
 .headline:before {
     color: #ffffff;
-}
-
-.top-alert {
-    margin: 0;
 }
 
 .isResizable {

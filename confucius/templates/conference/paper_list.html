@@ -47,7 +47,9 @@
             </td>
             <td>{{ paper.submission_date }}</td>
             <td>{{ paper.language }}</td>
-            <td>{% for domain in paper.domains.all %}<span class="label">{{ domain }}</span>{% endfor %}</td>
+            <td>{% for domain in paper.domains.all %}
+                <span class="label">{{ domain }}</span>
+            {% endfor %}</td>
         </tr>
         {% empty %}
         <tr>

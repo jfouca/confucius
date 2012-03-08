@@ -30,6 +30,17 @@ function confucius() {
     $('.top-alert').slideUp(function() {
         $(this).remove();
     });
+    
+    $('.collapse').on('hidden', function () {
+        var $icon = $(this).closest('.accordion-group').find('.icon');
+        $icon.toggleClass('icon-chevron-up')
+        $icon.toggleClass('icon-chevron-down');
+    });
+    $('.collapse').on('shown', function () {
+        var $icon = $(this).closest('.accordion-group').find('.icon');
+        $icon.toggleClass('icon-chevron-up')
+        $icon.toggleClass('icon-chevron-down');
+    });
 };
 
 $(document).ready(confucius());

@@ -101,18 +101,26 @@ def dashboard(request, template_name='conference/dashboard.html'):
     conference = request.conference
     membership = request.membership
 
-    alerts_trigger = Alert.objects.filter(conference=conference.pk, reminder__isnull=True, action__isnull=True)
-    alerts_reminder = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, action__isnull=True)
-    alerts_action = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, reminder__isnull=True)
     user_papers = Paper.objects.filter(conference=conference, submitter=request.user).order_by('-last_update_date')
     user_assignments = Assignment.objects.filter(conference=conference, reviewer=request.user, is_assigned=True)
+    
+    
+    alerts_trigger = Alert.objects.filter(conference=conference.pk, reminder__isnull=True, action__isnull=True).order_by('trigger_date')
+    #alerts_reminder = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, action__isnull=True)
+    #alerts_action = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, reminder__isnull=True)
+    if alerts_trigger.count() > 5:
+        alerts_trigger = alerts_trigger[:5]
+    
     conference_reviews = Assignment.objects.filter(paper__conference=conference, is_done=True, review__isnull=False).order_by('-review__last_update_date')
+    if conference_reviews.count() > 5:
+        conference_reviews = conference_reviews[:5]
+        
     conference_papers = Paper.objects.filter(conference=conference).order_by('-submission_date')
+    if conference_papers.count() > 5:
+        conference_papers = conference_papers[:5]
 
     context = {
         'alerts_trigger': alerts_trigger,
-        'alerts_reminder': alerts_reminder,
-        'alerts_action': alerts_action,
         'conference': conference,
         'membership': membership,
         'user_papers': user_papers,

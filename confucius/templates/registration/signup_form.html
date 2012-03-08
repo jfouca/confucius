@@ -12,6 +12,7 @@
         {% include 'includes/form.html' with form=extra_form %}
         <div class="form-actions">
             <input type="submit" class="btn btn-large btn-primary" value="Sign Up">
+            <a href="{% url 'conference_invitation' invitation.key 'refuse' %}" class="btn btn-large">Refuse invitation</a>
         </div>
     </form>
 </div>

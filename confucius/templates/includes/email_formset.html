@@ -3,23 +3,57 @@
 
 {{ email_formset.management_form }}
 
-<div class="control-group" id="control_group_emails">
-    <label class="control-label">Emails</label>
+<!-- Main email -->
+<div class="control-group" id="control_main_email">
+    <label class="control-label">Main email</label>
     <div class="controls" id="controls_emails">
-        {% for form in email_formset %}
+        {% with form=email_formset.0 %}
             {% with field=form.value %}
-            <div class="input-prepend" id="emails-{{ forloop.counter0 }}">
-            {% for field in form.hidden_fields %}
-                {{ field }}
-            {% endfor %}
-                    <span class="add-on">
-                        <i class="icon icon-envelope"></i>
-                    </span>
+            
+                <div class="input-prepend" id="emails-0">
+                    {% for field in form.hidden_fields %}
+                        {{ field }}
+                    {% endfor %}
+                    
+                    <span class="add-on"><i class="icon icon-envelope"></i></span>
                     <input class="input-large" type="{{ type|default:'text' }}" id="id_{{ field.html_name }}" {% ifnotequal field|type 'multiple_choice' %}name="{{ field.html_name }}" value="{{ field.value|default:'' }}"{% endifnotequal %} placeholder="{{ field.label }}">
-                    <span class="help-inline">{% if not forloop.first and not forloop.last %}<a href="#emails-{{ forloop.counter0 }}" class="delete_email"><i class="icon-remove"></i></a>{% endif %}{% if field.errors %}{{ field.errors|first }}{% else %}{{ field.help_text }}{% endif %}</span>
+                    <span class="help-inline">
+                        {% if field.errors %}{{ field.errors|first }}{% else %}{{ field.help_text }}{% endif %}
+                    </span>
+                    <span class="help-block">Emails will be send to this address only</span>
+                    
                 </div>
-            {% endwith %}
-        {% endfor %}
+            {% endwith %} 
+        {% endwith %}
+        <p class="help-block"></p>
+    </div>
+</div>
+
+
+<!-- Other emails -->
+<div class="control-group" id="control_other_emails">
+    <label class="control-label">Other emails</label>
+    <div class="controls" id="controls_emails">
+        {% for form in email_formset %} {% if not forloop.first %}
+            {% with field=form.value %}
+            
+                <div class="input-prepend" id="emails-{{ forloop.counter0 }}">
+                    {% for field in form.hidden_fields %}
+                        {{ field }}
+                    {% endfor %}
+                    
+                    <span class="add-on"><i class="icon icon-envelope"></i></span>
+                    <input class="input-large" type="{{ type|default:'text' }}" id="id_{{ field.html_name }}" {% ifnotequal field|type 'multiple_choice' %}name="{{ field.html_name }}" value="{{ field.value|default:'' }}"{% endifnotequal %} placeholder="{{ field.label }}">
+                    <span class="help-inline">
+                        {% if not forloop.first and not forloop.last %}
+                            <a href="#emails-{{ forloop.counter0 }}" class="delete_email"><i class="icon-remove"></i></a>
+                        {% endif %}
+                        {% if field.errors %}{{ field.errors|first }}{% else %}{{ field.help_text }}{% endif %}
+                    </span>
+                    
+                </div>
+            {% endwith %} 
+        {% endif %} {% endfor %}
         <p class="help-block"></p>
     </div>
 </div>
