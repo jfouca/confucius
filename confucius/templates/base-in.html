@@ -19,7 +19,7 @@
                 <div class="pull-right logo"> 
                     <ul class="nav">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.first_name }} {{ user.last_name }} <b class="caret"></b></a>
+                            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">{{ user.first_name }} {{ user.last_name }} <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="{% url 'account' %}"><i class="icon-user"></i> Edit my account</a></li>
                                 <li class="divider"></li>
@@ -48,7 +48,7 @@
                             </li>
                             {% if request.membership.has_chair_role %}
                                 <li class="nav-header"><i class="icon-comment"></i> Conference</li>
-                                <li class="{{'alerts'|active:request}}">
+                                <li class="{{'update'|active:request}}">
                                     <a href="{% url 'conference_edit' conference.pk %}">Edit</a></li>
                                 <li class="{{'alerts'|active:request}}">
                                     <a href="{% url 'alerts' request.conference.pk %}">Alerts</a></li>
