@@ -42,10 +42,7 @@ web server (the simplest is to deploy it with Apache and mod\_wsgi).
 Installation on a Debian-based OS
 ------------
 
-### Requirements installation
-
     # aptitude install apache2 libapache2-mod-wsgi python-pip
-    # pip install -r requirements.txt --use-mirrors
 
 If your RDBMS is MySQL :
 
@@ -55,6 +52,10 @@ If your RDBMS is PostgreSQL :
 
     # aptitude install python-psycopg2
 
+    # wget https://github.com/keepitsimpl/confucius/zipball/development -O confucius.zip
+    # unzip confucius.zip && rm confucius.zip
+    # mv keepitsimpl-confucius-* confucius_wrapper && cd confucius_wrapper
+    confucius_wrapper# pip install -r requirements.txt --use-mirrors
 
 Original developers
 -------------------
