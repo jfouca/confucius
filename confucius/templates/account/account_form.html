@@ -156,7 +156,7 @@
             $(e.target).next().append('<i class="icon-refresh">');
             $(this).load('{% url 'account' %} #form > *', $(this).serializeArray(), function () {
                 $control_group = $('#control_id_' + e.target.name);
-                if (!$control_group.hasClass('error') && !$('#control_group_emails')) {
+                if ($control_group.attr('id') && !$control_group.hasClass('error')) {
                     $('#' + e.target.id).next().html('<span class="label label-success">saved!</span>');
                 }
                 autocomplete_languages();

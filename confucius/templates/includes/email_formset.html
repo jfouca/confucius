@@ -4,7 +4,7 @@
 {{ email_formset.management_form }}
 
 <!-- Main email -->
-<div class="control-group" id="control_group_emails">
+<div class="control-group" id="control_main_email">
     <label class="control-label">Main email</label>
     <div class="controls" id="controls_emails">
         {% with form=email_formset.0 %}
@@ -31,7 +31,7 @@
 
 
 <!-- Other emails -->
-<div class="control-group" id="control_group_emails">
+<div class="control-group" id="control_other_emails">
     <label class="control-label">Other emails</label>
     <div class="controls" id="controls_emails">
         {% for form in email_formset %} {% if not forloop.first %}
