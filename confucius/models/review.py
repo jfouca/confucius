@@ -35,8 +35,8 @@ class Assignment(ConfuciusModel):
 
 
 class Review(ConfuciusModel):
-    detailed_commentary = models.TextField()
-    commentary_for_president = models.TextField(blank=True)
+    detailed_commentary = models.TextField(verbose_name="Public commentary")
+    commentary_for_president = models.TextField(blank=True, verbose_name="Chairman commentary only")
     overall_evaluation = models.IntegerField()
     reviewer_confidence = models.IntegerField()
     last_update_date = models.DateField(default=datetime.now())
