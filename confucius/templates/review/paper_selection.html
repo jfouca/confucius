@@ -108,7 +108,7 @@ th.headerSortUp {
     </div>
 </div>
 </p>
-<table class="table tablesorter table-bordered" id="mySelectionTable">
+<table class="table tablesorter table-bordered" id="table">
     <thead>
     <tr>
         <th><input type="checkbox" name="selectAll" id="selectAll" class="selectAll"></th>
@@ -215,21 +215,28 @@ $(document).ready(
 
 function goodStart() {
     $(".collapse").collapse('hide');
-    $("#mySelectionTable").tablesorter({ 
-        // pass the headers argument and assing a object 
-        headers: { 
-            // assign the first column (we start counting zero) 
-            0: { 
-                // disable it by setting the property sorter to false 
-                sorter: false 
-            },
-            4: { 
-                // disable it by setting the property sorter to false 
-                sorter: false 
-            } 
-        } 
+    $.fn.dataTableExt.oSort['num-html-asc'] = function(a, b) {
+            a = parseInt(a.replace( /<.*?>/g, "" ));
+            b = parseInt(b.replace( /<.*?>/g, "" ));
+            return ((a < b) ?  -1 : ((a > b) ? 1 : 0));
+    };
+    $.fn.dataTableExt.oSort['num-html-desc'] = function(a,b) {
+        a = parseInt(a.replace( /<.*?>/g, "" ));
+        b = parseInt(b.replace( /<.*?>/g, "" ));
+        return ((a < b) ?  1 : ((a > b) ? -1 : 0));
+    };
+    $('#table').dataTable({
+        sDom: "<'row'<'span5'l><'span5'f>r>t<'row'<'span5'i><'span5'p>>",
+        bStateSave: true,
+        sPaginationType: 'bootstrap',
+        oLanguage: {
+            sLengthMenu: '_MENU_ records per page'
+        },
+        aoColumnDefs: [
+            { bSortable: false, aTargets: [0] },
+            { sType: 'num-html', aTargets: [3] }
+        ]
     });
-    
 }
 
 
