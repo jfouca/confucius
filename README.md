@@ -11,7 +11,7 @@ fully tested (yet) and SHOULD NOT be used in production.
 We -the students- put a strong focus on releasing all features planned initially because
 our final evaluation would only assess "what" we managed to do, not "how" we did it.
 Code quality, maintainability, and good development practices such as branching, documenting,
-testing and continuous integration were never part of the evaluation.
+testing and continuous integration were never part of the evaluation. (Raphaël: not exactly)
 
 Therefore, the code is functionnal but as it grew became very difficult to read and maintain, even
 for us. Before even considering a public release a full set of tests should be written, and
