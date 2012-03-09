@@ -76,30 +76,33 @@ tr.paper-deselect, tr.paper-deselect:hover td{
 </div>
 </p>
 
-<p>
 
 <p>
 <div class="row">
-    <div class="span1"><h3>Papers</h3> </div>
-    <div class="span1"><span class="btn v-hidden" id="select-btn">Select</span></div>
-    <div class="span2"><span class="btn v-hidden" id="deselect-btn">Reject</span></div>
-    <div class="span4"><span class="btn" id="finalize">Finalize</span></div>
-    <div class="span2">
-        <a href="{% url 'dashboard' %}" class="btn btn-info">
-                <i class="icon-share-alt icon-white"></i> To dashboard
-        </a>
+    <div class="span10">
+        <span class="btn v-hidden" id="select-btn"><i class="icon-plus"></i> Select selections</span>
+        <span class="btn v-hidden" id="deselect-btn"><i class="icon-minus"></i> Reject selections</span>
+        
+        <div class="pull-right">
+            <span class="btn" id="finalize"><i class="icon-ok"></i> Finalize selection</span>
+            <a href="{% url 'dashboard' %}" class="btn btn-info">
+                    <i class="icon-share-alt icon-white"></i> To dashboard
+            </a>
+        </div>
     </div>
 </div>
 </p>
+
+</hr>
 <table class="table tablesorter table-bordered" id="table">
     <thead>
-    <tr>
-        <th><input type="checkbox" name="selectAll" id="selectAll" class="selectAll"></th>
-        <th>Title </th>
-        <th>Reviews done</th>
-        <th>Overall Evaluation </th>
-        <th>Standard deviation </th>
-    </tr>
+        <tr>
+            <th><input type="checkbox" name="selectAll" id="selectAll" class="selectAll"></th>
+            <th>Title </th>
+            <th>Reviews done</th>
+            <th>Overall Evaluation </th>
+            <th>Standard deviation </th>
+        </tr>
     </thead> 
     <tbody>
 <form method="post" id="frmPaper" name="frmPaper" >{% csrf_token %}

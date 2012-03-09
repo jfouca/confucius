@@ -26,9 +26,9 @@
     <thead>
         <tr>
             <th>Title</th>
-            <th>Date</th>
-            <th>Language</th>
             <th>Domains</th>
+            <th>Language</th>
+            <th>Date</th>
 {% if is_conference_papers %}<th>Author</th>{% endif %}
     
         </tr>
@@ -48,11 +48,11 @@
                     {% endif %} {% endif %}
                 </span>
             </td>
-            <td>{{ paper.submission_date }}</td>
             <td>{{ paper.language }}</td>
             <td>{% for domain in paper.domains.all %}
                 <span class="label">{{ domain }}</span>
             {% endfor %}</td>
+            <td>{{ paper.submission_date }}</td>
 	    {% if is_conference_papers %}<td>{{ paper.submitter }}</td>{% endif %}
 
         </tr>

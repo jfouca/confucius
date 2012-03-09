@@ -46,8 +46,8 @@ class Paper(ConfuciusModel):
         return int((average*100) / max_score)
 
     def get_reviewed_percent(self):
-        total = self.assignments.all().count()
-        value = self.assignments.filter(is_done=True).count()
+        total = self.assignments.filter(is_rejected=False).count()
+        value = self.assignments.filter(is_done=True, is_rejected=False).count()
         return value*100/total
 
     def get_reviews_info(self):
@@ -68,7 +68,7 @@ class Paper(ConfuciusModel):
         ecart_type = math.sqrt(variance)
         
         ecart_type_max = self.conference.maximum_score/4
-        return ecart_type > ecart_type_max
+        return ecart_type >= ecart_type_max
 
 
     def stat_variance(self, sample):
