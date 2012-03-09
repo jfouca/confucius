@@ -66,82 +66,70 @@
         <div class="accordion-inner">
         
             <div class="db-submissions">
-        
-            <h3>Last submissions</h3>
-            <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Submit date</th>
-	                <th>Submitter</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for paper in conference_papers %}
-                <tr>
-                    <td><b><a href="{% url 'paper' conference.pk paper.pk %}"> {{paper.title}}</b></td>
-                    <td>{{paper.submission_date|date:'SHORT_DATE_FORMAT'}}</td>
-                    <td>{{paper.submitter}}</td>
-
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="2">No submissions for this conference.</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-            </table>
-
+                <h3>Last submissions</h3>
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+	                        <th>Submitter</th>
+                            <th>Submit date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for paper in conference_papers %}
+                        <tr>
+                            <td><b><a href="{% url 'paper' conference.pk paper.pk %}"> {{paper.title}}</b></td>
+                            <td>{{paper.submitter}}</td>
+                            <td>{{paper.submission_date|date:'SHORT_DATE_FORMAT'}}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="2">No submissions for this conference.</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </div>
             <div class="db-reviews">
-
-            <h3>Last finished reviews</h3>
-            <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>Paper title</th>
-                    <th>Review title</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for assignment in conference_reviews %}
-                <tr>
-                    <td><a href="{% url 'submit_review' conference.pk assignment.pk %}"> {{assignment.paper.title}}</td>
-                    <td>{{assignment.review.title}}</td>
-                </tr>
-            {% empty %}
-                <tr><td colspan="2">No reviews for this conference.</td></tr>
-            {% endfor %}
-            </tbody>
-            </table>
+                <h3>Last finished reviews</h3>
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Paper title</th>
+                            <th>Reviewer</th>
+                            <th>Last update date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for assignment in conference_reviews %}
+                        <tr>
+                            <td><a href="{% url 'submit_review' conference.pk assignment.pk %}"> {{assignment.paper.title}}</td>
+                            <td>{{assignment.reviewer}}</td>
+                            <td>{{assignment.review.last_update_date|date:'SHORT_DATE_FORMAT'}}</td>
+                        </tr>
+                    {% empty %}
+                        <tr><td colspan="2">No reviews for this conference.</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </div>
             
             <h3>Next alerts</h3>
             <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Trigger</th>
-                    <th>Recipients</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% if not alerts_trigger and not alerts_reminder and not alerts_action %}
-                    <tr><td colspan=4>No alert for this conference.</td></tr>
-                {% endif %}
-
-                {% for alert in alerts_trigger %}
-                    {% include 'includes/alerts_list.html' with alert=alert trigger=alert.trigger_date|date:'SHORT_DATE_FORMAT' %}
-                {% endfor %}
-
-                {% for alert in alerts_reminder %}
-                    {% include 'includes/alerts_list.html' with alert=alert trigger=alert.reminder event=alert.event %}
-                {% endfor %}
-
-                {% for alert in alerts_action %}
-                    {% include 'includes/alerts_list.html' with alert=alert trigger=alert.action %}
-                {% endfor %}
-            </tbody>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Trigger</th>
+                        <th>Recipients</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for alert in alerts_trigger %}
+                        {% include 'includes/alerts_list.html' with alert=alert trigger=alert.trigger_date|date:'SHORT_DATE_FORMAT' %}
+                    {% empty %}
+                        <tr><td colspan=4>No alert (trigger type) for this conference.</td></tr>
+                    {% endfor %}
+                </tbody>
             </table>
         </div>
     </div>

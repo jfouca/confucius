@@ -105,14 +105,15 @@ ul {
 .db-submissions {
     display: block;
     float: left;
-    width: 60%;
-    margin-right: 3%;
+    width: 49%;
+    margin-right: 1%;
 }
 
 .db-reviews {
     display: block;
     float: left;
-    width: 37%;
+    width: 49%;
+    margin-left: 1%;
 }
 
 /* accordion overriding */

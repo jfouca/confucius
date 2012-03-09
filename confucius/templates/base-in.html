@@ -50,7 +50,7 @@
                                 {% if request.membership.has_chair_role %}
                                     <li class="nav-header"><i class="icon-comment"></i> Conference</li>
                                     <li class="{{'members'|active:request}}">
-                                        <a href="">Members</a></li>
+                                        <a href="{% url 'members_list' conference.pk %}">Members</a></li>
                                     <li class="{{'update'|active:request}}">
                                         <a href="{% url 'conference_edit' conference.pk %}">Edit</a></li>
                                     <li class="{{'alerts'|active:request}}">
