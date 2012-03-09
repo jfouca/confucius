@@ -12,9 +12,9 @@
     <tbody>
         <tr>
             <th>Paper title</th>
-            <th>Submitted</th>
-            <th>Updated</th>
+            <th>Last update date</th>
             <th>Status</th>
+{% if is_conference_reviews %}<th>Submitter</th>{% endif %}
         </tr>
         {% for assignment in user_assignments.all %}
         <tr class="row-actions">
@@ -40,7 +40,6 @@
                     {% endif %} {% endif %} {% endif %}
                 </span>
             </td>
-            <td>{{assignment.paper.submission_date|date:'SHORT_DATE_FORMAT'}}</td>
             <td>{{assignment.paper.last_update_date|date:'SHORT_DATE_FORMAT'}}</td>
             <td>
                 {% if assignment.is_rejected %}
@@ -53,9 +52,10 @@
                     <span class="label label-success">Done</span>
                 {% endif %} {% endif %} {% endif %}
             </td>
+	        {% if is_conference_reviews %}<td>{{ assignment.reviewer }}</td>{% endif %}
         </tr>
         {% empty %}
-            <tr><td colspan="4">You haven't receive an assignment for this conference.</td></tr>
+            <tr><td colspan="5">You haven't receive an assignment for this conference.</td></tr>
         {% endfor %}
     </tbody>
 </table>
