@@ -127,7 +127,7 @@ class InvitationForm(forms.ModelForm):
             'roles': self.cleaned_data['roles']  # We can't use invitation.roles in the template since the invitation has not been persisted yet
         }
 
-        send_mail('You have been invited to participate in the conference "%s"' % invitation.conference,
+        send_mail('[Confucius Invitation] You have been invited to participate in the conference "%s"' % invitation.conference,
             template.render(Context(context)), None, [invitation.user.email])
 
         invitation.save()

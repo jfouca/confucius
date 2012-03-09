@@ -22,7 +22,7 @@
 {% endblock %}
 
 {% block content_main %}
-<table class="table table-bordered">
+<table class="table table-bordered sorted-datatable">
     <thead>
         <tr>
             <th>Title</th>
@@ -52,7 +52,7 @@
             <td>{% for domain in paper.domains.all %}
                 <span class="label">{{ domain }}</span>
             {% endfor %}</td>
-            <td>{{ paper.submission_date }}</td>
+            <td>{{ paper.submission_date|date:'SHORT_DATE_FORMAT' }}</td>
 	    {% if is_conference_papers %}<td>{{ paper.submitter }}</td>{% endif %}
 
         </tr>
@@ -64,3 +64,4 @@
     </tbody>
 </table>
 {% endblock %}
+

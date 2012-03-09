@@ -61,7 +61,7 @@ class Activation(ConfuciusModel):
         context = {'activation_key': self.activation_key}
         message = render_to_string('registration/activation_email.html', context)
 
-        send_mail('Email confirmation', message, None, (unicode(self.email),))
+        send_mail('[Confucius] Email confirmation', message, None, (unicode(self.email),))
 
 
 class Email(ConfuciusModel):

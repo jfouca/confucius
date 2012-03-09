@@ -1,4 +1,15 @@
 function confucius() {
+    if ($('.sorted-datatable tr').length > 2){
+        $('.sorted-datatable').dataTable({
+            sDom: "<'row'<'span5'l><'span5'f>r>t<'row'<'span5'i><'span5'p>>",
+            bStateSave: true,
+            sPaginationType: 'bootstrap',
+            oLanguage: {
+                sLengthMenu: '_MENU_ records per page'
+            }
+        });
+    }
+
     $('.datepicker').datepicker({
         dateFormat: 'yy-mm-dd',
     });

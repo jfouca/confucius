@@ -371,22 +371,11 @@ def invitation_list(request, template_name='conference/invitation_list.html'):
 def members_list(request, template_name='conference/members_list.html'):
     conference = request.conference
 
-    role = Role.objects.get(name="Reviewer")
-    memberships_list = Membership.objects.filter(roles=role, conference=conference)
-    reviewers = [[membership.user, membership.domains] for membership in memberships_list]
-    
-    role = Role.objects.get(name="Submitter")
-    memberships_list = Membership.objects.filter(roles=role, conference=conference)
-    submitters = [[membership.user, membership.domains] for membership in memberships_list]
-    
-    role = Role.objects.get(name="Chair")
-    memberships_list = Membership.objects.filter(roles=role, conference=conference)
-    chairs = [[membership.user, membership.domains] for membership in memberships_list]
+    memberships_list = Membership.objects.filter(conference=conference).order_by('roles')
     
     context = {
         'conference': conference,
-        'chairs': chairs,
-        'reviewers': reviewers,
-        'submitters': submitters
+        'memberships_list': memberships_list
     }
+    
     return render_to_response(template_name, context, context_instance=RequestContext(request))
