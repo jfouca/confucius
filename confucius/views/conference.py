@@ -272,7 +272,13 @@ def send_email_to_users(request, template_name='conference/send_email_to_users.h
             #Get the cleaned_data from FORM and then send the email
             title = form.cleaned_data['title']
             content = form.cleaned_data['content']
-            receivers = form.cleaned_data['receivers']
+            
+            if len(form.cleaned_data['users']) > 0 :
+                users = form.cleaned_data['users']
+            else:
+                groups = form.cleaned_date['groups']
+                groups.remove("U")
+                print groups
 
             for receiver in receivers:
                 email = receiver.email

@@ -6,11 +6,11 @@ Preliminary notes
 
 Confucius is a student project developed in 3 weeks and a half by 7 students.
 Because of the academic context and so little time, it hasn't been audited nor
-fully tested and SHOULD NOT be used in production.
+fully tested and so should not be used in production, for the time being at least.
 
 
 If you have some experience with the technologies used (Django, jQuery, Bootstrap), you might find some methods, functions or instructions unusuals.
-Please do not hesitate to contribute to Confucius by improving our code quality and therefore, maintainability.
+Please do not hesitate to contribute to Confucius Project by improving our code quality and therefore, maintainability.
 
 
 What is Confucius?

@@ -1,7 +1,7 @@
 from django import forms
 
 from confucius.forms import UserForm
-from confucius.models import Alert, Conference, Domain, Email, Invitation, Membership, User
+from confucius.models import Alert, Conference, Domain, Email, Invitation, Membership, Role, User
 from datetime import datetime
 
 
@@ -188,8 +188,32 @@ class SignupForm(UserForm):
 class SendEmailToUsersForm(forms.Form):
     title = forms.CharField(required=True)
     content = forms.CharField(required=True, widget=forms.Textarea)
-    receivers = forms.ModelMultipleChoiceField(queryset=None, required=True)
+    users = forms.ModelMultipleChoiceField(queryset=None, required=False)
+    
+    roles = [[role.code, role.name] for role in Role.objects.all()]
+    group = ["U","Selected submitters"]
+    choices = roles + [group]
+    
+    
+    
+    groups = forms.MultipleChoiceField(required=False)
 
     def __init__(self, *args, **kwargs):
         super(SendEmailToUsersForm, self).__init__(*args, **kwargs)
-        self.fields['receivers'].queryset = self.initial['conference'].members.all()
+        self.fields['users'].queryset = self.initial['conference'].members.all()
+        
+        roles = [[role.code, role.name] for role in Role.objects.all()]
+        group = []
+        
+        if self.initial['conference'].has_finalize_paper_selections == True:
+            group = ["U","Selected submitters"]
+        choices = roles + [group]
+        self.fields['groups'].choices = choices
+    
+    def clean(self):
+        cleaned_data = super(SendEmailToUsersForm, self).clean()
+
+        if len(cleaned_data['users'])==0 and len(cleaned_data['groups'])==0 :
+            raise forms.ValidationError('You must fill at least one of the following fields : Receivers, Groups')
+
+        return cleaned_data
