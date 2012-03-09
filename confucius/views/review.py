@@ -62,7 +62,8 @@ def auto_assignment(request):
         memberships_list = Membership.objects.filter(conference=conference, roles=role)
         max_assi_per_papers = int(request.POST.get('by_paper'))
         max_assi_per_reviewers = int(request.POST.get('by_reviewer'))
-
+	min_reviewer_per_paper = conference.minimum_reviews
+        
         # Default values
         if max_assi_per_papers <= 0:
             max_assi_per_papers = 3
@@ -117,7 +118,7 @@ def auto_assignment(request):
                     assignment.save()
                     nb_assi += 1
 
-            if paper.assignments.count() == 0:
+            if paper.assignments.count() < min_reviewer_per_paper:
                 all_papers_are_assigned = False
 
         # Response

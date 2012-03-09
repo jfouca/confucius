@@ -50,6 +50,14 @@ class Paper(ConfuciusModel):
         value = self.assignments.filter(is_done=True).count()
         return value*100/total
 
+    def get_reviews_info(self):
+        assignments = self.assignments.all()
+        nb_completed_reviews = assignments.filter(is_done=True, is_rejected=False).count()
+        nb_unfinished_reviews = assignments.filter(is_done=False, is_rejected=False).count()
+        nb_rejected_reviews = assignments.filter(is_rejected=True).count()
+    
+        return [nb_completed_reviews, nb_unfinished_reviews, nb_rejected_reviews]
+
     def is_ambigous(self):
         assignments = self.assignments.all()
         marks_list = [assignment.review.overall_evaluation for assignment in assignments if assignment.has_review() and assignment.is_done and not assignment.is_rejected]

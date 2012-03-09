@@ -120,15 +120,24 @@ tr.paper-deselect, tr.paper-deselect:hover td{
                 <a href="#" class="btn btn-mini action_btn" id="deselect_{{paper.pk}}">Reject</a>
             </span>
         </td>
-        <td>{% with percent=paper.get_reviewed_percent %} 
-                {{ percent }}%
+        {% with percent=paper.get_reviewed_percent reviews_info=paper.get_reviews_info %} 
+            <td class="tooltip-show" data-original-title="
+                Completed reviews: {{ reviews_info.0 }}<br/>
+                Unfinished reviews: {{ reviews_info.1 }}
+                {% if reviews_info.2 > 0 %}
+                    <br/>Rejected reviews: {{ reviews_info.2 }}
+                {% endif %}
+            ">
+                
+                {{ percent }}% <i class="icon-info-sign"></i>
                 {% if  percent > 0 %}
                     <span class="data-actions v-hidden"> 
-                        <a href="{% url 'read_reviews' conference.pk paper.pk %}" class="btn btn-mini read_btn" id="read_reviews_{{paper.pk}}">Read reviews</a>
+                        <a href="{% url 'read_reviews' conference.pk paper.pk %}" class="btn btn-mini read_btn" 
+                            id="read_reviews_{{paper.pk}}">Read reviews</a>
                     </span>
                 {% endif %}
-            {% endwith %}
-        </td>
+            </td>
+        {% endwith %}
         <td>
             {% with mark=paper.get_mark %}
             {% if mark == -1 %}
@@ -231,6 +240,7 @@ function goodStart() {
         },
         aoColumnDefs: [
             { bSortable: false, aTargets: [0] },
+            { sType: 'num-html', aTargets: [2] },
             { sType: 'num-html', aTargets: [3] }
         ]
     });
@@ -247,21 +257,13 @@ function selectAllEvent(){
 }
 
 function toggleSelectionButtons() {
-    $("#select-btn").toggleClass("v-hidden");
-    $("#deselect-btn").toggleClass("v-hidden");
+    $("#select-btn, #deselect-btn").toggleClass("v-hidden");
 }
 
 function checkPaper() {
-    $('.paper').live("click",function() {
-        if(jQuery('input[class="paper"]:checked').length == 0) { 
-            $('#selectAll').attr('checked', false);
-            toggleSelectionButtons();
-        }
-        
-        if(jQuery('input[class="paper"]:checked').length > 0 && !$('input[id="selectAll"]').is(':checked') ) { 
-            $('#selectAll').attr('checked', true);
-            toggleSelectionButtons();
-        }
+    $('.paper').live('change', function() {
+        $('#selectAll').prop('checked', $('.paper:checked').length == $('.paper').length ? true : false);
+        $('#select-btn, #deselect-btn').toggleClass('v-hidden', $('.paper:checked').length > 0 ? false : true);
         return false;
     });
 }
@@ -311,7 +313,7 @@ function deselectAction() {
             }
         });
         $('#selectAll').attr('checked', false);
-        toggleSelectionButtons();
+        itoggleSelectionButtons();
         var myJSONText = JSON.stringify(papers);
         $.post("{% url 'updateSelectedStatus' conference.pk %}", {
             action : "deselect", 
