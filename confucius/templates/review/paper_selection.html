@@ -247,21 +247,13 @@ function selectAllEvent(){
 }
 
 function toggleSelectionButtons() {
-    $("#select-btn").toggleClass("v-hidden");
-    $("#deselect-btn").toggleClass("v-hidden");
+    $("#select-btn, #deselect-btn").toggleClass("v-hidden");
 }
 
 function checkPaper() {
-    $('.paper').live("click",function() {
-        if(jQuery('input[class="paper"]:checked').length == 0) { 
-            $('#selectAll').attr('checked', false);
-            toggleSelectionButtons();
-        }
-        
-        if(jQuery('input[class="paper"]:checked').length > 0 && !$('input[id="selectAll"]').is(':checked') ) { 
-            $('#selectAll').attr('checked', true);
-            toggleSelectionButtons();
-        }
+    $('.paper').live('change', function() {
+        $('#selectAll').prop('checked', $('.paper:checked').length == $('.paper').length ? true : false);
+        $('#select-btn, #deselect-btn').toggleClass('v-hidden', $('.paper:checked').length > 0 ? false : true);
         return false;
     });
 }
@@ -311,7 +303,7 @@ function deselectAction() {
             }
         });
         $('#selectAll').attr('checked', false);
-        toggleSelectionButtons();
+        itoggleSelectionButtons();
         var myJSONText = JSON.stringify(papers);
         $.post("{% url 'updateSelectedStatus' conference.pk %}", {
             action : "deselect", 
