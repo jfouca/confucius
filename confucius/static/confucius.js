@@ -3,7 +3,7 @@ function confucius() {
         dateFormat: 'yy-mm-dd',
     });
     $('.toggle_modal').modal({
-        show: 0,
+        show: 0
     });
     $('.toggle_conference').click(function() {
         $(this).next().modal('show');
@@ -14,7 +14,7 @@ function confucius() {
         return false;
     });
     $('.tooltip-show').tooltip();
-    $('.row-actions').hover(function() {
+    $('.row-actions').live('hover', function() {
             $(this).find('.data-actions').toggleClass('v-hidden');
         }, function() {
            $(this).find('.data-actions').toggleClass('v-hidden');
