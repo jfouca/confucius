@@ -24,32 +24,53 @@ tr.paper-deselect, tr.paper-deselect:hover td{
 
 
 {% block content_main %}
-<div class="modal hide fade" id="toggle_modal_warning">
+<div class="modal hide fade toggle_modal" id="toggle_modal_warning">
     <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
         <h3>Warning ! There are still no assigned papers.</h3>
     </div>
     <div class="modal-body">
-        <p>If you really want to ignore no assigned papers, push the "Finalize" button, "Close" otherwise</p>
+        <p><strong>Do you really want to Finalize the Papers Selection for your Conference ?</strong></p>
+        <p>This means you won't be able to edit your selection later on. We recommand to check no assigned papers before finalizing the paper selections.</p>
+        
     </div>
     <div class="modal-footer">
-        <a href="{% url 'finalize_selection' conference.pk %}" class="btn btn-primary">Finalize</a>
-        <a href="#" class="btn" data-dismiss="modal">Close</a>
+        <a href="{% url 'finalize_selection' conference.pk %}" 
+            class="btn btn-large btn-primary">Yes, I want to Finalize my selections</a>
+        <a href="#" class="btn btn-large" data-dismiss="modal">No, Return</a>
     </div>
 </div>
 
-<div class="modal hide fade" id="toggle_modal_confirmation">
+<div class="modal hide fade toggle_modal" id="toggle_modal_confirmation">
     <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
         <h3>Confirmation</h3>
     </div>
     <div class="modal-body">
-        <p><strong><center>Do you really want to Finalize the Papers Selection for your Conference ?</center></strong></p>
-        <p>This means you won't be able to edit your selection later on</p>
+        <p><strong>Do you really want to Finalize the Papers Selection for your Conference ?</strong></p>
+        <p>This means you won't be able to edit your selection later on.</p>
     </div>
     <div class="modal-footer">
-        <a href="{% url 'finalize_selection' conference.pk %}" class="btn btn-primary">Ok, I want to Finalise my Selection</a>
-        <a href="#" class="btn" data-dismiss="modal">No, Return</a>
+        <a href="{% url 'finalize_selection' conference.pk %}" 
+            class="btn btn-large btn-primary">Yes, I want to Finalise my selections</a>
+        <a href="#" class="btn btn-large" data-dismiss="modal">No, Return</a>
     </div>
 </div>
+
+<div class="modal hide fade toggle_modal" id="toggle_modal_clean">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>Confirmation</h3>
+    </div>
+    <div class="modal-body">
+        <p>Do you really want to clean all paper selections ?</p>
+    </div>
+    <div class="modal-footer">
+        <a href="{% url 'clean_selection' conference.pk %}" class="btn btn-large btn-primary">Yes, I want</a>
+        <a href="#" class="btn btn-large" data-dismiss="modal">No, Return</a>
+    </div>
+</div>
+
 
 
 {% if papers_not_assigned.count > 0 %}
@@ -74,7 +95,7 @@ tr.paper-deselect, tr.paper-deselect:hover td{
     </div>
   </div>
 </div>
-</p>
+</p><br/>
 
 
 <p>
@@ -85,6 +106,7 @@ tr.paper-deselect, tr.paper-deselect:hover td{
         
         <div class="pull-right">
             <span class="btn" id="finalize"><i class="icon-ok"></i> Finalize selection</span>
+            <span class="btn" id="clean-selections"><i class="icon-trash"></i> Clean selection</span>
             <a href="{% url 'dashboard' %}" class="btn btn-info">
                     <i class="icon-share-alt icon-white"></i> To dashboard
             </a>
@@ -216,7 +238,7 @@ $(document).ready(
     
     deselectAction(),
     
-    finalizeAction(),
+    buttonAction(),
     
     quickActions()
         
@@ -327,7 +349,7 @@ function deselectAction() {
     });
 }
 
-function finalizeAction(){
+function buttonAction(){
     $('#finalize').live("click",function() {
         {% if papers_not_assigned.count > 0 %}
             $('#toggle_modal_warning').modal({
@@ -338,6 +360,12 @@ function finalizeAction(){
                 keyboard: false
             }).show();        
         {% endif %}
+    });
+    
+    $('#clean-selections').live("click",function() {
+        $('#toggle_modal_clean').modal({
+            keyboard: false
+        }).show();
     });
 }
 

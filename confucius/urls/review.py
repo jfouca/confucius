@@ -2,6 +2,7 @@ from django.conf.urls.defaults import patterns, url
 
 urlpatterns = patterns('confucius.views.review',
     url(r'^auto-assignment/$', 'auto_assignment', name='auto_assignment'),
+    url(r'^clean-selection/$', 'clean_selection', name='clean_selection'),
     url(r'^finalize-selection/$', 'finalize_selection', name='finalize_selection'),
     url(r'^finalize-assignment/$', 'finalize_assignment', name='finalize_assignment'),
     url(r'^submit/(?P<pk_assignment>\d+)$', 'submit_review', name="submit_review"),

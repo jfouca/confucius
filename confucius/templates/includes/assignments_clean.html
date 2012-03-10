@@ -1,0 +1,16 @@
+{% load url from future %}
+
+<button class="assignments_finalize btn"><i class="icon-remove"></i> Clean</button>
+<div class="modal hide fade toggle_modal">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>Clean</h3>
+    </div>
+    <div class="modal-body">
+        <p>Are you sure that you want to clean assignments ?</p>
+    </div>
+    <div class="modal-footer">
+        <a href="{% url 'clean_assignments' conference.pk %}" class="btn btn-large btn-primary">Yes, I am</a>
+        <a data-dismiss="modal" class="btn btn-large">No, forgive me</a>
+    </div>
+</div>

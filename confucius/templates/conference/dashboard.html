@@ -42,11 +42,12 @@
                     </a>
                 </div>
                 <div class="btn-group">
-                    <a href="{% url 'assignments' conference.pk %}" class="btn">
-                        <i class="icon-list-alt"></i> Assignments</a>
+                    
                     {% if request.conference.has_finalize_paper_selections %}
                         <a href="javascript:void(0)" class="btn btn-inverse disabled">Selection is finalized</a>
                     {% else %}
+                        <a href="{% url 'assignments' conference.pk %}" class="btn">
+                            <i class="icon-list-alt"></i> Assignments</a>
                         <a href="{% url 'paper_selection_list' conference.pk %}" class="btn">
                             <i class="icon-file"></i> Papers selection</a>
                     {% endif %}

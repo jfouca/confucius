@@ -258,15 +258,35 @@ def read_reviews(request, pk_paper, template_name='review/read_reviews.html'):
 def finalize_selection(request):
     conference = request.conference
     
-    for paper_selection in conference.selections.all():
-        paper_selection.is_submit = True
-        paper_selection.save()
+    # Warning: Some papers can have no selection or assignment.
+    # In order to solve this problem, we must check ALL papers (and not all selections)
+    papers_list = Paper.objects.filter(conference=conference)
+    
+    for paper in papers_list:
+        try:
+            paper.selection.is_submit = True
+            paper.selection.save()
+        except PaperSelection.DoesNotExist:
+            PaperSelection.objects.create(paper=paper,conference=conference,is_selected=False,is_submit=True).save()
 
     conference.has_finalize_paper_selections = True
     conference.save()
 
-    messages.warning(request, u"Papers selection have been finalized.")
+    messages.success(request, u"Papers selection have been finalized.")
     return redirect('dashboard', conference.pk)
+
+
+@require_GET
+@login_required
+@has_chair_role
+def clean_selection(request):
+    conference = request.conference
+    
+    for paper_selection in conference.selections.all():
+        paper_selection.delete()
+    
+    messages.success(request, u"You have cleaned the paper selections.")
+    return redirect('paper_selection_list', conference.pk)
 
 
 @login_required
