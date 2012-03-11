@@ -1,0 +1,71 @@
+{% extends "base-in.html" %}
+{% load url from future %}
+
+{% block title %}Read reviews{% endblock %}
+
+{% block content_header %}
+<h1>Reviews for: {{paper.title}}</h1>
+{% endblock %}
+
+{% block content_main %}
+{% if paper.selection.is_selected %}
+    <div class="alert alert-success">This paper has been selected for the conference "{{conference.title}}".</div>
+{% else %}
+    <div class="alert alert-error">This paper has been rejected for the conference "{{conference.title}}".</div>
+{% endif %}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Domains</th>
+            <th>Language</th>
+            <th>File</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{paper.title}}</td>
+            <td>{{paper.domains.all|join:', '}}</td>
+            <td>{{paper.language}}</td> 
+            <td><a href="{{paper.file.url}}" class="btn"><i class="icon-download-alt"></i> Download</a></td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Paper description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{paper.description}}</td>
+        </tr>
+    </tbody>
+</table><br/>
+
+<h2>Reviews</h2>
+<table class="table table-bordered">
+<tbody>
+    <tr>
+        <th>Commentary</th>
+        <th>Overall evaluation</th>
+    </tr>
+    {% for review in reviews %}
+    <tr class="row-actions">
+        <td>{{review.detailed_commentary}}</td>
+        <td>{{review.overall_evaluation}} / {{conference.maximum_score}}</td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+
+
+<div class="form-actions">
+    <a href="{% url 'reviews' conference.pk %}" class="btn btn-info"> 
+        <i class="icon-share-alt icon-white"></i> To reviews</a>
+</div>
+{% endblock %}
+

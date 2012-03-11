@@ -11,7 +11,7 @@ from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
 
 
-from confucius.decorators import has_chair_role, has_reviewer_role
+from confucius.decorators import has_chair_role, has_reviewer_role, has_submitter_role
 from confucius.forms import ReviewForm
 from confucius.models import Assignment, Email, Membership, Paper, PaperSelection, Review, Role, User
 
@@ -230,7 +230,28 @@ def paper_selection_list(request, template_name='review/paper_selection.html'):
 
 @require_http_methods(['GET', 'POST'])
 @login_required
-@has_reviewer_role
+@has_submitter_role
+def read_personal_reviews(request, pk_paper, template_name='review/read_personal_reviews.html'):
+    conference = request.conference
+    paper = Paper.objects.get(pk=pk_paper)
+    reviews = Review.objects.filter(assignment__paper=paper, is_last=True)
+    
+    if paper.submitter != request.user or not conference.has_finalize_paper_selections:
+        messages.warning(request, u'Unauthorized access.')
+        return redirect('membership_list')
+    
+    context = {
+        'paper': paper,
+        'reviews': reviews,
+        'conference': conference
+    }
+
+    return render_to_response(template_name, context, context_instance=RequestContext(request))
+
+
+@require_http_methods(['GET', 'POST'])
+@login_required
+@has_chair_role
 def read_reviews(request, pk_paper, template_name='review/read_reviews.html'):
     conference = request.conference
 
@@ -252,7 +273,7 @@ def read_reviews(request, pk_paper, template_name='review/read_reviews.html'):
     context = {
         'paper': paper,
         'reviews': reviews,
-        'conference': conference,
+        'conference': conference
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))
