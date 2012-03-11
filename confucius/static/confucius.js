@@ -25,12 +25,12 @@ function confucius() {
         return false;
     });
     $('.tooltip-show').tooltip();
-    $('.row-actions').live('hover', function() {
-            $(this).find('.data-actions').toggleClass('v-hidden');
-        }, function() {
-           $(this).find('.data-actions').toggleClass('v-hidden');
-        }
-    );
+    $('.row-actions').live('mouseover', function() {
+        $(this).find('.data-actions').removeClass('v-hidden');
+    });
+    $('.row-actions').live('mouseout', function() {
+       $(this).find('.data-actions').addClass('v-hidden');
+    });
     $('.dropdown-menu').find('a').hover(function() {
             $(this).find('[class^="icon"]').toggleClass('icon-white');
         }, function() {
