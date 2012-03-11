@@ -203,12 +203,12 @@ class SendEmailToUsersForm(forms.Form):
         self.fields['users'].queryset = self.initial['conference'].members.all()
         
         roles = [[role.code, role.name] for role in Role.objects.all()]
-        group = []
+        self.fields['groups'].choices = roles
         
         if self.initial['conference'].has_finalize_paper_selections == True:
             group = ["U","Selected submitters"]
-        choices = roles + [group]
-        self.fields['groups'].choices = choices
+            choices = roles + [group]
+            self.fields['groups'].choices = choices
     
     def clean(self):
         cleaned_data = super(SendEmailToUsersForm, self).clean()
