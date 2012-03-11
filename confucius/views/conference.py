@@ -111,7 +111,7 @@ def dashboard(request, template_name='conference/dashboard.html'):
     if alerts_trigger.count() > 5:
         alerts_trigger = alerts_trigger[:5]
     
-    conference_reviews = Assignment.objects.filter(paper__conference=conference, is_done=True, review__isnull=False).order_by('-review__last_update_date')
+    conference_reviews = Assignment.objects.filter(paper__conference=conference, is_done=True, review__isnull=False, review__is_last=True).order_by('-review__last_update_date')
     if conference_reviews.count() > 5:
         conference_reviews = conference_reviews[:5]
         

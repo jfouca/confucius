@@ -63,14 +63,20 @@
 <tbody>
     <tr>
         <th>Reviewer</th>
-        <th>Conmentary</th>
+        <th>Commentary</th>
         <th>Commentary president</th>
         <th>Overall evaluation</th>
         <th>Reviewer confidence</th>
     </tr>
     {% for review in reviews %}
-    <tr>
-        <td>{{review.get_assignment.reviewer}}</td>
+    <tr class="row-actions">
+        <td>
+            {{review.get_assignment.reviewer}}
+            <span class="data-actions v-hidden"> 
+                <a href="{% url 'history_reviews' conference.pk review.pk %}" class="btn btn-mini action_btn">
+                    Review history</a>
+            </span>
+        </td>
         <td>{{review.detailed_commentary}}</td>
         <td>{{review.commentary_for_president}}</td>
         <td>{{review.overall_evaluation}} / {{conference.maximum_score}}</td>
@@ -79,6 +85,7 @@
     {% endfor %}
 </tbody>
 </table>
+<br/>
 
 <form id="form" class="form-horizontal" method="post">
     {% csrf_token %}

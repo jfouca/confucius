@@ -40,9 +40,20 @@
                             {% endif %} {% endif %}
                         </a>                 
                     {% endif %} {% endif %} {% endif %}
+                    
+                    {% if not assignment.is_rejected and assignment.review %}
+                        <a href="{% url 'history_reviews' conference.pk assignment.review.pk %}" class="btn btn-mini">
+                            History</a>
+                    {% endif %}          
                 </span>
             </td>
-            <td>{{assignment.paper.last_update_date|date:'SHORT_DATE_FORMAT'}}</td>
+            <td>
+                {% if assignment.review.last_update_date %}
+                    {{assignment.review.last_update_date|date:'SHORT_DATE_FORMAT'}}
+                {% else %}
+                    Review not created
+                {% endif %}
+            </td>
             <td>
                 {% if assignment.is_rejected %}
                     <span class="label">Rejected</span>

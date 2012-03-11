@@ -196,6 +196,12 @@ def problem(request, assignment_pk, is_reject=False, template_name='review/probl
             
             assignment.save()
             
+            
+            chair_role = Role.objects.get(code="C")
+            memberships = Membership.objects.filter(conference=request.conference, roles=chair_role)
+            chairs_list = [member.user for member in memberships]
+            #send_mail('[Confucius Review] You have received papers to reviews for the conference "%s"' % conference, template.render(Context(context)), None, reviewers_list)
+            
             messages.success(request, msg)
             return redirect('dashboard')
     else:
@@ -224,12 +230,12 @@ def paper_selection_list(request, template_name='review/paper_selection.html'):
 
 @require_http_methods(['GET', 'POST'])
 @login_required
-@has_chair_role
+@has_reviewer_role
 def read_reviews(request, pk_paper, template_name='review/read_reviews.html'):
     conference = request.conference
 
     paper = Paper.objects.get(pk=pk_paper)
-    reviews = Review.objects.filter(assignment__paper=paper)
+    reviews = Review.objects.filter(assignment__paper=paper, is_last=True)
 
     if request.method == 'POST':
         if request.POST.__contains__('select_paper') or request.POST.__contains__('dont_select_paper'):
@@ -251,6 +257,27 @@ def read_reviews(request, pk_paper, template_name='review/read_reviews.html'):
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))
 
+
+@require_http_methods(['GET', 'POST'])
+@login_required
+@has_chair_role
+def history_reviews(request, pk_review, template_name='review/historical_reviews.html'):
+    
+    conference = request.conference
+    review = Review.objects.get(pk=pk_review)
+    reviews = review.get_reviews_history()
+    paper = review.get_assignment().paper
+
+    print request.path
+
+    context = {
+        'paper': paper,
+        'reviews': reviews,
+        'conference': conference
+    }
+
+    return render_to_response(template_name, context, context_instance=RequestContext(request))
+    
 
 @require_GET
 @login_required

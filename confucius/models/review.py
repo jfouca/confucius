@@ -39,17 +39,36 @@ class Review(ConfuciusModel):
     commentary_for_president = models.TextField(blank=True, verbose_name="Chairman commentary only")
     overall_evaluation = models.IntegerField()
     reviewer_confidence = models.IntegerField()
-    last_update_date = models.DateField(default=datetime.now())
+    last_update_date = models.DateField(default=datetime.now(), auto_now=True)
+    is_last = models.BooleanField(default=True)
+    previous_review = models.ForeignKey('Review', null=True)
 
     def __unicode__(self):
-        return self.title + " by " + self.assignment.reviewer
+        return str(self.pk) + "|" + str(self.is_last) + "|" + self.detailed_commentary + "|" + str(self.overall_evaluation)
 
     def save(self, *args, **kwargs):
-        self.last_update_date = datetime.now()
+        # Save previous review
+        if self.pk is not None and self.get_assignment().is_done and self.is_last:
+            ex_review = Review.objects.get(pk=self.pk, is_last=True)
+            ex_review.pk = None
+            ex_review.is_last = False
+            ex_review.save()
+            self.previous_review = ex_review
+        
         super(Review, self).save(*args, **kwargs)
         
     def get_assignment(self):
         return self.assignment.all()[0]
+        
+    def get_reviews_history(self):
+        list_reviews = []
+        actual_review = self
+        
+        while actual_review is not None:
+            list_reviews.append(actual_review)
+            actual_review = actual_review.previous_review
+        
+        return list_reviews
 
 
 class PaperSelection(ConfuciusModel):
