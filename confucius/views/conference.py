@@ -8,8 +8,8 @@ from django.views.decorators.http import require_GET, require_http_methods
 
 from confucius.decorators import has_chair_role, has_role, has_reviewer_role, has_submitter_role
 from confucius.forms import ConferenceForm, MembershipForm, SendEmailToUsersForm
-from confucius.models import Alert, Assignment, Conference, Invitation, Membership, Paper, Role, User
-
+from confucius.models import Alert, Assignment, Conference, Invitation, Membership, Paper, PaperSelection, Role, User
+from confucius.utils import send_emails_to_group
 
 @require_GET
 def conference_access(request, conference_pk, access_key, template_name='conference/membership_form.html'):
@@ -272,20 +272,26 @@ def send_email_to_users(request, template_name='conference/send_email_to_users.h
             #Get the cleaned_data from FORM and then send the email
             title = form.cleaned_data['title']
             content = form.cleaned_data['content']
-            receivers = form.cleaned_data['receivers']
-
-            for receiver in receivers:
-                email = receiver.email
-                try:
-                    send_mail("[Confucius Message] "+title, content, unicode(request.user.email), [unicode(email)], fail_silently=False)
-
-                except:
-                    messages.error(request, u'An error occured during the email sending process. The SMTP settings may be uncorrect, or the receiver(%s) email address may not exist\n' % str(email))
-                    return redirect('dashboard')
-
-            messages.success(request, u'You succesfully have just sent your email to the receiver(s)')
-            return redirect('dashboard')
-
+            receivers = ""
+            
+            if len(form.cleaned_data['users']) > 0 :
+                receivers = form.cleaned_data['users']
+                send_emails_to_group(receivers, title, content, request)
+            else:
+                groups = form.cleaned_data['groups']
+                roles = groups
+                if "U" in groups:
+                    receivers = [paperselect.paper.submitter for paperselect in PaperSelection.objects.filter(conference=conference) if paperselect.is_selected and paperselect.is_submit]
+                    send_emails_to_group(receivers, title, content, request)
+                    groups.remove("U")
+                    
+                if roles is not None:
+                    for entry in roles:
+                        role = Role.objects.get(code=entry)
+                        memberships_list = Membership.objects.filter(roles=role, conference=conference)
+                        receivers = [membership.user for membership in memberships_list]                   
+                        send_emails_to_group(receivers, title, content, request)
+            
     context = {
         'form': form,
         'conference': conference

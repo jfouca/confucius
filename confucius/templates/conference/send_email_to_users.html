@@ -10,7 +10,19 @@
 {% block content_main %}
 
 <form class="form-horizontal" method="POST">{% csrf_token %}
-
+    <div class="control-group">
+        <label class="control-label">Select Receivers</label>
+        <div class="controls">
+            <label class="radio">
+                <input type="radio" name="type" id="users" value="users">
+                Users
+            </label>
+            <label class="radio">
+                <input type="radio" name="type" id="group" value="group">
+                Group Selection
+            </label>
+        </div>
+    </div>
     {% include 'includes/form.html' %}
     
     <div class="form-actions">
@@ -22,4 +34,25 @@
 </form>
 {% endblock %}
 
+{% block script %}
+<script>
+$(document).ready(
+    toggleEvents()
+);
 
+function toggleEvents() {
+    $('#id_groups, #id_users').closest('div.control-group').hide();
+    
+    $('#group').on('click', function() {
+        $('#id_users').val('').closest('div.control-group').hide();
+        $('#id_groups').closest('div.control-group').show('slow');
+    });
+    $('#users').on('click', function() {
+        $('#id_groups').val('').closest('div.control-group').hide();
+        $('#id_users').closest('div.control-group').show('slow');
+    });
+}   
+    
+</script>
+
+{% endblock %}
