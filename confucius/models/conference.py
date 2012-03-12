@@ -194,7 +194,6 @@ class Invitation(ConfuciusModel):
         ('W', 'Waiting for response')
     ), default='W')
     key = models.CharField(max_length=64, unique=True)
-    message = models.TextField()
 
     class Meta(ConfuciusModel.Meta):
         unique_together = ('user', 'conference')

@@ -96,7 +96,8 @@ class UserForm(forms.ModelForm):
         super(UserForm, self).__init__(*args, **kwargs)
 
         self.fields['last_name'].required = True
-        self.fields['languages'].initial = self.instance.languages.all()
+        if self.instance.pk is not None:
+            self.fields['languages'].initial = self.instance.languages.all()
 
     def save(self, commit=True):
         user = super(UserForm, self).save(commit)

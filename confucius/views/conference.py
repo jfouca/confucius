@@ -1,5 +1,7 @@
 from django.contrib import messages
+from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.decorators import login_required
+from django.contrib.sites.models import get_current_site
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect, render_to_response
 from django.template import RequestContext
@@ -7,11 +9,11 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_GET, require_http_methods
 
 from confucius.decorators import has_chair_role, has_role, has_reviewer_role, has_submitter_role
-from confucius.forms import ConferenceForm, MembershipForm, SendEmailToUsersForm
-from confucius.models import Alert, Assignment, Conference, Invitation, Membership, Paper, Role, User
+from confucius.forms import ConferenceForm, PaperForm, MembershipForm, SendEmailToUsersForm, SignupForm
+from confucius.models import Activation, Alert, Assignment, Conference, Email, Invitation, Membership, Paper, Role
 
 
-@require_GET
+@require_http_methods(['GET', 'POST'])
 def conference_access(request, conference_pk, access_key, template_name='conference/membership_form.html'):
     conference = get_object_or_404(Conference, pk=conference_pk, access_key=access_key)
 
@@ -24,8 +26,25 @@ def conference_access(request, conference_pk, access_key, template_name='confere
 
         return redirect('membership', conference_pk=conference_pk)
     else:
-        # We don't handle anonymous users, yet.
-        return redirect('login')
+        if request.method == 'POST':
+            form = SignupForm(data=request.POST, email=False)
+
+            if form.is_valid():
+                user = form.save()
+                email = Email.objects.create(value=form.cleaned_data.get('email'), main=True, user=user)
+                Activation.objects.create(email=email).send_email(get_current_site(request).domain)
+                membership = Membership.objects.create(user=user, conference=conference)
+                membership.roles.add(Role.objects.get(code='S'))
+                messages.success(request, "Congratulations! You've successfully registered. All you need to do now is confirm your email address, we sent you a link.")
+                return redirect('dashboard', conference.pk)
+        else:
+            form = SignupForm(email=False)
+
+        context = {
+            'form': form
+        }
+
+        return render_to_response(template_name, context, context_instance=RequestContext(request))
 
 
 @require_http_methods(['GET', 'POST'])
@@ -96,8 +115,6 @@ def conference_toggle(request):
 @login_required
 @has_role
 def dashboard(request, template_name='conference/dashboard.html'):
-    from django.contrib.sites.models import get_current_site
-
     conference = request.conference
     membership = request.membership
 
@@ -134,11 +151,14 @@ def dashboard(request, template_name='conference/dashboard.html'):
 
 
 @require_GET
-def conference_invitation(request, key, decision, template_name='conference/invitation.html'):
+def conference_invitation(request, key, decision=None, template_name='conference/invitation.html'):
     invitation = get_object_or_404(Invitation, key=key)
 
     if not invitation.pending():
         return redirect('already_answered')
+
+    if decision is None:
+        return render_to_response(template_name, {'invitation': invitation}, context_instance=RequestContext(request))
 
     if decision == 'refuse':
         invitation.refuse()
@@ -154,35 +174,46 @@ def conference_invitation(request, key, decision, template_name='conference/invi
     except:
         membership = Membership.objects.create(user=invitation.user, conference=invitation.conference)
 
-    membership.roles.clear()
-    for role in invitation.roles.all():
-                membership.roles.add(role)
-    membership.save()
+    membership.roles.add(*invitation.roles.all())
 
-    messages.success(request, u'You are now participating in the conference "%s"' % invitation.conference)
+    messages.success(request, 'You are now participating in the conference "%s"' % invitation.conference)
     return redirect('dashboard', conference_pk=invitation.conference.pk)
 
 
 @require_http_methods(['GET', 'POST'])
 @login_required
 @has_chair_role
-def conference_invite(request, template_name='conference/invitation_form.html'):
+def conference_invite(request, template_name='conference/invitation_form.html', email_template_name='conference/invitation_email.html'):
     from confucius.forms import InvitationForm
 
-    form = InvitationForm()
-
     if 'POST' == request.method:
-        instance = Invitation(conference=request.conference)
-        form = InvitationForm(request.POST, instance=instance)
+        form = InvitationForm(request.conference, data=request.POST)
 
         if form.is_valid():
-            try:
-                invitation = form.save(request)
-                messages.success(request, u'An invitation has been sent to "%s".' % invitation.user)
-            except:
-                user = User.objects.get(email=form.cleaned_data['email']).delete()
-                messages.error(request, u'An error occured during the email sending process. Please contact the administrator.')
-            return redirect('invitations', request.conference.pk)
+            from django.contrib.sites.models import get_current_site
+            from django.core.mail import send_mass_mail
+            from django.template import Context, loader
+
+            template = loader.get_template(email_template_name)
+            context = {
+                'domain': get_current_site(request).domain,
+                'message': form.cleaned_data['message']
+            }
+            msgs = []
+
+            for invitation in form.cleaned_data['invitations']:
+                context.update({'invitation': invitation})
+                msgs.append(('You have been invited to participate in the conference "%s"' % invitation.conference,
+                    template.render(Context(context)),
+                    request.user.email,
+                    [invitation.user.email]
+                ))
+
+            send_mass_mail(msgs, fail_silently=True)
+            messages.success(request, 'Invitation(s) have been sent.')
+            return redirect('dashboard')
+    else:
+        form = InvitationForm(request.conference)
 
     context = {
         'form': form,
@@ -207,9 +238,7 @@ def membership_list(request, template_name='conference/membership_list.html'):
 @require_http_methods(['GET', 'POST'])
 @csrf_protect
 def signup(request, key, template_name='registration/signup_form.html'):
-    from django.contrib.auth import authenticate, login
     from django.db.models import Q
-    from confucius.forms import PaperForm, SignupForm
 
     if request.user.is_authenticated():  # You're already registered, what the fuck would you signup for?
         return redirect('dashboard')
@@ -235,17 +264,15 @@ def signup(request, key, template_name='registration/signup_form.html'):
             if f.is_valid():
                 f.save()
 
-        if not form.errors and not extra_form.errors:
+        if not any(form.errors) and not any(extra_form.errors):
             invitation.accept()
             user = authenticate(username=invitation.user.email, password=form.cleaned_data.get('password1'))
-            login(request, user)
+            auth_login(request, user)
             # Add roles
             membership = Membership.objects.get(user=invitation.user, conference=invitation.conference)
-
-            for role in invitation.roles.all():
-                membership.roles.add(role)
-            membership.save()
-            messages.success(request, u'Congratulations! Welcome to the conference.')
+            membership.roles.clear()
+            membership.roles.add(*invitation.roles.all())
+            messages.success(request, 'Congratulations! Welcome to the conference.')
             return redirect('dashboard', invitation.conference.pk)
 
     context = {

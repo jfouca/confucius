@@ -1,8 +1,7 @@
 from django import forms
 
 from confucius.forms import UserForm
-from confucius.models import Alert, Conference, Domain, Email, Invitation, Membership, User
-from datetime import datetime
+from confucius.models import Alert, Conference, Domain, Email, Invitation, Membership, Role, User
 
 
 class AlertForm(forms.ModelForm):
@@ -62,20 +61,14 @@ class ConferenceForm(forms.ModelForm):
         return cleaned_data
 
 
-class InvitationForm(forms.ModelForm):
-    email = forms.EmailField()
+class InvitationForm(forms.Form):
+    emails = forms.CharField(widget=forms.Textarea(), help_text='A whitespace-separated list of emails of people you wish to invite to the conference.', min_length=4)
+    roles = forms.ModelMultipleChoiceField(queryset=Role.objects.all(), widget=forms.CheckboxSelectMultiple(), help_text='What roles should the people above be given.')
+    message = forms.CharField(widget=forms.Textarea(), label='Your personnal message to each of them.', initial='Hello, ', min_length=5)
 
-    class Meta:
-        model = Invitation
-        fields = ('email', 'roles', 'message')
-        widgets = {
-            'roles': forms.CheckboxSelectMultiple(),
-        }
-
-    def __init__(self, *args, **kwargs):
+    def __init__(self, conference, *args, **kwargs):
         super(InvitationForm, self).__init__(*args, **kwargs)
-        self.fields['roles'].help_text = ""
-        self.fields['message'].label = "Additional message"
+        self.conference = conference
 
     def clean(self):
         from hashlib import sha256
@@ -83,36 +76,34 @@ class InvitationForm(forms.ModelForm):
 
         cleaned_data = super(InvitationForm, self).clean()
 
-        if any(self.errors):
-            return cleaned_data
+        validator = forms.EmailField()
+        values = set(cleaned_data['emails'].split())  # removing duplicates
 
-        email = None
-        membership = None
+        for value in values:  # every email is correct or we do nothing
+            validator.clean(value)
 
-        try:
-            email = Email.objects.get(value=cleaned_data['email'])
-            membership = Membership.objects.get(user=email.user, conference=cleaned_data['conference'], roles__in=cleaned_data['roles'])
-        except:
-            pass
+        emails = Email.objects.filter(value__in=values)
+        unregistered_values = values.difference(emails.values_list('value', flat=True))
+        invitations = []
 
-        if membership is not None:
-            raise forms.ValidationError(u'This user has already that role in the Conference.')
+        for value in unregistered_values:
+            user = User.objects.create(email=value, username=email_to_username(value), is_active=False)
+            Email.objects.create(value=value, main=True, user=user)
 
-        if email is None:
-            user = User.objects.create(email=cleaned_data['email'], username=email_to_username(cleaned_data['email']), is_active=False)
-            Email.objects.create(value=user.email, main=True, user=user)
-        else:
-            user = email.user
+        emails = Email.objects.filter(value__in=values)
 
-        self.instance.user = user
-        self.instance.key = sha256(random_string()).hexdigest()
+        for email in emails:
+            try:
+                invitation = Invitation.objects.create(user=email.user, conference=self.conference)
+                invitation.key = sha256(random_string()).hexdigest()
+                invitation.save()
+                invitation.roles.add(*cleaned_data['roles'].all())
+            except:
+                invitation = Invitation.objects.get(user=email.user, conference=self.conference)
 
-        try:
-            self.instance.validate_unique()
-        except forms.ValidationError:
-            raise forms.ValidationError(u'This user has already been invited to the conference.')
+            invitations.append(invitation)
 
-        return cleaned_data
+        return {'invitations': invitations, 'message': cleaned_data['message']}
 
     def save(self, request, template_name='conference/invitation_email.html'):
         from django.contrib.sites.models import get_current_site
@@ -158,10 +149,11 @@ class SignupForm(UserForm):
     class Meta(UserForm.Meta):
         fields = ('email', 'first_name', 'last_name', 'password1', 'password2', 'languages')
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, email=True, *args, **kwargs):
         super(SignupForm, self).__init__(*args, **kwargs)
 
-        self.fields['email'].widget.attrs['readonly'] = True
+        if email:
+            self.fields['email'].widget.attrs['readonly'] = True
 
     def clean_password2(self):
         password1 = self.cleaned_data.get('new_password1')
@@ -178,9 +170,12 @@ class SignupForm(UserForm):
             user.set_password(self.cleaned_data.get('password1'))
             user.is_active = True
             user.save()
-            email = user.emails.get(main=True)
-            email.confirmed = True
-            email.save()
+            try:
+                email = user.emails.get(main=True)
+                email.confirmed = True
+                email.save()
+            except:
+                pass
 
         return user
 

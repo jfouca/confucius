@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load url from future %}
+
+{% block title %}What is your decision?{% endblock %}
+
+{% block base_content %}
+<div class="modal">
+    <div class="modal-header">
+        <h3>Would you like to participate to the conference "{{ invitation.conference }}" as {{ invitation.roles.all|join:', ' }}?</h3>
+	</div>
+    <div class="modal-body">
+        <p>
+            <a href="{% url 'conference_invitation' invitation.key 'accept' %}" class="btn">Yes</a>
+            <a href="{% url 'conference_invitation' invitation.key 'refuse' %}" class="btn">No</a>
+        </p>
+    </div>
+</div> 
+{% endblock %}

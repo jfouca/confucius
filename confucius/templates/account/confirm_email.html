@@ -1,0 +1,11 @@
+{% load url from future %}
+{% autoescape off %}
+Hello,
+
+You have registered this email address on http://{{ domain }}
+
+Please confirm that it is yours by clicking on the following link :
+http://{{ domain }}{% url 'confirm_email' activation_key %}
+
+If you have never done such a thing, please ignore this email.
+{% endautoescape %}

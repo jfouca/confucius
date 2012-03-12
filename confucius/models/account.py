@@ -23,7 +23,7 @@ class User(AuthUser):
             pass
 
         return None
-        
+
     def has_chair_role_in_any_conference(self):
         memberships = self.memberships
         for member in memberships.all():
@@ -34,34 +34,25 @@ class User(AuthUser):
 
 class Activation(ConfuciusModel):
     activation_key = models.CharField(max_length=64, unique=True)
-    date = models.DateTimeField(auto_now_add=True)
     email = models.ForeignKey('Email', unique=True)
 
-    def has_expired(self):
-        import datetime
-
-        expiration_date = self.date + datetime.timedelta(days=1)
-        if datetime.datetime.now() >= expiration_date:
-            return True
-        return False
-
-    def clean(self):
+    def save(self, *args, **kwargs):
         from hashlib import sha256
         from confucius.utils import random_string
 
-        if self.activation_key is None:
+        if self.activation_key == '':
             self.activation_key = sha256(random_string()).hexdigest()
 
-        super(Activation, self).clean()
+        super(Activation, self).save(*args, **kwargs)
 
-    def send_email(self):
+    def send_email(self, domain):
         from django.core.mail import send_mail
         from django.template.loader import render_to_string
 
-        context = {'activation_key': self.activation_key}
-        message = render_to_string('registration/activation_email.html', context)
+        context = {'activation_key': self.activation_key, 'domain': domain}
+        message = render_to_string('account/confirm_email.html', context)
 
-        send_mail('Email confirmation', message, None, (unicode(self.email),))
+        send_mail('Email confirmation', message, None, [self.email.value])
 
 
 class Email(ConfuciusModel):
@@ -75,11 +66,7 @@ class Email(ConfuciusModel):
         When saved, if self is a main address it should update the User's email
         with its value.
         """
-        from hashlib import sha256
-        from confucius.utils import email_to_username, random_string
-
-        if self.pk is None:
-            self.activation_key = sha256(random_string()).hexdigest()
+        from confucius.utils import email_to_username
 
         super(Email, self).save(*args, **kwargs)
 
