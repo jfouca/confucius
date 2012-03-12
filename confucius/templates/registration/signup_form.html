@@ -6,13 +6,153 @@
 {% block base_content %}
 <div class="container well">
     <h2>Account creation for Confucius</h2>
-    <br/>
-    <form class="form-horizontal" method="post" enctype="multipart/form-data">{% csrf_token %}
-        {% include 'includes/form.html' %}
+    <br>
+    <form class="form-horizontal" method="post" id="form" enctype="multipart/form-data">{% csrf_token %}
+        <div class="control-group{% if form.email.errors %} error{% endif %}" id="control_id_{{ form.email.html_name }}">
+            <label class="control-label" for="id_{{ form.email.html_name }}">{{ form.email.label }}</label>
+            <div class="controls">
+                <div class="input-prepend">
+                    <span class="add-on">
+                        <i class="icon icon-pencil"></i>
+                    </span>
+                    <input name="{{ form.email.html_name }}" value="{{ form.email.value }}" class="input-medium" type="text" id="id_{{ form.email.html_name }}" readonly>
+                    <span class="help-inline">{{ form.email.errors|first }}</span>
+                </div>
+                <p class="help-block"></p>
+            </div>
+        </div>
+        <div class="control-group{% if form.first_name.errors %} error{% endif %}" id="control_id_{{ form.first_name.html_name }}">
+            <label class="control-label" for="id_{{ form.first_name.html_name }}">{{ form.first_name.label }}</label>
+            <div class="controls">
+                <div class="input-prepend">
+                    <span class="add-on">
+                        <i class="icon icon-pencil"></i>
+                    </span>
+                    <input name="{{ form.first_name.html_name }}" value="{{ form.first_name.value }}" class="input-medium" maxlength="30" type="text" id="id_{{ form.first_name.html_name }}">
+                    <span class="help-inline">{{ form.first_name.errors|first }}</span>
+                </div>
+                <p class="help-block"></p>
+            </div>
+        </div>
+        <div class="control-group{% if form.last_name.errors %} error{% endif %}" id="control_id_{{ form.last_name.html_name }}">
+            <label class="control-label" for="id_{{ form.last_name.html_name }}">{{ form.last_name.label }}</label>
+            <div class="controls">
+                <div class="input-prepend">
+                    <span class="add-on">
+                        <i class="icon icon-pencil"></i>
+                    </span>
+                    <input name="{{ form.last_name.html_name }}" value="{{ form.last_name.value }}" class="input-medium" maxlength="30" type="text" id="id_{{ form.last_name.html_name }}">
+                    <span class="help-inline">{{ form.last_name.errors|first }}</span>
+                </div>
+                <p class="help-block"></p>
+            </div>
+        </div>
+        <div class="control-group{% if form.password1.errors %} error{% endif %}" id="control_id_{{ form.password1.html_name }}">
+            <label class="control-label" for="id_{{ form.password1.html_name }}">{{ form.password1.label }}</label>
+            <div class="controls">
+                <div class="input-prepend">
+                    <span class="add-on">
+                        <i class="icon icon-lock"></i>
+                    </span>
+                    <input name="{{ form.password1.html_name }}" class="input-medium" type="password" id="id_{{ form.password1.html_name }}">
+                    <span class="help-inline">{{ form.password1.errors|first }}</span>
+                </div>
+                <p class="help-block"></p>
+            </div>
+        </div>
+        <div class="control-group{% if form.password2.errors %} error{% endif %}" id="control_id_{{ form.password2.html_name }}">
+            <label class="control-label" for="id_{{ form.password2.html_name }}">{{ form.password2.label }}</label>
+            <div class="controls">
+                <div class="input-prepend">
+                    <span class="add-on">
+                        <i class="icon icon-lock"></i>
+                    </span>
+                    <input name="{{ form.password2.html_name }}" class="input-medium" type="password" id="id_{{ form.password2.html_name }}">
+                    <span class="help-inline">{{ form.password2.errors|first }}</span>
+                </div>
+                <p class="help-block"></p>
+            </div>
+        </div>
+        <div class="control-group{% if form.languages.errors %} error{% endif %}" id="control_group_{{ form.languages.html_name }}">
+            <label class="control-label" for="id_{{ form.languages.html_name }}">{{ form.languages.label }}</label>
+            <div class="controls" id="controls_{{ form.languages.html_name }}">
+                <div class="input-prepend">
+                <span class="add-on">
+                    <i class="icon icon-pencil"></i>
+                </span>
+                    <input id="id_languages" class="input-large">
+                    <span class="help-inline">{{ form.languages.errors|first }}</span>
+                </div>
+                <p class="help-block">Begin to type your language and choose in the list</p>
+                {% for language in form.languages.field.initial %}
+                    <span class="label" id="language_{{ language.id|add:'-1' }}">{{ language }} ×<input type="hidden" name="languages" value="{{ language.id }}"></span>
+                {% endfor %}
+            </div>
+        </div>
         {% include 'includes/form.html' with form=extra_form %}
         <div class="form-actions">
             <input type="submit" class="btn btn-large btn-primary" value="Sign Up">
         </div>
     </form>
 </div>
+{% endblock %}
+
+{% block style %}
+<style>
+    div.control-group span.label:hover {
+        cursor:pointer;
+    }
+</style>
+{% endblock %}
+
+{% block script %}
+<script>
+    (function() {
+        var $form = $('#form');
+
+        function autocomplete_languages() {
+            var $id_languages = $("#id_languages");
+            
+            function updateSource($input) {
+                var tab = $form.data('languages').slice(0);
+                $('span[id^=language_]', '#controls_languages').each(function() {
+                    var name = $(this).text().split(' ')[0];
+                    tab.splice(tab.indexOf(name), 1);
+                });
+                $input.autocomplete('option', 'source', tab);
+            }
+
+            $('#controls_languages span.label').live('click', function() {
+                $(this).hide('fast', function() { $(this).remove(); $form.trigger('change'); });
+            });
+
+            $id_languages.autocomplete({ source: $form.data('languages'), autoFocus: true, minLength: 0 })
+            .on('autocompletesearch', function() {  updateSource($(this)); })
+            .on('autocompleteselect', function(e, ui) {
+                var name = ui.item.value;
+                var language_id = $form.data('languages').indexOf(name);
+                var id = 'language_' + language_id;
+
+                $('#' + id).show('slow');
+                if (!$('#' + id).length) {
+                    $('<span>').addClass('label')
+                    .attr('id', id)
+                    .appendTo($('#controls_languages'))
+                    .text(ui.item.value)
+                    .after(' ')
+                    .append(' ×')
+                    .append($('<input>').attr('type', 'hidden').attr('name', 'languages').val(language_id + 1));
+                }
+                $('#' + id).show('slow', function() { $form.trigger('change'); });
+                $(this).val('');
+                return false;
+            })
+            .on('change', function() { return false; });
+        }
+        $.getJSON('{% url 'languages' %}', function(languages) {
+            $form.data('languages', languages);
+            autocomplete_languages();
+        });
+    })();
+</script>
 {% endblock %}

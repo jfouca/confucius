@@ -59,7 +59,7 @@
                                         <a href="{% url 'invitations' request.conference.pk %}">Invitations</a></li>
                                 {% endif %}
                                 
-                                {% if request.membership.has_submitter_role %}
+                                {% if request.membership.has_submitter_role or request.membership.has_chair_role %}
                                     <li class="nav-header"><i class="icon-file"></i> Papers</li>
                                     <li class="{{'/papers'|active:request}}">
                                         <a href="{% url 'papers' request.conference.pk %}">My papers</a></li>
