@@ -14,8 +14,6 @@ margin-bottom: 15px;
 {% block base_content %}
 <div class="modal">
 	  <div class="modal-header">
-
-
 	      <h3>Log in to Confucius</h3>
 	  </div>
 	  <form class="form-horizontal" method="post">{% csrf_token %}
@@ -29,4 +27,12 @@ margin-bottom: 15px;
 	  </form>
 
       </div> 
+{% endblock %}
+
+{% block script %}
+<script>
+    (function() {
+        document.getElementById('id_username').focus();
+    })();
+</script>
 {% endblock %}
