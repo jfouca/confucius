@@ -64,7 +64,7 @@ class ConferenceForm(forms.ModelForm):
 class InvitationForm(forms.Form):
     emails = forms.CharField(widget=forms.Textarea(), help_text='A whitespace-separated list of emails of people you wish to invite to the conference.', min_length=4)
     roles = forms.ModelMultipleChoiceField(queryset=Role.objects.all(), widget=forms.CheckboxSelectMultiple(), help_text='What roles should the people above be given.')
-    message = forms.CharField(widget=forms.Textarea(), label='Your personnal message to each of them.', initial='Hello, ', min_length=5)
+    message = forms.CharField(widget=forms.Textarea(), label='Your personnal message to each of them.', initial='Hello, ')
 
     def __init__(self, conference, *args, **kwargs):
         super(InvitationForm, self).__init__(*args, **kwargs)
@@ -75,6 +75,9 @@ class InvitationForm(forms.Form):
         from confucius.utils import email_to_username, random_string
 
         cleaned_data = super(InvitationForm, self).clean()
+
+        if any(self.errors):
+            return cleaned_data
 
         validator = forms.EmailField()
         values = set(cleaned_data['emails'].split())  # removing duplicates
@@ -104,27 +107,6 @@ class InvitationForm(forms.Form):
             invitations.append(invitation)
 
         return {'invitations': invitations, 'message': cleaned_data['message']}
-
-    def save(self, request, template_name='conference/invitation_email.html'):
-        from django.contrib.sites.models import get_current_site
-        from django.core.mail import send_mail
-        from django.template import Context, loader
-
-        invitation = super(InvitationForm, self).save(commit=False)
-        template = loader.get_template(template_name)
-        context = {
-            'domain': get_current_site(request).domain,
-            'invitation': invitation,
-            'roles': self.cleaned_data['roles']  # We can't use invitation.roles in the template since the invitation has not been persisted yet
-        }
-
-        send_mail('[Confucius Invitation] You have been invited to participate in the conference "%s"' % invitation.conference,
-            template.render(Context(context)), None, [invitation.user.email])
-
-        invitation.save()
-        self.save_m2m()
-
-        return invitation
 
 
 class MembershipForm(forms.ModelForm):
