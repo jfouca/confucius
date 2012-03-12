@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models.signals import pre_save
+from django.db.models import Count
 from django.dispatch import receiver
 from confucius.models import Alert, Conference, ConfuciusModel, Domain, Language, User
 from confucius.models.conference import my_send_mail
@@ -47,7 +48,7 @@ class Paper(ConfuciusModel):
         elif state == 2:
             return ["label-success", "Selected"]
         else:
-            return ["label-error", "Rejected"]
+            return ["label-important", "Rejected"]
         
 
     def get_assigned_assignments_count(self):
@@ -79,6 +80,15 @@ class Paper(ConfuciusModel):
         nb_rejected_reviews = assignments.filter(is_rejected=True).count()
     
         return [nb_completed_reviews, nb_unfinished_reviews, nb_rejected_reviews]
+        
+    def is_notify(self):
+        assignments = self.assignments.all()
+        nb_assignment_with_problems = assignments.filter(problem__gt=1, is_rejected=False).count()
+        
+        if nb_assignment_with_problems > 0:
+            return True
+        else:
+            return False
 
     def is_ambigous(self):
         assignments = self.assignments.all()
