@@ -45,6 +45,7 @@ class Conference(ConfuciusModel):
     access_key = models.CharField(max_length=8)
     maximum_score = models.IntegerField(default=10)
     minimum_reviews = models.IntegerField(default=2)
+    enable_reviewer_confidence =  models.BooleanField(default=True)
     def __unicode__(self):
         return self.title
 
