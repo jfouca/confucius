@@ -16,18 +16,29 @@ class ReviewForm(forms.ModelForm):
         fields = ( 'detailed_commentary', 'commentary_for_president', )
 
     def __init__(self, *args, **kwargs):
+        enable_reviewer_confidence = kwargs.pop('enable_reviewer_confidence', None)
         super(ReviewForm, self).__init__(*args, **kwargs)
         review = kwargs.pop('instance', None)
+        
+	self.fields["reviewer_confidence"].initial = '0'
         if review is not None:
             self.fields["reviewer_confidence"].initial = review.reviewer_confidence
-        else:
-            self.fields["reviewer_confidence"].initial = '0'
+            
+	if not enable_reviewer_confidence:
+	    del self.fields["reviewer_confidence"]
+
 
     def save(self, **kwargs):
         review = super(ReviewForm, self).save(commit=False)
-        review.reviewer_confidence = self.cleaned_data['reviewer_confidence']
         evaluation = kwargs.pop('overall_evaluation', None)
+        enable_reviewer_confidence = kwargs.pop('enable_reviewer_confidence', None)
         review.overall_evaluation = evaluation
+        
+        if enable_reviewer_confidence:
+	    review.reviewer_confidence = self.cleaned_data['reviewer_confidence']
+        else:
+	    review.reviewer_confidence = 0
+        
         review.save()
         return review
 

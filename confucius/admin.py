@@ -133,7 +133,7 @@ class ConferenceAdmin(admin.ModelAdmin):
     inlines = (MembershipInline, )
     fieldsets = (
         ('Conference information', {
-            'fields': ('title', 'url', 'domains', 'maximum_score', 'minimum_reviews')
+            'fields': ('title', 'url', 'domains', 'maximum_score', 'minimum_reviews', 'enable_reviewer_confidence')
         }),
         ('Date information', {
             'fields': (('start_date',), ('submissions_start_date', 'submissions_end_date'), ('reviews_start_date', 'reviews_end_date'),)

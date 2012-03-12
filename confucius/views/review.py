@@ -137,7 +137,8 @@ def auto_assignment(request):
 def submit_review(request, pk_assignment, template_name='review/review_form.html'):
     assignment = Assignment.objects.get(pk=pk_assignment)
     review = assignment.review
-    form = ReviewForm(instance=review)
+    conference = request.conference
+    form = ReviewForm(instance=review, enable_reviewer_confidence=conference.enable_reviewer_confidence)
 
     if review is None:
         initial_overall_evaluation = 0
@@ -146,7 +147,7 @@ def submit_review(request, pk_assignment, template_name='review/review_form.html
 
     if request.method == 'POST':
         error_flag = False
-        form = ReviewForm(request.POST, instance=review)
+        form = ReviewForm(request.POST, instance=review, enable_reviewer_confidence=conference.enable_reviewer_confidence)
         note = int(request.POST.get('overall_evaluations'))
 
         if note < 0 or note > request.conference.maximum_score:
