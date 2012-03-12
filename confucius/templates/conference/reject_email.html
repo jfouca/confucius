@@ -1,0 +1,16 @@
+{% load url from future %}
+{% autoescape off %}
+Hello,
+
+You receive this email because you are the chair of the conference "{{ conference }}". 
+
+A reviewer rejects the evaluation of the paper {{ paper }}
+
+The reviewer has left the following message:
+
+"{{ message }}"
+
+
+{% endautoescape %}
+
+
