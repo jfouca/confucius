@@ -11,7 +11,7 @@ from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
 
 
-from confucius.decorators import has_chair_role, has_reviewer_role
+from confucius.decorators import has_chair_role, has_reviewer_role, has_submitter_role
 from confucius.forms import ReviewForm
 from confucius.models import Assignment, Email, Membership, Paper, PaperSelection, Review, Role, User
 
@@ -34,7 +34,7 @@ def finalize_assignment(request):
     
     reviewers_list = list(set([assignment.reviewer.email for assignment in assignments]))
     try:
-	send_mail('You have received papers to reviews for the conference "%s"' % conference, template.render(Context(context)), None, reviewers_list)
+	send_mail('[Confucius Review] You have received papers to reviews for the conference "%s"' % conference, template.render(Context(context)), None, reviewers_list)
 	messages.success(request, u'You have successfully assign reviewers. An email has been sent to each of them with further instructions')
     except:
         messages.error(request, u'An error occured during the email sending process. Please contact the administrator.')
@@ -196,6 +196,12 @@ def problem(request, assignment_pk, is_reject=False, template_name='review/probl
             
             assignment.save()
             
+            
+            chair_role = Role.objects.get(code="C")
+            memberships = Membership.objects.filter(conference=request.conference, roles=chair_role)
+            chairs_list = [member.user for member in memberships]
+            #send_mail('[Confucius Review] You have received papers to reviews for the conference "%s"' % conference, template.render(Context(context)), None, reviewers_list)
+            
             messages.success(request, msg)
             return redirect('dashboard')
     else:
@@ -224,12 +230,33 @@ def paper_selection_list(request, template_name='review/paper_selection.html'):
 
 @require_http_methods(['GET', 'POST'])
 @login_required
+@has_submitter_role
+def read_personal_reviews(request, pk_paper, template_name='review/read_personal_reviews.html'):
+    conference = request.conference
+    paper = Paper.objects.get(pk=pk_paper)
+    reviews = Review.objects.filter(assignment__paper=paper, is_last=True)
+    
+    if paper.submitter != request.user or not conference.has_finalize_paper_selections:
+        messages.warning(request, u'Unauthorized access.')
+        return redirect('membership_list')
+    
+    context = {
+        'paper': paper,
+        'reviews': reviews,
+        'conference': conference
+    }
+
+    return render_to_response(template_name, context, context_instance=RequestContext(request))
+
+
+@require_http_methods(['GET', 'POST'])
+@login_required
 @has_chair_role
 def read_reviews(request, pk_paper, template_name='review/read_reviews.html'):
     conference = request.conference
 
     paper = Paper.objects.get(pk=pk_paper)
-    reviews = Review.objects.filter(assignment__paper=paper)
+    reviews = Review.objects.filter(assignment__paper=paper, is_last=True)
 
     if request.method == 'POST':
         if request.POST.__contains__('select_paper') or request.POST.__contains__('dont_select_paper'):
@@ -246,11 +273,32 @@ def read_reviews(request, pk_paper, template_name='review/read_reviews.html'):
     context = {
         'paper': paper,
         'reviews': reviews,
-        'conference': conference,
+        'conference': conference
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))
 
+
+@require_http_methods(['GET', 'POST'])
+@login_required
+@has_chair_role
+def history_reviews(request, pk_review, template_name='review/historical_reviews.html'):
+    
+    conference = request.conference
+    review = Review.objects.get(pk=pk_review)
+    reviews = review.get_reviews_history()
+    paper = review.get_assignment().paper
+
+    print request.path
+
+    context = {
+        'paper': paper,
+        'reviews': reviews,
+        'conference': conference
+    }
+
+    return render_to_response(template_name, context, context_instance=RequestContext(request))
+    
 
 @require_GET
 @login_required
@@ -258,15 +306,35 @@ def read_reviews(request, pk_paper, template_name='review/read_reviews.html'):
 def finalize_selection(request):
     conference = request.conference
     
-    for paper_selection in conference.selections.all():
-        paper_selection.is_submit = True
-        paper_selection.save()
+    # Warning: Some papers can have no selection or assignment.
+    # In order to solve this problem, we must check ALL papers (and not all selections)
+    papers_list = Paper.objects.filter(conference=conference)
+    
+    for paper in papers_list:
+        try:
+            paper.selection.is_submit = True
+            paper.selection.save()
+        except PaperSelection.DoesNotExist:
+            PaperSelection.objects.create(paper=paper,conference=conference,is_selected=False,is_submit=True).save()
 
     conference.has_finalize_paper_selections = True
     conference.save()
 
-    messages.warning(request, u"Papers selection have been finalized.")
+    messages.success(request, u"Papers selection have been finalized.")
     return redirect('dashboard', conference.pk)
+
+
+@require_GET
+@login_required
+@has_chair_role
+def clean_selection(request):
+    conference = request.conference
+    
+    for paper_selection in conference.selections.all():
+        paper_selection.delete()
+    
+    messages.success(request, u"You have cleaned the paper selections.")
+    return redirect('paper_selection_list', conference.pk)
 
 
 @login_required

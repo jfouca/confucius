@@ -71,7 +71,7 @@ class Conference(ConfuciusModel):
         return datetime.now().date() < self.reviews_start_date
 
     def are_reviews_over(self):
-        return datetime.now().date() > self.reviews_end_date
+        return self.has_finalize_paper_selections or datetime.now().date() > self.reviews_end_date 
 
     def is_started(self):
         return datetime.now().date() > self.start_date

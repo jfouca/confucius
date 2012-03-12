@@ -1,0 +1,71 @@
+{% extends "base-in.html" %}
+{% load url from future %}
+
+{% block title %}Historical reviews{% endblock %}
+
+{% block content_header %}
+<h1>Historical reviews for: {{paper.title}}</h1>
+{% endblock %}
+
+{% block content_main %}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Domains</th>
+            <th>Language</th>
+            <th>File</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{paper.title}}</td>
+            <td>{{paper.domains.all|join:', '}}</td>
+            <td>{{paper.language}}</td> 
+            <td><a href="{{paper.file.url}}" class="btn"><i class="icon-download-alt"></i> Download</a></td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Paper description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{paper.description}}</td>
+        </tr>
+    </tbody>
+</table>
+<br/>
+
+<h2>Historical reviews</h2>
+<table class="table table-bordered">
+<tbody>
+    <tr>
+        <th>Update date</th>
+        <th>Commentary</th>
+        <th>Commentary president</th>
+        <th>Overall evaluation</th>
+        <th>Reviewer confidence</th>
+    </tr>
+    {% for review in reviews %}
+    <tr>
+        <td>{{review.last_update_date|date:'SHORT_DATE_FORMAT'}}</td>
+        <td>{{review.detailed_commentary}}</td>
+        <td>{{review.commentary_for_president}}</td>
+        <td>{{review.overall_evaluation}} / {{conference.maximum_score}}</td>
+        <td>{{review.reviewer_confidence}} / 5</td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+<br/>
+
+<a href="{% url 'reviews' conference.pk %}" class="btn btn-info"> 
+            <i class="icon-share-alt icon-white"></i> To reviews</a>
+{% endblock %}
+

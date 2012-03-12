@@ -2,7 +2,6 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.models import get_current_site
-from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect, render_to_response
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
@@ -10,7 +9,8 @@ from django.views.decorators.http import require_GET, require_http_methods
 
 from confucius.decorators import has_chair_role, has_role, has_reviewer_role, has_submitter_role
 from confucius.forms import ConferenceForm, PaperForm, MembershipForm, SendEmailToUsersForm, SignupForm
-from confucius.models import Activation, Alert, Assignment, Conference, Email, Invitation, Membership, Paper, Role
+from confucius.models import Activation, Alert, Assignment, Conference, Email, Invitation, Membership, Paper, PaperSelection, Role
+from confucius.utils import send_emails_to_group
 
 
 @require_http_methods(['GET', 'POST'])
@@ -120,18 +120,17 @@ def dashboard(request, template_name='conference/dashboard.html'):
 
     user_papers = Paper.objects.filter(conference=conference, submitter=request.user).order_by('-last_update_date')
     user_assignments = Assignment.objects.filter(conference=conference, reviewer=request.user, is_assigned=True)
-    
-    
+
     alerts_trigger = Alert.objects.filter(conference=conference.pk, reminder__isnull=True, action__isnull=True).order_by('trigger_date')
     #alerts_reminder = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, action__isnull=True)
     #alerts_action = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, reminder__isnull=True)
     if alerts_trigger.count() > 5:
         alerts_trigger = alerts_trigger[:5]
-    
-    conference_reviews = Assignment.objects.filter(paper__conference=conference, is_done=True, review__isnull=False).order_by('-review__last_update_date')
+
+    conference_reviews = Assignment.objects.filter(paper__conference=conference, is_done=True, review__isnull=False, review__is_last=True).order_by('-review__last_update_date')
     if conference_reviews.count() > 5:
         conference_reviews = conference_reviews[:5]
-        
+
     conference_papers = Paper.objects.filter(conference=conference).order_by('-submission_date')
     if conference_papers.count() > 5:
         conference_papers = conference_papers[:5]
@@ -299,19 +298,25 @@ def send_email_to_users(request, template_name='conference/send_email_to_users.h
             #Get the cleaned_data from FORM and then send the email
             title = form.cleaned_data['title']
             content = form.cleaned_data['content']
-            receivers = form.cleaned_data['receivers']
+            receivers = ""
 
-            for receiver in receivers:
-                email = receiver.email
-                try:
-                    send_mail("[Confucius Message] "+title, content, unicode(request.user.email), [unicode(email)], fail_silently=False)
+            if len(form.cleaned_data['users']) > 0:
+                receivers = form.cleaned_data['users']
+                send_emails_to_group(receivers, title, content, request)
+            else:
+                groups = form.cleaned_data['groups']
+                roles = groups
+                if "U" in groups:
+                    receivers = [paperselect.paper.submitter for paperselect in PaperSelection.objects.filter(conference=conference) if paperselect.is_selected and paperselect.is_submit]
+                    send_emails_to_group(receivers, title, content, request)
+                    groups.remove("U")
 
-                except:
-                    messages.error(request, u'An error occured during the email sending process. The SMTP settings may be uncorrect, or the receiver(%s) email address may not exist\n' % str(email))
-                    return redirect('dashboard')
-
-            messages.success(request, u'You succesfully have just sent your email to the receiver(s)')
-            return redirect('dashboard')
+                if roles is not None:
+                    for entry in roles:
+                        role = Role.objects.get(code=entry)
+                        memberships_list = Membership.objects.filter(roles=role, conference=conference)
+                        receivers = [membership.user for membership in memberships_list]
+                        send_emails_to_group(receivers, title, content, request)
 
     context = {
         'form': form,
@@ -328,9 +333,9 @@ def paper_list(request, get_all=False, template_name='conference/paper_list.html
 
     if get_all == False:
         papers = Paper.objects.filter(conference=conference, submitter=request.user)
-    else:    
+    else:
         papers = Paper.objects.filter(conference=conference)
-        
+
     context = {
         'paper_list': papers,
         'conference': conference,
@@ -349,7 +354,7 @@ def review_list(request, get_all=False, template_name='conference/review_list.ht
         user_assignments = Assignment.objects.filter(conference=conference, reviewer=request.user, is_assigned=True)
     else:
         user_assignments = Assignment.objects.filter(conference=conference, is_assigned=True)
-    
+
     context = {
         'user_assignments': user_assignments,
         'conference': conference,
@@ -391,29 +396,18 @@ def invitation_list(request, template_name='conference/invitation_list.html'):
         'membership': request.membership
     }
     return render_to_response(template_name, context, context_instance=RequestContext(request))
-    
-    
+
+
 @login_required
 @has_chair_role
 def members_list(request, template_name='conference/members_list.html'):
     conference = request.conference
 
-    role = Role.objects.get(name="Reviewer")
-    memberships_list = Membership.objects.filter(roles=role, conference=conference)
-    reviewers = [[membership.user, membership.domains] for membership in memberships_list]
-    
-    role = Role.objects.get(name="Submitter")
-    memberships_list = Membership.objects.filter(roles=role, conference=conference)
-    submitters = [[membership.user, membership.domains] for membership in memberships_list]
-    
-    role = Role.objects.get(name="Chair")
-    memberships_list = Membership.objects.filter(roles=role, conference=conference)
-    chairs = [[membership.user, membership.domains] for membership in memberships_list]
-    
+    memberships_list = Membership.objects.filter(conference=conference).order_by('roles')
+
     context = {
         'conference': conference,
-        'chairs': chairs,
-        'reviewers': reviewers,
-        'submitters': submitters
+        'memberships_list': memberships_list
     }
+
     return render_to_response(template_name, context, context_instance=RequestContext(request))

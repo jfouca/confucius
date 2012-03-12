@@ -67,38 +67,34 @@ ul {
     border-top: 3px solid lightgrey;
 }
 
-.sidebar-nav .nav-header {
-    color: #333;
+.sidebar-nav ul li a {
     font-size: 13px;
+    font-weight: normal;
+}
+
+.sidebar-nav .nav-header, .sidebar-dates .nav-header {
+    color: #333;
+    font-size: 14px;
+    font-weight: normal;
     text-transform: capitalize;
 }
 
-.sidebar-dates {
-    padding: 5px 0 15px 0;
-}
-
-.sidebar-dates .date-title {
-    z-index: 5;
-    display: block;
-    position: relative;
-    top: -5px;
-    margin-left: 3px;
-    padding: 3px 5px;
-    border: 1px solid lightgrey;
-    border-top: 3px solid lightgrey;
-    background-color: #fff;
-
-}
-
-.sidebar-dates .label {
-    z-index: 10;
-    position: relative;
-} 
-
 .sidebar-dates ul li {
-    margin-top: 3px;
-    color: #333;
+    margin-top: 5px;
 }
+
+.sidebar-dates {
+    padding: 15px 0;
+}
+
+.sidebar-dates .nav-header {
+    padding-bottom:0;
+}
+
+
+.date-value {
+    margin-left: 20px;
+} 
 
 /* Dashboard */
 
@@ -193,6 +189,7 @@ ul {
 }
 
 .footer {
+    margin-top: 15px;
     border-top: 1px solid lightgrey;
     background-color: #f8f8f8;
 }

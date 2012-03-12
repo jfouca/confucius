@@ -19,6 +19,7 @@
             <th>Title</th>
             <th>Domains</th>
             <th>Language</th>
+            <th>Reviews done</th>
             <th>File</th>
         </tr>
     </thead>
@@ -26,7 +27,19 @@
         <tr>
             <td>{{paper.title}}</td>
             <td>{{paper.domains.all|join:', '}}</td>
-            <td>{{paper.language}}</td>
+            <td>{{paper.language}}</td> 
+            {% with percent=paper.get_reviewed_percent reviews_info=paper.get_reviews_info %} 
+                <td class="tooltip-show" data-original-title="
+                    Completed reviews: {{ reviews_info.0 }}<br/>
+                    Unfinished reviews: {{ reviews_info.1 }}
+                    {% if reviews_info.2 > 0 %}
+                        <br/>Rejected reviews: {{ reviews_info.2 }}
+                    {% endif %}
+                ">
+                    
+                    {{ percent }}% <i class="icon-info-sign"></i>
+                </td>
+            {% endwith %}
             <td><a href="{{paper.file.url}}" class="btn"><i class="icon-download-alt"></i> Download</a></td>
         </tr>
     </tbody>
@@ -44,20 +57,27 @@
         </tr>
     </tbody>
 </table>
+<br/>
 
 <h2>Reviews</h2>
 <table class="table table-bordered">
 <tbody>
     <tr>
         <th>Reviewer</th>
-        <th>Conmentary</th>
+        <th>Commentary</th>
         <th>Commentary president</th>
         <th>Overall evaluation</th>
         <th>Reviewer confidence</th>
     </tr>
     {% for review in reviews %}
-    <tr>
-        <td>{{review.get_assignment.reviewer}}</td>
+    <tr class="row-actions">
+        <td>
+            {{review.get_assignment.reviewer}}
+            <span class="data-actions v-hidden"> 
+                <a href="{% url 'history_reviews' conference.pk review.pk %}" class="btn btn-mini action_btn">
+                    Review history</a>
+            </span>
+        </td>
         <td>{{review.detailed_commentary}}</td>
         <td>{{review.commentary_for_president}}</td>
         <td>{{review.overall_evaluation}} / {{conference.maximum_score}}</td>
@@ -70,16 +90,12 @@
 <form id="form" class="form-horizontal" method="post">
     {% csrf_token %}
     <div class="form-actions">
-        <p>
-            <b>Do you want to select this paper for the conference ?</b>
-            {% if paper.selection %}
-                <br />Warning: You have already made a decision for this paper.
-            {% endif %}
-        </p>
-        
-        <a href="{% url 'paper_selection_list' conference.pk %}" class="btn">Make the decision later</a>
-        <input type="submit" name="select_paper" class="btn btn-primary" value="SELECT this paper"/>
-        <input type="submit" name="dont_select_paper" class="btn btn-danger" value="DON'T SELECT this paper"/>
+        <button type="submit" name="select_paper" class="btn" value="Select this paper">
+            <i class="icon-ok"></i> Select paper</button>
+        <button type="submit" name="dont_select_paper" class="btn" value="Reject">
+            <i class="icon-remove"></i> Reject paper</button>
+        <a href="{% url 'paper_selection_list' conference.pk %}" class="btn btn-info"> 
+            <i class="icon-share-alt icon-white"></i> To paper selection</a>
     </div>
 </form>
 {% endblock %}

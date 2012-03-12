@@ -24,32 +24,53 @@ tr.paper-deselect, tr.paper-deselect:hover td{
 
 
 {% block content_main %}
-<div class="modal hide fade" id="toggle_modal_warning">
+<div class="modal hide fade toggle_modal" id="toggle_modal_warning">
     <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
         <h3>Warning ! There are still no assigned papers.</h3>
     </div>
     <div class="modal-body">
-        <p>If you really want to ignore no assigned papers, push the "Finalize" button, "Close" otherwise</p>
+        <p><strong>Do you really want to Finalize the Papers Selection for your Conference ?</strong></p>
+        <p>This means you won't be able to edit your selection later on. We recommand to check no assigned papers before finalizing the paper selections.</p>
+        
     </div>
     <div class="modal-footer">
-        <a href="{% url 'finalize_selection' conference.pk %}" class="btn btn-primary">Finalize</a>
-        <a href="#" class="btn" data-dismiss="modal">Close</a>
+        <a href="{% url 'finalize_selection' conference.pk %}" 
+            class="btn btn-large btn-primary">Yes, I want to Finalize my selections</a>
+        <a href="#" class="btn btn-large" data-dismiss="modal">No, Return</a>
     </div>
 </div>
 
-<div class="modal hide fade" id="toggle_modal_confirmation">
+<div class="modal hide fade toggle_modal" id="toggle_modal_confirmation">
     <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
         <h3>Confirmation</h3>
     </div>
     <div class="modal-body">
-        <p><strong><center>Do you really want to Finalize the Papers Selection for your Conference ?</center></strong></p>
-        <p>This means you won't be able to edit your selection later on</p>
+        <p><strong>Do you really want to Finalize the Papers Selection for your Conference ?</strong></p>
+        <p>This means you won't be able to edit your selection later on.</p>
     </div>
     <div class="modal-footer">
-        <a href="{% url 'finalize_selection' conference.pk %}" class="btn btn-primary">Ok, I want to Finalise my Selection</a>
-        <a href="#" class="btn" data-dismiss="modal">No, Return</a>
+        <a href="{% url 'finalize_selection' conference.pk %}" 
+            class="btn btn-large btn-primary">Yes, I want to Finalise my selections</a>
+        <a href="#" class="btn btn-large" data-dismiss="modal">No, Return</a>
     </div>
 </div>
+
+<div class="modal hide fade toggle_modal" id="toggle_modal_clean">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>Confirmation</h3>
+    </div>
+    <div class="modal-body">
+        <p>Do you really want to clean all paper selections ?</p>
+    </div>
+    <div class="modal-footer">
+        <a href="{% url 'clean_selection' conference.pk %}" class="btn btn-large btn-primary">Yes, I want</a>
+        <a href="#" class="btn btn-large" data-dismiss="modal">No, Return</a>
+    </div>
+</div>
+
 
 
 {% if papers_not_assigned.count > 0 %}
@@ -74,32 +95,52 @@ tr.paper-deselect, tr.paper-deselect:hover td{
     </div>
   </div>
 </div>
-</p>
+</p><br/>
 
-<p>
 
 <p>
 <div class="row">
-    <div class="span1"><h3>Papers</h3> </div>
-    <div class="span1"><span class="btn v-hidden" id="select-btn">Select</span></div>
-    <div class="span2"><span class="btn v-hidden" id="deselect-btn">Reject</span></div>
-    <div class="span4"><span class="btn" id="finalize">Finalize</span></div>
-    <div class="span2">
-        <a href="{% url 'dashboard' %}" class="btn btn-info">
-                <i class="icon-share-alt icon-white"></i> To dashboard
-        </a>
+    <div class="span10">
+        <div class="pull-right">
+            <span class="btn" id="finalize"><i class="icon-ok"></i> Finalize selection</span>
+            <span class="btn" id="clean-selections"><i class="icon-trash"></i> Clean selection</span>
+            <a href="{% url 'dashboard' %}" class="btn btn-info">
+                    <i class="icon-share-alt icon-white"></i> To dashboard
+            </a>
+        </div>
     </div>
 </div>
 </p>
+<p>
+<div class="row">
+    <div class="span10">
+        <span class="btn v-hidden" id="select-btn"><i class="icon-plus"></i> Select selections</span>
+        <span class="btn v-hidden" id="deselect-btn"><i class="icon-minus"></i> Reject selections</span>
+        
+        <div class="pull-right">
+            Filter: <select id="table-filter">
+                <option value="">------</option>
+                <option value="selection:no-choice">Papers without choice</option>
+                <option value="selection:true">Selected papers</option>
+                <option value="selection:false">Rejected papers</option>
+            </select>
+        </div>
+    </div>
+</div>
+</p>
+
+
+</hr>
 <table class="table tablesorter table-bordered" id="table">
     <thead>
-    <tr>
-        <th><input type="checkbox" name="selectAll" id="selectAll" class="selectAll"></th>
-        <th>Title </th>
-        <th>Reviews done</th>
-        <th>Overall Evaluation </th>
-        <th>Standard deviation </th>
-    </tr>
+        <tr>
+            <th><input type="checkbox" name="selectAll" id="selectAll" class="selectAll"></th>
+            <th>Title </th>
+            <th>Reviews done</th>
+            <th>Overall Evaluation </th>
+            <th>Standard deviation </th>
+            <th style="display: none"></th>
+        </tr>
     </thead> 
     <tbody>
 <form method="post" id="frmPaper" name="frmPaper" >{% csrf_token %}
@@ -120,15 +161,24 @@ tr.paper-deselect, tr.paper-deselect:hover td{
                 <a href="#" class="btn btn-mini action_btn" id="deselect_{{paper.pk}}">Reject</a>
             </span>
         </td>
-        <td>{% with percent=paper.get_reviewed_percent %} 
-                {{ percent }}%
+        {% with percent=paper.get_reviewed_percent reviews_info=paper.get_reviews_info %} 
+            <td class="tooltip-show" data-original-title="
+                Completed reviews: {{ reviews_info.0 }}<br/>
+                Unfinished reviews: {{ reviews_info.1 }}
+                {% if reviews_info.2 > 0 %}
+                    <br/>Rejected reviews: {{ reviews_info.2 }}
+                {% endif %}
+            ">
+                
+                {{ percent }}% <i class="icon-info-sign"></i>
                 {% if  percent > 0 %}
                     <span class="data-actions v-hidden"> 
-                        <a href="{% url 'read_reviews' conference.pk paper.pk %}" class="btn btn-mini read_btn" id="read_reviews_{{paper.pk}}">Read reviews</a>
+                        <a href="{% url 'read_reviews' conference.pk paper.pk %}" class="btn btn-mini read_btn" 
+                            id="read_reviews_{{paper.pk}}">Read reviews</a>
                     </span>
                 {% endif %}
-            {% endwith %}
-        </td>
+            </td>
+        {% endwith %}
         <td>
             {% with mark=paper.get_mark %}
             {% if mark == -1 %}
@@ -154,6 +204,15 @@ tr.paper-deselect, tr.paper-deselect:hover td{
             {% else %}
                 <span class="label label-important"><i class="icon-remove-sign icon-white"></i></span>
             {% endif %}
+        </td>
+        <td style="display:none" id="selection">
+            {% if not paper.selection %}
+                selection:no-choice
+            {% else %} {% if paper.selection.is_selected %}
+                selection:true
+            {% else %}
+                selection:false
+            {% endif %} {% endif %}
         </td>
     </tr>
 {% endfor %}
@@ -204,7 +263,7 @@ $(document).ready(
     
     deselectAction(),
     
-    finalizeAction(),
+    buttonAction(),
     
     quickActions()
         
@@ -231,18 +290,21 @@ function goodStart() {
         },
         aoColumnDefs: [
             { bSortable: false, aTargets: [0] },
+            { sType: 'num-html', aTargets: [2] },
             { sType: 'num-html', aTargets: [3] }
         ]
     });
+    $('#table').dataTable().fnFilter("");
 }
 
 
 function selectAllEvent(){
     $('#selectAll').click(function() {
         var checked_status = this.checked;
-        toggleSelectionButtons();
+        if(checked_status) $("#select-btn, #deselect-btn").removeClass("v-hidden");
+        else $("#select-btn, #deselect-btn").addClass("v-hidden");
+        
         toggleCheckboxes(checked_status);
-        //more things
     });
 }
 
@@ -256,6 +318,13 @@ function checkPaper() {
         $('#select-btn, #deselect-btn').toggleClass('v-hidden', $('.paper:checked').length > 0 ? false : true);
         return false;
     });
+    
+    
+    
+    $('#table-filter').live('change', function() {
+	    select_val = jQuery(this).val();
+	    $('#table').dataTable().fnFilter(select_val);
+    } );
 }
 
 function toggleCheckboxes(is_selectAll_checked) {
@@ -274,6 +343,9 @@ function selectAction() {
                 papers.push(i);
                 $(this).parent().parent().removeClass("paper-deselect");
                 $(this).parent().parent().addClass("paper-select");
+                
+                var indexOfRow = $('#table').dataTable().fnGetPosition( $(this).closest('tr').get(0) );
+		        $('#table').dataTable().fnUpdate("selection:true", indexOfRow, 5);
                 this.checked=false;
             }
         });
@@ -299,11 +371,14 @@ function deselectAction() {
                 papers.push(i);
                 $(this).parent().parent().removeClass("paper-select");
                 $(this).parent().parent().addClass("paper-deselect"); 
+                
+                var indexOfRow = $('#table').dataTable().fnGetPosition( $(this).closest('tr').get(0) );
+		        $('#table').dataTable().fnUpdate("selection:false", indexOfRow, 5);
                 this.checked=false;
             }
         });
         $('#selectAll').attr('checked', false);
-        itoggleSelectionButtons();
+        toggleSelectionButtons();
         var myJSONText = JSON.stringify(papers);
         $.post("{% url 'updateSelectedStatus' conference.pk %}", {
             action : "deselect", 
@@ -314,7 +389,7 @@ function deselectAction() {
     });
 }
 
-function finalizeAction(){
+function buttonAction(){
     $('#finalize').live("click",function() {
         {% if papers_not_assigned.count > 0 %}
             $('#toggle_modal_warning').modal({
@@ -326,11 +401,16 @@ function finalizeAction(){
             }).show();        
         {% endif %}
     });
+    
+    $('#clean-selections').live("click",function() {
+        $('#toggle_modal_clean').modal({
+            keyboard: false
+        }).show();
+    });
 }
 
 function quickActions() {
     $('.action_btn').live("click",function() {
-        
         var start = $(this).attr("id");
         var substri = start.split('_');
         var paper_id = substri[1];
@@ -339,19 +419,24 @@ function quickActions() {
         papers.push(parseInt(paper_id));
         var myJSONText = JSON.stringify(papers);
         
+        var indexOfRow = $('#table').dataTable().fnGetPosition( $(this).closest('tr').get(0) );
+        
         if(action == "deselect") {
             $(this).parent().parent().parent().removeClass("paper-select");
             $(this).parent().parent().parent().addClass("paper-deselect");
+		    $('#table').dataTable().fnUpdate("selection:false", indexOfRow, 5);
         }
         else {
             $(this).parent().parent().parent().removeClass("paper-deselect");
             $(this).parent().parent().parent().addClass("paper-select");
+		    $('#table').dataTable().fnUpdate("selection:true", indexOfRow, 5);
         }
         $.post("{% url 'updateSelectedStatus' conference.pk %}", {
             action : action, 
             papers_id: myJSONText,
         }
         );
+        
         return false;
     });
 }

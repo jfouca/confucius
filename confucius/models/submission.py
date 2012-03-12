@@ -46,9 +46,17 @@ class Paper(ConfuciusModel):
         return int((average*100) / max_score)
 
     def get_reviewed_percent(self):
-        total = self.assignments.all().count()
-        value = self.assignments.filter(is_done=True).count()
+        total = self.assignments.filter(is_rejected=False).count()
+        value = self.assignments.filter(is_done=True, is_rejected=False).count()
         return value*100/total
+
+    def get_reviews_info(self):
+        assignments = self.assignments.all()
+        nb_completed_reviews = assignments.filter(is_done=True, is_rejected=False).count()
+        nb_unfinished_reviews = assignments.filter(is_done=False, is_rejected=False).count()
+        nb_rejected_reviews = assignments.filter(is_rejected=True).count()
+    
+        return [nb_completed_reviews, nb_unfinished_reviews, nb_rejected_reviews]
 
     def is_ambigous(self):
         assignments = self.assignments.all()
@@ -60,7 +68,7 @@ class Paper(ConfuciusModel):
         ecart_type = math.sqrt(variance)
         
         ecart_type_max = self.conference.maximum_score/4
-        return ecart_type > ecart_type_max
+        return ecart_type >= ecart_type_max
 
 
     def stat_variance(self, sample):
