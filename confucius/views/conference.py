@@ -117,10 +117,9 @@ def conference_toggle(request):
 def dashboard(request, template_name='conference/dashboard.html'):
     conference = request.conference
     membership = request.membership
-    
-    # User must have a domain
+
     if membership.domains.count() <= 0:
-	return redirect('membership', conference_pk=membership.conference.pk)
+        return redirect('membership', conference_pk=membership.conference.pk)
 
     user_papers = Paper.objects.filter(conference=conference, submitter=request.user).order_by('-last_update_date')
     user_assignments = Assignment.objects.filter(conference=conference, reviewer=request.user, is_assigned=True)
