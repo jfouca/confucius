@@ -163,8 +163,8 @@
             <thead>
                 <tr>
                     <th>Title</th>
-                    <th>Submitted</th>
-                    <th>Updated</th>
+                    <th>Submission date</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -187,7 +187,10 @@
                         </span>
                     </td>
                     <td>{{paper.submission_date|date:'SHORT_DATE_FORMAT'}}</td>
-                    <td>{{paper.last_update_date|date:'SHORT_DATE_FORMAT'}}</td>
+                    
+                    <td>{% with msg=paper.get_message_state %}
+                        <span class ="label {{msg.0}}">{{msg.1}}</span>
+                    {% endwith %}</td>
                 </tr>
                 {% empty %}
                     <tr><td colspan="4">You haven't submit a paper for this conference.</td></tr>

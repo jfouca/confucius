@@ -202,7 +202,7 @@ def conference_invite(request, template_name='conference/invitation_form.html', 
 
             for invitation in form.cleaned_data['invitations']:
                 context.update({'invitation': invitation})
-                msgs.append(('You have been invited to participate in the conference "%s"' % invitation.conference,
+                msgs.append(('[Confucius Invitation] You have been invited to participate in the conference "%s"' % invitation.conference,
                     template.render(Context(context)),
                     request.user.email,
                     [invitation.user.email]

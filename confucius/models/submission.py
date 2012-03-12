@@ -21,12 +21,34 @@ class Paper(ConfuciusModel):
        content_types=['application/pdf', 'application/msword' , 'application/postscript' , 'application/rtf', 'application/vnd.ms-powerpoint', 'image/jpeg', 'text/plain'],
        max_upload_size=5242880
     )
-    #file = models.FileField(upload_to='papers')
+    
     class Meta(ConfuciusModel.Meta):
         unique_together = ('title', 'conference',)
 
     def __unicode__(self):
         return self.title
+
+    def get_state(self):
+        if self.conference.are_reviews_notstarted():
+            return 0    # Reviews not started
+        elif not self.conference.has_finalize_paper_selections:
+            return 1    # Reviews on route (but no selection or assignment for the moment)
+        elif self.selection.is_selected:
+            return 2    # Is selected
+        else:
+            return 3    # Is rejected
+
+    def get_message_state(self):
+        state = self.get_state()
+        if state == 0:
+            return ["", "Reviews are not started"]
+        elif state == 1:
+            return ["label-info", "Reviews in progress"]
+        elif state == 2:
+            return ["label-success", "Selected"]
+        else:
+            return ["label-error", "Rejected"]
+        
 
     def get_assigned_assignments_count(self):
         return len([assignment for assignment in self.assignments.all() if assignment.is_assigned == True])
