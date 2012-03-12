@@ -176,7 +176,7 @@ def conference_invitation(request, key, decision=None, template_name='conference
     membership.roles.add(*invitation.roles.all())
 
     messages.success(request, 'You are now participating in the conference "%s"' % invitation.conference)
-    return redirect('dashboard', conference_pk=invitation.conference.pk)
+    return redirect('membership', conference_pk=invitation.conference.pk)
 
 
 @require_http_methods(['GET', 'POST'])
