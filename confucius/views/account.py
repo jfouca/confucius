@@ -117,7 +117,6 @@ def password_change(request, template_name='account/password_change_form.html'):
 
 
 @require_GET
-@login_required
 def languages(request):
     import json
     from django.http import HttpResponse
