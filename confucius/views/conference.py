@@ -256,7 +256,7 @@ def signup(request, key, template_name='registration/signup_form.html'):
     extra_form = extra_form_class(instance=instance)
 
     if request.method == 'POST':
-        form = SignupForm(request.POST, instance=invitation.user)
+        form = SignupForm(data=request.POST, instance=invitation.user)
         extra_form = extra_form_class(request.POST, request.FILES, instance=instance)
 
         for f in (form, extra_form):
