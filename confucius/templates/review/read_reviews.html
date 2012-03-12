@@ -67,7 +67,9 @@
         <th>Commentary</th>
         <th>Commentary president</th>
         <th>Overall evaluation</th>
-        <th>Reviewer confidence</th>
+       {% if conference.enable_reviewer_confidence %}
+	  <th>Reviewer confidence</th>
+	{% endif %}
     </tr>
     {% for review in reviews %}
     <tr class="row-actions">
@@ -81,7 +83,10 @@
         <td>{{review.detailed_commentary}}</td>
         <td>{{review.commentary_for_president}}</td>
         <td>{{review.overall_evaluation}} / {{conference.maximum_score}}</td>
+       {% if conference.enable_reviewer_confidence %}
         <td>{{review.reviewer_confidence}} / 5</td>
+	{% endif %}
+
     </tr>
     {% endfor %}
 </tbody>

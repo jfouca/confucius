@@ -42,7 +42,7 @@
 </table>
 <br/>
 
-<h2>Historical reviews</h2>
+<h2>History reviews</h2>
 <table class="table table-bordered">
 <tbody>
     <tr>
@@ -50,7 +50,9 @@
         <th>Commentary</th>
         <th>Commentary president</th>
         <th>Overall evaluation</th>
-        <th>Reviewer confidence</th>
+        {% if conference.enable_reviewer_confidence %}
+	    <th>Reviewer confidence</th>
+	{% endif %}
     </tr>
     {% for review in reviews %}
     <tr>
@@ -58,7 +60,9 @@
         <td>{{review.detailed_commentary}}</td>
         <td>{{review.commentary_for_president}}</td>
         <td>{{review.overall_evaluation}} / {{conference.maximum_score}}</td>
-        <td>{{review.reviewer_confidence}} / 5</td>
+	{% if conference.enable_reviewer_confidence %}
+	    <td>{{review.reviewer_confidence}} / 5</td>
+	{% endif %}
     </tr>
     {% endfor %}
 </tbody>
