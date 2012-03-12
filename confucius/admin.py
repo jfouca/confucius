@@ -2,7 +2,7 @@ from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
 
-from confucius.forms import AddressFormSet, EmailFormSet, UserCreationForm, UserForm
+from confucius.forms import AddressFormSet, EmailFormSet, AuthenticationForm, UserCreationForm, UserForm
 from confucius.models import Address, Conference, Domain, Email, Membership, User, Invitation
 
 
@@ -14,7 +14,7 @@ class AdminConferenceForm(forms.ModelForm):
 
 class AdminUserForm(UserForm):
     class Meta(UserForm.Meta):
-        fields = ('email', 'first_name', 'is_active', 'is_superuser', 'languages', 'last_name')
+        fields = ('email', 'first_name', 'is_active', 'is_superuser', 'is_staff', 'languages', 'last_name')
 
 
 class AddressInline(admin.StackedInline):
@@ -39,7 +39,7 @@ class UserAdmin(AuthUserAdmin):
     )
     fieldsets = (
         (None, {
-            'fields': ('is_active', 'password')
+            'fields': ('is_active', 'is_superuser', 'is_staff', 'password')
         }),
         ('Personal information', {
             'fields': (('first_name', 'last_name'),)
@@ -133,7 +133,7 @@ class ConferenceAdmin(admin.ModelAdmin):
     inlines = (MembershipInline, )
     fieldsets = (
         ('Conference information', {
-            'fields': ('title', 'url', 'domains', 'maximum_score','minimum_reviews')
+            'fields': ('title', 'url', 'domains', 'maximum_score', 'minimum_reviews')
         }),
         ('Date information', {
             'fields': (('start_date',), ('submissions_start_date', 'submissions_end_date'), ('reviews_start_date', 'reviews_end_date'),)
@@ -152,7 +152,10 @@ class ConferenceAdmin(admin.ModelAdmin):
         return super(ConferenceAdmin, self).get_form(request, obj, **kwargs)
 
 
-site = admin.AdminSite()
+class ConfuciusAdminSite(admin.AdminSite):
+    login_form = AuthenticationForm
+
+site = ConfuciusAdminSite()
 site.register(User, UserAdmin)
 site.register(Conference, ConferenceAdmin)
 site.register(Domain)
