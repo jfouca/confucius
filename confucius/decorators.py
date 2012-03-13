@@ -24,7 +24,7 @@ def role_required(test_func):
             if not membership or not test_func(membership):
                 messages.warning(request, u'Unauthorized access.')
                 return redirect('membership_list')
-
+                
             membership.set_last_accessed()
 
             request.membership = membership

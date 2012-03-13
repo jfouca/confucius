@@ -44,7 +44,7 @@
                 <div class="btn-group">
                     
                     {% if request.conference.has_finalize_paper_selections %}
-                        <a href="javascript:void(0)" class="btn btn-inverse disabled">Selection is finalized</a>
+                        <a href="{% url 'paper_selection_list' conference.pk %}" class="btn btn-inverse">Selection is finalized</a>
                     {% else %}
                         <a href="{% url 'assignments' conference.pk %}" class="btn">
                             <i class="icon-list-alt"></i> Assignments</a>

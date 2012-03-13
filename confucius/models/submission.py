@@ -32,7 +32,7 @@ class Paper(ConfuciusModel):
     def get_state(self):
         if self.conference.are_reviews_notstarted():
             return 0    # Reviews not started
-        elif not self.conference.has_finalize_paper_selections:
+        elif self.selection is None or not self.selection.is_submit:
             return 1    # Reviews on route (but no selection or assignment for the moment)
         elif self.selection.is_selected:
             return 2    # Is selected
@@ -70,6 +70,8 @@ class Paper(ConfuciusModel):
 
     def get_reviewed_percent(self):
         total = self.assignments.filter(is_rejected=False).count()
+        if total == 0:
+            return 0
         value = self.assignments.filter(is_done=True, is_rejected=False).count()
         return value*100/total
 

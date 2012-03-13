@@ -23,6 +23,10 @@ def finalize_assignment(request):
     from django.core.mail import send_mail
     from django.template import Context, loader
 
+    if request.conference.has_finalize_paper_selections:
+        messages.error(request,"The paper selection for this conference is now finished, you can only modify it")
+        return redirect('dashboard', request.conference.pk)
+        
     conference = request.conference
     assignments = Assignment.objects.filter(conference=conference, is_assigned=False)
     template = loader.get_template('review/assignment_email.html')
@@ -51,6 +55,11 @@ def finalize_assignment(request):
 @has_chair_role
 @csrf_protect
 def auto_assignment(request):
+
+    if request.conference.has_finalize_paper_selections:
+        messages.error(request,"The paper selection for this conference is now finished, you can only modify it")
+        return redirect('dashboard', request.conference.pk)
+        
     if request.is_ajax():
         # Get datas
         conference = request.conference
@@ -132,6 +141,15 @@ def auto_assignment(request):
 @has_reviewer_role
 @csrf_protect
 def submit_review(request, pk_assignment, template_name='review/review_form.html'):
+
+    if not request.membership.has_chair_role() and not request.conference.is_open:
+        messages.error(request,"The conference is closed.")
+        return redirect('membership_list')
+        
+    if request.conference.has_finalize_paper_selections:
+        messages.error(request,"The paper selection for this conference is now finished.")
+        return redirect('dashboard', request.conference.pk)
+        
     assignment = Assignment.objects.get(pk=pk_assignment)
     review = assignment.review
     conference = request.conference
@@ -180,6 +198,14 @@ def problem(request, assignment_pk, is_reject=False, template_name='review/probl
     from django.core.mail import send_mail
     from django.template import Context, loader
 
+    if not request.membership.has_chair_role() and not request.conference.is_open:
+        messages.error(request,"The conference is closed.")
+        return redirect('membership_list')
+
+    if request.conference.has_finalize_paper_selections:
+        messages.error(request,"The paper selection for this conference is now finished.")
+        return redirect('dashboard', request.conference.pk)
+        
     conference = request.conference
     assignment = Assignment.objects.get(pk=assignment_pk, reviewer=request.user)
 
@@ -249,6 +275,15 @@ def paper_selection_list(request, template_name='review/paper_selection.html'):
 @login_required
 @has_submitter_role
 def read_personal_reviews(request, pk_paper, template_name='review/read_personal_reviews.html'):
+
+    if not request.membership.has_chair_role() and not request.conference.is_open:
+        messages.error(request,"The conference is closed.")
+        return redirect('membership_list')
+
+    if request.conference.has_finalize_paper_selections:
+        messages.error(request,"The paper selection for this conference is now finished.")
+        return redirect('dashboard', request.conference.pk)
+        
     conference = request.conference
     paper = Paper.objects.get(pk=pk_paper)
     reviews = Review.objects.filter(assignment__paper=paper, is_last=True)
@@ -331,8 +366,8 @@ def finalize_selection(request):
             paper.selection.is_submit = True
             paper.selection.save()
         except PaperSelection.DoesNotExist:
-            PaperSelection.objects.create(paper=paper, conference=conference, is_selected=False, is_submit=True).save()
-
+            pass
+            
     conference.has_finalize_paper_selections = True
     conference.save()
 
@@ -357,6 +392,11 @@ def clean_selection(request):
 @has_chair_role
 @csrf_protect
 def clean_assignments(request):
+
+    if request.conference.has_finalize_paper_selections:
+        messages.error(request,"The paper selection for this conference is now finished.")
+        return redirect('dashboard', request.conference.pk)
+        
     Assignment.objects.filter(conference=request.conference, is_assigned=False).delete()
     return redirect('assignments', request.conference.pk)
 
@@ -366,6 +406,11 @@ def clean_assignments(request):
 @csrf_protect
 def assignments(request):
     conference = request.conference
+    
+    if conference.has_finalize_paper_selections:
+        messages.error(request,"The paper selection for this conference is now finished, you can only modify it")
+        return redirect('dashboard', conference.pk)
+        
     papers = Paper.objects.filter(conference=conference)
     role = Role.objects.get(name="Reviewer")
     memberships_list = Membership.objects.filter(roles=role, conference=conference)
@@ -395,6 +440,10 @@ def assignments(request):
 @csrf_protect
 def updateReviewerList(request):
 
+    if request.conference.has_finalize_paper_selections:
+        messages.error(request,"The paper selection for this conference is now finished.")
+        return redirect('dashboard', request.conference.pk)
+        
 #tests whether it is a GET or POST ajax request, and treat it
     if request.is_ajax():
         conference = request.conference
@@ -417,6 +466,11 @@ def updateReviewerList(request):
 @has_chair_role
 @csrf_protect
 def updateAssignmentsTables(request):
+
+    if request.conference.has_finalize_paper_selections:
+        messages.error(request,"The paper selection for this conference is now finished.")
+        return redirect('dashboard', request.conference.pk)
+        
 #tests whether it is a GET or POST ajax request, and treat it
     if request.is_ajax():
         conference = request.conference
@@ -450,6 +504,10 @@ def updateAssignmentsTables(request):
 @csrf_protect
 def deleteAssignmentRow(request):
 #tests whether it is a GET or POST ajax request, and treat it
+    if request.conference.has_finalize_paper_selections:
+        messages.error(request,"The paper selection for this conference is now finished.")
+        return redirect('dashboard', request.conference.pk)
+        
     if request.is_ajax():
         assignment_pk = request.POST.get('end')
         assignment = Assignment.objects.get(pk=assignment_pk)
@@ -473,6 +531,11 @@ def deleteAssignmentRow(request):
 @has_chair_role
 @csrf_protect
 def refreshAssignationNumber(request):
+
+    if request.conference.has_finalize_paper_selections:
+        messages.error(request,"The paper selection for this conference is now finished.")
+        return redirect('dashboard', request.conference.pk)
+        
     if request.is_ajax():
         paper_id = request.POST.get('paper_id')
         paper = Paper.objects.get(pk=paper_id)
@@ -491,6 +554,11 @@ def refreshAssignationNumber(request):
 @has_chair_role
 @csrf_protect
 def updateSelectedStatus(request):
+
+    if request.conference.has_finalize_paper_selections:
+        messages.error(request,"The paper selection for this conference is now finished.")
+        return redirect('dashboard', request.conference.pk)
+        
     if request.is_ajax():
         conference = request.conference
         papers_id = simplejson.loads(request.POST.get('papers_id'))
