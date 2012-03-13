@@ -2,6 +2,7 @@ from django import forms
 
 from confucius.forms import UserForm
 from confucius.models import Alert, Conference, Domain, Email, Invitation, Membership, Role, User
+from confucius.utils import email_to_username
 
 
 class AlertForm(forms.ModelForm):
@@ -72,7 +73,7 @@ class InvitationForm(forms.Form):
 
     def clean(self):
         from hashlib import sha256
-        from confucius.utils import email_to_username, random_string
+        from confucius.utils import random_string
 
         cleaned_data = super(InvitationForm, self).clean()
 
@@ -145,12 +146,21 @@ class SignupForm(UserForm):
                 raise forms.ValidationError(u"The two passwords didn't match.")
         return password2
 
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        try:
+            Email.objects.get(value=email)
+        except Email.DoesNotExist:
+            return email
+        raise forms.ValidationError('This email is already taken.')
+
     def save(self, commit=True):
-        user = super(SignupForm, self).save(commit)
+        user = super(SignupForm, self).save(False)
 
         if commit:
             user.set_password(self.cleaned_data.get('password1'))
             user.is_active = True
+            user.username = email_to_username(user.email)
             user.save()
             try:
                 email = user.emails.get(main=True)
