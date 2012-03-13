@@ -35,7 +35,7 @@ to `settings.py` (please refer to the [dedicated Django documentation](https://d
 
 "`PATH`" designates the exact location where you will extract Confucius, eg : `/home/www`
 
-    # apt-get install apache2 libapache2-mod-wsgi python-pip libsqlite0 libsqlite3-0
+    # apt-get install apache2 libapache2-mod-wsgi python-pip libsqlite3-0
     # pip install Django==1.3.1
     # cd PATH
     PATH# wget http://www.confuciusproject.com/confucius_rc1.tar.gz
