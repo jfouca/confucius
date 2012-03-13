@@ -70,6 +70,8 @@ class Paper(ConfuciusModel):
 
     def get_reviewed_percent(self):
         total = self.assignments.filter(is_rejected=False).count()
+        if total == 0:
+            return 0
         value = self.assignments.filter(is_done=True, is_rejected=False).count()
         return value*100/total
 
