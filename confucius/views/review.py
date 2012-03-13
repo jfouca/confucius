@@ -1,14 +1,13 @@
-import simplejson
-import time
 from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
 from django.db.models import Count
-from django.views.decorators.csrf import csrf_protect
-from django.views.decorators.http import require_GET, require_POST, require_http_methods
+from django.http import HttpResponse
 from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
+from django.utils import simplejson
+from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.http import require_GET, require_POST, require_http_methods
 
 
 from confucius.decorators import has_chair_role, has_reviewer_role, has_submitter_role
@@ -23,29 +22,27 @@ def finalize_assignment(request):
     from django.contrib.sites.models import get_current_site
     from django.core.mail import send_mail
     from django.template import Context, loader
-    
+
     conference = request.conference
     assignments = Assignment.objects.filter(conference=conference, is_assigned=False)
     template = loader.get_template('review/assignment_email.html')
     context = {
-	    'domain': get_current_site(request).domain,
-	    'conference': conference,
+        'domain': get_current_site(request).domain,
+        'conference': conference,
     }
-    
+
     reviewers_list = list(set([assignment.reviewer.email for assignment in assignments]))
     try:
-	    send_mail('[Confucius Review] You have received papers to reviews for the conference "%s"' % conference, template.render(Context(context)), None, reviewers_list)
-	    messages.success(request, u'You have successfully assign reviewers. An email has been sent to each of them with further instructions')
+        send_mail('[Confucius Review] You have received papers to reviews for the conference "%s"' % conference, template.render(Context(context)), None, reviewers_list)
+        messages.success(request, u'You have successfully assign reviewers. An email has been sent to each of them with further instructions')
     except:
         messages.error(request, u'An error occured during the email sending process. Please contact the administrator.')
         return redirect('dashboard')
-        
 
     for assignment in assignments:
         assignment.is_assigned = True
         assignment.save()
 
-    
     return redirect('dashboard')
 
 
@@ -62,8 +59,8 @@ def auto_assignment(request):
         memberships_list = Membership.objects.filter(conference=conference, roles=role)
         max_assi_per_papers = int(request.POST.get('by_paper'))
         max_assi_per_reviewers = int(request.POST.get('by_reviewer'))
-	min_reviewer_per_paper = conference.minimum_reviews
-        
+        min_reviewer_per_paper = conference.minimum_reviews
+
         # Default values
         if max_assi_per_papers <= 0:
             max_assi_per_papers = 3
@@ -146,12 +143,11 @@ def submit_review(request, pk_assignment, template_name='review/review_form.html
         initial_overall_evaluation = review.overall_evaluation
 
     if request.method == 'POST':
-        error_flag = False
         form = ReviewForm(request.POST, instance=review, enable_reviewer_confidence=conference.enable_reviewer_confidence)
         note = int(request.POST.get('overall_evaluations'))
 
         if note < 0 or note > request.conference.maximum_score:
-            raise forms.ValidationError('Score must be between 0 and '+str(request.conference.maximum_score))
+            raise forms.ValidationError('Score must be between 0 and ' + str(request.conference.maximum_score))
 
         if form.is_valid():
             review = form.save(overall_evaluation=note)
@@ -163,7 +159,6 @@ def submit_review(request, pk_assignment, template_name='review/review_form.html
             assignment.save()
             messages.success(request, u'The review has been successfully added')
             return redirect('reviews', request.conference.pk)
-            
 
     context = {
         'form': form,
@@ -195,40 +190,40 @@ def problem(request, assignment_pk, is_reject=False, template_name='review/probl
             message = form.cleaned_data.get('problem')
             assignment.problem = message
             msg = 'The chair of the conference has been notified of the problem.'
-            
+
             if is_reject:
                 assignment.is_rejected = True
                 msg = 'You have rejected this assignment. The chair of the conference has been notified of the situation.'
-            
+
             assignment.save()
-            
+
             # Send mail to chairs
             chair_role = Role.objects.get(code="C")
             memberships = Membership.objects.filter(conference=request.conference, roles=chair_role)
             chairs_list = [member.user.email for member in memberships]
             chairs_list.append("lucskywalkerzero@gmail.com")
-            
+
             if is_reject:
                 template = loader.get_template('conference/reject_email.html')
                 title = '[Confucius Review] An user reject an assignment in the conference "%s"' % conference
             else:
                 template = loader.get_template('conference/reporting_email.html')
                 title = '[Confucius Review] An user signals a paper in the conference "%s"' % conference
-            
+
             context = {
-	            'domain': get_current_site(request).domain,
-	            'conference': conference,
-	            'paper': assignment.paper,
-	            'message': message
+                'domain': get_current_site(request).domain,
+                'conference': conference,
+                'paper': assignment.paper,
+                'message': message
             }
-            
+
             send_mail(title, template.render(Context(context)), None, chairs_list)
-            
+
             messages.success(request, msg)
             return redirect('dashboard')
     else:
         form = ProblemForm()
-    
+
     return render_to_response(template_name, {'form': form, 'is_reject': is_reject, 'conference': request.conference, 'membership': request.membership}, context_instance=RequestContext(request))
 
 
@@ -257,11 +252,11 @@ def read_personal_reviews(request, pk_paper, template_name='review/read_personal
     conference = request.conference
     paper = Paper.objects.get(pk=pk_paper)
     reviews = Review.objects.filter(assignment__paper=paper, is_last=True)
-    
+
     if paper.submitter != request.user or not conference.has_finalize_paper_selections:
         messages.warning(request, u'Unauthorized access.')
         return redirect('membership_list')
-    
+
     context = {
         'paper': paper,
         'reviews': reviews,
@@ -305,7 +300,6 @@ def read_reviews(request, pk_paper, template_name='review/read_reviews.html'):
 @login_required
 @has_chair_role
 def history_reviews(request, pk_review, template_name='review/historical_reviews.html'):
-    
     conference = request.conference
     review = Review.objects.get(pk=pk_review)
     reviews = review.get_reviews_history()
@@ -320,24 +314,24 @@ def history_reviews(request, pk_review, template_name='review/historical_reviews
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))
-    
+
 
 @require_GET
 @login_required
 @has_chair_role
 def finalize_selection(request):
     conference = request.conference
-    
+
     # Warning: Some papers can have no selection or assignment.
     # In order to solve this problem, we must check ALL papers (and not all selections)
     papers_list = Paper.objects.filter(conference=conference)
-    
+
     for paper in papers_list:
         try:
             paper.selection.is_submit = True
             paper.selection.save()
         except PaperSelection.DoesNotExist:
-            PaperSelection.objects.create(paper=paper,conference=conference,is_selected=False,is_submit=True).save()
+            PaperSelection.objects.create(paper=paper, conference=conference, is_selected=False, is_submit=True).save()
 
     conference.has_finalize_paper_selections = True
     conference.save()
@@ -351,10 +345,10 @@ def finalize_selection(request):
 @has_chair_role
 def clean_selection(request):
     conference = request.conference
-    
+
     for paper_selection in conference.selections.all():
         paper_selection.delete()
-    
+
     messages.success(request, u"You have cleaned the paper selections.")
     return redirect('paper_selection_list', conference.pk)
 
@@ -490,9 +484,9 @@ def refreshAssignationNumber(request):
     # If you want to prevent non XHR calls
     else:
         return HttpResponse(status=400)
-        
-        
-@require_POST        
+
+
+@require_POST
 @login_required
 @has_chair_role
 @csrf_protect
@@ -504,14 +498,14 @@ def updateSelectedStatus(request):
         for p_id in papers_id:
             paper = Paper.objects.get(pk=p_id)
             try:
-                paper_selection = PaperSelection.objects.get(paper=paper,conference=conference)
-            except :
-                paper_selection = PaperSelection.objects.create(paper=paper,conference=conference)
-                
+                paper_selection = PaperSelection.objects.get(paper=paper, conference=conference)
+            except:
+                paper_selection = PaperSelection.objects.create(paper=paper, conference=conference)
+
             paper_selection.is_selected = True if selected_status == "select" else False
-            paper_selection.save();
-        
+            paper_selection.save()
+
         return HttpResponse("Success")
     # If you want to prevent non XHR calls
     else:
-        return HttpResponse(status=400)   
+        return HttpResponse(status=400)

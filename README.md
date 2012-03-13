@@ -32,7 +32,7 @@ Installation on a Debian-based OS
 "`PATH`" designates the exact location where you will extract Confucius, eg : `/home/www`
 
     # apt-get install apache2 libapache2-mod-wsgi python-pip
-    # pip install pip install Django==1.3.1
+    # pip install Django==1.3.1
     # cd PATH
     PATH# wget http://www.confuciusproject.com/confucius_rc1.tar.gz
     PATH# tar xzf confucius_rc1.tar.gz
@@ -41,7 +41,7 @@ Installation on a Debian-based OS
 
 You will be prompted to create a superuser. Please do so and use a correct email address.
 
-    PATH/confucius_wrapper# chmod 755 -R . && chown www-data:www-data
+    PATH/confucius_wrapper# chmod 755 -R . && chown www-data:www-data -R .
 
 Then you will need to configure an Apache VirtualHost, you can use this sample (`/etc/apache2/sites-available/default`) :
 
