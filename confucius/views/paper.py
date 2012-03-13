@@ -16,6 +16,15 @@ from confucius.models import Paper
 def paper(request, paper_pk=None, template_name='conference/paper/paper_form.html'):
     from confucius.forms import PaperForm
 
+    if not request.membership.has_chair_role() and not request.conference.is_open:
+        messages.error(request,"The conference is closed.")
+        return redirect('membership_list')
+        
+    if request.conference.has_finalize_paper_selections:
+        messages.error(request,"The paper selection for this conference is now finished.")
+        return redirect('dashboard', request.conference.pk)
+        
+        
     instance = Paper(**{'conference_id': request.conference.pk, 'submitter_id': request.user.pk})
 
     if paper_pk is not None:
