@@ -142,14 +142,23 @@ ul {
 /* above navbar */
 
 .top-alert {
-    margin: 0;
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    border-radius: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 15px 0;
+    border-top: 0;
+    -webkit-border-radius: 0 0 4px 4px;
+    -moz-border-radius: 0 0 4px 4px;
+    border-radius: 0 0 4px 4px;
 }
 
 .top-alert h4 {
     text-align: center;
+}
+
+.top-alert .close {
+  top: -2px;
+  right: 10px;
 }
 
 /* Content */
