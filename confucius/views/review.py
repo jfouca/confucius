@@ -554,10 +554,6 @@ def refreshAssignationNumber(request):
 @has_chair_role
 @csrf_protect
 def updateSelectedStatus(request):
-
-    if request.conference.has_finalize_paper_selections:
-        messages.error(request,"The paper selection for this conference is now finished.")
-        return redirect('dashboard', request.conference.pk)
         
     if request.is_ajax():
         conference = request.conference
