@@ -49,13 +49,13 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'confucius.urls'
 
 INSTALLED_APPS = (
-    'confucius',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.messages',
+    'confucius',
 )
 
 AUTHENTICATION_BACKENDS = ('confucius.backends.AccountBackend',)
