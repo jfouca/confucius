@@ -181,8 +181,9 @@ class SendEmailToUsersForm(forms.Form):
         self.fields['groups'].choices = roles
 
         if self.initial['conference'].has_finalize_paper_selections == True:
-            group = ["U", "Selected submitters"]
-            choices = roles + [group]
+            group_selected = ["U", "Selected submitters"]
+            group_rejected = ["X", "Rejected submitters"]
+            choices = [group_selected] + [group_rejected] + roles
             self.fields['groups'].choices = choices
 
     def clean(self):

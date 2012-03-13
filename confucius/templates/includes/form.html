@@ -28,11 +28,7 @@
             {% include 'includes/fields/input_prepend.html' with icon='envelope' field=field|medium %}
         {% endifequal %}
         {% ifequal field|type 'textarea' %}
-	    {% if big == 'True' %}
-	             {% include 'includes/fields/textarea.html' with field=field|bigtextarea %}
-                {% else %}
-		     {% include 'includes/fields/textarea.html' with field=field|textarea %}
-	    {% endif %}
+             {% include 'includes/fields/textarea.html' with field=field|bigtextarea %}
         {% endifequal %}
         {% if field|type == 'select' or field|type == 'selectm' %}
             {{ field }}

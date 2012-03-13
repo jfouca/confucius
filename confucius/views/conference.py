@@ -309,11 +309,22 @@ def send_email_to_users(request, template_name='conference/send_email_to_users.h
             else:
                 groups = form.cleaned_data['groups']
                 roles = groups
+                print "roles",roles
                 if "U" in groups:
+                    print "selected"
                     receivers = [paperselect.paper.submitter for paperselect in PaperSelection.objects.filter(conference=conference) if paperselect.is_selected and paperselect.is_submit]
+                    print "selected receivers",receivers
                     send_emails_to_group(receivers, title, content, request)
                     groups.remove("U")
-
+                
+                if "X" in groups:
+                    print "je passe ici"
+                    receivers = [paperselect.paper.submitter for paperselect in PaperSelection.objects.filter(conference=conference) if paperselect.is_selected == False and paperselect.is_submit]
+                    print "receivers",receivers
+                    send_emails_to_group(receivers, title, content, request)
+                    
+                    groups.remove("X")
+                
                 if roles is not None:
                     for entry in roles:
                         role = Role.objects.get(code=entry)

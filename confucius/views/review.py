@@ -331,8 +331,8 @@ def finalize_selection(request):
             paper.selection.is_submit = True
             paper.selection.save()
         except PaperSelection.DoesNotExist:
-            PaperSelection.objects.create(paper=paper, conference=conference, is_selected=False, is_submit=True).save()
-
+            pass
+            
     conference.has_finalize_paper_selections = True
     conference.save()
 
