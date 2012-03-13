@@ -41,6 +41,7 @@ def conference_access(request, conference_pk, access_key, template_name='confere
             form = SignupForm(email=False)
 
         context = {
+            'conference': conference,
             'form': form
         }
 
@@ -72,6 +73,7 @@ def membership(request, conference_pk, template_name='conference/membership_form
     context = {
         'form': form,
         'conference': conference,
+        'introduction_message': "Please choose your domains for this conference"
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))
