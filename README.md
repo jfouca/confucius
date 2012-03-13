@@ -33,13 +33,13 @@ This guide uses SQLite for the installation, since it's very easy to install and
 or testing purposes. You can use your favourite RDBMS, but you'll need to make some minor changes
 to `settings.py` (please refer to the [dedicated Django documentation](https://docs.djangoproject.com/en/1.3/ref/settings/#databases)).
 
-"<span style="color:#f00">PATH</span>" designates the exact location where you will extract Confucius, eg : `/home/www`
+"<font color="red">PATH</color>" designates the exact location where you will extract Confucius, eg : `/home/www`
 
 By convention, commands preceded by `#` must be executed as `root`.
 
     # apt-get install apache2 libapache2-mod-wsgi python-pip libsqlite3-0
     # pip install Django==1.3.1
-    # cd PATH
+    # cd <font color="red">PATH</color>
     PATH# wget http://www.confuciusproject.com/confucius_rc1.tar.gz
     PATH# tar xzf confucius_rc1.tar.gz
     PATH# cd confucius_wrapper
