@@ -24,41 +24,42 @@ Confucius requires Django 1.3+ (which itself requires Python 2.4+), access to a 
 a working SMTP gateway and a web server (the simplest is to deploy it with Apache and mod\_wsgi).
 
 Below are described the basic steps to get a proper installation working. Please note that this installation
-guide covers only the installation of confucius itself and its dependencies.
+guide covers only the installation of Confucius itself and its dependencies.
 
 Installation on a Debian-based OS
 ------------
 
-"<path>" designates the exact location where you will extract Confucius, eg : /home/www/confucius\_wrapper
+"`PATH`" designates the exact location where you will extract Confucius, eg : `/home/www`
 
     # aptitude install apache2 libapache2-mod-wsgi python-pip
     # pip install pip install Django==1.3.1
-    # cd <path>
-    # wget http://www.confuciusproject.com/confucius_rc1.tar.gz
-    # tar xzf confucius_rc1.tar.gz
-    # cd confucius_wrapper
-    confucius_wrapper# python manage.py syncdb
+    # cd PATH
+    PATH# wget http://www.confuciusproject.com/confucius_rc1.tar.gz
+    PATH# tar xzf confucius_rc1.tar.gz
+    PATH# cd confucius_wrapper
+    PATH/confucius_wrapper# python manage.py syncdb
 
 You will be prompted to create a superuser. Please do so and use a correct email address.
 
-    confucius_wrapper# chmod 755 -R . && chown www-data:www-data
+    PATH/confucius_wrapper# chmod 755 -R . && chown www-data:www-data
 
-Then you will need to configure an Apache VirtualHost, you can use this sample (for instance /etc/apache2/sites-available/default) :
+Then you will need to configure an Apache VirtualHost, you can use this sample (`/etc/apache2/sites-available/default`) :
+
     <VirtualHost *:80>
-        Alias /media/ <path>/media/
-        Alias /static/ <path>/static/
+        Alias /media/ PATH/confucius_wrapper/media/
+        Alias /static/ PATH/confucius_wrapper/static/
         
-        <Directory <path>/static>
+        <Directory PATH/confucius_wrapper/static>
             Order deny,allow
             Allow from all
         </Directory>
         
-        <Directory <path>/media>
+        <Directory PATH/confucius_wrapper/media>
             Order deny,allow
             Allow from all
         </Directory>
         
-        WSGIScriptAlias / <path>/confucius.wsgi
+        WSGIScriptAlias / PATH/confucius_wrapper/confucius.wsgi
         WSGIDaemonProcess confucius user=www-data group=www-data processes=1 threads=10
         WSGIProcessGroup confucius
     </VirtualHost>
@@ -67,7 +68,7 @@ The restart Apache :
 
     # /etc/init.d/apache2 restart
 
-Everything should work smoothly. The first thing you should do is go to /admin to set up your first conference.
+Everything should work smoothly. The first thing you should do is go to `/admin` to set up your first conference.
 
 Original developers
 -------------------
