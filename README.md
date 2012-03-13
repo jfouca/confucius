@@ -29,9 +29,13 @@ guide covers only the installation of Confucius itself and its dependencies.
 Installation on a Debian-based OS
 ------------
 
+This guide uses SQLite for the installation, since it's very easy to install and perfect for development
+or testing purposes. You can use your favourite RDBMS, but you'll need to make some minor changes
+to `settings.py` (please refer to the [dedicated Django documentation](https://docs.djangoproject.com/en/1.3/ref/settings/#databases)).
+
 "`PATH`" designates the exact location where you will extract Confucius, eg : `/home/www`
 
-    # apt-get install apache2 libapache2-mod-wsgi python-pip
+    # apt-get install apache2 libapache2-mod-wsgi python-pip libsqlite0 libsqlite3-0
     # pip install Django==1.3.1
     # cd PATH
     PATH# wget http://www.confuciusproject.com/confucius_rc1.tar.gz
