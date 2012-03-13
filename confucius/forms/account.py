@@ -102,8 +102,9 @@ class UserForm(forms.ModelForm):
     def save(self, commit=True):
         user = super(UserForm, self).save(commit)
 
-        user.languages.clear()
-        user.languages.add(*self.cleaned_data.get('languages'))
+        if commit:
+            user.languages.clear()
+            user.languages.add(*self.cleaned_data.get('languages'))
 
         return user
 
