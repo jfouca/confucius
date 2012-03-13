@@ -64,7 +64,7 @@ class ConferenceForm(forms.ModelForm):
 class InvitationForm(forms.Form):
     emails = forms.CharField(widget=forms.Textarea(), help_text='A whitespace-separated list of emails of people you wish to invite to the conference.', min_length=4)
     roles = forms.ModelMultipleChoiceField(queryset=Role.objects.all(), widget=forms.CheckboxSelectMultiple(), help_text='What roles should the people above be given.')
-    message = forms.CharField(widget=forms.Textarea(), label='Your personnal message to each of them.', initial='Hello, ')
+    message = forms.CharField(widget=forms.Textarea(), label='Your personal message to each of them.', initial='Hello, ')
 
     def __init__(self, conference, *args, **kwargs):
         super(InvitationForm, self).__init__(*args, **kwargs)
