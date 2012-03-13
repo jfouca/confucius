@@ -6,12 +6,9 @@ Preliminary notes
 
 Confucius is a student project developed in 3 weeks and a half by 7 students.
 Because of the academic context and so little time, it hasn't been audited nor
-fully tested and so should not be used in production, for the time being at least.
+fully tested and therefore SHOULD NOT be used in production.
 
-
-If you have some experience with the technologies used (Django, jQuery, Bootstrap), you might find some methods, functions or instructions unusuals.
-Please do not hesitate to contribute to Confucius Project by improving our code quality and therefore, maintainability.
-
+This is still a work in progress. Please feel free to participate and don't hesitate to make a pull request.
 
 What is Confucius?
 ------------------
@@ -23,26 +20,54 @@ and selection processes typical of academic conferences.
 Requirements
 ------------
 
-Confucius requires Django 1.3+ (which itself requires Python 2.4+), access to a RDBMS (such as MySQL or PostgreSQL), and a
-web server (the simplest is to deploy it with Apache and mod\_wsgi).
+Confucius requires Django 1.3+ (which itself requires Python 2.4+), access to a RDBMS (such as MySQL or PostgreSQL),
+a working SMTP gateway and a web server (the simplest is to deploy it with Apache and mod\_wsgi).
+
+Below are described the basic steps to get a proper installation working. Please note that this installation
+guide covers only the installation of confucius itself and its dependencies.
 
 Installation on a Debian-based OS
 ------------
 
+"<path>" designates the exact location where you will extract Confucius, eg : /home/www/confucius\_wrapper
+
     # aptitude install apache2 libapache2-mod-wsgi python-pip
+    # pip install pip install Django==1.3.1
+    # cd <path>
+    # wget http://www.confuciusproject.com/confucius_rc1.tar.gz
+    # tar xzf confucius_rc1.tar.gz
+    # cd confucius_wrapper
+    confucius_wrapper# python manage.py syncdb
 
-If your RDBMS is MySQL :
+You will be prompted to create a superuser. Please do so and use a correct email address.
 
-    # aptitude install python-mysql
+    confucius_wrapper# chmod 755 -R . && chown www-data:www-data
 
-If your RDBMS is PostgreSQL :
+Then you will need to configure an Apache VirtualHost, you can use this sample (for instance /etc/apache2/sites-available/default) :
+    <VirtualHost *:80>
+        Alias /media/ <path>/media/
+        Alias /static/ <path>/static/
+        
+        <Directory <path>/static>
+            Order deny,allow
+            Allow from all
+        </Directory>
+        
+        <Directory <path>/media>
+            Order deny,allow
+            Allow from all
+        </Directory>
+        
+        WSGIScriptAlias / <path>/confucius.wsgi
+        WSGIDaemonProcess confucius user=www-data group=www-data processes=1 threads=10
+        WSGIProcessGroup confucius
+    </VirtualHost>
 
-    # aptitude install python-psycopg2
+The restart Apache :
 
-    # wget https://github.com/keepitsimpl/confucius/zipball/development -O confucius.zip
-    # unzip confucius.zip && rm confucius.zip
-    # mv keepitsimpl-confucius-* confucius_wrapper && cd confucius_wrapper
-    confucius_wrapper# pip install -r requirements.txt --use-mirrors
+    # /etc/init.d/apache2 restart
+
+Everything should work smoothly. The first thing you should do is go to /admin to set up your first conference.
 
 Original developers
 -------------------
