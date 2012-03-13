@@ -33,13 +33,13 @@ This guide uses SQLite for the installation, since it's very easy to install and
 or testing purposes. You can use your favourite RDBMS, but you'll need to make some minor changes
 to `settings.py` (please refer to the [dedicated Django documentation](https://docs.djangoproject.com/en/1.3/ref/settings/#databases)).
 
-"<font color="red">PATH</color>" designates the exact location where you will extract Confucius, eg : `/home/www`
+"|PATH|" designates the exact location where you will extract Confucius, eg : `/home/www`
 
 By convention, commands preceded by `#` must be executed as `root`.
 
     # apt-get install apache2 libapache2-mod-wsgi python-pip libsqlite3-0
     # pip install Django==1.3.1
-    # cd <font color="red">PATH</color>
+    # cd |PATH|
     PATH# wget http://www.confuciusproject.com/confucius_rc1.tar.gz
     PATH# tar xzf confucius_rc1.tar.gz
     PATH# cd confucius_wrapper
@@ -47,25 +47,25 @@ By convention, commands preceded by `#` must be executed as `root`.
 
 You will be prompted to create a superuser. Please do so and use a correct email address.
 
-    PATH/confucius_wrapper# chmod 755 -R . && chown www-data:www-data -R .
+    |PATH|/confucius_wrapper# chmod 755 -R . && chown www-data:www-data -R .
 
 Then you will need to configure an Apache VirtualHost, you can use this sample (`/etc/apache2/sites-available/default`) :
 
     <VirtualHost *:80>
-        Alias /media/ PATH/confucius_wrapper/media/
-        Alias /static/ PATH/confucius_wrapper/static/
+        Alias /media/ |PATH|/confucius_wrapper/media/
+        Alias /static/ |PATH|/confucius_wrapper/static/
         
-        <Directory PATH/confucius_wrapper/static>
+        <Directory |PATH|/confucius_wrapper/static>
             Order deny,allow
             Allow from all
         </Directory>
         
-        <Directory PATH/confucius_wrapper/media>
+        <Directory |PATH|/confucius_wrapper/media>
             Order deny,allow
             Allow from all
         </Directory>
         
-        WSGIScriptAlias / PATH/confucius_wrapper/confucius.wsgi
+        WSGIScriptAlias / |PATH|/confucius_wrapper/confucius.wsgi
         WSGIDaemonProcess confucius user=www-data group=www-data processes=1 threads=10
         WSGIProcessGroup confucius
     </VirtualHost>
