@@ -31,7 +31,7 @@ Installation on a Debian-based OS
 
 "`PATH`" designates the exact location where you will extract Confucius, eg : `/home/www`
 
-    # aptitude install apache2 libapache2-mod-wsgi python-pip
+    # apt-get install apache2 libapache2-mod-wsgi python-pip
     # pip install pip install Django==1.3.1
     # cd PATH
     PATH# wget http://www.confuciusproject.com/confucius_rc1.tar.gz
