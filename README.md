@@ -73,6 +73,7 @@ The restart Apache :
     # /etc/init.d/apache2 restart
 
 Everything should work smoothly. The first thing you should do is go to `/admin` to set up your first conference.
+Your username is your email, therefore use your *email* to log in.
 
 Original developers
 -------------------
