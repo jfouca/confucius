@@ -32,7 +32,8 @@ tr.paper-deselect, tr.paper-deselect:hover td{
     <div class="modal-body">
         <p><strong>Do you really want to Finalize the Papers Selection for your Conference ?</strong></p>
         <p>This means you won't be able to edit your selection later on. We recommand to check no assigned papers before finalizing the paper selections.</p>
-        
+        <p><strong>Keep in mind that no emails will be sent after finalization.</strong>
+        New groups of receivers are now available in the email sending section </p>        
     </div>
     <div class="modal-footer">
         <a href="{% url 'finalize_selection' conference.pk %}" 
@@ -49,6 +50,8 @@ tr.paper-deselect, tr.paper-deselect:hover td{
     <div class="modal-body">
         <p><strong>Do you really want to Finalize the Papers Selection for your Conference ?</strong></p>
         <p>This means you won't be able to edit your selection later on.</p>
+        <p><strong>Keep in mind that no emails will be sent after finalization.</strong>
+        New groups of receivers are now available in the email sending section </p>
     </div>
     <div class="modal-footer">
         <a href="{% url 'finalize_selection' conference.pk %}" 
