@@ -42,9 +42,9 @@ class Paper(ConfuciusModel):
     def get_message_state(self):
         state = self.get_state()
         if state == 0:
-            return ["", "Reviews are not started"]
+            return ["", "Submitted"]
         elif state == 1:
-            return ["label-info", "Reviews in progress"]
+            return ["label-info", "In progress"]
         elif state == 2:
             return ["label-success", "Selected"]
         else:
