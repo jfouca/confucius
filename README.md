@@ -34,7 +34,8 @@ or testing purposes. You can use your favourite RDBMS, but you'll need to make s
 to `settings.py` (please refer to the [dedicated Django documentation](https://docs.djangoproject.com/en/1.3/ref/settings/#databases)).
 
 "`PATH`" designates the exact location where you will extract Confucius, eg : `/home/www`
-By convention, commands preceded by `#` should be executed as `root`.
+
+By convention, commands preceded by `#` must be executed as `root`.
 
     # apt-get install apache2 libapache2-mod-wsgi python-pip libsqlite3-0
     # pip install Django==1.3.1
