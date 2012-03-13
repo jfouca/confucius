@@ -123,6 +123,7 @@ tr.paper-deselect, tr.paper-deselect:hover td{
                 <option value="selection:no-choice">Papers without choice</option>
                 <option value="selection:true">Selected papers</option>
                 <option value="selection:false">Rejected papers</option>
+                <option value="selection:notified">Notified papers</option>
             </select>
         </div>
     </div>
@@ -163,14 +164,18 @@ tr.paper-deselect, tr.paper-deselect:hover td{
         </td>
         {% with percent=paper.get_reviewed_percent reviews_info=paper.get_reviews_info %} 
             <td class="tooltip-show" data-original-title="
-                Completed reviews: {{ reviews_info.0 }}<br/>
-                Unfinished reviews: {{ reviews_info.1 }}
-                {% if reviews_info.2 > 0 %}
-                    <br/>Rejected reviews: {{ reviews_info.2 }}
-                {% endif %}
+                Completed reviews: {{ reviews_info.0 }}
+                <br/>Unfinished reviews: {{ reviews_info.1 }}
+                {% if reviews_info.2 > 0 %} <br/>Rejected reviews: {{ reviews_info.2 }} {% endif %}
+                {% if paper.is_notify %} <br/>This paper has been notified. {% endif %}
             ">
                 
                 {{ percent }}% <i class="icon-info-sign"></i>
+                {% if paper.is_notify %}
+                    <i class="icon-warning-sign">
+                        <span style="display: none">selection:notified</span>
+                    </i>
+                {% endif %}
                 {% if  percent > 0 %}
                     <span class="data-actions v-hidden"> 
                         <a href="{% url 'read_reviews' conference.pk paper.pk %}" class="btn btn-mini read_btn" 

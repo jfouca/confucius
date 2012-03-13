@@ -33,20 +33,10 @@
                 <td>{{member.user.first_name}}</td>
                 <td>{{member.user.last_name}}</td>
                 <td>{{member.user.email}}</td>
-                <td>{% for domain in member.domains.all %}
-                    <span class="label">{{ domain }}</span>
-                {% endfor %}</td>
-                <td>{% for language in member.user.languages.all %}
-                    <span class="label label">{{ language }}</span>
-                {% endfor %}</td>
+                <td>{{member.domains.all|join:", "}}</td>
+                <td>{{member.user.languages.all|join:", "}}</td>
                 <td>{% for role in member.roles.all %}
-                    {% if role.code == 'C' %}
-                        <span class="label label-important">{{ role }}</span>
-                    {% endif %} {% if role.code == 'R' %}
-                        <span class="label label-warning">{{ role }}</span>
-                    {% endif %} {% if role.code == 'S' %}
-                        <span class="label label-success">{{ role }}</span>
-                    {% endif %}
+                    <span class="label">{{ role }}</span>
                 {% endfor %}</td>
             </tr>
         {% endfor %}

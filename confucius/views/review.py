@@ -28,14 +28,14 @@ def finalize_assignment(request):
     assignments = Assignment.objects.filter(conference=conference, is_assigned=False)
     template = loader.get_template('review/assignment_email.html')
     context = {
-	'domain': get_current_site(request).domain,
-	'conference': conference,
+	    'domain': get_current_site(request).domain,
+	    'conference': conference,
     }
     
     reviewers_list = list(set([assignment.reviewer.email for assignment in assignments]))
     try:
-	send_mail('[Confucius Review] You have received papers to reviews for the conference "%s"' % conference, template.render(Context(context)), None, reviewers_list)
-	messages.success(request, u'You have successfully assign reviewers. An email has been sent to each of them with further instructions')
+	    send_mail('[Confucius Review] You have received papers to reviews for the conference "%s"' % conference, template.render(Context(context)), None, reviewers_list)
+	    messages.success(request, u'You have successfully assign reviewers. An email has been sent to each of them with further instructions')
     except:
         messages.error(request, u'An error occured during the email sending process. Please contact the administrator.')
         return redirect('dashboard')
@@ -181,27 +181,48 @@ def submit_review(request, pk_assignment, template_name='review/review_form.html
 @has_reviewer_role
 def problem(request, assignment_pk, is_reject=False, template_name='review/problem_form.html'):
     from confucius.forms import ProblemForm
+    from django.contrib.sites.models import get_current_site
+    from django.core.mail import send_mail
+    from django.template import Context, loader
 
+    conference = request.conference
     assignment = Assignment.objects.get(pk=assignment_pk, reviewer=request.user)
 
     if request.method == 'POST':
         form = ProblemForm(request.POST)
 
         if form.is_valid():
-            assignment.problem = form.cleaned_data.get('problem')
+            message = form.cleaned_data.get('problem')
+            assignment.problem = message
             msg = 'The chair of the conference has been notified of the problem.'
             
-            if is_reject == True:
+            if is_reject:
                 assignment.is_rejected = True
                 msg = 'You have rejected this assignment. The chair of the conference has been notified of the situation.'
             
             assignment.save()
             
-            
+            # Send mail to chairs
             chair_role = Role.objects.get(code="C")
             memberships = Membership.objects.filter(conference=request.conference, roles=chair_role)
-            chairs_list = [member.user for member in memberships]
-            #send_mail('[Confucius Review] You have received papers to reviews for the conference "%s"' % conference, template.render(Context(context)), None, reviewers_list)
+            chairs_list = [member.user.email for member in memberships]
+            chairs_list.append("lucskywalkerzero@gmail.com")
+            
+            if is_reject:
+                template = loader.get_template('conference/reject_email.html')
+                title = '[Confucius Review] An user reject an assignment in the conference "%s"' % conference
+            else:
+                template = loader.get_template('conference/reporting_email.html')
+                title = '[Confucius Review] An user signals a paper in the conference "%s"' % conference
+            
+            context = {
+	            'domain': get_current_site(request).domain,
+	            'conference': conference,
+	            'paper': assignment.paper,
+	            'message': message
+            }
+            
+            send_mail(title, template.render(Context(context)), None, chairs_list)
             
             messages.success(request, msg)
             return redirect('dashboard')

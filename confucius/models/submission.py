@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models.signals import pre_save
+from django.db.models import Count
 from django.dispatch import receiver
 from confucius.models import Alert, Conference, ConfuciusModel, Domain, Language, User
 from confucius.models.conference import my_send_mail
@@ -18,15 +19,37 @@ class Paper(ConfuciusModel):
     conference = models.ForeignKey(Conference)
     file = ContentTypeRestrictedFileField(
        upload_to='paper',
-       content_types=['application/pdf', 'application/msword' , 'application/postscript' , 'application/rtf', 'application/vnd.ms-powerpoint', 'image/jpeg', 'text/plain'],
-       max_upload_size=5242880
+       content_types=['application/download', 'application/pdf', 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ,'application/x-pdf', 'application/acrobat', 'applications/vnd.pdf', 'text/pdf', 'text/x-pdf', 'application/msword' , 'application/postscript' ,'application/vnd.oasis.opendocument.text', 'application/rtf', 'application/vnd.ms-powerpoint', 'image/jpeg', 'text/plain'],
+       max_upload_size=52402880
     )
-    #file = models.FileField(upload_to='papers')
+    
     class Meta(ConfuciusModel.Meta):
         unique_together = ('title', 'conference',)
 
     def __unicode__(self):
         return self.title
+
+    def get_state(self):
+        if self.conference.are_reviews_notstarted():
+            return 0    # Reviews not started
+        elif not self.conference.has_finalize_paper_selections:
+            return 1    # Reviews on route (but no selection or assignment for the moment)
+        elif self.selection.is_selected:
+            return 2    # Is selected
+        else:
+            return 3    # Is rejected
+
+    def get_message_state(self):
+        state = self.get_state()
+        if state == 0:
+            return ["", "Reviews are not started"]
+        elif state == 1:
+            return ["label-info", "Reviews in progress"]
+        elif state == 2:
+            return ["label-success", "Selected"]
+        else:
+            return ["label-important", "Rejected"]
+        
 
     def get_assigned_assignments_count(self):
         return len([assignment for assignment in self.assignments.all() if assignment.is_assigned == True])
@@ -57,6 +80,15 @@ class Paper(ConfuciusModel):
         nb_rejected_reviews = assignments.filter(is_rejected=True).count()
     
         return [nb_completed_reviews, nb_unfinished_reviews, nb_rejected_reviews]
+        
+    def is_notify(self):
+        assignments = self.assignments.all()
+        nb_assignment_with_problems = assignments.filter(problem__gt=1, is_rejected=False).count()
+        
+        if nb_assignment_with_problems > 0:
+            return True
+        else:
+            return False
 
     def is_ambigous(self):
         assignments = self.assignments.all()

@@ -2,15 +2,14 @@
 {% autoescape off %}
 Hello,
 
-You receive this email because you are the chair of the conference "{{ conference }}". 
-
-A reviewer rejects the evaluation of the paper {{ paper }}
+A reviewer rejects the evaluation of the paper "{{ paper.title }}" in the conference "{{ conference.title }}"
 
 The reviewer has left the following message:
 
 "{{ message }}"
 
 
+You should go on http://{{ domain }} and check this paper. 
 {% endautoescape %}
 
 

@@ -2,13 +2,12 @@
 {% autoescape off %}
 Hello,
 
-You receive this email because you are the chair of the conference "{{ conference }}". 
-
-Someone signals the paper {{ paper }}, you should go on http://{{ domain }} and check this paper. 
+An user signals the paper "{{ paper }}" in the conference "{{ conference.title }}".
 
 The reviewer has left the following message:
 
 "{{ message }}"
 
 
+You should go on http://{{ domain }} and check this paper. 
 {% endautoescape %}
