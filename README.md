@@ -33,7 +33,7 @@ This guide uses SQLite for the installation, since it's very easy to install and
 or testing purposes. You can use your favourite RDBMS, but you'll need to make some minor changes
 to `settings.py` (please refer to the [dedicated Django documentation](https://docs.djangoproject.com/en/1.3/ref/settings/#databases)).
 
-"`PATH`" designates the exact location where you will extract Confucius, eg : `/home/www`
+"<span style="color:#f00">PATH</span>" designates the exact location where you will extract Confucius, eg : `/home/www`
 
 By convention, commands preceded by `#` must be executed as `root`.
 
