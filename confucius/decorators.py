@@ -30,6 +30,10 @@ def role_required(test_func):
             request.membership = membership
             request.conference = conference
 
+            if not membership.domains.all() :
+                messages.warning(request, u'Please select your domains !!')
+                return redirect('membership',request.conference.pk)
+            
             return view_func(request, *args, **kwargs)
         return wraps(view_func)(inner_decorator)
     return decorator
