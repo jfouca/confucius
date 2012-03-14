@@ -30,9 +30,11 @@ class Paper(ConfuciusModel):
         return self.title
 
     def get_state(self):
+        from confucius.models import PaperSelection
+    
         if self.conference.are_reviews_notstarted():
             return 0    # Reviews not started
-        elif self.selection is None or not self.selection.is_submit:
+        elif PaperSelection.objects.filter(paper=self).count() <= 0 or not self.selection.is_submit:
             return 1    # Reviews on route (but no selection or assignment for the moment)
         elif self.selection.is_selected:
             return 2    # Is selected
