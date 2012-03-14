@@ -8,19 +8,6 @@
     <h2>Account creation for Confucius</h2>
     <br>
     <form class="form-horizontal" method="post" id="form" enctype="multipart/form-data">{% csrf_token %}
-        <div class="control-group{% if form.email.errors %} error{% endif %}" id="control_id_{{ form.email.html_name }}">
-            <label class="control-label" for="id_{{ form.email.html_name }}">{{ form.email.label }}</label>
-            <div class="controls">
-                <div class="input-prepend">
-                    <span class="add-on">
-                        <i class="icon icon-pencil"></i>
-                    </span>
-                    <input name="{{ form.email.html_name }}" value="{{ form.email.value }}" class="input-medium" type="text" id="id_{{ form.email.html_name }}" readonly>
-                    <span class="help-inline">{{ form.email.errors|first }}</span>
-                </div>
-                <p class="help-block"></p>
-            </div>
-        </div>
         <div class="control-group{% if form.first_name.errors %} error{% endif %}" id="control_id_{{ form.first_name.html_name }}">
             <label class="control-label" for="id_{{ form.first_name.html_name }}">{{ form.first_name.label }}</label>
             <div class="controls">
