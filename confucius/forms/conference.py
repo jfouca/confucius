@@ -97,7 +97,6 @@ class InvitationForm(forms.Form):
         emails = Email.objects.filter(value__in=values)
 
         for email in emails:
-            print "kikou",email.user
             try:
                 invitation = Invitation.objects.create(user=email.user, conference=self.conference)
                 invitation.key = sha256(random_string()).hexdigest()
@@ -105,6 +104,9 @@ class InvitationForm(forms.Form):
                 invitation.roles.add(*cleaned_data['roles'].all())
             except:
                 invitation = Invitation.objects.get(user=email.user, conference=self.conference)
+                invitation.decision = 'W'
+                invitation.roles.add(*cleaned_data['roles'].all())
+                invitation.save()
 
             invitations.append(invitation)
 
