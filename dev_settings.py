@@ -50,12 +50,12 @@ ROOT_URLCONF = 'confucius.urls'
 
 INSTALLED_APPS = (
     'django.contrib.auth',
+    'confucius',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.messages',
-    'confucius',
 )
 
 AUTHENTICATION_BACKENDS = ('confucius.backends.AccountBackend',)
