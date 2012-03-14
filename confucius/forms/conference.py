@@ -94,9 +94,10 @@ class InvitationForm(forms.Form):
             user = User.objects.create(email=value, username=email_to_username(value), is_active=False)
             Email.objects.create(value=value, main=True, user=user)
 
-        emails = values
+        emails = Email.objects.filter(value__in=values)
 
         for email in emails:
+            print "kikou",email.user
             try:
                 invitation = Invitation.objects.create(user=email.user, conference=self.conference)
                 invitation.key = sha256(random_string()).hexdigest()
@@ -148,8 +149,7 @@ class SignupForm(UserForm):
 
     def clean_email(self):
         email = self.cleaned_data['email']
-        #in the case we are invited, we do not have to verify the email
-        if self.fields['email'].widget.attrs['readonly']:
+        if 'readonly' in self.fields['email'].widget.attrs.keys() and self.fields['email'].widget.attrs['readonly'] == True:
             return email
         try:
             Email.objects.get(value=email)
