@@ -40,7 +40,7 @@ class ConferenceForm(forms.ModelForm):
 
     class Meta:
         model = Conference
-        exclude = ('members', 'is_open', 'access_key', 'has_finalize_paper_selections', 'maximum_score', 'enable_reviewer_confidence')
+        exclude = ('members', 'is_open', 'access_key', 'has_finalize_paper_selections', 'maximum_score',)
 
     def clean(self):
         cleaned_data = super(ConferenceForm, self).clean()
@@ -65,7 +65,7 @@ class ConferenceForm(forms.ModelForm):
 class InvitationForm(forms.Form):
     emails = forms.CharField(widget=forms.Textarea(), help_text='A whitespace-separated list of emails of people you wish to invite to the conference.', min_length=4)
     roles = forms.ModelMultipleChoiceField(queryset=Role.objects.all(), widget=forms.CheckboxSelectMultiple(), help_text='What roles should the people above be given.')
-    message = forms.CharField(widget=forms.Textarea(), label='Your personnal message to each of them.', initial='Hello, ')
+    message = forms.CharField(widget=forms.Textarea(), label='Your personal message to each of them.', initial='Hello, ')
 
     def __init__(self, conference, *args, **kwargs):
         super(InvitationForm, self).__init__(*args, **kwargs)
@@ -120,7 +120,7 @@ class MembershipForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(MembershipForm, self).__init__(*args, **kwargs)
-
+        
         self.fields['domains'].help_text = "Your domains are linked to this conference only"
         self.fields['domains'].queryset = Domain.objects.filter(conferences__pk=self.instance.conference_id)
 
@@ -156,11 +156,14 @@ class SignupForm(UserForm):
 
     def save(self, commit=True):
         user = super(SignupForm, self).save(False)
-
+        print "kikou"
+        
         if commit:
             user.set_password(self.cleaned_data.get('password1'))
             user.is_active = True
             user.username = email_to_username(user.email)
+            user.save()
+            user.languages = self.cleaned_data.get('languages')
             user.save()
             try:
                 email = user.emails.get(main=True)
@@ -191,8 +194,9 @@ class SendEmailToUsersForm(forms.Form):
         self.fields['groups'].choices = roles
 
         if self.initial['conference'].has_finalize_paper_selections == True:
-            group = ["U", "Selected submitters"]
-            choices = roles + [group]
+            group_selected = ["U", "Selected submitters"]
+            group_rejected = ["X", "Rejected submitters"]
+            choices = [group_selected] + [group_rejected] + roles
             self.fields['groups'].choices = choices
 
     def clean(self):

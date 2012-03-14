@@ -24,12 +24,16 @@ def role_required(test_func):
             if not membership or not test_func(membership):
                 messages.warning(request, u'Unauthorized access.')
                 return redirect('membership_list')
-
+                
             membership.set_last_accessed()
 
             request.membership = membership
             request.conference = conference
 
+            if not membership.domains.all() :
+                messages.warning(request, u'Please select your domains !!')
+                return redirect('membership',request.conference.pk)
+            
             return view_func(request, *args, **kwargs)
         return wraps(view_func)(inner_decorator)
     return decorator

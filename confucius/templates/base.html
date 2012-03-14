@@ -13,6 +13,7 @@
         {% block style %}{% endblock %}
     </head>
     <body>
+        {% block topbar %}{% endblock %}
         {% if messages %}
             {% for message in messages %}
             <div class="alert alert-{{ message.tags }} top-alert">
@@ -21,7 +22,6 @@
             </div>
             {% endfor %}
         {% endif %}
-        {% block topbar %}{% endblock %}
         {% block base_content %}{% endblock %}
         <script src="{{ STATIC_URL }}jquery.js"></script>
         <script src="{{ STATIC_URL }}jquery.selectoptionsort.js"></script>

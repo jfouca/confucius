@@ -15,8 +15,13 @@ from confucius.utils import send_emails_to_group
 
 @require_http_methods(['GET', 'POST'])
 def conference_access(request, conference_pk, access_key, template_name='conference/membership_form.html'):
+    
     conference = get_object_or_404(Conference, pk=conference_pk, access_key=access_key)
-
+    
+    if not conference.is_open:
+        messages.error(request,"The conference is closed.")
+        return redirect('login')
+        
     if request.user.is_authenticated():
         try:
             Membership.objects.get(user=request.user, conference=conference)
@@ -41,6 +46,7 @@ def conference_access(request, conference_pk, access_key, template_name='confere
             form = SignupForm(email=False)
 
         context = {
+            'conference': conference,
             'form': form
         }
 
@@ -52,6 +58,10 @@ def conference_access(request, conference_pk, access_key, template_name='confere
 @csrf_protect
 def membership(request, conference_pk, template_name='conference/membership_form.html'):
     conference = Conference.objects.get(pk=conference_pk)
+
+    if not conference.is_open:
+        messages.error(request,"The conference is closed.")
+        return redirect('account')
 
     try:
         membership = Membership.objects.get(user=request.user, conference=conference)
@@ -72,6 +82,7 @@ def membership(request, conference_pk, template_name='conference/membership_form
     context = {
         'form': form,
         'conference': conference,
+        'introduction_message': "Please choose your domains for this conference"
     }
 
     return render_to_response(template_name, context, context_instance=RequestContext(request))
@@ -118,6 +129,10 @@ def dashboard(request, template_name='conference/dashboard.html'):
     conference = request.conference
     membership = request.membership
 
+    if not request.membership.has_chair_role() and not request.conference.is_open:
+        messages.error(request,"The conference is closed.")
+        return redirect('membership_list')
+        
     if membership.domains.count() <= 0:
         return redirect('membership', conference_pk=membership.conference.pk)
 
@@ -188,6 +203,10 @@ def conference_invitation(request, key, decision=None, template_name='conference
 def conference_invite(request, template_name='conference/invitation_form.html', email_template_name='conference/invitation_email.html'):
     from confucius.forms import InvitationForm
 
+    if request.conference.has_finalize_paper_selections:
+        messages.error(request,"The paper selection for this conference is now finished, you can only modify it")
+        return redirect('dashboard', request.conference.pk)
+        
     if 'POST' == request.method:
         form = InvitationForm(request.conference, data=request.POST)
 
@@ -246,6 +265,10 @@ def signup(request, key, template_name='registration/signup_form.html'):
         return redirect('dashboard')
 
     invitation = get_object_or_404(Invitation, key=key)
+
+    if not invitation.conference.is_open:
+        messages.error(request,"The conference is closed.")
+        return redirect('login')
 
     try:
         invitation.roles.filter(Q(code='R') | Q(code='C'))
@@ -309,11 +332,22 @@ def send_email_to_users(request, template_name='conference/send_email_to_users.h
             else:
                 groups = form.cleaned_data['groups']
                 roles = groups
+                print "roles",roles
                 if "U" in groups:
+                    print "selected"
                     receivers = [paperselect.paper.submitter for paperselect in PaperSelection.objects.filter(conference=conference) if paperselect.is_selected and paperselect.is_submit]
+                    print "selected receivers",receivers
                     send_emails_to_group(receivers, title, content, request)
                     groups.remove("U")
-
+                
+                if "X" in groups:
+                    print "je passe ici"
+                    receivers = [paperselect.paper.submitter for paperselect in PaperSelection.objects.filter(conference=conference) if paperselect.is_selected == False and paperselect.is_submit]
+                    print "receivers",receivers
+                    send_emails_to_group(receivers, title, content, request)
+                    
+                    groups.remove("X")
+                
                 if roles is not None:
                     for entry in roles:
                         role = Role.objects.get(code=entry)
@@ -332,6 +366,11 @@ def send_email_to_users(request, template_name='conference/send_email_to_users.h
 @login_required
 @has_submitter_role
 def paper_list(request, get_all=False, template_name='conference/paper_list.html'):
+
+    if not request.membership.has_chair_role() and not request.conference.is_open:
+        messages.error(request,"The conference is closed.")
+        return redirect('membership_list')
+        
     conference = request.conference
 
     if get_all == False:
@@ -351,6 +390,11 @@ def paper_list(request, get_all=False, template_name='conference/paper_list.html
 @login_required
 @has_reviewer_role
 def review_list(request, get_all=False, template_name='conference/review_list.html'):
+
+    if not request.membership.has_chair_role() and not request.conference.is_open:
+        messages.error(request,"The conference is closed.")
+        return redirect('membership_list')
+        
     conference = request.conference
 
     if get_all == False:
@@ -370,6 +414,7 @@ def review_list(request, get_all=False, template_name='conference/review_list.ht
 @login_required
 @has_chair_role
 def alert_list(request, template_name='conference/alert_list.html'):
+
     conference = request.conference
 
     alerts_trigger = Alert.objects.filter(conference=request.conference, reminder__isnull=True, action__isnull=True)
@@ -406,7 +451,7 @@ def invitation_list(request, template_name='conference/invitation_list.html'):
 def members_list(request, template_name='conference/members_list.html'):
     conference = request.conference
 
-    memberships_list = Membership.objects.filter(conference=conference).order_by('roles')
+    memberships_list = Membership.objects.filter(conference=conference)
 
     context = {
         'conference': conference,

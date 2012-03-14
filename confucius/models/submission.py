@@ -19,7 +19,7 @@ class Paper(ConfuciusModel):
     conference = models.ForeignKey(Conference)
     file = ContentTypeRestrictedFileField(
        upload_to='paper',
-       content_types=['application/download', 'application/pdf', 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ,'application/x-pdf', 'application/acrobat', 'applications/vnd.pdf', 'text/pdf', 'text/x-pdf', 'application/msword' , 'application/postscript' ,'application/vnd.oasis.opendocument.text', 'application/rtf', 'application/vnd.ms-powerpoint', 'image/jpeg', 'text/plain'],
+       content_types=['text/html', 'application/download', 'application/pdf', 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ,'application/x-pdf', 'application/acrobat', 'applications/vnd.pdf', 'text/pdf', 'text/x-pdf', 'application/msword' , 'application/postscript' ,'application/vnd.oasis.opendocument.text', 'application/rtf', 'application/vnd.ms-powerpoint', 'image/jpeg', 'text/plain'],
        max_upload_size=52402880
     )
     
@@ -32,7 +32,7 @@ class Paper(ConfuciusModel):
     def get_state(self):
         if self.conference.are_reviews_notstarted():
             return 0    # Reviews not started
-        elif not self.conference.has_finalize_paper_selections:
+        elif self.selection is None or not self.selection.is_submit:
             return 1    # Reviews on route (but no selection or assignment for the moment)
         elif self.selection.is_selected:
             return 2    # Is selected
@@ -42,9 +42,9 @@ class Paper(ConfuciusModel):
     def get_message_state(self):
         state = self.get_state()
         if state == 0:
-            return ["", "Reviews are not started"]
+            return ["", "Submitted"]
         elif state == 1:
-            return ["label-info", "Reviews in progress"]
+            return ["label-info", "In progress"]
         elif state == 2:
             return ["label-success", "Selected"]
         else:
@@ -70,6 +70,8 @@ class Paper(ConfuciusModel):
 
     def get_reviewed_percent(self):
         total = self.assignments.filter(is_rejected=False).count()
+        if total == 0:
+            return 0
         value = self.assignments.filter(is_done=True, is_rejected=False).count()
         return value*100/total
 

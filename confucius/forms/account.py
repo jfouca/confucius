@@ -86,7 +86,7 @@ class UserCreationForm(AuthUserCreationForm):
 
 
 class UserForm(forms.ModelForm):
-    languages = forms.ModelMultipleChoiceField(Language.objects.all(), required=False)
+    languages = forms.ModelMultipleChoiceField(Language.objects.all())
 
     class Meta:
         fields = ('first_name', 'last_name', 'languages')
@@ -105,7 +105,7 @@ class UserForm(forms.ModelForm):
         if commit:
             user.languages.clear()
             user.languages.add(*self.cleaned_data.get('languages'))
-
+            
         return user
 
 
