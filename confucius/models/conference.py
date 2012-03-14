@@ -45,7 +45,8 @@ class Conference(ConfuciusModel):
     access_key = models.CharField(max_length=8)
     maximum_score = models.IntegerField(default=10)
     minimum_reviews = models.IntegerField(default=2)
-    enable_reviewer_confidence =  models.BooleanField(default=True)
+    enable_reviewer_confidence = models.BooleanField(default=True)
+
     def __unicode__(self):
         return self.title
 
@@ -72,7 +73,7 @@ class Conference(ConfuciusModel):
         return datetime.now().date() < self.reviews_start_date
 
     def are_reviews_over(self):
-        return self.has_finalize_paper_selections or datetime.now().date() > self.reviews_end_date 
+        return self.has_finalize_paper_selections or datetime.now().date() > self.reviews_end_date
 
     def is_started(self):
         return datetime.now().date() > self.start_date
@@ -124,35 +125,34 @@ class Membership(ConfuciusModel):
         return self._has_role('S')
 
 
-@receiver(post_delete, sender=Membership, dispatch_uid="Membership_delete")
 @receiver(pre_save, sender=Membership, dispatch_uid="Membership_identifier")
 def my_user_handler(sender, instance, **kwargs):
     conference = instance.conference
     user_pre_save = instance.user
-    alerts = Alert.objects.filter( (Q(action=1) | Q(action=2) ))
+    alerts = Alert.objects.filter((Q(action=1) | Q(action=2)))
     for alert in alerts:
-        if alert.action.pk == 1 and instance.pk is None :
+        if alert.action.pk == 1 and instance.pk is None:
             try:
                 Membership.objects.get(conference=conference, user=user_pre_save)
             except:
-                my_send_mail(alert,conference)
+                my_send_mail(alert, conference)
         elif alert.action.pk == 2 and instance.pk is not None:
             try:
                 Membership.objects.get(conference=alert.conference, user=user_pre_save)
             except:
-                my_send_mail(alert,conference)
-                
-                
+                my_send_mail(alert, conference)
+
+
 def my_send_mail(alert, conference):
     from django.core.mail import send_mail
     for role in alert.roles.all():
         memberships_list = Membership.objects.filter(roles=role, conference=conference).all()
         users_email = [unicode(membership.user.email) for membership in memberships_list]
         try:
-            send_mail("[Confucius Alert] "+alert.title, alert.content, 'no-reply-alerts@confucius.com', users_email, fail_silently=False)
+            send_mail("[Confucius Alert] " + alert.title, alert.content, 'no-reply-alerts@confucius.com', users_email, fail_silently=False)
         except:
             print "Error occured during email sending process. Please check your SMTP settings"
-            
+
 
 class MessageTemplate(ConfuciusModel):
     title = models.CharField(max_length=100, default=None)
