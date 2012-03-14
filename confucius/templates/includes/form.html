@@ -16,20 +16,19 @@
     <div class="controls">
         {% block controls %}
         {% ifequal field|type 'date' %}
-            {% include 'includes/fields/input_prepend.html' with icon='calendar' field=field|calendar %}
+            {% include 'includes/fields/input_prepend.html' with icon='calendar' error=field.errors|first field=field|calendar %}
         {% endifequal %}
         {% ifequal field|type 'password' %}
-            {% include 'includes/fields/input_prepend.html' with icon='lock' field=field|medium %}
+            {% include 'includes/fields/input_prepend.html' with icon='lock' error=field.errors|first field=field|medium %}
         {% endifequal %}
         {% ifequal field|type 'text' %}
-            {% include 'includes/fields/input_prepend.html' with icon='pencil' field=field|medium %}
+            {% include 'includes/fields/input_prepend.html' with icon='pencil' error=field.errors|first field=field|medium %}
         {% endifequal%}
         {% ifequal field|type 'email' %}
-            {% include 'includes/fields/input_prepend.html' with icon='envelope' field=field|medium %}
+            {% include 'includes/fields/input_prepend.html' with icon='envelope' error=field.errors|first field=field|medium %}
         {% endifequal %}
         {% ifequal field|type 'textarea' %}
-            {% include 'includes/fields/textarea.html' with field=field|bigtextarea %}
-            <span class="help-inline">{{ field.errors|first }}</span>
+            {% include 'includes/fields/textarea.html' with field=field|bigtextarea error=field.errors|first  %}
         {% endifequal %}
         {% if field|type == 'select' or field|type == 'selectm' %}
             {{ field }}
@@ -54,6 +53,7 @@
             <span class="help-inline">{{ field.errors|first }}</span>
         {% endifequal %}
         {% endblock %}
+        
         <p class="help-block">{{ field.help_text }}</p>
     </div>
 </div>
