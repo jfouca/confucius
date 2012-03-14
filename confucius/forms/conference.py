@@ -123,7 +123,7 @@ class MembershipForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(MembershipForm, self).__init__(*args, **kwargs)
-        
+
         self.fields['domains'].help_text = "Your domains are linked to this conference only"
         self.fields['domains'].queryset = Domain.objects.filter(conferences__pk=self.instance.conference_id)
 
@@ -142,8 +142,8 @@ class SignupForm(UserForm):
             self.fields['email'].widget.attrs['readonly'] = True
 
     def clean_password2(self):
-        password1 = self.cleaned_data.get('new_password1')
-        password2 = self.cleaned_data.get('new_password2')
+        password1 = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
         if password1 and password2:
             if password1 != password2:
                 raise forms.ValidationError(u"The two passwords didn't match.")
@@ -161,7 +161,7 @@ class SignupForm(UserForm):
 
     def save(self, commit=True):
         user = super(SignupForm, self).save(False)
-        
+
         if commit:
             user.set_password(self.cleaned_data.get('password1'))
             user.is_active = True
