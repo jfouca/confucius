@@ -286,11 +286,9 @@ def signup(request, key, template_name='registration/signup_form.html'):
         form = SignupForm(data=request.POST, instance=invitation.user)
         extra_form = extra_form_class(request.POST, request.FILES, instance=instance)
 
-        for f in (form, extra_form):
-            if f.is_valid():
-                f.save()
-
-        if not any(form.errors) and not any(extra_form.errors):
+        if form.is_valid() and extra_form.is_valid():
+            form.save()
+            extra_form.save()
             invitation.accept()
             user = authenticate(username=invitation.user.email, password=form.cleaned_data.get('password1'))
             auth_login(request, user)
