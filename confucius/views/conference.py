@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.models import get_current_site
 from django.shortcuts import get_object_or_404, redirect, render_to_response
@@ -192,6 +192,8 @@ def conference_invitation(request, key, decision=None, template_name='conference
         membership = Membership.objects.create(user=invitation.user, conference=invitation.conference)
 
     membership.roles.add(*invitation.roles.all())
+    if invitation.user != request.user:
+        logout(request)
 
     messages.success(request, 'You are now participating in the conference "%s"' % invitation.conference)
     return redirect('dashboard', conference_pk=invitation.conference.pk)
@@ -261,8 +263,7 @@ def membership_list(request, template_name='conference/membership_list.html'):
 def signup(request, key, template_name='registration/signup_form.html'):
     from django.db.models import Q
 
-    if request.user.is_authenticated():  # You're already registered, what the fuck would you signup for?
-        return redirect('dashboard')
+    logout(request)
 
     invitation = get_object_or_404(Invitation, key=key)
 
