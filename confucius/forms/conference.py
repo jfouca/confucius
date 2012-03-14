@@ -137,7 +137,7 @@ class SignupForm(UserForm):
 
     def __init__(self, email=True, *args, **kwargs):
         super(SignupForm, self).__init__(*args, **kwargs)
-
+        self.fields['email'].required = True
         if email:
             self.fields['email'].widget.attrs['readonly'] = True
 
@@ -151,7 +151,7 @@ class SignupForm(UserForm):
 
     def clean_email(self):
         email = self.cleaned_data['email']
-        if 'readonly' in self.fields['email'].widget.attrs.keys() and self.fields['email'].widget.attrs['readonly'] == True:
+        if self.instance.pk is None:
             return email
         try:
             Email.objects.get(value=email)
