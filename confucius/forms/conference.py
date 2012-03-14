@@ -97,6 +97,7 @@ class InvitationForm(forms.Form):
         emails = Email.objects.filter(value__in=values)
 
         for email in emails:
+            print "kikou",email.user
             try:
                 invitation = Invitation.objects.create(user=email.user, conference=self.conference)
                 invitation.key = sha256(random_string()).hexdigest()
@@ -148,6 +149,8 @@ class SignupForm(UserForm):
 
     def clean_email(self):
         email = self.cleaned_data['email']
+        if 'readonly' in self.fields['email'].widget.attrs.keys() and self.fields['email'].widget.attrs['readonly'] == True:
+            return email
         try:
             Email.objects.get(value=email)
         except Email.DoesNotExist:
@@ -156,7 +159,6 @@ class SignupForm(UserForm):
 
     def save(self, commit=True):
         user = super(SignupForm, self).save(False)
-        print "kikou"
         
         if commit:
             user.set_password(self.cleaned_data.get('password1'))
