@@ -137,9 +137,10 @@ class SignupForm(UserForm):
 
     def __init__(self, email=True, *args, **kwargs):
         super(SignupForm, self).__init__(*args, **kwargs)
-
         if email:
-            self.fields['email'].widget.attrs['readonly'] = True
+            del self.fields['email']
+        else:
+            self.fields['email'].required = True
 
     def clean_password2(self):
         password1 = self.cleaned_data.get('password1')
@@ -151,12 +152,11 @@ class SignupForm(UserForm):
 
     def clean_email(self):
         email = self.cleaned_data['email']
-        if 'readonly' in self.fields['email'].widget.attrs.keys() and self.fields['email'].widget.attrs['readonly'] == True:
-            return email
         try:
             Email.objects.get(value=email)
         except Email.DoesNotExist:
             return email
+
         raise forms.ValidationError('This email is already taken.')
 
     def save(self, commit=True):

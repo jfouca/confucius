@@ -19,7 +19,7 @@ class Paper(ConfuciusModel):
     conference = models.ForeignKey(Conference)
     file = ContentTypeRestrictedFileField(
        upload_to='paper',
-       content_types=['text/html', 'application/download', 'application/pdf', 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ,'application/x-pdf', 'application/acrobat', 'applications/vnd.pdf', 'text/pdf', 'text/x-pdf', 'application/msword' , 'application/postscript' ,'application/vnd.oasis.opendocument.text', 'application/rtf', 'application/vnd.ms-powerpoint', 'image/jpeg', 'text/plain'],
+       content_types=['image/png', 'text/html', 'application/download', 'application/pdf', 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ,'application/x-pdf', 'application/acrobat', 'applications/vnd.pdf', 'text/pdf', 'text/x-pdf', 'application/msword' , 'application/postscript' ,'application/vnd.oasis.opendocument.text', 'application/rtf', 'application/vnd.ms-powerpoint', 'image/jpeg', 'text/plain'],
        max_upload_size=52402880
     )
     
