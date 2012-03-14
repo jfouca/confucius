@@ -86,7 +86,7 @@ class UserCreationForm(AuthUserCreationForm):
 
 
 class UserForm(forms.ModelForm):
-    languages = forms.ModelMultipleChoiceField(Language.objects.all(), required=False)
+    languages = forms.ModelMultipleChoiceField(Language.objects.all())
 
     class Meta:
         fields = ('first_name', 'last_name', 'languages')
