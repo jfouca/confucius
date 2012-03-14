@@ -94,7 +94,7 @@ class InvitationForm(forms.Form):
             user = User.objects.create(email=value, username=email_to_username(value), is_active=False)
             Email.objects.create(value=value, main=True, user=user)
 
-        emails = Email.objects.filter(value__in=values)
+        emails = values
 
         for email in emails:
             try:
@@ -148,6 +148,9 @@ class SignupForm(UserForm):
 
     def clean_email(self):
         email = self.cleaned_data['email']
+        #in the case we are invited, we do not have to verify the email
+        if self.fields['email'].widget.attrs['readonly']:
+            return email
         try:
             Email.objects.get(value=email)
         except Email.DoesNotExist:
@@ -156,7 +159,6 @@ class SignupForm(UserForm):
 
     def save(self, commit=True):
         user = super(SignupForm, self).save(False)
-        print "kikou"
         
         if commit:
             user.set_password(self.cleaned_data.get('password1'))
