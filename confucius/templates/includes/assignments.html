@@ -77,7 +77,6 @@
             <thead>
                 <tr>
                     <th>Title</th>
-                    <th>Authors</th>
                     <th>Submitter</th>
                     <th>Domains</th>
                     <th>Reviewers</th>
@@ -89,7 +88,6 @@
                 {% for paper in papers %}
                 <tr id="{{paper.pk}}" class="toggle-div">
                     <td><b>{{ paper.title }}</b></td>
-                    <td>{{paper.co_authors}}</td>
                     <td>{{paper.submitter}}</td>
                     <td>
                         {{paper.domains.all|join:', '}}
