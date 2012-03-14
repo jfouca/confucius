@@ -1,10 +1,10 @@
 {% extends 'base-in.html' %}
 {% load url from future %}
 
-{% block title %}{{ conference }}{% endblock %}
+{% block title %}{{ conference.title }}{% endblock %}
 
 {% block content_header %}
-<h1>Welcome to the conference {{ conference }}</h1>
+<h1>Welcome to the conference: {{ conference.title }}</h1>
 {% endblock %}
 
 {% block subtopbar %}
@@ -12,16 +12,22 @@
 
 {% block content_main %}
 <form class="form-horizontal" method="post">{% csrf_token %}
-    <div class="row">
-        <div class="span10">
-            Choose your domains for this conference.
+    {% if introduction_message %}
+        <div class="row">
+            <div class="span10">
+                {{ introduction_message }}
+            </div>
         </div>
-    </div>
-    <br/>
+        <br/>
+    {% endif %}
+
+
+
     {% include 'includes/form.html' %}
+
     <div class="form-actions">
-        <input type="submit" class="btn" value="Join"></button>
-        <a href="{% url 'dashboard' %}" class="btn"><i class="icon-remove"></i> Refuse</a>
+        <button type="submit" class="btn"><i class="icon-ok"></i> Accept</button>
+        <a href="{% url 'dashboard' %}" class="btn"><i class="icon-remove"></i> Cancel</a>
     </div>
     </fieldset>
 </form>
