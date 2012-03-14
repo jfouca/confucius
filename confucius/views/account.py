@@ -123,12 +123,3 @@ def languages(request):
     from confucius.models import Language
 
     return HttpResponse(json.dumps([unicode(l) for l in Language.objects.all().order_by('pk')]), 'application/json')
-
-
-@require_http_methods(['GET', 'POST'])
-@csrf_protect
-def login(request):
-    from django.contrib.auth.views import login as auth_login
-    from confucius.forms import AuthenticationForm
-
-    return auth_login(request, authentication_form=AuthenticationForm)

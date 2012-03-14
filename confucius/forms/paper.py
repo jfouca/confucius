@@ -1,5 +1,5 @@
 from django import forms
-from confucius.models import Domain, Membership, Paper, Role
+from confucius.models import Domain, Language, Membership, Paper, Role
 
 
 class PaperForm(forms.ModelForm):
@@ -14,6 +14,7 @@ class PaperForm(forms.ModelForm):
         super(PaperForm, self).__init__(*args, **kwargs)
 
         self.fields['domains'].help_text = ""
+        self.fields['language'].queryset = Language.objects.all().order_by('name')
         self.fields['domains'].queryset = Domain.objects.filter(conferences__pk=self.instance.conference_id)
 
     def save(self, commit=True):
@@ -33,7 +34,7 @@ class PaperForm(forms.ModelForm):
 
         if conference.are_submissions_over == True:
             raise forms.ValidationError('The Submissions are over for now.')
-        
+
         if conference.are_submissions_notstarted == True:
             raise forms.ValidationError('The Submissions are not started.')
 
