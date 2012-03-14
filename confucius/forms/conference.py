@@ -156,11 +156,14 @@ class SignupForm(UserForm):
 
     def save(self, commit=True):
         user = super(SignupForm, self).save(False)
-
+        print "kikou"
+        
         if commit:
             user.set_password(self.cleaned_data.get('password1'))
             user.is_active = True
             user.username = email_to_username(user.email)
+            user.save()
+            user.languages = self.cleaned_data.get('languages')
             user.save()
             try:
                 email = user.emails.get(main=True)

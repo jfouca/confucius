@@ -105,7 +105,7 @@ class UserForm(forms.ModelForm):
         if commit:
             user.languages.clear()
             user.languages.add(*self.cleaned_data.get('languages'))
-
+            
         return user
 
 
