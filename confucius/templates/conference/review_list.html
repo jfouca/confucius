@@ -41,7 +41,7 @@
                         </a>                 
                     {% endif %} {% endif %} {% endif %}
                     
-                    {% if not assignment.is_rejected and assignment.review %}
+                    {% if is_conference_reviews and not assignment.is_rejected and assignment.review %}
                         <a href="{% url 'history_reviews' conference.pk assignment.review.pk %}" class="btn btn-mini">
                             History</a>
                     {% endif %}          
