@@ -1,0 +1,12 @@
+{% load url from future %}
+{% autoescape off %}
+Hello,
+
+Unfortunatly, we are sorry to inform you that your document " {{paperselect.paper.title}} " has been rejected by the chair, for the conference "{{ paperselect.conference }}".
+
+This acknowledgment comes with the following message from the chair of the conference :
+
+"{{ message }}"
+
+
+{% endautoescape %}
