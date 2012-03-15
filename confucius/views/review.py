@@ -38,7 +38,7 @@ def finalize_assignment(request):
     reviewers_list = list(set([assignment.reviewer.email for assignment in assignments]))
     try:
         send_mail('[Confucius Review] You have received papers to reviews for the conference "%s"' % conference, template.render(Context(context)), None, reviewers_list)
-        messages.success(request, u'You have successfully assign reviewers. An email has been sent to each of them with further instructions')
+        messages.success(request, u'You have successfully assigned reviewers. An email has been sent to each of them with further instructions')
     except:
         messages.error(request, u'An error occured during the email sending process. Please contact the administrator.')
         return redirect('dashboard')
