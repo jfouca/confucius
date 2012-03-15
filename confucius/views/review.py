@@ -280,10 +280,6 @@ def read_personal_reviews(request, pk_paper, template_name='review/read_personal
         messages.error(request,"The conference is closed.")
         return redirect('membership_list')
 
-    if request.conference.has_finalize_paper_selections:
-        messages.error(request,"The paper selection for this conference is now finished.")
-        return redirect('dashboard', request.conference.pk)
-        
     conference = request.conference
     paper = Paper.objects.get(pk=pk_paper)
     reviews = Review.objects.filter(assignment__paper=paper, is_last=True)
