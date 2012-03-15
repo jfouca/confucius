@@ -38,7 +38,7 @@ def finalize_assignment(request):
     reviewers_list = list(set([assignment.reviewer.email for assignment in assignments]))
     try:
         send_mail('[Confucius Review] You have received papers to reviews for the conference "%s"' % conference, template.render(Context(context)), None, reviewers_list)
-        messages.success(request, u'You have successfully assign reviewers. An email has been sent to each of them with further instructions')
+        messages.success(request, u'You have successfully assigned reviewers. An email has been sent to each of them with further instructions')
     except:
         messages.error(request, u'An error occured during the email sending process. Please contact the administrator.')
         return redirect('dashboard')
@@ -280,15 +280,11 @@ def read_personal_reviews(request, pk_paper, template_name='review/read_personal
         messages.error(request,"The conference is closed.")
         return redirect('membership_list')
 
-    if request.conference.has_finalize_paper_selections:
-        messages.error(request,"The paper selection for this conference is now finished.")
-        return redirect('dashboard', request.conference.pk)
-        
     conference = request.conference
     paper = Paper.objects.get(pk=pk_paper)
     reviews = Review.objects.filter(assignment__paper=paper, is_last=True)
 
-    if paper.submitter != request.user or not conference.has_finalize_paper_selections:
+    if not request.membership.has_chair_role() and (paper.submitter != request.user or not conference.has_finalize_paper_selections):
         messages.warning(request, u'Unauthorized access.')
         return redirect('membership_list')
 

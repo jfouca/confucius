@@ -176,8 +176,10 @@ float: left;
     display: block;
 }
 
-.v-hidden {
-    visibility:hidden;
+@media screen { 
+    .v-hidden {
+        visibility:hidden;
+    }
 }
 
 .content {
