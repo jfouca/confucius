@@ -275,16 +275,18 @@ def paper_selection_list(request, template_name='review/paper_selection.html'):
 @login_required
 @has_submitter_role
 def read_personal_reviews(request, pk_paper, template_name='review/read_personal_reviews.html'):
+    if request.membership_has_chair_role():
+        return redirect('read_reviews', request.conference.pk, pk_paper)
 
-    if not request.membership.has_chair_role() and not request.conference.is_open:
-        messages.error(request,"The conference is closed.")
+    if not request.conference.is_open:
+        messages.error(request, "The conference is closed.")
         return redirect('membership_list')
 
     conference = request.conference
     paper = Paper.objects.get(pk=pk_paper)
     reviews = Review.objects.filter(assignment__paper=paper, is_last=True)
 
-    if not request.membership.has_chair_role() and (paper.submitter != request.user or not conference.has_finalize_paper_selections):
+    if paper.submitter != request.user or not conference.has_finalize_paper_selections:
         messages.warning(request, u'Unauthorized access.')
         return redirect('membership_list')
 
