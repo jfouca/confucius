@@ -28,6 +28,15 @@ class Alert(ConfuciusModel):
 
     def __unicode__(self):
         return self.title
+        
+    def is_trigger(self):
+        return self.action is None and self.reminder is None
+    
+    def is_reminder(self):
+        return self.action is None and self.trigger_date is None
+        
+    def is_action(self):
+        return self.reminder is None and self.trigger_date is None
 
 
 class Conference(ConfuciusModel):

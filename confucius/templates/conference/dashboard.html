@@ -125,10 +125,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for alert in alerts_trigger %}
-                        {% include 'includes/alerts_list.html' with alert=alert trigger=alert.trigger_date|date:'SHORT_DATE_FORMAT' %}
-                    {% empty %}
-                        <tr><td colspan=4>No alert (trigger type) for this conference.</td></tr>
+                    {% if not alerts %}
+                        <tr><td colspan=4>No alert for this conference.</td></tr>
+                    {% endif %}
+
+                    {% for alert in alerts %}
+                        {% if alert.is_action  %}
+                            {% include 'includes/alerts_list.html' with alert=alert trigger=alert.action %}
+                        {% endif %}
+                        {% if alert.is_reminder  %}
+                            {% include 'includes/alerts_list.html' with alert=alert trigger=alert.reminder event=alert.event %}
+                        {% endif %}
+                        {% if alert.is_trigger  %}
+                            {% include 'includes/alerts_list.html' with alert=alert trigger=alert.trigger_date|date:'SHORT_DATE_FORMAT' %}
+                        {% endif %}
+                        
                     {% endfor %}
                 </tbody>
             </table>
