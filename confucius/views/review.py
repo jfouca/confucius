@@ -275,7 +275,7 @@ def paper_selection_list(request, template_name='review/paper_selection.html'):
 @login_required
 @has_submitter_role
 def read_personal_reviews(request, pk_paper, template_name='review/read_personal_reviews.html'):
-    if request.membership_has_chair_role():
+    if request.membership.has_chair_role():
         return redirect('read_reviews', request.conference.pk, pk_paper)
 
     if not request.conference.is_open:
