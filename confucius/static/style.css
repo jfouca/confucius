@@ -112,6 +112,11 @@ ul {
     margin-left: 1%;
 }
 
+.db-alerts {
+display: block;
+float: left;
+}
+
 /* accordion overriding */
 
 .accordion {
