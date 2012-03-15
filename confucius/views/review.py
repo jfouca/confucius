@@ -72,7 +72,7 @@ def auto_assignment(request):
 
         # Default values
         if max_assi_per_papers <= 0:
-            max_assi_per_papers = 3
+            max_assi_per_papers = conference.minimum_reviews
         if max_assi_per_reviewers <= 0:
             max_assi_per_reviewers = (papers_list.count() * max_assi_per_papers / memberships_list.count()) + 1
 
