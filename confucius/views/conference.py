@@ -10,7 +10,7 @@ from django.views.decorators.http import require_GET, require_http_methods
 from confucius.decorators import has_chair_role, has_role, has_reviewer_role, has_submitter_role
 from confucius.forms import ConferenceForm, PaperForm, MembershipForm, SendEmailToUsersForm, SignupForm
 from confucius.models import Activation, Alert, Assignment, Conference, Email, Invitation, Membership, Paper, PaperSelection, Role
-from confucius.utils import send_emails_to_group
+from confucius.utils import send_emails_to_group, send_emails_to_group_of_submitters
 
 
 @require_http_methods(['GET', 'POST'])
@@ -139,11 +139,7 @@ def dashboard(request, template_name='conference/dashboard.html'):
     user_papers = Paper.objects.filter(conference=conference, submitter=request.user).order_by('-last_update_date')
     user_assignments = Assignment.objects.filter(conference=conference, reviewer=request.user, is_assigned=True)
 
-    alerts_trigger = Alert.objects.filter(conference=conference.pk, reminder__isnull=True, action__isnull=True).order_by('trigger_date')
-    #alerts_reminder = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, action__isnull=True)
-    #alerts_action = Alert.objects.filter(conference=conference.pk, trigger_date__isnull=True, reminder__isnull=True)
-    if alerts_trigger.count() > 5:
-        alerts_trigger = alerts_trigger[:5]
+    alerts = Alert.objects.filter(conference=conference.pk).order_by('-pk')[0:5]
 
     conference_reviews = Assignment.objects.filter(paper__conference=conference, is_done=True, review__isnull=False, review__is_last=True).order_by('-review__last_update_date')
     if conference_reviews.count() > 5:
@@ -154,7 +150,7 @@ def dashboard(request, template_name='conference/dashboard.html'):
         conference_papers = conference_papers[:5]
 
     context = {
-        'alerts_trigger': alerts_trigger,
+        'alerts': alerts,
         'conference': conference,
         'membership': membership,
         'user_papers': user_papers,
@@ -331,20 +327,14 @@ def send_email_to_users(request, template_name='conference/send_email_to_users.h
             else:
                 groups = form.cleaned_data['groups']
                 roles = groups
-                print "roles",roles
                 if "U" in groups:
-                    print "selected"
-                    receivers = [paperselect.paper.submitter for paperselect in PaperSelection.objects.filter(conference=conference) if paperselect.is_selected and paperselect.is_submit]
-                    print "selected receivers",receivers
-                    send_emails_to_group(receivers, title, content, request)
+                    paperselects = [paperselect for paperselect in PaperSelection.objects.filter(conference=conference) if paperselect.is_selected and paperselect.is_submit]
+                    send_emails_to_group_of_submitters(paperselects, title, content, request, isSelected=True)
                     groups.remove("U")
                 
                 if "X" in groups:
-                    print "je passe ici"
-                    receivers = [paperselect.paper.submitter for paperselect in PaperSelection.objects.filter(conference=conference) if paperselect.is_selected == False and paperselect.is_submit]
-                    print "receivers",receivers
-                    send_emails_to_group(receivers, title, content, request)
-                    
+                    paperselects = [paperselect for paperselect in PaperSelection.objects.filter(conference=conference) if paperselect.is_selected == False and paperselect.is_submit]
+                    send_emails_to_group_of_submitters(paperselects, title, content, request, isSelected=False)
                     groups.remove("X")
                 
                 if roles is not None:
