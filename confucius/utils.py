@@ -58,7 +58,7 @@ def send_emails_to_group_of_submitters(paperselects, title, content, request, is
         }
 
         try:
-            send_mail("[Confucius Message] Document selection is now over - "+title, template.render(Context(context)), unicode(request.user.email), [unicode(email)], fail_silently=False)
+            send_mail("[Confucius Message] "+title, template.render(Context(context)), unicode(request.user.email), [unicode(email)], fail_silently=False)
 
         except:
             messages.error(request, u'An error occured during the email sending process. The SMTP settings may be uncorrect, or the receiver(%s) email address may not exist\n' % str(email))

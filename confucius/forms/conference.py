@@ -181,7 +181,7 @@ class SignupForm(UserForm):
 
 class SendEmailToUsersForm(forms.Form):
     title = forms.CharField(required=True)
-    content = forms.CharField(required=True, widget=forms.Textarea)
+    content = forms.CharField(required=True, widget=forms.Textarea, label="Your personal message to attach to the email")
     users = forms.ModelMultipleChoiceField(queryset=None, required=False)
 
     roles = [[role.code, role.name] for role in Role.objects.all()]
