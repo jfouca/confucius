@@ -284,7 +284,7 @@ def read_personal_reviews(request, pk_paper, template_name='review/read_personal
     paper = Paper.objects.get(pk=pk_paper)
     reviews = Review.objects.filter(assignment__paper=paper, is_last=True)
 
-    if paper.submitter != request.user or not conference.has_finalize_paper_selections:
+    if not request.membership.has_chair_role() and (paper.submitter != request.user or not conference.has_finalize_paper_selections):
         messages.warning(request, u'Unauthorized access.')
         return redirect('membership_list')
 
