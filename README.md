@@ -40,12 +40,13 @@ By convention, commands preceded by `#` must be executed as `root`.
     # apt-get install apache2 libapache2-mod-wsgi python-pip libsqlite3-0
     # pip install Django==1.3.1
     # cd |PATH|
-    PATH# wget http://www.confuciusproject.com/confucius_rc1.tar.gz
-    PATH# tar xzf confucius_rc1.tar.gz
+    PATH# wget http://www.confuciusproject.com/confucius_rc2.tar.gz
+    PATH# tar xzf confucius_rc2.tar.gz
     PATH# cd confucius_wrapper
     PATH/confucius_wrapper# python manage.py syncdb
 
-You will be prompted to create a superuser. Please do so and use a correct email address.
+You will be prompted to create a superuser. Please do so.
+Your username doesn't matter but you must use a correct email address (Confucius will use it to log you in).
 
     |PATH|/confucius_wrapper# chmod 755 -R . && chown www-data:www-data -R .
 
